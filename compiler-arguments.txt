@@ -1,5 +1,0 @@
-UNIX
-gcc -o main.out main.c -I include -L lib -l SDL2-2.0.0
-
-Windows
-gcc -o main.exe main.c -I include -L lib -l SDL2-2.0.0
