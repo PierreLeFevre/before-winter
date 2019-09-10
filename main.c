@@ -1,8 +1,8 @@
 
 #include <stdio.h>
-#include "include\SDL2\SDL.h"
-#include "include\SDL2\SDL_timer.h"
-#include "include\SDL2\SDL_image.h"
+#include "include/SDL2/SDL.h"
+#include "include/SDL2/SDL_timer.h"
+#include "include/SDL2/SDL_image.h"
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480

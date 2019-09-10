@@ -2,4 +2,4 @@ Windows
 gcc main.c -o main -Llib -lSDL2 -lSDL2_image
 
 UNIX
-gcc main.c -o main -Llib -lSDL2 -lSDL2_image
+gcc main.out -o main.c -Llib -lSDL2 -lSDL2_image
