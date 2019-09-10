@@ -1,4 +1,4 @@
-prefix=/opt/local/x86_64-w64-mingw32
+prefix=/opt/local/i686-w64-mingw32
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include
