@@ -17,14 +17,11 @@ void Go(Game *g){
 }
 
 void UpdateLogic(Game *g){
-
-
+    
 
 }
 
 void Draw(Game *g){
-
-
 
 
 }
