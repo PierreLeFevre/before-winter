@@ -1,2 +1,2 @@
-include/*
+include/SDL2/*
 lib/*
