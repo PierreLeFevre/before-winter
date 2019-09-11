@@ -3,17 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-// void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH){
-//     ConstructDrawable(db, gfx, IMG_PATH, 0.0f, 0.0f, WINDOW_WIDTH, WINDOW_HEIGHT);
-// }
-// void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH, float x_pos, float y_pos, float w, float h){
-//     SDL_Rect srcrect;
-//     srcrect.x = x_pos;
-//     srcrect.y = y_pos;
-//     srcrect.w = w;
-//     srcrect.h = h;
-//     ConstructDrawable(db, gfx, IMG_PATH, srcrect);
-// }
 void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH, SDL_Rect srcrect){
     db->gfx = gfx;
     strcpy(db->filename, IMG_PATH);
