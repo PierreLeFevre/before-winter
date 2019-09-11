@@ -2,4 +2,4 @@ Windows
 gcc main.c game.c graphics.c drawable.c -o main.exe -Llib -lSDL2 -lSDL2_image
 
 UNIX
-gcc main.c game.c graphics.c drawable.c -o main.out -Llib -lSDL2 -lSDL2_image
+gcc main.c -o main.out -Llib -linclude -lSDL2_image
