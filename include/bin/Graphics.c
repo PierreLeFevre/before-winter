@@ -1,10 +1,6 @@
 #include "Graphics.h"
 #include <stdio.h>
 
-
-
-
-
 void ConstructGraphics(Graphics *gfx){
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         printf("Error initalizing SDL: %s\n", SDL_GetError());

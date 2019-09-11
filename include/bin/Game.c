@@ -28,7 +28,7 @@ void Render(Game *g){
     sr.y = 10;
     sr.w = 200;
     sr.h = 200;
-    ConstructDrawable(&db, &g->gfx, "1.png", sr);
-    ChangeImagePath(&db, "2.png");        
+    ConstructDrawable(&db, &g->gfx, "./include/assets/1.png", sr);
+    ChangeImagePath(&db, "./include/assets/2.png");        
     Draw(&db);
 }

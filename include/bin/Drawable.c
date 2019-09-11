@@ -1,6 +1,6 @@
 #include "Drawable.h"
-#include "include/SDL2/SDL_image.h"
-#include "stdio.h"
+#include "../SDL2/SDL_image.h"
+#include <stdio.h>
 #include <string.h>
 
 // void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH){
