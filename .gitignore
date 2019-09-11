@@ -1,2 +1,5 @@
-include/*
+include/SDL2/*
 lib/*
+*.dll
+*.exe
+*.out

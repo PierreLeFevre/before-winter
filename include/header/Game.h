@@ -1,4 +1,3 @@
-#include "include/SDL2/SDL.h"
 #include "Drawable.h"
 
 typedef enum GameState 

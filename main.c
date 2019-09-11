@@ -1,4 +1,5 @@
-#include "Game.h"
+#include "./include/header/Game.h"
+#include "./include/SDL2/SDL.h"
 
 int main()
 {
