@@ -1,2 +1,3 @@
 include/SDL2/*
 lib/*
+*.dll
