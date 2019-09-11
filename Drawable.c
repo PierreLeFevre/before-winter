@@ -2,15 +2,25 @@
 #include "include/SDL2/SDL_image.h"
 #include "stdio.h"
 
-void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH){
+// void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH){
+//     ConstructDrawable(db, gfx, IMG_PATH, 0.0f, 0.0f, WINDOW_WIDTH, WINDOW_HEIGHT);
+// }
+// void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH, float x_pos, float y_pos, float w, float h){
+//     SDL_Rect srcrect;
+//     srcrect.x = x_pos;
+//     srcrect.y = y_pos;
+//     srcrect.w = w;
+//     srcrect.h = h;
+//     ConstructDrawable(db, gfx, IMG_PATH, srcrect);
+// }
+void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH, SDL_Rect srcrect){
     db->gfx = gfx;
     db->surf = IMG_Load(IMG_PATH);
     db->tex = SDL_CreateTextureFromSurface(db->gfx->rend, db->surf);
     SDL_FreeSurface(db->surf);
-    float x_pos = 0.0f;
-    float y_pos = 0.0f;
+    db->srcrect = srcrect;
 }
 
 void Draw(Drawable* db){
-    SDL_RenderCopy(db->gfx->rend, db->tex, NULL, NULL);
+    SDL_RenderCopy(db->gfx->rend, db->tex, NULL, &db->srcrect);
 }

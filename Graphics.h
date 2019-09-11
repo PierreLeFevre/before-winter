@@ -1,5 +1,8 @@
 #include "include/SDL2/SDL.h"
 
+#define WINDOW_WIDTH 700
+#define WINDOW_HEIGHT 700
+
 typedef struct Graphics{
     SDL_Window* win;
     SDL_Renderer* rend;
