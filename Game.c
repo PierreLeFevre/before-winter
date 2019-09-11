@@ -12,7 +12,7 @@ void DestroyGame(Game *g){
 void Go(Game *g){
     BeginFrame(&g->gfx);
     UpdateLogic(g);
-    Draw(g);
+    Render(g);
     EndFrame(&g->gfx);
 }
 
@@ -22,9 +22,8 @@ void UpdateLogic(Game *g){
 
 }
 
-void Draw(Game *g){
-
-
-
-
+void Render(Game *g){
+    Drawable db;
+    ConstructDrawable(&db, &g->gfx, "1.png");
+    Draw(&db);
 }

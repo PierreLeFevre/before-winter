@@ -1,5 +1,5 @@
 #include "include/SDL2/SDL.h"
-#include "Graphics.h"
+#include "Drawable.h"
 
 typedef struct Game{
     Graphics gfx;
@@ -11,4 +11,4 @@ void DestroyGame(Game *g);
 void Go(Game *g);
 
 void UpdateLogic(Game *g);
-void Draw(Game *g);
+void Render(Game *g);
