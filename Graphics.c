@@ -1,0 +1,40 @@
+#include "Graphics.h"
+#include <stdio.h>
+
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 480
+
+
+
+void ConstructGraphics(Graphics *gfx){
+    if(SDL_Init(SDL_INIT_VIDEO) != 0){
+        printf("Error initalizing SDL: %s\n", SDL_GetError());
+        return;
+    }
+    gfx->win = SDL_CreateWindow("Before Winter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480 ,0);
+    if(!gfx->win){
+        printf("Error creating window: %s\n", SDL_GetError());
+        SDL_Quit();
+        return;
+    }
+    Uint32 render_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
+    gfx->rend = SDL_CreateRenderer(gfx->win, -1, render_flags);
+    if(!gfx->rend){
+        printf("Error creating renderer: %s\n", SDL_GetError());
+        SDL_DestroyWindow(gfx->win);
+        SDL_Quit();
+        return;
+    }
+}
+void DestroyGraphics(Graphics *gfx){
+    SDL_DestroyRenderer(gfx->rend);
+    SDL_DestroyWindow(gfx->win);
+}
+
+void BeginFrame(Graphics *gfx){    
+    SDL_RenderClear(gfx->rend);
+}
+
+void EndFrame(Graphics *gfx){    
+    SDL_RenderPresent(gfx->rend);    
+}

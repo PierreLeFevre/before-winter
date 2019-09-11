@@ -1,5 +1,5 @@
 Windows
-gcc main.c -o main -Llib -lSDL2 -lSDL2_image
+gcc main.c game.c graphics.c -o main -Llib -lSDL2 -lSDL2_image
 
 UNIX
-gcc main.out -o main.c -Llib -lSDL2 -lSDL2_image
+gcc main.out game.out graphics.out -o main.c -Llib -lSDL2 -lSDL2_image
