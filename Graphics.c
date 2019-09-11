@@ -1,8 +1,8 @@
 #include "Graphics.h"
 #include <stdio.h>
 
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+#define WINDOW_WIDTH 1000
+#define WINDOW_HEIGHT 1000
 
 
 
@@ -11,7 +11,7 @@ void ConstructGraphics(Graphics *gfx){
         printf("Error initalizing SDL: %s\n", SDL_GetError());
         return;
     }
-    gfx->win = SDL_CreateWindow("Before Winter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT ,0);
+    gfx->win = SDL_CreateWindow("Before Winter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT,0);
     if(!gfx->win){
         printf("Error creating window: %s\n", SDL_GetError());
         SDL_Quit();
