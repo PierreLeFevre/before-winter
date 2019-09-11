@@ -19,7 +19,6 @@ void Go(Game *g){
 void UpdateLogic(Game *g){
 
 
-
 }
 
 void Render(Game *g){
@@ -30,5 +29,6 @@ void Render(Game *g){
     sr.w = 200;
     sr.h = 200;
     ConstructDrawable(&db, &g->gfx, "1.png", sr);
+    ChangeImagePath(&db, "2.png");        
     Draw(&db);
 }
