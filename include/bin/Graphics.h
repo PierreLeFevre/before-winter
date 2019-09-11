@@ -1,4 +1,4 @@
-#include "include/SDL2/SDL.h"
+#include "../SDL2/SDL.h"
 
 #define WINDOW_WIDTH 700
 #define WINDOW_HEIGHT 700
