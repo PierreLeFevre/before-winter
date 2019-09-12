@@ -9,6 +9,7 @@ typedef struct Graphics{
 }Graphics;
 
 void ConstructGraphics(Graphics *gfx);
+void DrawRectangle(SDL_Renderer *r,const SDL_Rect *rect);
 void DestroyGraphics(Graphics *gfx);
 void BeginFrame(Graphics *gfx);
 void EndFrame(Graphics *gfx);
