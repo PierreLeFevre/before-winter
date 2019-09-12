@@ -1,7 +1,5 @@
 #include "Game.h"
 #include <stdio.h>
-
-
 void ConstructGame(Game *g){
     ConstructGraphics(&g->gfx);
     SDL_Rect sr;
@@ -16,6 +14,7 @@ void DestroyGame(Game *g){
 }
 
 void Go(Game *g){
+    
     BeginFrame(&g->gfx);
     UpdateLogic(g);
     Render(g);
@@ -24,10 +23,9 @@ void Go(Game *g){
 
 void UpdateLogic(Game *g){
 
-
 }
-
 void Render(Game *g){
+<<<<<<< HEAD
     Drawable db;
     SDL_Rect sr;
     sr.x = 10;
@@ -36,4 +34,12 @@ void Render(Game *g){
     sr.h = 200;
     ConstructDrawable(&db, &g->gfx, "./include/assets/1.png", sr);
     DrawTileMap(&g->tm);
+=======
+    SDL_Rect *r;
+    r->x = 10;
+    r->y = 10;
+    r->w = 10;
+    r->h = 10;
+    DrawFilledRectangle(g->gfx.rend, r);
+>>>>>>> c1966d529a67fba5c313a5fcab394f4a962b1ed5
 }
