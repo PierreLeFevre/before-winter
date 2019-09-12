@@ -8,27 +8,6 @@ void ConstructPlayer(Player* player, Graphics* gfx){
 }
 
 void UpdatePlayer(Player* player){
-    SDL_Event k_event;
-    while(SDL_PollEvent(&k_event)){
-        switch(k_event.type){
-            case SDL_KEYDOWN:
-            switch (k_event.key.keysym.scancode)
-            {
-            case SDL_SCANCODE_LEFT:
-            player->x_vel += 10;
-            break;
-            case SDL_SCANCODE_RIGHT:
-            player->x_vel -= 10;
-            break;
-            case SDL_SCANCODE_UP:
-            player->y_vel += 10;
-            break;
-            case SDL_SCANCODE_DOWN:
-            player->y_vel -= 10;
-            break;            
-            }
-        }
-    }
     MovePlayer(player);
 }
 
