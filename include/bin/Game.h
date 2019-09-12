@@ -7,13 +7,16 @@ typedef enum GameState
 GameState;
 
 typedef struct Game{
-    Graphics gfx;
-    int CurrentGameState;
-    TileMap tm;
-    Player player;
-    SDL_Event event;
-
+//BASE
     int* noExit;
+    int CurrentGameState;
+    Graphics gfx;
+    SDL_Event event;
+//----
+
+    TileMap tileMapMAIN;
+    TileMap tileMapSUB;
+    Player player;
 }Game;
 
 void ConstructGame(Game *g, int* noExit);

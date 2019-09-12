@@ -2,12 +2,8 @@
 #include <stdio.h>
 void ConstructGame(Game *g, int* noExit){
     ConstructGraphics(&g->gfx);
-    SDL_Rect sr;
-    sr.x = 10;
-    sr.y = 10;
-    sr.w = 200;
-    sr.h = 200;
-    ConstructTileMap(&g->tm, &g->gfx, 7, 7, 0, 0);
+    ConstructTileMap(&g->tileMapMAIN, &g->gfx, 7, 7, 0, 0);
+    ConstructTileMap(&g->tileMapSUB, &g->gfx, 3, 3, 0, 0);
     ConstructPlayer(&g->player, &g->gfx);
 
     g->noExit = noExit;
@@ -25,9 +21,10 @@ void Go(Game *g){
 
 void UpdateLogic(Game *g){
     HandleEvents(g);
+    UpdatePlayer(&g->player);
 }
 void Render(Game *g){
-    DrawTileMap(&g->tm);
+    DrawTileMap(&g->tileMapSUB);
     DrawPlayer(&g->player);
 }
 
@@ -38,5 +35,21 @@ void HandleEvents(Game* g){
                 *g->noExit = 0;
                 break;
         }
+
+    }   
+    g->player.x_dir = 0;
+    g->player.y_dir = 0;
+    const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
+    if (keyboardState[SDL_SCANCODE_LEFT]) {
+        g->player.x_dir -= 1;
+    }
+    if (keyboardState[SDL_SCANCODE_RIGHT]) {
+        g->player.x_dir += 1;
+    }
+    if (keyboardState[SDL_SCANCODE_UP]) {
+        g->player.y_dir -= 1;
+    }
+    if (keyboardState[SDL_SCANCODE_DOWN]) {
+        g->player.y_dir += 1;
     }
 }

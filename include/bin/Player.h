@@ -4,7 +4,8 @@ typedef struct Player{
     Drawable d;
     float x_vel;
     float y_vel;
-    char moveDir;
+    int x_dir;
+    int y_dir;
 
     char* img_path;
 }Player;
@@ -12,4 +13,6 @@ typedef struct Player{
 void ConstructPlayer(Player* player, Graphics* gfx);
 void UpdatePlayer(Player* player);
 void MovePlayer(Player* player);
+
 void DrawPlayer(Player* player);
+void AnimatePlayer(Player* player);
