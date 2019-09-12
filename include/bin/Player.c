@@ -3,16 +3,8 @@
 
 void ConstructPlayer(Player* player, Graphics* gfx){
     player->img_path = "./include/assets/character_set.png";
-    SDL_Rect src;
-    src.x = 20;
-    src.y = 20;
-    src.w = 30;
-    src.h = 30;
-    SDL_Rect dest;
-    dest.x = 0;
-    dest.y = 0;
-    dest.w = 17;
-    dest.h = 18;
+    SDL_Rect src = {20, 20, 30, 30};
+    SDL_Rect dest = {0, 0, 17, 18};
     ConstructDrawable(&player->d, gfx, player->img_path, src);
     DrawableSetDestrect(&player->d, dest);
     player->x_vel = 0.0f;
@@ -22,11 +14,13 @@ void ConstructPlayer(Player* player, Graphics* gfx){
 
 void UpdatePlayer(Player* player){
     MovePlayer(player);
+    player->d.x_pos += 1;
+    player->d.y_pos += 1;
 }
 
 void MovePlayer(Player* player){
-    player->d.srcrect.x += player->x_vel;
-    player->d.srcrect.y += player->y_vel;
+    player->d.x_pos += player->x_vel;
+    player->d.y_pos += player->y_vel;
 }
 
 void DrawPlayer(Player* player){
