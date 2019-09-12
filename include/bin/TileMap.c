@@ -28,3 +28,15 @@ void DrawTileMap(TileMap* tm){
         Draw(&tm->tiles[i].d);
     }
 }
+void ChangeTileMapImage(TileMap* tm, const char* IMG_PATH){
+    for(int i = 0; i < tm->tiles_x * tm->tiles_y; i++){
+        ChangeImagePath(&tm->tiles[i].d, IMG_PATH);
+    }
+}
+
+void UpdateTileMap(TileMap* tm){
+    for(int i = 0; i < tm->tiles_x * tm->tiles_y; i++){
+            tm->tiles[i].d.srcrect.x = tm->topleft_x + (int)(i % tm->tiles_x) * tm->tile_width;
+            tm->tiles[i].d.srcrect.y = tm->topleft_y + (int)(i / tm->tiles_x) * tm->tile_height;
+    }
+}

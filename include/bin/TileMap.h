@@ -18,3 +18,5 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int tiles_x, const int t
 void DrawTileMap(TileMap* tm);
 
 void UpdateTileMap(TileMap* tm);
+
+void ChangeTileMapImage(TileMap* tm, const char* IMG_PATH);
