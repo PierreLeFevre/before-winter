@@ -8,7 +8,6 @@ int main()
     
     while(g.noExit){
         Go(&g);
-        //printf("%d", noExit);
     }
     DestroyGame(&g);
     return 0;
