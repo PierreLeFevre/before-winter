@@ -25,12 +25,5 @@ void UpdateLogic(Game *g){
 
 }
 void Render(Game *g){
-    Drawable db;
-    SDL_Rect sr;
-    sr.x = 10;
-    sr.y = 10;
-    sr.w = 200;
-    sr.h = 200;
-    ConstructDrawable(&db, &g->gfx, "./include/assets/1.png", sr);
-    //DrawTileMap(&g->tm);
+    DrawTileMap(&g->tm);
 }
