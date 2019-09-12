@@ -26,6 +26,11 @@ void DrawFilledRectangle(SDL_Renderer *r, const SDL_Rect *rect)
     SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
     SDL_RenderFillRect(r, rect);
 }
+void DrawHollowRectangle(SDL_Renderer *r, const SDL_Rect *rect)
+{
+    SDL_SetRenderDrawColor(r, 255, 0, 0, 255);
+    SDL_RenderFillRect(r, rect);
+}
 void DestroyGraphics(Graphics *gfx){
     SDL_DestroyRenderer(gfx->rend);
     SDL_DestroyWindow(gfx->win);
