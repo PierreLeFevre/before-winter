@@ -41,16 +41,16 @@ void HandleEvents(Game* g){
     g->player.x_dir = 0;
     g->player.y_dir = 0;
     const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
-    if (keyboardState[SDL_SCANCODE_LEFT]) {
+    if (keyboardState[SDL_SCANCODE_LEFT] || keyboardState[SDL_SCANCODE_A]) {
         g->player.x_dir -= 1;
     }
-    if (keyboardState[SDL_SCANCODE_RIGHT]) {
+    if (keyboardState[SDL_SCANCODE_RIGHT] || keyboardState[SDL_SCANCODE_D]) {
         g->player.x_dir += 1;
     }
-    if (keyboardState[SDL_SCANCODE_UP]) {
+    if (keyboardState[SDL_SCANCODE_UP] || keyboardState[SDL_SCANCODE_W]) {
         g->player.y_dir -= 1;
     }
-    if (keyboardState[SDL_SCANCODE_DOWN]) {
+    if (keyboardState[SDL_SCANCODE_DOWN] || keyboardState[SDL_SCANCODE_S]) {
         g->player.y_dir += 1;
     }
 }
