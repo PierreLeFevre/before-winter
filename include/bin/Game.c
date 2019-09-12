@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <stdio.h>
 void ConstructGame(Game *g, int* noExit){
+    
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMapMAIN, &g->gfx, 7, 7, 0, 0);
     ConstructTileMap(&g->tileMapSUB, &g->gfx, 3, 3, 0, 0);

@@ -3,7 +3,8 @@
 #include "Player.h"
 
 typedef enum GameState 
-{Startmenu} 
+{Startmenu,
+Level1} 
 GameState;
 
 typedef struct Game{
@@ -18,7 +19,7 @@ typedef struct Game{
     TileMap tileMapSUB;
     Player player;
 }Game;
-
+void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int* noExit);
 void DestroyGame(Game *g);
 
