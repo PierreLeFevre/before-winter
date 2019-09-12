@@ -3,3 +3,5 @@
 
 int
 MoveCharacter(int x, int y, char moveDir);
+
+int CharacterAnimate(char dir, int x, int y);
