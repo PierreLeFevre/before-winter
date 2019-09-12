@@ -19,5 +19,10 @@ void UpdateLogic(Game *g){
 
 }
 void Render(Game *g){
-    
+    SDL_Rect *r;
+    r->x = 10;
+    r->y = 10;
+    r->w = 10;
+    r->h = 10;
+    DrawRectangle(g->gfx.rend, r);
 }
