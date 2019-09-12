@@ -11,14 +11,17 @@ typedef struct Game{
     int CurrentGameState;
     TileMap tm;
     Player player;
+    SDL_Event event;
+
+    int* noExit;
 }Game;
 
-void ConstructGame(Game *g);
+void ConstructGame(Game *g, int* noExit);
 void DestroyGame(Game *g);
 
-void Go(Game *g, SDL_Event *event);
+void Go(Game *g);
 
 void UpdateLogic(Game *g);
 void Render(Game *g);
 
-void Input();
+void HandleEvents(Game* g);

@@ -2,19 +2,11 @@
 
 int main()
 {
-    SDL_Event event;
-    Game g;
-    ConstructGame(&g);
     int noExit = 1;
+    Game g;
+    ConstructGame(&g, &noExit);
     while(noExit){
-        Go(&g, &event);
-        while(SDL_PollEvent(&event)){
-            switch(event.type){
-            case SDL_QUIT:
-                noExit = 0;
-                break;
-            }
-        }
+        Go(&g);
     }
     DestroyGame(&g);
     return 0;
