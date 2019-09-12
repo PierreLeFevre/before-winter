@@ -7,14 +7,13 @@ void ConstructGame(Game *g){
     sr.y = 10;
     sr.w = 200;
     sr.h = 200;
-    ConstructTileMap(&g->tm, &g->gfx);
+    ConstructTileMap(&g->tm, &g->gfx, 6, 6, 40, 40);
 }
 void DestroyGame(Game *g){
     DestroyGraphics(&g->gfx);
 }
 
 void Go(Game *g){
-    
     BeginFrame(&g->gfx);
     UpdateLogic(g);
     Render(g);
