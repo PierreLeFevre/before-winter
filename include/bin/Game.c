@@ -24,5 +24,5 @@ void Render(Game *g){
     r->y = 10;
     r->w = 10;
     r->h = 10;
-    DrawRectangle(g->gfx.rend, r);
+    DrawFilledRectangle(g->gfx.rend, r);
 }

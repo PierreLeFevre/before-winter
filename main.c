@@ -5,9 +5,10 @@ int main()
     Game g;
     ConstructGame(&g);
     int noExit = 1;
-    while(noExit){
-        SDL_SetRenderDrawColor(g.gfx.rend,0,255,0,0.2); //Ritar skärmen grön varje frame för att sedan få banan utritad
+    SDL_SetRenderDrawColor(g.gfx.rend,0,255,0,0.2); //Ritar skärmen grön varje frame för att sedan få banan utritad
         SDL_RenderClear(g.gfx.rend);
+    while(noExit){
+        
 
         Go(&g);
         SDL_Event event;
