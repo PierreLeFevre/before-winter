@@ -4,6 +4,12 @@
 
 void ConstructGame(Game *g){
     ConstructGraphics(&g->gfx);
+    SDL_Rect sr;
+    sr.x = 10;
+    sr.y = 10;
+    sr.w = 200;
+    sr.h = 200;
+    ConstructTileMap(&g->tm, &g->gfx);
 }
 void DestroyGame(Game *g){
     DestroyGraphics(&g->gfx);
@@ -29,6 +35,5 @@ void Render(Game *g){
     sr.w = 200;
     sr.h = 200;
     ConstructDrawable(&db, &g->gfx, "./include/assets/1.png", sr);
-    ChangeImagePath(&db, "./include/assets/2.png");        
-    Draw(&db);
+    DrawTileMap(&g->tm);
 }
