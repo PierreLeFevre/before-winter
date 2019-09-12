@@ -7,7 +7,7 @@ void ConstructGame(Game *g, int* noExit){
     sr.y = 10;
     sr.w = 200;
     sr.h = 200;
-    ConstructTileMap(&g->tm, &g->gfx, 6, 6, 40, 40);
+    ConstructTileMap(&g->tm, &g->gfx, 7, 7, 0, 0);
     ConstructPlayer(&g->player, &g->gfx);
 
     g->noExit = noExit;
