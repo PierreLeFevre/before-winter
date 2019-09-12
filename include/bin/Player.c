@@ -6,8 +6,8 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     SDL_Rect src;
     src.x = 20;
     src.y = 20;
-    src.w = 30;
-    src.h = 30;
+    src.w = 50;
+    src.h = 50;
     SDL_Rect dest;
     dest.x = 0;
     dest.y = 0;
