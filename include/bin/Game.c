@@ -8,6 +8,7 @@ void ConstructGame(Game *g){
     sr.w = 200;
     sr.h = 200;
     ConstructTileMap(&g->tm, &g->gfx, 6, 6, 40, 40);
+    ConstructPlayer(&g->player);
 }
 void DestroyGame(Game *g){
     DestroyGraphics(&g->gfx);

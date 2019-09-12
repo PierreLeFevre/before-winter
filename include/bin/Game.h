@@ -1,5 +1,6 @@
 #include "Drawable.h"
 #include "TileMap.h"
+#include "Player.h"
 
 typedef enum GameState 
 {Startmenu} 
@@ -9,6 +10,7 @@ typedef struct Game{
     Graphics gfx;
     int CurrentGameState;
     TileMap tm;
+    Player player;
 }Game;
 
 void ConstructGame(Game *g);

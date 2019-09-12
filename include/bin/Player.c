@@ -1,26 +1,42 @@
 #include "Player.h"
 
-void ConstructPlayer(Player* player, float x_vel, float y_vel){
-    player->x_vel = x_vel;
-    player->y_vel = y_vel;
+void ConstructPlayer(Player* player, Graphics* gfx){
+    player->x_vel = 0.0f;
+    player->y_vel = 0.0f;
     player->moveDir = '-';
+    player->img_path = "mud.jpg";
 }
 
 void UpdatePlayer(Player* player){
-    MoveCharacter(player);
+    SDL_Event k_event;
+    while(SDL_PollEvent(&k_event)){
+        switch(k_event.type){
+            case SDL_KEYDOWN:
+            switch (k_event.key.keysym.scancode)
+            {
+            case SDL_SCANCODE_LEFT:
+            player->x_vel += 10;
+            break;
+            case SDL_SCANCODE_RIGHT:
+            player->x_vel -= 10;
+            break;
+            case SDL_SCANCODE_UP:
+            player->y_vel += 10;
+            break;
+            case SDL_SCANCODE_DOWN:
+            player->y_vel -= 10;
+            break;            
+            }
+        }
+    }
+    MovePlayer(player);
 }
 
 void MovePlayer(Player* player){
-    if(player->moveDir == 'a'){
-        player->d.srcrect.x--;
-    }
-    if(player->moveDir == 'd'){
-        player->d.srcrect.x++;        
-    }
-    if(player->moveDir == 'w'){
-        player->d.srcrect.y--;        
-    }
-    if(player->moveDir == 's'){
-        player->d.srcrect.y++;        
-    }
+    player->d.srcrect.x += player->x_vel;
+    player->d.srcrect.y += player->y_vel;
+}
+
+void DrawPlayer(Player* player){
+    Draw(&player->d);
 }

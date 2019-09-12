@@ -9,5 +9,6 @@ typedef struct Player{
     char* img_path;
 }Player;
 
+void ConstructPlayer(Player* player, Graphics* gfx);
 void UpdatePlayer(Player* player);
 void MovePlayer(Player* player);
