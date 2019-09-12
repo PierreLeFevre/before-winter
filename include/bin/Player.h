@@ -12,3 +12,4 @@ typedef struct Player{
 void ConstructPlayer(Player* player, Graphics* gfx);
 void UpdatePlayer(Player* player);
 void MovePlayer(Player* player);
+void DrawPlayer(Player* player);

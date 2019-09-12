@@ -28,6 +28,7 @@ void UpdateLogic(Game *g){
 }
 void Render(Game *g){
     DrawTileMap(&g->tm);
+    DrawPlayer(&g->player);
 }
 
 void HandleEvents(Game* g){

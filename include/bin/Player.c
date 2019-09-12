@@ -1,10 +1,17 @@
 #include "Player.h"
+#include <stdio.h>
 
 void ConstructPlayer(Player* player, Graphics* gfx){
+    player->img_path = "./include/assets/character_set.png";
+    SDL_Rect src;
+    src.x = 20;
+    src.y = 20;
+    src.w = 300;
+    src.h = 300;
+    ConstructDrawable(&player->d, gfx, player->img_path, src);
     player->x_vel = 0.0f;
     player->y_vel = 0.0f;
-    player->moveDir = '-';
-    player->img_path = "mud.jpg";
+    ChangeImagePath(&player->d, player->img_path);
 }
 
 void UpdatePlayer(Player* player){
