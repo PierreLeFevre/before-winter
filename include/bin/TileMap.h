@@ -1,7 +1,7 @@
 #include "Tile.h"
 
-#define TILES_X 15
-#define TILES_Y 15
+#define TILES_X 10
+#define TILES_Y 10
 #define TILE_WIDTH WINDOW_WIDTH / TILES_X
 #define TILE_HEIGHT WINDOW_HEIGHT / TILES_Y
 
