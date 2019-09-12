@@ -13,8 +13,9 @@ void DestroyGame(Game *g){
     DestroyGraphics(&g->gfx);
 }
 
-void Go(Game *g){
+void Go(Game *g, SDL_Event *event){
     BeginFrame(&g->gfx);
+    Input(&event);
     UpdateLogic(g);
     Render(g);
     EndFrame(&g->gfx);
@@ -25,4 +26,7 @@ void UpdateLogic(Game *g){
 }
 void Render(Game *g){
     DrawTileMap(&g->tm);
+}
+void Input(SDL_Event *event){
+    
 }

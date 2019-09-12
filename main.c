@@ -7,7 +7,7 @@ int main()
     ConstructGame(&g);
     int noExit = 1;
     while(noExit){
-        Go(&g);
+        Go(&g, &event);
         while(SDL_PollEvent(&event)){
             switch(event.type){
             case SDL_QUIT:

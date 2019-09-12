@@ -14,7 +14,9 @@ typedef struct Game{
 void ConstructGame(Game *g);
 void DestroyGame(Game *g);
 
-void Go(Game *g);
+void Go(Game *g, SDL_Event *event);
 
 void UpdateLogic(Game *g);
 void Render(Game *g);
+
+void Input();
