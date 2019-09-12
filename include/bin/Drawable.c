@@ -9,16 +9,24 @@ void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH, SDL_Re
     db->surf = IMG_Load(db->filename);
     db->tex = SDL_CreateTextureFromSurface(db->gfx->rend, db->surf);
     SDL_FreeSurface(db->surf);
+    db->destrect.x = 0;
+    db->destrect.y = 0;
+    db->destrect.w = WINDOW_WIDTH;
+    db->destrect.h = WINDOW_HEIGHT;
     db->srcrect = srcrect;
 }
 
-void Draw(Drawable* db){
-    SDL_RenderCopy(db->gfx->rend, db->tex, NULL, &db->srcrect);
+void Draw(Drawable* d){
+    SDL_RenderCopy(d->gfx->rend, d->tex, NULL, &d->srcrect);
 }
 
-void ChangeImagePath(Drawable* db, const char* IMG_PATH){
-    strcpy(db->filename, IMG_PATH);
-    db->surf = IMG_Load(db->filename);
-    db->tex = SDL_CreateTextureFromSurface(db->gfx->rend, db->surf);
-    SDL_FreeSurface(db->surf);
+void ChangeImagePath(Drawable* d, const char* IMG_PATH){
+    strcpy(d->filename, IMG_PATH);
+    d->surf = IMG_Load(d->filename);
+    d->tex = SDL_CreateTextureFromSurface(d->gfx->rend, d->surf);
+    SDL_FreeSurface(d->surf);
+}
+
+void DrawableSetDestrect(Drawable* d, SDL_Rect destrect){
+    d->destrect = destrect;
 }

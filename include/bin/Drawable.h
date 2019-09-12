@@ -7,6 +7,7 @@ typedef struct Drawable{
     Graphics* gfx;
     SDL_Surface* surf;
     SDL_Texture* tex;
+    SDL_Rect destrect;
     SDL_Rect srcrect;
     char filename[100];
 }Drawable;
