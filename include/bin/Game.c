@@ -25,34 +25,33 @@ void Input(SDL_Event *e, GameState gs, Game *g){
             switch(e->type)
             {
                 case SDL_KEYDOWN:
+
+                    g->player.y_vel = 0;
+                    g->player.x_vel = 0;
+
                     if (e->key.keysym.scancode == SDL_SCANCODE_D)
                     {
                         g->player.moveDir = 'd';
                         g->player.x_vel = 10;
-                        g->player.y_vel = 0;
-                        MovePlayer(&g->player);
                     }
                     if (e->key.keysym.scancode == SDL_SCANCODE_A)
                     {
                         g->player.moveDir = 'a';
                         g->player.x_vel = -10;
-                        g->player.y_vel = 0;
-                        MovePlayer(&g->player);
                     }
                     if (e->key.keysym.scancode == SDL_SCANCODE_W)
                     {
                         g->player.moveDir = 'w';
                         g->player.y_vel = -10;
-                        g->player.x_vel = 0;
-                        MovePlayer(&g->player);
                     }
                     if (e->key.keysym.scancode == SDL_SCANCODE_S)
                     {
                         g->player.moveDir = 's';
                         g->player.y_vel = 10;
-                        g->player.x_vel = 0;
-                        MovePlayer(&g->player);
                     }
+
+                    MovePlayer(&g->player);
+
                     break;
                 case SDL_QUIT:
                     g->noExit = (int *) 0;
