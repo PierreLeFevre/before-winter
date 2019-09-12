@@ -25,31 +25,29 @@ void Input(SDL_Event *e, GameState gs, Game *g){
             switch(e->type)
             {
                 case SDL_KEYDOWN:
-                    switch (e->key.keysym.scancode)
+                    if (e->key.keysym.scancode == SDL_SCANCODE_D)
                     {
-                        case SDL_SCANCODE_D:
-                            g->player.moveDir = 'd';
-                            g->player.x_vel = 10;
-                            MovePlayer(&g->player);
-                            break;
-                        case SDL_SCANCODE_A:
-                            g->player.moveDir = 'a';
-                            g->player.x_vel = -10;
-                            MovePlayer(&g->player);
-                            break;
-                        case SDL_SCANCODE_W:
-                            g->player.moveDir = 'w';
-                            g->player.y_vel = -10;
-                            MovePlayer(&g->player);
-                            break;
-                        case SDL_SCANCODE_S:
-                            g->player.moveDir = 's';
-                            g->player.y_vel = 10;
-                            MovePlayer(&g->player);
-                            break;
-                        
-                        default:
-                            break;
+                        g->player.moveDir = 'd';
+                        g->player.x_vel = 10;
+                        MovePlayer(&g->player);
+                    }
+                    if (e->key.keysym.scancode == SDL_SCANCODE_A)
+                    {
+                        g->player.moveDir = 'a';
+                        g->player.x_vel = -10;
+                        MovePlayer(&g->player);
+                    }
+                    if (e->key.keysym.scancode == SDL_SCANCODE_W)
+                    {
+                        g->player.moveDir = 'w';
+                        g->player.y_vel = -10;
+                        MovePlayer(&g->player);
+                    }
+                    if (e->key.keysym.scancode == SDL_SCANCODE_S)
+                    {
+                        g->player.moveDir = 's';
+                        g->player.y_vel = 10;
+                        MovePlayer(&g->player);
                     }
                     break;
                 case SDL_QUIT:
