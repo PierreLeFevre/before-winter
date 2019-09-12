@@ -14,19 +14,6 @@ void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH, SDL_Re
     db->destrect.w = WINDOW_WIDTH;
     db->destrect.h = WINDOW_HEIGHT;
     db->srcrect = srcrect;
-void ConstructDrawable(Drawable* d, Graphics* gfx, const char* IMG_PATH, SDL_Rect srcrect){
-    d->gfx = gfx;
-    strcpy(d->filename, IMG_PATH);
-    d->surf = IMG_Load(d->filename);
-    d->tex = SDL_CreateTextureFromSurface(d->gfx->rend, d->surf);
-    SDL_FreeSurface(d->surf);
-    d->destrect.x = 0;
-    d->destrect.y = 0;
-    d->destrect.w = WINDOW_WIDTH;
-    d->destrect.h = WINDOW_HEIGHT;
-    d->srcrect = srcrect;
-    d->x_pos = d->srcrect.x;
-    d->y_pos = d->srcrect.y + d->srcrect.h;
 }
 
 void Draw(Drawable* d){

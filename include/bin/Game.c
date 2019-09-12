@@ -25,8 +25,6 @@ void Go(Game *g){
 
 void UpdateLogic(Game *g){
     HandleEvents(g);
-
-    UpdatePlayer(&g->player);
 }
 void Render(Game *g){
     DrawTileMap(&g->tm);
