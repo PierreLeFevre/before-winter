@@ -4,4 +4,4 @@
 int
 MoveCharacter(int x, int y, char moveDir);
 
-int AnimateCharacter(char dir, int x, int y);
+int AnimateCharacter(int x, int y, char dir);

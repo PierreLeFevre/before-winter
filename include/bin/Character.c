@@ -38,7 +38,7 @@ MoveCharacter(int x, int y, char moveDir)
     return 0;
 }
 
-int AnimateCharacter(char dir, int x, int y)
+int AnimateCharacter(int x, int y, char dir)
 {
 
 }
