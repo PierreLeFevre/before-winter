@@ -17,7 +17,7 @@ void ConstructDrawable(Drawable* db, Graphics* gfx, const char* IMG_PATH, SDL_Re
 }
 
 void Draw(Drawable* d){
-    SDL_RenderCopy(d->gfx->rend, d->tex, NULL, &d->srcrect);
+    SDL_RenderCopy(d->gfx->rend, d->tex, &d->destrect, &d->srcrect);
 }
 
 void ChangeImagePath(Drawable* d, const char* IMG_PATH){

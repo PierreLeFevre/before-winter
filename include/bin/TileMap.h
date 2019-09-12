@@ -1,7 +1,7 @@
 #include "Tile.h"
 
-#define TILE_WIDTH 50
-#define TILE_HEIGHT 50
+#define TILE_WIDTH 100
+#define TILE_HEIGHT 100
 
 typedef struct TileMap{
     Tile* tiles;
