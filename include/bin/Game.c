@@ -31,26 +31,24 @@ void Render(Game *g){
 
 void HandleEvents(Game* g){
     while(SDL_PollEvent(&g->event)){
-        switch(g->event.type){
-            case SDL_QUIT:
+        if(g->event.type == SDL_QUIT){
                 *g->noExit = 0;
-                break;
         }
-
+        g->player.x_dir = 0;
+        g->player.y_dir = 0;
+        const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
+        if (keyboardState[SDL_SCANCODE_LEFT] || keyboardState[SDL_SCANCODE_A]) {
+            g->player.x_dir -= 1;
+        }
+        if (keyboardState[SDL_SCANCODE_RIGHT] || keyboardState[SDL_SCANCODE_D]) {
+            g->player.x_dir += 1;
+        }
+        if (keyboardState[SDL_SCANCODE_UP] || keyboardState[SDL_SCANCODE_W]) {
+            g->player.y_dir -= 1;
+        }
+        if (keyboardState[SDL_SCANCODE_DOWN] || keyboardState[SDL_SCANCODE_S]) {
+            g->player.y_dir += 1;
+        }
     }   
-    g->player.x_dir = 0;
-    g->player.y_dir = 0;
-    const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
-    if (keyboardState[SDL_SCANCODE_LEFT] || keyboardState[SDL_SCANCODE_A]) {
-        g->player.x_dir -= 1;
-    }
-    if (keyboardState[SDL_SCANCODE_RIGHT] || keyboardState[SDL_SCANCODE_D]) {
-        g->player.x_dir += 1;
-    }
-    if (keyboardState[SDL_SCANCODE_UP] || keyboardState[SDL_SCANCODE_W]) {
-        g->player.y_dir -= 1;
-    }
-    if (keyboardState[SDL_SCANCODE_DOWN] || keyboardState[SDL_SCANCODE_S]) {
-        g->player.y_dir += 1;
-    }
+    
 }
