@@ -1,10 +1,12 @@
+#ifndef ANIMAL_H
+#define ANIMAL_H
+
 #include "Drawable.h"
+
 typedef struct Animal{
     Drawable d;
-    int x_pos_currCoord;
-    int y_pos_currCoord;
-    int x_pos_destCoord;
-    int y_pos_destCoord;
+    SDL_Rect Boorder;
+    SDL_Rect RectIntersect;
     float x_vel;
     float y_vel;
     int x_dir;
@@ -12,3 +14,13 @@ typedef struct Animal{
 
     char* img_path;
 }Animal;
+
+void ConstructAnimal(Animal* animal, Graphics* gfx);
+void UpdateAnimal(Animal* animal);
+void UpdateAnimalDirection(Animal* Animal);
+void MoveAnimal(Animal* animal);
+
+void DrawAnimal(Animal* animal);
+void AnimateAnimal(Animal* animal);
+int Randomize(int upper, int lower);
+#endif
