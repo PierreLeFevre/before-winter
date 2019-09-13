@@ -16,7 +16,7 @@ void ConstructAnimal(Animal* animal, Graphics* gfx){
     SDL_Rect src = {10 * TILE_WIDTH, 10 * TILE_HEIGHT, 200, 150};
     SDL_Rect dest = {40, 40, 40, 100};
     ConstructDrawable(&animal->d, gfx, animal->img_path, src);
-    DrawableSetDestrect(&animal->d, dest);
+    DrawableSetDestRect(&animal->d, dest);
     ChangeImagePath(&animal->d, animal->img_path);
 }
 
@@ -57,12 +57,6 @@ void UpdateAnimalDirection(Animal* animal){
 void MoveAnimal(Animal* animal){    
     animal->d.srcrect.x += animal->x_vel * animal->x_dir;
     animal->d.srcrect.y += animal->y_vel * animal->y_dir;
-}
-
-void DrawAnimal(Animal* animal){
-    animal->d.srcrect.y -= animal->d.srcrect.h - TILE_HEIGHT;
-    Draw(&animal->d);
-    animal->d.srcrect.y += animal->d.srcrect.h - TILE_HEIGHT;
 }
 
 void AnimateAnimal(Animal* animal){
