@@ -35,8 +35,8 @@ void UpdateAnimalDirection(Animal* animal){
     animal->x_dir -= 1;
     animal->y_dir -= 1;
    
-    printf("pos src X: %d\npos des X: %d\n", animal->d.srcrect.x,animal->d.destrect.x);
-    printf("animal->boorder.W: %d\nanimal->border.x: %d\n\n",animal->Boorder.w,animal->Boorder.x);
+    //printf("pos src X: %d\npos des X: %d\n", animal->d.srcrect.x,animal->d.destrect.x);
+    //printf("animal->boorder.W: %d\nanimal->border.x: %d\n\n",animal->Boorder.w,animal->Boorder.x);
 
     //down
     if (animal->d.srcrect.y > animal->Boorder.h){
