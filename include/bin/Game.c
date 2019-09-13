@@ -33,7 +33,7 @@ void UpdateLogic(Game *g){
 void Render(Game *g){
     Draw(g->cam.background);
     CamDraw(&g->cam, g->player.d);
-    Draw(&g->animal.d);
+    CamDraw(&g->cam, g->animal.d);
 }
 
 void HandleEvents(Game* g){
