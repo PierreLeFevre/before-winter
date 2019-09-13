@@ -28,19 +28,34 @@ void UpdateAnimal(Animal* animal){
 void UpdateAnimalDirection(Animal* animal){
     animal->x_dir = 0;
     animal->y_dir = 0;
-    const Uint8 *Keys = SDL_GetKeyboardState(NULL);
-    SDL_PumpEvents();
 
     int tmpX = animal->x_dir;
     int tmpY = animal->y_dir;
 
-    animal->x_dir = Randomize(1, -1);
-    animal->y_dir = Randomize(1, -1);
+    animal->x_dir -= 1;
+    animal->y_dir -= 1;
+   
+    printf("pos src X: %d\npos des X: %d\n", animal->d.srcrect.x,animal->d.destrect.x);
+    printf("animal->boorder.W: %d\nanimal->border.x: %d\n\n",animal->Boorder.w,animal->Boorder.x);
 
-    if (!SDL_IntersectRect(&animal->Boorder, &animal->d.destrect, &animal->RectIntersect)){
-        animal->x_dir += tmpX;
-        animal->y_dir += tmpY;
+    //down
+    if (animal->d.srcrect.y > animal->Boorder.h){
+        animal->d.srcrect.y = animal->Boorder.h;
+        printf("it's true");
     }
+    //up
+    if(animal->d.srcrect.y < animal->Boorder.y){
+        animal->d.srcrect.y = animal->Boorder.y;
+    }
+    //right
+    if(animal->d.srcrect.x > animal->Boorder.w){
+        animal->d.srcrect.x = animal->Boorder.w;
+    }
+    //left
+    if(animal->d.srcrect.x < animal->Boorder.x){
+        animal->d.srcrect.x = animal->Boorder.x;
+    }
+    
 }
 
 void MoveAnimal(Animal* animal){    
