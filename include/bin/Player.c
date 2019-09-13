@@ -37,6 +37,7 @@ void UpdatePlayerDirection(Player* player){
     if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
         player->y_dir += 1;
     }
+    //printf("x: %d,y: %d, w: %d, h: %d\n", player->d.srcrect.x, player->d.srcrect.y, player->d.srcrect.w, player->d.srcrect.h);
 }
 
 void MovePlayer(Player* player){    
