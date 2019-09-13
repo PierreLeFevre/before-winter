@@ -2,21 +2,20 @@
 #include <stdio.h>
 
 void ConstructPlayer(Player* player, Graphics* gfx){
-    player->img_path = "./include/assets/character_set.png";
-    SDL_Rect src;
-    src.x = 20;
-    src.y = 20;
-    src.w = 50;
-    src.h = 50;
-    SDL_Rect dest;
-    dest.x = 0;
-    dest.y = 0;
-    dest.w = 17;
-    dest.h = 18;
-    ConstructDrawable(&player->d, gfx, player->img_path, src);
-    DrawableSetDestrect(&player->d, dest);
+    player->x_pos_currCoord = 3;
+    player->y_pos_currCoord = 3;
+    player->x_pos_destCoord = player->x_pos_currCoord;
+    player->y_pos_destCoord = player->y_pos_currCoord;
     player->x_vel = 1.0f;
     player->y_vel = 1.0f;
+    player->x_dir = 0;
+    player->y_dir = 0;
+
+    player->img_path = "./include/assets/character_set.png";
+    SDL_Rect src = {player->x_pos_currCoord * TILE_WIDTH, player->y_pos_currCoord * TILE_HEIGHT, 70, 80};
+    SDL_Rect dest = {0, 0, 17, 18};
+    ConstructDrawable(&player->d, gfx, player->img_path, src);
+    DrawableSetDestrect(&player->d, dest);
     ChangeImagePath(&player->d, player->img_path);
 }
 
