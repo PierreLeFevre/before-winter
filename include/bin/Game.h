@@ -20,7 +20,6 @@ typedef struct Game{
 
     TileMap tileMap;
     Player player;
-    Animal animal;
 }Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int* noExit);
