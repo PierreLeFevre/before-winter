@@ -41,12 +41,8 @@ void UpdatePlayerDirection(Player* player){
         player->y_dir += 1;
         player->dir = 1;
     }
-<<<<<<< HEAD
 
     AnimatePlayer(player);
-=======
-    //printf("x: %d,y: %d, w: %d, h: %d\n", player->d.srcrect.x, player->d.srcrect.y, player->d.srcrect.w, player->d.srcrect.h);
->>>>>>> 87e64d1face0aa8e67b9c1d09ad415d45e7491ca
 }
 
 void MovePlayer(Player* player){    
