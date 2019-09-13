@@ -34,15 +34,16 @@ void HandleEvents(Game* g){
         if(g->event.type == SDL_QUIT){
                 *g->noExit = 0;
         }
+        g->player.x_dir = 0;
+        g->player.y_dir = 0;
         
         //behöver översättas
         /*if(g->event.type = SDL_KEYDOWN){
             printf("Physical %s key acting as %s key\n",
                     SDL_GetScancodeName(g->event.key.keysym.scancode),
                     SDL_GetKeyName(g->event.key.keysym.sym));
-        }
-
-        /*if(g->event.key.keysym.sym == SDLK_w){
+        }*/
+        /*if(g->event.key.keysym.sym == SDLK_w || g->event.type == SDL_KEYDOWN){
             g->player.y_dir -= 1;
         }
         if(g->event.key.keysym.sym == SDLK_a){
@@ -54,5 +55,6 @@ void HandleEvents(Game* g){
         if(g->event.key.keysym.sym == SDLK_d){
             g->player.x_dir += 1;
         }*/
+        
     }
 }
