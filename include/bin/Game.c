@@ -31,9 +31,11 @@ void UpdateLogic(Game *g){
     UpdateCamera(&g->cam);
 }
 void Render(Game *g){
-    Draw(g->cam.background);
+    CamDraw(&g->cam, g->animal.d);    
+    for(int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++){
+        CamDraw(&g->cam, g->tileMap.tiles[i].d);
+    }
     CamDraw(&g->cam, g->player.d);
-    CamDraw(&g->cam, g->animal.d);
 }
 
 void HandleEvents(Game* g){

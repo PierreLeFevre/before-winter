@@ -5,4 +5,4 @@ typedef struct Tile{
     int z_index;
 }Tile;
 
-void ConstructTile(Tile* t, Graphics* gfx, SDL_Rect srcrect);
+void ConstructTile(Tile* t, Drawable* d);
