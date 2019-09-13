@@ -5,6 +5,9 @@
 #define WINDOW_WIDTH 700
 #define WINDOW_HEIGHT 700
 
+#define TILE_WIDTH 60
+#define TILE_HEIGHT 60
+
 typedef struct Graphics{
     SDL_Window* win;
     SDL_Renderer* rend;
