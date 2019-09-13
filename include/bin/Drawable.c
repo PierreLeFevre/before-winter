@@ -16,8 +16,10 @@ void ConstructDrawable(Drawable* d, Graphics* gfx, const char* IMG_PATH, SDL_Rec
     d->srcrect = srcrect;
 }
 
-void Draw(Drawable* d){
-    SDL_RenderCopy(d->gfx->rend, d->tex, &d->destrect, &d->srcrect);
+void Draw(Drawable d){
+    d.srcrect.x -= d.srcrect.w / 2;
+    d.srcrect.y -= d.srcrect.h / 2;
+    SDL_RenderCopy(d.gfx->rend, d.tex, &d.destrect, &d.srcrect);
 }
 
 void ChangeImagePath(Drawable* d, const char* IMG_PATH){

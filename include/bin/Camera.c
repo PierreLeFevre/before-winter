@@ -1,8 +1,8 @@
 #include "Camera.h"
 
 void ConstructCamera(Camera* cam, Graphics* gfx, int* x_follow, int* y_follow){
-    cam->camRect.x = 0;
-    cam->camRect.y = 0;
+    cam->camRect.x = WINDOW_WIDTH / 2;
+    cam->camRect.y = WINDOW_WIDTH / 2;
     cam->camRect.w = WINDOW_WIDTH;
     cam->camRect.h = WINDOW_HEIGHT;
     cam->gfx = gfx;
@@ -25,5 +25,5 @@ void UpdateCamera(Camera* cam){
 void CamDraw(Camera* cam, Drawable d){
     SDL_Rect srcrectAdjustedToCamera = {d.srcrect.x - cam->background.destrect.x, d.srcrect.y - cam->background.destrect.y, d.srcrect.w, d.srcrect.h};
     d.srcrect = srcrectAdjustedToCamera;
-    Draw(&d);
+    Draw(d);
 }

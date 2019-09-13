@@ -25,7 +25,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
 
 void DrawTileMap(TileMap* tm){
     for(int i = 0; i < tm->nTiles_x * tm->nTiles_y; i++){
-        Draw(&tm->tiles[i].d);
+        Draw(tm->tiles[i].d);
     }
 }
 void ChangeTileMapImage(TileMap* tm, const char* IMG_PATH){

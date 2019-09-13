@@ -27,7 +27,7 @@ void UpdateLogic(Game *g){
     UpdateCamera(&g->cam);
 }
 void Render(Game *g){
-    Draw(&g->cam.background);
+    Draw(g->cam.background);
     CamDraw(&g->cam, g->player.d);
 }
 

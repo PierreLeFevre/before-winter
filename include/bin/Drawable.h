@@ -13,7 +13,7 @@ typedef struct Drawable{
 }Drawable;
 
 void ConstructDrawable(Drawable* d, Graphics* gfx, const char* IMG_PATH, SDL_Rect srcrect);
-void Draw(Drawable* d);
+void Draw(Drawable d);
 
 void ChangeImagePath(Drawable* d, const char* IMG_PATH);
 void DrawableSetDestrect(Drawable* d, SDL_Rect destrect);

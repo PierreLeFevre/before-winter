@@ -48,7 +48,7 @@ void MovePlayer(Player* player){
 
 void DrawPlayer(Player* player){
     player->d.srcrect.y -= player->d.srcrect.h - TILE_HEIGHT;
-    Draw(&player->d);
+    Draw(player->d);
     player->d.srcrect.y += player->d.srcrect.h - TILE_HEIGHT;
 }
 
