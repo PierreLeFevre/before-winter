@@ -25,7 +25,7 @@ void ConstructAnimal(Animal* animal, Graphics* gfx){
 
 void UpdateAnimal(Animal* animal){
     UpdateAnimalDirection(animal);
-    AnimateAnimal(animal);
+    MoveAnimalSoft(animal);
 }
 
 void UpdateAnimalDirection(Animal* animal){
@@ -53,6 +53,8 @@ void UpdateAnimalDirection(Animal* animal){
     if(animal->d.srcrect.x < animal->Border.x){
         animal->d.srcrect.x = animal->Border.x;
     }
+
+    
 }
 
 void MoveAnimal(Animal* animal){    
@@ -65,15 +67,27 @@ void DrawAnimal(Animal* animal){
     animal->d.srcrect.y += animal->d.srcrect.h - TILE_HEIGHT;
 }
 
-void AnimateAnimal(Animal* animal){
+void MoveAnimalSoft(Animal *animal){
     while(animal->x_dir != 0 && animal->y_dir != 0)
     {
-        MoveAnimal(animal);
-        if(animal->x_dir > 0){animal->x_dir -=1;}
-        if(animal->x_dir < 0){animal->x_dir +=1;}
+        if (animal->x_dir > 0){
+            animal->d.srcrect.x -= animal->x_vel;
+            animal->x_dir--;
+        }
 
-        if(animal->y_dir > 0){animal->y_dir -=1;}
-        if(animal->y_dir < 0){animal->y_dir +=1;}
+        if (animal->x_dir < 0){
+            animal->d.srcrect.x += animal->x_vel;
+            animal->x_dir++;
+            }
+
+        if (animal->y_dir > 0){
+            animal->d.srcrect.y -= animal->y_vel;
+            animal->y_dir--;
+            }
+        if (animal->y_dir < 0){
+            animal->d.srcrect.y += animal->y_vel;
+            animal->y_dir++;
+            }
     }
 }
 int Ai(Animal *a)
@@ -81,9 +95,9 @@ int Ai(Animal *a)
     a->aiIterations++;
     if (a->aiTarget == a->aiIterations)
     {
-        a->aiTarget = rand() % 100;
+        a->aiTarget = rand() % 100 + 1;
         a->aiIterations = 0;
-
+        
         if (a->aiTarget >= 70)
         {
             //moo
@@ -91,9 +105,11 @@ int Ai(Animal *a)
         if (a->aiTarget > 20 && a->aiTarget < 70)
         {
             //Walk
-            
-            a->x_dir = rand() % (50 + 1 - -2) + -2;
-            a->y_dir = rand() % (50 + 1 - -2) + -2;
+            a->x_dir = rand() % (10 + 1 - -10) + -10;
+            a->x_vel = 1;
+
+            a->y_dir = rand() % (10 + 1 - -10) + -10;
+            a->x_vel = 1;
             return 1;
         }
         if (a->aiTarget > 30 && a->aiTarget < 50)

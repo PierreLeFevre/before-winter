@@ -20,8 +20,10 @@ void ConstructAnimal(Animal* animal, Graphics* gfx);
 void UpdateAnimal(Animal* animal);
 void UpdateAnimalDirection(Animal* Animal);
 void MoveAnimal(Animal* animal);
+void MoveAnimalSoft(Animal *animal);
 
 void DrawAnimal(Animal* animal);
 void AnimateAnimal(Animal* animal);
 int Ai(Animal *a);
+
 #endif
