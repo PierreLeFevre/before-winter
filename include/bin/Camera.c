@@ -14,11 +14,11 @@ void ConstructCamera(Camera* cam, Graphics* gfx, int* x_follow, int* y_follow){
 void UpdateCamera(Camera* cam){    
     cam->background.destrect.x = *(cam->x_follow) - WINDOW_WIDTH / 2;
     cam->background.destrect.y = *(cam->y_follow) - WINDOW_HEIGHT / 2;
-    if(cam->camRect.x < 0){
-        cam->camRect.x = 0;
+    if(cam->background.destrect.x < 0){
+        cam->background.destrect.x = 0;
     }
-    if(cam->camRect.y < 0){
-        cam->camRect.y = 0;
+    if(cam->background.destrect.y < 0){
+        cam->background.destrect.y = 0;
     }
 }
 
