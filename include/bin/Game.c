@@ -28,6 +28,12 @@ void UpdateLogic(Game *g){
     UpdatePlayer(&g->player);
     UpdateAnimal(&g->animal);
     UpdateCamera(&g->cam);
+    SDL_Rect playerPos = {g->player.d.srcrect.x + 30, g->player.d.srcrect.y + 65, 15, 5};
+    for(int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++){
+        if(SDL_HasIntersection(&playerPos, &g->tileMap.tiles[i].d.srcrect)){
+            ChangeImagePath(&g->tileMap.tiles[i].d, "include/assets/grass.jpg");
+        }
+    }
 }
 void Render(Game *g){ 
     for(int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++){
