@@ -12,9 +12,9 @@ void ConstructAnimal(Animal* animal, Graphics* gfx){
     animal->Boorder.w = 400;
     animal->Boorder.h = 400;
 
-    animal->img_path = "./include/assets/character_set.png";
-    SDL_Rect src = {3 * TILE_WIDTH, 3 * TILE_HEIGHT, 60, 60};
-    SDL_Rect dest = {0, 0, 17, 18};
+    animal->img_path = "./include/assets/cow_set.png";
+    SDL_Rect src = {10 * TILE_WIDTH, 10 * TILE_HEIGHT, 200, 150};
+    SDL_Rect dest = {40, 40, 40, 100};
     ConstructDrawable(&animal->d, gfx, animal->img_path, src);
     DrawableSetDestrect(&animal->d, dest);
     ChangeImagePath(&animal->d, animal->img_path);
@@ -32,16 +32,12 @@ void UpdateAnimalDirection(Animal* animal){
     int tmpX = animal->x_dir;
     int tmpY = animal->y_dir;
 
-    animal->x_dir -= 1;
-    animal->y_dir -= 1;
-   
-    //printf("pos src X: %d\npos des X: %d\n", animal->d.srcrect.x,animal->d.destrect.x);
-    //printf("animal->boorder.W: %d\nanimal->border.x: %d\n\n",animal->Boorder.w,animal->Boorder.x);
+    animal->x_dir = Randomize(2, -2);
+    animal->y_dir = Randomize(2, -2);
 
     //down
     if (animal->d.srcrect.y > animal->Boorder.h){
         animal->d.srcrect.y = animal->Boorder.h;
-        printf("it's true");
     }
     //up
     if(animal->d.srcrect.y < animal->Boorder.y){
