@@ -39,7 +39,7 @@ void Render(Game *g){
 void HandleEvents(Game* g){
     while(SDL_PollEvent(&g->event)){
         if(g->event.type == SDL_QUIT){
-                *g->noExit = 0;
+            *g->noExit = 0;
         }
     }
 }

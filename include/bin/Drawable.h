@@ -16,6 +16,6 @@ void ConstructDrawable(Drawable* d, Graphics* gfx, const char* IMG_PATH, SDL_Rec
 void Draw(Drawable d);
 
 void ChangeImagePath(Drawable* d, const char* IMG_PATH);
-void DrawableSetDestrect(Drawable* d, SDL_Rect destrect);
+void DrawableSetDestRect(Drawable* d, SDL_Rect destrect);
 
 #endif

@@ -29,6 +29,6 @@ void ChangeImagePath(Drawable* d, const char* IMG_PATH){
     SDL_FreeSurface(d->surf);
 }
 
-void DrawableSetDestrect(Drawable* d, SDL_Rect destrect){
+void DrawableSetDestRect(Drawable* d, SDL_Rect destrect){
     d->destrect = destrect;
 }

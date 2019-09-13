@@ -11,7 +11,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     SDL_Rect src = {3 * TILE_WIDTH, 3 * TILE_HEIGHT, 120, 120};
     SDL_Rect dest = {0, 0, 18, 18};
     ConstructDrawable(&player->d, gfx, player->img_path, src);
-    DrawableSetDestrect(&player->d, dest);
+    DrawableSetDestRect(&player->d, dest);
     ChangeImagePath(&player->d, player->img_path);
 }
 
@@ -44,12 +44,6 @@ void UpdatePlayerDirection(Player* player){
 void MovePlayer(Player* player){    
     player->d.srcrect.x += player->x_vel * player->x_dir;
     player->d.srcrect.y += player->y_vel * player->y_dir;
-}
-
-void DrawPlayer(Player* player){
-    player->d.srcrect.y -= player->d.srcrect.h - TILE_HEIGHT;
-    Draw(player->d);
-    player->d.srcrect.y += player->d.srcrect.h - TILE_HEIGHT;
 }
 
 void AnimatePlayer(Player* player){
