@@ -20,10 +20,32 @@ void ConstructPlayer(Player* player, Graphics* gfx){
 }
 
 void UpdatePlayer(Player* player){
+    UpdatePlayerDirection(player);
     MovePlayer(player);
 }
 
+void UpdatePlayerDirection(Player* player){
+
+    player->x_dir = 0;
+    player->y_dir = 0;
+    const Uint8 *Keys = SDL_GetKeyboardState(NULL);
+    SDL_PumpEvents();
+    if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]) {
+        player->x_dir -= 1;
+    }
+    if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) {
+        player->x_dir += 1;
+    }
+    if (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]) {
+        player->y_dir -= 1;
+    }
+    if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
+        player->y_dir += 1;
+    }
+}
+
 void MovePlayer(Player* player){
+    
     player->d.srcrect.x += player->x_vel * player->x_dir;
     player->d.srcrect.y += player->y_vel * player->y_dir;
 }

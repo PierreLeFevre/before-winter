@@ -34,9 +34,6 @@ void HandleEvents(Game* g){
         if(g->event.type == SDL_QUIT){
                 *g->noExit = 0;
         }
-
-        g->player.x_dir = 0;
-        g->player.y_dir = 0;
         
         //behöver översättas
         /*if(g->event.type = SDL_KEYDOWN){
@@ -57,20 +54,5 @@ void HandleEvents(Game* g){
         if(g->event.key.keysym.sym == SDLK_d){
             g->player.x_dir += 1;
         }*/
-        const Uint8 *Keys = SDL_GetKeyboardState(NULL);
-        SDL_PumpEvents();
-        if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]) {
-            g->player.x_dir -= 1;
-        }
-        if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) {
-            g->player.x_dir += 1;
-        }
-        if (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]) {
-            g->player.y_dir -= 1;
-        }
-        if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
-            g->player.y_dir += 1;
-        }
-    }   
-    
+    }
 }
