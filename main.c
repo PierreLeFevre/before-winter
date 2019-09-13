@@ -13,7 +13,7 @@ int main()
     ConstructGame(&g, &noExit);
     while(noExit){
         frameStart = SDL_GetTicks();
-        Go(&g);  //init()
+        Go(&g);  //THIS IS A init() FUNKTION
         frameTime = SDL_GetTicks() - frameStart;
         if (Framedelay > frameTime)
         {
