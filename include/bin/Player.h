@@ -2,10 +2,6 @@
 
 typedef struct Player{
     Drawable d;
-    int x_pos_currCoord;
-    int y_pos_currCoord;
-    int x_pos_destCoord;
-    int y_pos_destCoord;
     float x_vel;
     float y_vel;
     int x_dir;
