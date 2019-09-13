@@ -46,12 +46,6 @@ void MovePlayer(Player* player){
     player->d.srcrect.y += player->y_vel * player->y_dir;
 }
 
-void DrawPlayer(Player* player){
-    player->d.srcrect.y -= player->d.srcrect.h - TILE_HEIGHT;
-    Draw(player->d);
-    player->d.srcrect.y += player->d.srcrect.h - TILE_HEIGHT;
-}
-
 void AnimatePlayer(Player* player){
     player->d.destrect.w = 16;
     player->d.destrect.h = 18;
