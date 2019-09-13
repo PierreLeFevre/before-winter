@@ -16,7 +16,7 @@ typedef struct Game{
 //----
 
     TileMap tileMapMAIN;
-    TileMap tileMapSUB;
+    TileMap tileMapBackground;
     Player player;
 }Game;
 void Input(SDL_Event *e, GameState gs, Game *g);

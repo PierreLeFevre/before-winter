@@ -3,8 +3,8 @@
 void ConstructGame(Game *g, int* noExit){
     
     ConstructGraphics(&g->gfx);
-    ConstructTileMap(&g->tileMapMAIN, &g->gfx, 7, 7, 0, 0);
-    ConstructTileMap(&g->tileMapSUB, &g->gfx, 3, 3, 0, 0);
+    ConstructTileMap(&g->tileMapBackground, &g->gfx, 20, 20, 0, 0);
+    //ConstructTileMap(&g->tileMapSUB, &g->gfx, 3, 3, 0, 0);
     ConstructPlayer(&g->player, &g->gfx);
 
     g->noExit = noExit;
@@ -25,32 +25,52 @@ void UpdateLogic(Game *g){
     UpdatePlayer(&g->player);
 }
 void Render(Game *g){
-    DrawTileMap(&g->tileMapSUB);
+    DrawTileMap(&g->tileMapBackground);
     DrawPlayer(&g->player);
 }
 
 void HandleEvents(Game* g){
     while(SDL_PollEvent(&g->event)){
-        switch(g->event.type){
-            case SDL_QUIT:
+        if(g->event.type == SDL_QUIT){
                 *g->noExit = 0;
-                break;
         }
 
+        g->player.x_dir = 0;
+        g->player.y_dir = 0;
+        
+        //behöver översättas
+        /*if(g->event.type = SDL_KEYDOWN){
+            printf("Physical %s key acting as %s key\n",
+                    SDL_GetScancodeName(g->event.key.keysym.scancode),
+                    SDL_GetKeyName(g->event.key.keysym.sym));
+        }
+
+        /*if(g->event.key.keysym.sym == SDLK_w){
+            g->player.y_dir -= 1;
+        }
+        if(g->event.key.keysym.sym == SDLK_a){
+            g->player.x_dir -= 1;
+        }
+        if(g->event.key.keysym.sym == SDLK_s){
+            g->player.y_dir += 1;
+        }
+        if(g->event.key.keysym.sym == SDLK_d){
+            g->player.x_dir += 1;
+        }*/
+        const Uint8 *Keys = SDL_GetKeyboardState(NULL);
+        SDL_PumpEvents();
+        if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]) {
+            g->player.x_dir -= 1;
+        }
+        if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) {
+            g->player.x_dir += 1;
+        }
+        if (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]) {
+            g->player.y_dir -= 1;
+        }
+        if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
+            g->player.y_dir += 1;
+        }
     }   
-    g->player.x_dir = 0;
-    g->player.y_dir = 0;
-    const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
-    if (keyboardState[SDL_SCANCODE_LEFT] || keyboardState[SDL_SCANCODE_A]) {
-        g->player.x_dir -= 1;
-    }
-    if (keyboardState[SDL_SCANCODE_RIGHT] || keyboardState[SDL_SCANCODE_D]) {
-        g->player.x_dir += 1;
-    }
-    if (keyboardState[SDL_SCANCODE_UP] || keyboardState[SDL_SCANCODE_W]) {
-        g->player.y_dir -= 1;
-    }
-    if (keyboardState[SDL_SCANCODE_DOWN] || keyboardState[SDL_SCANCODE_S]) {
-        g->player.y_dir += 1;
-    }
+    
 }
