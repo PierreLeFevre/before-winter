@@ -27,19 +27,15 @@ void UpdatePlayerDirection(Player* player){
     SDL_PumpEvents();
     if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]) {
         player->x_dir -= 1;
-        player->dir = 2;
     }
     if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) {
         player->x_dir += 1;
-        player->dir = 3;
     }
     if (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]) {
         player->y_dir -= 1;
-        player->dir = 0;
     }
     if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
         player->y_dir += 1;
-        player->dir = 1;
     }
 
     AnimatePlayer(player);
@@ -59,7 +55,6 @@ void DrawPlayer(Player* player){
 void AnimatePlayer(Player* player){
     player->d.destrect.w = 16;
     player->d.destrect.h = 18;
-
 
     if(player->x_dir != 0 || player->y_dir != 0)
     {
@@ -85,25 +80,25 @@ void AnimatePlayer(Player* player){
 
         //Animate steps
         if (player->animationState == 0)
-            {
-                player->d.destrect.x = 16;
-            }
-            if (player->animationState == 10)
-            {
-                player->d.destrect.x = 0;
-            }
-            if (player->animationState == 20)
-            {
-                player->d.destrect.x = 32;
-            }
-            if (player->animationState == 30)
-            {
-                player->d.destrect.x = 0;
-            }
-            if (player->animationState == 40)
-            {
-                player->animationState = -1;
-            }
+        {
+            player->d.destrect.x = 16;
+        }
+        if (player->animationState == 10)
+        {
+            player->d.destrect.x = 0;
+        }
+        if (player->animationState == 20)
+        {
+            player->d.destrect.x = 32;
+        }
+        if (player->animationState == 30)
+        {
+            player->d.destrect.x = 0;
+        }
+        if (player->animationState == 40)
+        {
+            player->animationState = -1;
+        }
     }
     else
     {
