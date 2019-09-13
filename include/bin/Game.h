@@ -1,6 +1,7 @@
 #include "Drawable.h"
 #include "TileMap.h"
 #include "Player.h"
+#include "Animal.h"
 
 typedef enum GameState 
 {Startmenu,
@@ -18,6 +19,7 @@ typedef struct Game{
     TileMap tileMapMAIN;
     TileMap tileMapBackground;
     Player player;
+    Animal animal;
 }Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int* noExit);
