@@ -12,7 +12,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->y_dir = 0;
 
     player->img_path = "./include/assets/character_set.png";
-    SDL_Rect src = {player->x_pos_currCoord * TILE_WIDTH, player->y_pos_currCoord * TILE_HEIGHT, 70, 80};
+    SDL_Rect src = {player->x_pos_currCoord * TILE_WIDTH, player->y_pos_currCoord * TILE_HEIGHT, 60, 60};
     SDL_Rect dest = {0, 0, 17, 18};
     ConstructDrawable(&player->d, gfx, player->img_path, src);
     DrawableSetDestrect(&player->d, dest);
@@ -33,16 +33,16 @@ void UpdatePlayerDirection(Player* player){
         const Uint8 *Keys = SDL_GetKeyboardState(NULL);
         SDL_PumpEvents();
         if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]) {
-            player->x_dir -= 1;
+            player->x_dir -= 2;
         }
         if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) {
-            player->x_dir += 1;
+            player->x_dir += 2;
         }
         if (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]) {
-            player->y_dir -= 1;
+            player->y_dir -= 2;
         }
         if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
-            player->y_dir += 1;
+            player->y_dir += 2;
         }
         player->x_pos_destCoord = player->x_pos_currCoord + player->x_dir;
         player->y_pos_destCoord = player->y_pos_currCoord + player->y_dir;
