@@ -7,10 +7,13 @@ void ConstructAnimal(Animal* animal, Graphics* gfx){
     animal->x_dir = 0;
     animal->y_dir = 0;
 
-    animal->Boorder.x = 0;
-    animal->Boorder.y = 0;
-    animal->Boorder.w = 400;
-    animal->Boorder.h = 400;
+    animal->Border.x = 300;
+    animal->Border.y = 300;
+    animal->Border.w = 1000;
+    animal->Border.h = 1000;
+
+    animal->aiIterations = 0;
+    animal->aiTarget = rand() % 100;
 
     animal->img_path = "./include/assets/cow_set.png";
     SDL_Rect src = {10 * TILE_WIDTH, 10 * TILE_HEIGHT, 200, 150};
@@ -22,7 +25,7 @@ void ConstructAnimal(Animal* animal, Graphics* gfx){
 
 void UpdateAnimal(Animal* animal){
     UpdateAnimalDirection(animal);
-    MoveAnimal(animal);
+    AnimateAnimal(animal);
 }
 
 void UpdateAnimalDirection(Animal* animal){
@@ -32,26 +35,24 @@ void UpdateAnimalDirection(Animal* animal){
     int tmpX = animal->x_dir;
     int tmpY = animal->y_dir;
 
-    animal->x_dir = Randomize(2, -2);
-    animal->y_dir = Randomize(2, -2);
 
+    Ai(animal);
     //down
-    if (animal->d.srcrect.y > animal->Boorder.h){
-        animal->d.srcrect.y = animal->Boorder.h;
+    if (animal->d.srcrect.y > animal->Border.h){
+        animal->d.srcrect.y = animal->Border.h;
     }
     //up
-    if(animal->d.srcrect.y < animal->Boorder.y){
-        animal->d.srcrect.y = animal->Boorder.y;
+    if(animal->d.srcrect.y < animal->Border.y){
+        animal->d.srcrect.y = animal->Border.y;
     }
     //right
-    if(animal->d.srcrect.x > animal->Boorder.w){
-        animal->d.srcrect.x = animal->Boorder.w;
+    if(animal->d.srcrect.x > animal->Border.w){
+        animal->d.srcrect.x = animal->Border.w;
     }
     //left
-    if(animal->d.srcrect.x < animal->Boorder.x){
-        animal->d.srcrect.x = animal->Boorder.x;
+    if(animal->d.srcrect.x < animal->Border.x){
+        animal->d.srcrect.x = animal->Border.x;
     }
-    
 }
 
 void MoveAnimal(Animal* animal){    
@@ -59,13 +60,51 @@ void MoveAnimal(Animal* animal){
     animal->d.srcrect.y += animal->y_vel * animal->y_dir;
 }
 
-void AnimateAnimal(Animal* animal){
-    if(animal->x_dir == 1){
+void DrawAnimal(Animal* animal){
+    animal->d.srcrect.y -= animal->d.srcrect.h - TILE_HEIGHT;
+    animal->d.srcrect.y += animal->d.srcrect.h - TILE_HEIGHT;
+}
 
+void AnimateAnimal(Animal* animal){
+    while(animal->x_dir != 0 && animal->y_dir != 0)
+    {
+        MoveAnimal(animal);
+        if(animal->x_dir > 0){animal->x_dir -=1;}
+        if(animal->x_dir < 0){animal->x_dir +=1;}
+
+        if(animal->y_dir > 0){animal->y_dir -=1;}
+        if(animal->y_dir < 0){animal->y_dir +=1;}
     }
 }
-int Randomize(int upper, int lower)
+int Ai(Animal *a)
 {
-    int num = (rand() % (upper - lower + 1)) + lower;
-    return num;
+    a->aiIterations++;
+    if (a->aiTarget == a->aiIterations)
+    {
+        a->aiTarget = rand() % 100;
+        a->aiIterations = 0;
+
+        if (a->aiTarget >= 70)
+        {
+            //moo
+        }
+        if (a->aiTarget > 20 && a->aiTarget < 70)
+        {
+            //Walk
+            
+            a->x_dir = rand() % (50 + 1 - -2) + -2;
+            a->y_dir = rand() % (50 + 1 - -2) + -2;
+            return 1;
+        }
+        if (a->aiTarget > 30 && a->aiTarget < 50)
+        {
+            //shit
+        }
+        if (a->aiTarget > 0 && a->aiTarget < 30)
+        {
+            //eat
+        }
+        
+        
+    }
 }
