@@ -1,6 +1,7 @@
 #include "Drawable.h"
-#include "TileMap.h"
 #include "Player.h"
+#include "TileMap.h"
+#include "Camera.h"
 #include "Animal.h"
 
 typedef enum GameState 
@@ -14,12 +15,11 @@ typedef struct Game{
     int CurrentGameState;
     Graphics gfx;
     SDL_Event event;
+    Camera cam;
 //----
 
-    TileMap tileMapMAIN;
-    TileMap tileMapBackground;
+    TileMap tileMap;
     Player player;
-    Animal animal;
 }Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int* noExit);

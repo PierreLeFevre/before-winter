@@ -11,6 +11,7 @@
 typedef struct Graphics{
     SDL_Window* win;
     SDL_Renderer* rend;
+    SDL_Rect camera;
 }Graphics;
 
 void ConstructGraphics(Graphics *gfx);
