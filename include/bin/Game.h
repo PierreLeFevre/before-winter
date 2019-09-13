@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "Camera.h"
+#include "Animal.h"
 
 typedef enum GameState 
 {Startmenu,
