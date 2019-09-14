@@ -68,26 +68,23 @@ void DrawAnimal(Animal* animal){
 }
 
 void MoveAnimalSoft(Animal *animal){
-    while(animal->x_dir != 0 && animal->y_dir != 0)
-    {
-        if (animal->x_dir > 0){
-            animal->d.srcrect.x -= animal->x_vel;
-            animal->x_dir--;
+    if (animal->x_dir > 0){
+        animal->d.srcrect.x -= animal->x_vel;
+        animal->x_dir--;
+    }
+
+    if (animal->x_dir < 0){
+        animal->d.srcrect.x += animal->x_vel;
+        animal->x_dir++;
         }
 
-        if (animal->x_dir < 0){
-            animal->d.srcrect.x += animal->x_vel;
-            animal->x_dir++;
-            }
-
-        if (animal->y_dir > 0){
-            animal->d.srcrect.y -= animal->y_vel;
-            animal->y_dir--;
-            }
-        if (animal->y_dir < 0){
-            animal->d.srcrect.y += animal->y_vel;
-            animal->y_dir++;
-            }
+    if (animal->y_dir > 0){
+        animal->d.srcrect.y -= animal->y_vel;
+        animal->y_dir--;
+        }
+    if (animal->y_dir < 0){
+        animal->d.srcrect.y += animal->y_vel;
+        animal->y_dir++;
     }
 }
 int Ai(Animal *a)
