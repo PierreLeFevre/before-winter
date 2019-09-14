@@ -8,8 +8,8 @@ void ConstructCamera(Camera* cam, Graphics* gfx, SDL_Rect* follow){
     cam->camRect.h = WINDOW_HEIGHT;
     cam->camRectVirtual.x = 0;
     cam->camRectVirtual.y = 0;
-    cam->camRectVirtual.w = WINDOW_WIDTH / 2;
-    cam->camRectVirtual.h = WINDOW_HEIGHT / 2;
+    cam->camRectVirtual.w = WINDOW_WIDTH;
+    cam->camRectVirtual.h = WINDOW_HEIGHT;
     cam->gfx = gfx;
     cam->follow = follow;
 }
