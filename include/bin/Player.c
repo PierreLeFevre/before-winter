@@ -10,7 +10,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->img_path = "./include/assets/character_set.png";
     SDL_Rect src = {4 * TILE_WIDTH, 1 * TILE_HEIGHT, 70, 70};
     SDL_Rect dest = {0, 0, 18, 18};
-    ConstructDrawable(&player->d, gfx, player->img_path, src);
+    ConstructDrawable(&player->d, gfx, player->img_path, src, 0);
     DrawableSetDestRect(&player->d, dest);
     ChangeImagePath(&player->d, player->img_path);
 }
@@ -18,6 +18,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
 void UpdatePlayer(Player* player){
     UpdatePlayerDirection(player);
     MovePlayer(player);
+    player->d.z_index = ((player->d.srcrect.y + player->d.srcrect.h)/ TILE_HEIGHT + 1) * 10 + 5; //Row 1 = 15, Row 2 = 25....
 }
 
 void UpdatePlayerDirection(Player* player){

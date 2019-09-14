@@ -16,6 +16,7 @@ typedef struct Game{
     Graphics gfx;
     SDL_Event event;
     Camera cam;
+    Drawable* RenderList[5000];
 //----
 
     TileMap tileMap;
@@ -32,3 +33,7 @@ void UpdateLogic(Game *g);
 void Render(Game *g);
 
 void HandleEvents(Game* g);
+
+void AddToRenderList(Game* g, Drawable* d, int* nToRender);
+void RenderList(Game* g, int* nToRender);
+void SortRenderList(Game* g, int* nToRender);

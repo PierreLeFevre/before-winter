@@ -36,19 +36,47 @@ void UpdateLogic(Game *g){
     }
 }
 void Render(Game *g){ 
+    int nToRender = 0;
     for(int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++){
         if(SDL_HasIntersection(&g->tileMap.tiles[i].d.srcrect, &g->cam.camRectVirtual)){
-        CamDraw(&g->cam, g->tileMap.tiles[i].d);
+            AddToRenderList(g, &g->tileMap.tiles[i].d, &nToRender);
         }
     }
-    CamDraw(&g->cam, g->animal.d);
-    CamDraw(&g->cam, g->player.d);
+    AddToRenderList(g, &g->animal.d, &nToRender);
+    AddToRenderList(g, &g->player.d, &nToRender);
+    
+    SortRenderList(g, &nToRender);
+    RenderList(g, &nToRender);
 }
 
 void HandleEvents(Game* g){
     while(SDL_PollEvent(&g->event)){
         if(g->event.type == SDL_QUIT){
             *g->noExit = 0;
+        }
+    }
+}
+
+void AddToRenderList(Game* g, Drawable* d, int* nToRender){
+    g->RenderList[*nToRender] = d;
+    (*nToRender)++;
+}
+void RenderList(Game* g, int* nToRender){
+    for(int i = 0; i < *nToRender; i++){
+        CamDraw(&g->cam, *g->RenderList[i]);
+    }
+}
+void SortRenderList(Game* g, int* nToRender){
+    for (int i = 0; i < (*nToRender) - 1; ++i)
+    {
+        for (int j = 0; j < (*nToRender) - 1 - i; ++j )
+        {
+            if (g->RenderList[j]->z_index > g->RenderList[j+1]->z_index)
+            {
+                Drawable* temp = g->RenderList[j+1];
+                g->RenderList[j+1] = g->RenderList[j];
+                g->RenderList[j] = temp;
+            }
         }
     }
 }

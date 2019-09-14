@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void ConstructDrawable(Drawable* d, Graphics* gfx, const char* filePath, SDL_Rect srcrect){
+void ConstructDrawable(Drawable* d, Graphics* gfx, const char* filePath, SDL_Rect srcrect, int z_index){
     d->gfx = gfx;
     strcpy(d->filePath, filePath);
     d->surf = IMG_Load(d->filePath);
@@ -14,6 +14,7 @@ void ConstructDrawable(Drawable* d, Graphics* gfx, const char* filePath, SDL_Rec
     d->destrect.w = WINDOW_WIDTH;
     d->destrect.h = WINDOW_HEIGHT;
     d->srcrect = srcrect;
+    d->z_index = z_index;
 }
 
 void Draw(Drawable d){

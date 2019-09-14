@@ -18,7 +18,7 @@ void ConstructAnimal(Animal* animal, Graphics* gfx){
     animal->img_path = "./include/assets/cow_set.png";
     SDL_Rect src = {10 * TILE_WIDTH, 10 * TILE_HEIGHT, 124, 200};
     SDL_Rect dest = {40, 40, 40, 100};
-    ConstructDrawable(&animal->d, gfx, animal->img_path, src);
+    ConstructDrawable(&animal->d, gfx, animal->img_path, src, 0);
     DrawableSetDestRect(&animal->d, dest);
     ChangeImagePath(&animal->d, animal->img_path);
 }
@@ -26,6 +26,7 @@ void ConstructAnimal(Animal* animal, Graphics* gfx){
 void UpdateAnimal(Animal* animal){
     UpdateAnimalDirection(animal);
     MoveAnimalSoft(animal);
+    animal->d.z_index = ((animal->d.srcrect.y + animal->d.srcrect.h) / TILE_HEIGHT + 1) * 10 + 3; //Row 1 = 13, Row 2 = 23....
 }
 
 void UpdateAnimalDirection(Animal* animal){

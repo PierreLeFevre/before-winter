@@ -22,7 +22,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
     char* mapDataRaw = malloc(numbytes + 1);
 	fread(mapDataRaw, 1, numbytes, fileIO);
     mapDataRaw[numbytes] = 0;
-    fixArrayBug(mapDataRaw);
+    RemoveReturnFeedFromArray(mapDataRaw);
     fclose(fileIO);
 
     for(int i = 0; i < tm->nTiles_x * tm->nTiles_y; i++){
@@ -41,7 +41,8 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                 TileImage td = GetTileImageData(*mapDataRaw - '0');
                 srcrect.h = td.height;
                 srcrect.y += td.y_offset;
-                ConstructDrawable(&d, gfx, td.filePath, srcrect);
+                int z_index = (tm->topleft_y + (int)(i / tm->nTiles_x) + 1) * 10; //Row 1 = 10, Row 2 = 20....
+                ConstructDrawable(&d, gfx, td.filePath, srcrect, z_index);
                 mapDataRaw++;
             }
             Tile t;
