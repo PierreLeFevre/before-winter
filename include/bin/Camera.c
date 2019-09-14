@@ -1,29 +1,34 @@
 #include "Camera.h"
+#include <stdio.h>
 
-void ConstructCamera(Camera* cam, Graphics* gfx, int* x_follow, int* y_follow){
-    cam->camRect.x = WINDOW_WIDTH / 2;
-    cam->camRect.y = WINDOW_WIDTH / 2;
+void ConstructCamera(Camera* cam, Graphics* gfx, SDL_Rect* follow){
+    cam->camRect.x = 0;
+    cam->camRect.y = 0;
     cam->camRect.w = WINDOW_WIDTH;
     cam->camRect.h = WINDOW_HEIGHT;
+    cam->camRectVirtual.x = 0;
+    cam->camRectVirtual.y = 0;
+    cam->camRectVirtual.w = WINDOW_WIDTH / 2;
+    cam->camRectVirtual.h = WINDOW_HEIGHT / 2;
     cam->gfx = gfx;
-    ConstructDrawable(&cam->background, cam->gfx, "./include/assets/background.jpg", cam->camRect);
-    cam->x_follow = x_follow;
-    cam->y_follow = y_follow;
+    cam->follow = follow;
 }
 
 void UpdateCamera(Camera* cam){    
-    cam->background.destrect.x = *(cam->x_follow) - WINDOW_WIDTH / 2;
-    cam->background.destrect.y = *(cam->y_follow) - WINDOW_HEIGHT / 2;
-    if(cam->background.destrect.x < 0){
-        cam->background.destrect.x = 0;
+    cam->camRectVirtual.x = cam->follow->x + cam->follow->w / 2 - cam->camRectVirtual.w / 2;
+    cam->camRectVirtual.y = cam->follow->y + cam->follow->h / 2 - cam->camRectVirtual.h / 2;
+    if(cam->camRectVirtual.x < 0){
+        cam->camRectVirtual.x = 0;
     }
-    if(cam->background.destrect.y < 0){
-        cam->background.destrect.y = 0;
+    if(cam->camRectVirtual.y < 0){
+        cam->camRectVirtual.y = 0;
     }
 }
 
 void CamDraw(Camera* cam, Drawable d){
-    SDL_Rect srcrectAdjustedToCamera = {d.srcrect.x - cam->background.destrect.x, d.srcrect.y - cam->background.destrect.y, d.srcrect.w, d.srcrect.h};
+    if(SDL_HasIntersection(&cam->camRectVirtual, &d.srcrect)){
+    SDL_Rect srcrectAdjustedToCamera = {d.srcrect.x - cam->camRectVirtual.x, d.srcrect.y - cam->camRectVirtual.y, d.srcrect.w, d.srcrect.h};
     d.srcrect = srcrectAdjustedToCamera;
     Draw(d);
+    }
 }

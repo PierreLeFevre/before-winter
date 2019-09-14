@@ -5,13 +5,12 @@
 
 typedef struct Camera{
     Graphics* gfx;
-    Drawable background;
     SDL_Rect camRect;
-    int* x_follow;
-    int* y_follow;
+    SDL_Rect camRectVirtual;
+    SDL_Rect* follow;
 }Camera;
 
-void ConstructCamera(Camera* cam, Graphics* gfx, int* x_follow, int* y_follow);
+void ConstructCamera(Camera* cam, Graphics* gfx, SDL_Rect* follow);
 void UpdateCamera(Camera* cam);
 void CamDraw(Camera* cam, Drawable d);
 

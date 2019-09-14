@@ -8,8 +8,8 @@ void ConstructGame(Game *g, int* noExit){
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./include/assets/background.jpg");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructAnimal(&g->animal, &g->gfx);
-    ConstructCamera(&g->cam, &g->gfx, &g->player.d.srcrect.x, &g->player.d.srcrect.y);
-    
+    ConstructCamera(&g->cam, &g->gfx, &g->player.d.srcrect);
+
     g->noExit = noExit;
 }
 void DestroyGame(Game *g){
@@ -26,7 +26,7 @@ void Go(Game *g){
 void UpdateLogic(Game *g){
     HandleEvents(g);
     UpdatePlayer(&g->player);
-    UpdateAnimal(&g->animal);
+    //UpdateAnimal(&g->animal);
     UpdateCamera(&g->cam);
     SDL_Rect playerPos = {g->player.d.srcrect.x + 30, g->player.d.srcrect.y + 65, 15, 5};
     for(int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++){
@@ -37,11 +37,11 @@ void UpdateLogic(Game *g){
 }
 void Render(Game *g){ 
     for(int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++){
-        if(SDL_HasIntersection(&g->tileMap.tiles[i].d.srcrect, &g->cam.background.destrect)){
+        if(SDL_HasIntersection(&g->tileMap.tiles[i].d.srcrect, &g->cam.camRectVirtual)){
         CamDraw(&g->cam, g->tileMap.tiles[i].d);
         }
     }
-    CamDraw(&g->cam, g->animal.d);   
+    CamDraw(&g->cam, g->animal.d);
     CamDraw(&g->cam, g->player.d);
 }
 
