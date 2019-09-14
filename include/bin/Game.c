@@ -5,7 +5,7 @@
 void ConstructGame(Game *g, int* noExit){
     
     ConstructGraphics(&g->gfx);
-    ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./include/assets/background.jpg");
+    ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructAnimal(&g->animal, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.d.srcrect);

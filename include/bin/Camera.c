@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 void ConstructCamera(Camera* cam, Graphics* gfx, SDL_Rect* follow){
+    cam->gfx = gfx;
     cam->camRect.x = 0;
     cam->camRect.y = 0;
     cam->camRect.w = WINDOW_WIDTH;
@@ -10,7 +11,6 @@ void ConstructCamera(Camera* cam, Graphics* gfx, SDL_Rect* follow){
     cam->camRectVirtual.y = 0;
     cam->camRectVirtual.w = WINDOW_WIDTH;
     cam->camRectVirtual.h = WINDOW_HEIGHT;
-    cam->gfx = gfx;
     cam->follow = follow;
 }
 

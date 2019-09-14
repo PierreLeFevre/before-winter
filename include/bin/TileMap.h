@@ -8,12 +8,14 @@ typedef struct TileMap{
     int tile_height;
     int topleft_x;
     int topleft_y;
-    char* fullBackground;
+    char* mapFile;
 }TileMap;
 
+typedef enum MapDataConverter{
+    MUD,
+    GRASS
+}MapDataConverter;
+
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* fullBackground);
-void DrawTileMap(TileMap* tm);
 
-void UpdateTileMap(TileMap* tm);
-
-void ChangeTileMapImage(TileMap* tm, const char* IMG_PATH);
+const char* const GetFilepathToTile(const MapDataConverter mdc);
