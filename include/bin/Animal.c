@@ -38,23 +38,6 @@ void UpdateAnimalDirection(Animal* animal){
 
     Ai(animal);
     //down
-    if (animal->d.srcrect.y > animal->Border.h){
-        animal->d.srcrect.y = animal->Border.h;
-    }
-    //up
-    if(animal->d.srcrect.y < animal->Border.y){
-        animal->d.srcrect.y = animal->Border.y;
-    }
-    //right
-    if(animal->d.srcrect.x > animal->Border.w){
-        animal->d.srcrect.x = animal->Border.w;
-    }
-    //left
-    if(animal->d.srcrect.x < animal->Border.x){
-        animal->d.srcrect.x = animal->Border.x;
-    }
-
-    
 }
 
 void MoveAnimal(Animal* animal){    
@@ -68,24 +51,32 @@ void DrawAnimal(Animal* animal){
 }
 
 void MoveAnimalSoft(Animal *animal){
-    if (animal->x_dir > 0){
-        animal->d.srcrect.x -= animal->x_vel;
-        animal->x_dir--;
-    }
-
-    if (animal->x_dir < 0){
-        animal->d.srcrect.x += animal->x_vel;
-        animal->x_dir++;
+    
+    while (animal->x_distance != 0 || animal->y_distance != 0)
+    {
+        //printf(" 1 %d %d \n", animal->x_distance, animal->y_distance);    
+        if (animal->x_distance > 0)
+        {
+            animal->d.srcrect.x++;
+            animal->x_distance--;
+        }
+        else if (animal->x_distance != 0){
+            animal->d.srcrect.x--;
+            animal->x_distance++;
         }
 
-    if (animal->y_dir > 0){
-        animal->d.srcrect.y -= animal->y_vel;
-        animal->y_dir--;
+        if (animal->y_distance > 0)
+        {
+            animal->d.srcrect.y++;
+            animal->y_distance--;
         }
-    if (animal->y_dir < 0){
-        animal->d.srcrect.y += animal->y_vel;
-        animal->y_dir++;
+        else if (animal->y_distance != 0){
+            animal->d.srcrect.y--;
+            animal->y_distance++;
+        }
+        CheckHitbox(animal);
     }
+    
 }
 int Ai(Animal *a)
 {
@@ -103,12 +94,12 @@ int Ai(Animal *a)
         {
             //Walk
             a->x_dir = rand()%3 - 1;
-            a->x_vel = 1;
+            a->x_distance = rand()%100 - 5;
 
             a->y_dir = rand()%3 - 1;
-            a->x_vel = 1;
+            a->y_distance = rand()%100 - 5;
 
-            MoveAnimal(a);
+            MoveAnimalSoft(a);
             return 1;
         }
         if (a->aiTarget > 30 && a->aiTarget < 50)
@@ -121,5 +112,22 @@ int Ai(Animal *a)
         }
         
         
+    }
+}
+void CheckHitbox(Animal *animal){
+    if (animal->d.srcrect.y > animal->Border.h){
+        animal->d.srcrect.y = animal->Border.h;
+    }
+    //up
+    if(animal->d.srcrect.y < animal->Border.y){
+        animal->d.srcrect.y = animal->Border.y;
+    }
+    //right
+    if(animal->d.srcrect.x > animal->Border.w){
+        animal->d.srcrect.x = animal->Border.w;
+    }
+    //left
+    if(animal->d.srcrect.x < animal->Border.x){
+        animal->d.srcrect.x = animal->Border.x;
     }
 }

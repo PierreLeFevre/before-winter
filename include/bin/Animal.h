@@ -11,6 +11,10 @@ typedef struct Animal{
     float y_vel;
     int x_dir;
     int y_dir;
+
+    int x_distance;
+    int y_distance;
+
     int aiIterations;
     int aiTarget;
 
@@ -25,5 +29,5 @@ void MoveAnimalSoft(Animal *animal);
 void DrawAnimal(Animal* animal);
 void AnimateAnimal(Animal* animal);
 int Ai(Animal *a);
-
+void CheckHitbox(Animal *animal);
 #endif
