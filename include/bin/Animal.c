@@ -16,7 +16,7 @@ void ConstructAnimal(Animal* animal, Graphics* gfx){
     animal->aiTarget = rand() % 100;
 
     animal->img_path = "./include/assets/cow_set.png";
-    SDL_Rect src = {10 * TILE_WIDTH, 10 * TILE_HEIGHT, 200, 150};
+    SDL_Rect src = {10 * TILE_WIDTH, 10 * TILE_HEIGHT, 124, 200};
     SDL_Rect dest = {40, 40, 40, 100};
     ConstructDrawable(&animal->d, gfx, animal->img_path, src);
     DrawableSetDestRect(&animal->d, dest);
@@ -102,11 +102,13 @@ int Ai(Animal *a)
         if (a->aiTarget > 20 && a->aiTarget < 70)
         {
             //Walk
-            a->x_dir = rand() % (10 + 1 - -10) + -10;
+            a->x_dir = rand()%3 - 1;
             a->x_vel = 1;
 
-            a->y_dir = rand() % (10 + 1 - -10) + -10;
+            a->y_dir = rand()%3 - 1;
             a->x_vel = 1;
+
+            MoveAnimal(a);
             return 1;
         }
         if (a->aiTarget > 30 && a->aiTarget < 50)
