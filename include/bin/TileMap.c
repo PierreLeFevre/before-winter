@@ -3,6 +3,7 @@
 #include <math.h>
 #include "../SDL2/SDL_image.h"
 #include <string.h>
+#include "FuncLib.h"
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* mapFile){
     tm->tiles = (Tile*) malloc(sizeof(Tile) * nTiles_x * nTiles_y);
@@ -21,15 +22,9 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
     char* mapDataRaw = malloc(numbytes + 1);
 	fread(mapDataRaw, 1, numbytes, fileIO);
     mapDataRaw[numbytes] = 0;
-
-    int nBytesToMove = 0;
-	for (char* bufferP = mapDataRaw; *(bufferP - 1) != 0; bufferP++) {
-		*(bufferP - nBytesToMove) = *bufferP;
-		if (*bufferP == '\r') {
-			nBytesToMove++;
-		}
-	}
+    fixArrayBug(mapDataRaw);
     fclose(fileIO);
+
     for(int i = 0; i < tm->nTiles_x * tm->nTiles_y; i++){
             SDL_Rect srcrect = {
             tm->topleft_x + (int)(i % tm->nTiles_x) * tm->tile_width
@@ -37,32 +32,40 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
             ,tm->tile_width
             ,tm->tile_height
             };
+            SDL_Rect hitbox = srcrect;
             Drawable d;
             while(*mapDataRaw != '\0' && (*mapDataRaw == '\n' || *mapDataRaw == ',' || *mapDataRaw == ' ')){
                 mapDataRaw++;
             }
             if(*mapDataRaw != '*'){
-                ConstructDrawable(&d, gfx, GetFilepathToTile(*mapDataRaw - '0'), srcrect);
+                TileImage td = GetTileImageData(*mapDataRaw - '0');
+                srcrect.h = td.height;
+                srcrect.y += td.y_offset;
+                ConstructDrawable(&d, gfx, td.filePath, srcrect);
                 mapDataRaw++;
             }
             Tile t;
-            ConstructTile(&t, &d);
+            ConstructTile(&t, &d, hitbox);
             tm->tiles[i] = t;
     }
     free(mapDataRaw);
 }
 
-const char* const GetFilepathToTile(const MapDataConverter mdc){
-
+TileImage GetTileImageData(const MapDataConverter mdc){
+    TileImage im;
+    im.height = TILE_HEIGHT; //Default
     switch(mdc){
         case MUD:
-        return "include/assets/mud.jpg";
+        im.filePath = "include/assets/mud.jpg";
+        im.height = 200;
         break;
         case GRASS:
-        return "include/assets/grass.jpg";
+        im.filePath = "include/assets/grass.jpg";
         break;
         default:
-        return "include/assets/Question_mark.jpg";
-
+        im.filePath = "include/assets/Question_mark.jpg";
+        break;
     }
+    im.y_offset = TILE_HEIGHT - im.height;
+    return im;
 }

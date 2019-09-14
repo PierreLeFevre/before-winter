@@ -11,6 +11,12 @@ typedef struct TileMap{
     char* mapFile;
 }TileMap;
 
+typedef struct TileImage{
+    char* filePath;
+    int height;
+    int y_offset;
+}TileImage;
+
 typedef enum MapDataConverter{
     MUD,
     GRASS
@@ -18,4 +24,4 @@ typedef enum MapDataConverter{
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* fullBackground);
 
-const char* const GetFilepathToTile(const MapDataConverter mdc);
+TileImage GetTileImageData(const MapDataConverter mdc);

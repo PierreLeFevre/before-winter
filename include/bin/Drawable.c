@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include <string.h>
 
-void ConstructDrawable(Drawable* d, Graphics* gfx, const char* IMG_PATH, SDL_Rect srcrect){
+void ConstructDrawable(Drawable* d, Graphics* gfx, const char* filePath, SDL_Rect srcrect){
     d->gfx = gfx;
-    strcpy(d->filename, IMG_PATH);
-    d->surf = IMG_Load(d->filename);
+    strcpy(d->filePath, filePath);
+    d->surf = IMG_Load(d->filePath);
     d->tex = SDL_CreateTextureFromSurface(d->gfx->rend, d->surf);
     SDL_FreeSurface(d->surf);
     d->destrect.x = 0;
@@ -20,9 +20,9 @@ void Draw(Drawable d){
     SDL_RenderCopy(d.gfx->rend, d.tex, &d.destrect, &d.srcrect);
 }
 
-void ChangeImagePath(Drawable* d, const char* IMG_PATH){
-    strcpy(d->filename, IMG_PATH);
-    d->surf = IMG_Load(d->filename);
+void ChangeImagePath(Drawable* d, const char* filePath){
+    strcpy(d->filePath, filePath);
+    d->surf = IMG_Load(d->filePath);
     d->tex = SDL_CreateTextureFromSurface(d->gfx->rend, d->surf);
     SDL_FreeSurface(d->surf);
 }
