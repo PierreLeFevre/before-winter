@@ -8,7 +8,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->y_dir = 0;
 
     player->img_path = "./include/assets/character_set.png";
-    SDL_Rect src = {4 * TILE_WIDTH, 1 * TILE_HEIGHT, 70, 70};
+    SDL_Rect src = {1 * TILE_WIDTH, 0 * TILE_HEIGHT, 70, 70};
     SDL_Rect dest = {0, 0, 18, 18};
     ConstructDrawable(&player->d, gfx, player->img_path, src, 0);
     DrawableSetDestRect(&player->d, dest);
