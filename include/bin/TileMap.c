@@ -96,10 +96,27 @@ TileImage GetTileImageData(const MapDataConverter mdc){
 
 void AddTileMapToRenderList(TileMap* tm, Camera* cam, Drawable** RenderList, int* nToRender){
     for(int i = 0; i < tm->nTiles_x * tm->nTiles_y; i++){
+        SDL_Rect currTile = tm->tiles[i].ds[0].srcrect;
+        SDL_Rect camera = cam->camRectVirtual;
+        if(currTile.x > camera.x + camera.w + TILE_WIDTH * 2){
+            i += (int)(abs(currTile.x-(tm->nTiles_x * TILE_WIDTH)) / TILE_WIDTH) - 1;
+            continue;
+        }
+        if(currTile.x + currTile.w < camera.x - TILE_WIDTH * 2){
+            i += (int)(abs((currTile.x + currTile.w)-(camera.x - TILE_WIDTH * 2)) / TILE_WIDTH);
+            continue;
+        }
+        if(currTile.y + currTile.h < camera.y - TILE_HEIGHT * 2){
+            i += (int)(abs(tm->nTiles_x * TILE_WIDTH) / TILE_WIDTH);
+            continue;
+        }
+        if(currTile.y > camera.y + camera.h + TILE_HEIGHT * 2){
+            break;
+        };
         for(int j = 0; j < tm->tiles[i].currentDrawables; j++)
         if(SDL_HasIntersection(&tm->tiles[i].ds[j].srcrect, &cam->camRectVirtual)){
             RenderList[*nToRender] = &tm->tiles[i].ds[j];
-            (*nToRender)++;
+            (*nToRender)++;            
         }
     }
 }
