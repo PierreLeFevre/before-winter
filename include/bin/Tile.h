@@ -1,8 +1,13 @@
 #include "Drawable.h"
 
 typedef struct Tile{
-    Drawable d;
-    SDL_Rect hitbox;
+    Drawable ds[3];
+    int currentDrawables;
+    SDL_Rect hitboxes[3];
+    int currentHitboxes;
 }Tile;
 
-void ConstructTile(Tile* t, Drawable* d, SDL_Rect hitbox);
+void ConstructTile(Tile* t);
+
+void TileAddDrawable(Tile* t, Drawable d);
+void TileAddHitbox(Tile* t, SDL_Rect hitbox);

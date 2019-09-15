@@ -19,54 +19,87 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
 	fseek(fileIO, 0L, SEEK_END);
 	long int numbytes = ftell(fileIO);
 	fseek(fileIO, 0L, SEEK_SET);
-    char* mapDataRaw = malloc(numbytes + 1);
-	fread(mapDataRaw, 1, numbytes, fileIO);
-    mapDataRaw[numbytes] = 0;
-    RemoveReturnFeedFromArray(mapDataRaw);
+    char* mapData = malloc(numbytes + 1);
+	fread(mapData, 1, numbytes, fileIO);
+    mapData[numbytes] = 0;
+    RemoveCharacterFromArray(mapData, '\r');
+    RemoveCharacterFromArray(mapData, '\n');
+    RemoveCharacterFromArray(mapData, ' ');
     fclose(fileIO);
 
-    for(int i = 0; i < tm->nTiles_x * tm->nTiles_y; i++){
+    for(int i = 0; i < tm->nTiles_x * tm->nTiles_y;){
+            //Beginning of new Tile
+            if(*mapData == ','){
+                mapData++;
+                i++;
+                continue;
+            }
+            // '*' is terminator
+            if(*mapData == '*'){
+                break;
+            }
+
+            //Marks where the current tiles Drawable is drawn, DEFAULT
             SDL_Rect srcrect = {
             tm->topleft_x + (int)(i % tm->nTiles_x) * tm->tile_width
             ,tm->topleft_y + (int)(i / tm->nTiles_x) * tm->tile_height
             ,tm->tile_width
             ,tm->tile_height
             };
+            //Hitbox is set to tile dimensions, DEFAULT
             SDL_Rect hitbox = srcrect;
+            
+            TileImage td = GetTileImageData(*mapData - '0');
+            srcrect.h = td.drawable_height;
+            srcrect.y += td.drawable_y_offset; //Simulates drawing from BOTTOM-LEFT
+
             Drawable d;
-            while(*mapDataRaw != '\0' && (*mapDataRaw == '\n' || *mapDataRaw == ',' || *mapDataRaw == ' ')){
-                mapDataRaw++;
+            int z_index = (tm->topleft_y + (int)(i / tm->nTiles_x) + 1) * 10; //Row 1 = 10, Row 2 = 20....
+            ConstructDrawable(&d, gfx, td.filePath, srcrect, z_index);
+
+            if(*(mapData - 1) == ','){
+                Tile t;
+                ConstructTile(&t);
+                tm->tiles[i] = t;
             }
-            if(*mapDataRaw != '*'){
-                TileImage td = GetTileImageData(*mapDataRaw - '0');
-                srcrect.h = td.height;
-                srcrect.y += td.y_offset;
-                int z_index = (tm->topleft_y + (int)(i / tm->nTiles_x) + 1) * 10; //Row 1 = 10, Row 2 = 20....
-                ConstructDrawable(&d, gfx, td.filePath, srcrect, z_index);
-                mapDataRaw++;
-            }
-            Tile t;
-            ConstructTile(&t, &d, hitbox);
+            Tile t = tm->tiles[i];
+            TileAddDrawable(&t, d);
+            TileAddHitbox(&t, hitbox);
             tm->tiles[i] = t;
+
+            mapData++;
     }
-    free(mapDataRaw);
+    free(mapData);
 }
 
 TileImage GetTileImageData(const MapDataConverter mdc){
     TileImage im;
-    im.height = TILE_HEIGHT; //Default
+    im.drawable_height = TILE_HEIGHT; //Default
     switch(mdc){
         case MUD:
         im.filePath = "include/assets/mud.jpg";
-        im.height = 200;
         break;
         case GRASS:
         im.filePath = "include/assets/grass.jpg";
+        break;
+        case TREE:
+        im.filePath = "include/assets/tree.png";
+        im.drawable_height = 150;
         break;
         default:
         im.filePath = "include/assets/Question_mark.jpg";
         break;
     }
-    im.y_offset = TILE_HEIGHT - im.height;
+    im.drawable_y_offset = TILE_HEIGHT - im.drawable_height;
     return im;
+}
+
+void AddTileMapToRenderList(TileMap* tm, Camera* cam, Drawable** RenderList, int* nToRender){
+    for(int i = 0; i < tm->nTiles_x * tm->nTiles_y; i++){
+        for(int j = 0; j < tm->tiles[i].currentDrawables; j++)
+        if(SDL_HasIntersection(&tm->tiles[i].ds[j].srcrect, &cam->camRectVirtual)){
+            RenderList[*nToRender] = &tm->tiles[i].ds[j];
+            (*nToRender)++;
+        }
+    }
 }

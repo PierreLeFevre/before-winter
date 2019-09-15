@@ -1,4 +1,5 @@
 #include "Tile.h"
+#include "Camera.h"
 
 typedef struct TileMap{
     Tile* tiles;
@@ -13,15 +14,22 @@ typedef struct TileMap{
 
 typedef struct TileImage{
     char* filePath;
-    int height;
-    int y_offset;
+    int drawable_height;
+    int drawable_y_offset;
+    
+    int hitbox_x_offset;
+    int hitbox_y_offset;
+    int hitbox_width;
+    int htibox_height;
 }TileImage;
 
 typedef enum MapDataConverter{
     MUD,
-    GRASS
+    GRASS,
+    TREE
 }MapDataConverter;
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* fullBackground);
-
 TileImage GetTileImageData(const MapDataConverter mdc);
+
+void AddTileMapToRenderList(TileMap* tm, Camera* cam, Drawable** RenderList, int* nToRender);

@@ -28,20 +28,10 @@ void UpdateLogic(Game *g){
     UpdatePlayer(&g->player);
     //UpdateAnimal(&g->animal);
     UpdateCamera(&g->cam);
-    SDL_Rect playerPos = {g->player.d.srcrect.x + 30, g->player.d.srcrect.y + 65, 15, 5};
-    for(int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++){
-        if(SDL_HasIntersection(&playerPos, &g->tileMap.tiles[i].hitbox)){
-            ChangeImagePath(&g->tileMap.tiles[i].d, "include/assets/grass.jpg");
-        }
-    }
 }
 void Render(Game *g){ 
     int nToRender = 0;
-    for(int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++){
-        if(SDL_HasIntersection(&g->tileMap.tiles[i].d.srcrect, &g->cam.camRectVirtual)){
-            AddToRenderList(g, &g->tileMap.tiles[i].d, &nToRender);
-        }
-    }
+    AddTileMapToRenderList(&g->tileMap, &g->cam, g->RenderList, &nToRender);
     AddToRenderList(g, &g->animal.d, &nToRender);
     AddToRenderList(g, &g->player.d, &nToRender);
     
