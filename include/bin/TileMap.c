@@ -46,16 +46,17 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
             ,tm->tile_width
             ,tm->tile_height
             };
-            //Hitbox is set to tile dimensions, DEFAULT
+            //Hitbox is set to tile dtpensions, DEFAULT
             SDL_Rect hitbox = srcrect;
             
-            TileImage td = GetTileImageData(*mapData - '0');
-            srcrect.h = td.drawable_height;
-            srcrect.y += td.drawable_y_offset; //Simulates drawing from BOTTOM-LEFT
+            TileProperties tp = GetTilePropertiesData(*mapData - '0');
+            srcrect.h = tp.drawable_height;
+            srcrect.y += tp.drawable_y_offset; //Stpulates drawing from BOTTOM-LEFT
 
             Drawable d;
-            int z_index = (tm->topleft_y + (int)(i / tm->nTiles_x) + 1) * 10; //Row 1 = 10, Row 2 = 20....
-            ConstructDrawable(&d, gfx, td.filePath, srcrect, z_index);
+            int z_index = (tm->topleft_y + (int)(i / tm->nTiles_x) * TILE_Z_INDEX_MAX) + tp.z_index_offset; //Row 1 = 10, Row 2 = 20....
+
+            ConstructDrawable(&d, gfx, tp.filePath, srcrect, z_index);
 
             if(*(mapData - 1) == ','){
                 Tile t;
@@ -72,26 +73,30 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
     free(mapData);
 }
 
-TileImage GetTileImageData(const MapDataConverter mdc){
-    TileImage im;
-    im.drawable_height = TILE_HEIGHT; //Default
+TileProperties GetTilePropertiesData(const MapDataConverter mdc){
+    TileProperties tp;
+     //--- Default ---
+    tp.drawable_height = TILE_HEIGHT;
+    tp.z_index_offset = 0;
+    //----------------
     switch(mdc){
         case MUD:
-        im.filePath = "include/assets/mud.jpg";
+        tp.filePath = "include/assets/mud.jpg";
         break;
         case GRASS:
-        im.filePath = "include/assets/grass.jpg";
+        tp.filePath = "include/assets/grass.jpg";
         break;
         case TREE:
-        im.filePath = "include/assets/tree.png";
-        im.drawable_height = 150;
+        tp.filePath = "include/assets/tree.png";
+        tp.drawable_height = 150;
+        tp.z_index_offset = 90;
         break;
         default:
-        im.filePath = "include/assets/Question_mark.jpg";
+        tp.filePath = "include/assets/Question_mark.jpg";
         break;
     }
-    im.drawable_y_offset = TILE_HEIGHT - im.drawable_height;
-    return im;
+    tp.drawable_y_offset = TILE_HEIGHT - tp.drawable_height;
+    return tp;
 }
 
 void AddTileMapToRenderList(TileMap* tm, Camera* cam, Drawable** RenderList, int* nToRender){
