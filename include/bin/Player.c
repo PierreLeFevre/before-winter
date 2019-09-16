@@ -55,13 +55,6 @@ void UpdatePlayerHitbox(Player* player){
 void MovePlayer(Player* player){    
     player->d.srcrect.x += player->x_vel * player->x_dir;
     player->d.srcrect.y += player->y_vel * player->y_dir;
-
-    player->hitbox.x = player->d.srcrect.x;
-    player->hitbox.y = player->d.srcrect.y;
-    player->hitbox.w = player->d.srcrect.w - 10;
-    player->hitbox.h = player->d.srcrect.h - 10;
-
-        printf("player X:%d player Y:%d\n", player->d.srcrect.x, player->d.srcrect.y);
 }
 
 void AnimatePlayer(Player* player){
