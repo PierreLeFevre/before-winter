@@ -9,7 +9,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->y_dir = 0;
 
     player->img_path = "./include/assets/character_set.png";
-    SDL_Rect src = {1 * TILE_WIDTH, 0 * TILE_HEIGHT, 70, 70};
+    SDL_Rect src = {0 * TILE_WIDTH, 0 * TILE_HEIGHT, 60, 60};//he's not dumd thick
     SDL_Rect dest = {0, 0, 18, 18};
     player->hitbox.x = src.x;
     player->hitbox.y = src.y;
