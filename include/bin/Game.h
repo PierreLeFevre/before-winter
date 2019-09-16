@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "Camera.h"
-#include "Entity.h"
+#include "Animal.h"
 
 typedef enum GameState 
 {Startmenu,
@@ -21,7 +21,7 @@ typedef struct Game{
 
     TileMap tileMap;
     Player player;
-    Entity entities[ENTITY_LENGTH];
+    Animal animal;
 }Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int* noExit);
