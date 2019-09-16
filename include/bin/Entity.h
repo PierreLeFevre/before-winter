@@ -1,6 +1,7 @@
 #include "Drawable.h"
 #define ENTITY_LENGTH 100
 typedef struct Entity{
+    SDL_Rect Boundrary;
     Drawable d;
     int x_vel;
     int y_vel;
@@ -22,7 +23,7 @@ typedef enum Moveset{
     PointsMoveset
 }Moveset;
 
-void ConstructEntity(Entity *e, Graphics *g, SDL_Rect src, SDL_Rect dest);
+void ConstructEntity(Entity *e, Graphics *g, SDL_Rect src, SDL_Rect dest, SDL_Rect Bounds);
 void UpdateEntity(Entity *e);
 void MoveEntitySoft(Entity *e);
 void Ai(Entity *e, Moveset m);

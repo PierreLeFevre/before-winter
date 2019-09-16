@@ -32,9 +32,8 @@ void Render(Game *g){
     AddTileMapToRenderList(g);
     AddToRenderList(g, &g->player.d);
     AddToRenderList(g, &g->entities[0].d);
-
-    //printf("%d %d \n", g->player.d.z_index, g->entities[0].d.z_index);
-
+    
+    
     SortRenderList(g);
     RenderList(g);
 }
