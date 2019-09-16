@@ -10,7 +10,7 @@ typedef struct Player{
 
     SDL_Rect hitbox;
 
-    char *img_path;
+    char* img_path;
 }Player;
 
 void ConstructPlayer(Player* player, Graphics* gfx);
