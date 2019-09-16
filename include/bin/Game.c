@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <stdio.h>
+#include "FuncLib.h"
 
 void ConstructGame(Game *g, int* noExit){
     
