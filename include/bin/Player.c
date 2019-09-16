@@ -59,14 +59,27 @@ void UpdatePlayerHitbox(Player *player)
     player->hitbox.w = player->d.srcrect.w - 20;
     player->hitbox.h = player->d.srcrect.h - 10;
 
-    // printf("\nPlayer info\nhitbox\nx:%d\ty:%d\tw:%d\th:%d\n", player->hitbox.x, player->hitbox.y, player->hitbox.w, player->hitbox.h);
-    // printf("srcrect\nx:%d\ty:%d\tw:%d\th:%d\n", player->d.srcrect.x, player->d.srcrect.y, player->d.srcrect.w, player->d.srcrect.h);
+    printf("\nPlayer info\nhitbox\nx:%d\ty:%d\tw:%d\th:%d\n", player->hitbox.x, player->hitbox.y, player->hitbox.w, player->hitbox.h);
+    printf("srcrect\nx:%d\ty:%d\tw:%d\th:%d\n", player->d.srcrect.x, player->d.srcrect.y, player->d.srcrect.w, player->d.srcrect.h);
 }
 
 void MovePlayer(Player *player)
 {
+    // player->d.srcrect.x += player->x_vel * player->x_dir;
+    // player->d.srcrect.y += player->y_vel * player->y_dir;
+
     player->d.srcrect.x += player->x_vel * player->x_dir;
+
+    if ((player->d.srcrect.x < 0) || (player->d.srcrect.x + 40 > 1800))
+    {
+        player->d.srcrect.x -= player->x_vel * player->x_dir;
+    }
     player->d.srcrect.y += player->y_vel * player->y_dir;
+
+    if ((player->d.srcrect.y < 0) || (player->d.srcrect.y + 50 > 1290))
+    {
+        player->d.srcrect.y -= player->y_vel * player->y_dir;
+    }
 }
 
 void AnimatePlayer(Player *player)

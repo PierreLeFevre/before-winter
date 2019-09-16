@@ -30,13 +30,13 @@ void UpdateLogic(Game *g)
     CalculateGoodTiles(g);
     UpdatePlayer(&g->player);
     UpdateCamera(&g->cam);
-    // for (int i = 0; i < 600; i++)
-    // {
-    //     if (SDL_HasIntersection(&g->player.hitbox, &g->tileMap.tiles[i].ds[0].srcrect))
-    //     {
-    //         printf("Player is on %d \n", i);
-    //     }
-    // }
+    for (int i = 0; i < 600; i++)
+    {
+        if (SDL_HasIntersection(&g->player.hitbox, &g->tileMap.tiles[i].ds[0].srcrect))
+        {
+            printf("Player is on %d \n", i);
+        }
+    }
 }
 
 void Render(Game *g)
@@ -171,7 +171,5 @@ int check_collision(SDL_Rect A, SDL_Rect B)
     {
         return 0;
     }
-
-    //If none of the sides from A are outside B
     return 1;
 }
