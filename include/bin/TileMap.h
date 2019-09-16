@@ -33,3 +33,5 @@ typedef enum MapDataConverter{
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* fullBackground);
 TileProperties GetTilePropertiesData(const MapDataConverter mdc);
+
+void AddTileMapToRenderList(TileMap* tm, Camera* cam, Drawable** RenderList, int* nToRender);

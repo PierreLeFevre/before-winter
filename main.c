@@ -27,7 +27,6 @@ int main()
         frameStart = SDL_GetTicks();
         Go(&g);  //THIS IS A init() FUNKTION
         frameTime = SDL_GetTicks() - frameStart;
-        printf(" %d ", frameTime);
         if (Framedelay > frameTime)
         {
             SDL_Delay(Framedelay - frameTime);

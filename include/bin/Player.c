@@ -11,17 +11,20 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->img_path = "./include/assets/character_set.png";
     SDL_Rect src = {1 * TILE_WIDTH, 0 * TILE_HEIGHT, 60, 60};
     SDL_Rect dest = {0, 0, 18, 18};
+    player->hitbox.x = src.x;
+    player->hitbox.y = src.y;
+    player->hitbox.w = src.w - 10;
+    player->hitbox.h = src.h - 10;
 
     ConstructDrawable(&player->d, gfx, player->img_path, src, 0);
     DrawableSetDestRect(&player->d, dest);
-    UpdatePlayerHitbox(player);
+    ChangeImagePath(&player->d, player->img_path);
 }
 
 void UpdatePlayer(Player* player){
     UpdatePlayerDirection(player);
     MovePlayer(player);
-    UpdatePlayerHitbox(player);
-    player->d.z_index = ((player->d.srcrect.y + player->d.srcrect.h) / TILE_HEIGHT) * TILE_Z_INDEX_MAX + Map((player->d.srcrect.y + player->d.srcrect.h) % TILE_HEIGHT, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 15, Row 2 = 25....    
+    player->d.z_index = ((player->d.srcrect.y + player->d.srcrect.h) / TILE_HEIGHT) * TILE_Z_INDEX_MAX + Map((player->d.srcrect.y + player->d.srcrect.h) % TILE_HEIGHT, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 15, Row 2 = 25....
 }
 
 void UpdatePlayerDirection(Player* player){
@@ -43,13 +46,6 @@ void UpdatePlayerDirection(Player* player){
     }
 
     AnimatePlayer(player);
-}
-
-void UpdatePlayerHitbox(Player* player){
-    player->hitbox.x = player->d.srcrect.x + 10;
-    player->hitbox.y = player->d.srcrect.y + player->d.srcrect.h - 10;
-    player->hitbox.w = player->d.srcrect.w - 20;
-    player->hitbox.h = player->d.srcrect.h;
 }
 
 void MovePlayer(Player* player){    
