@@ -6,6 +6,7 @@ void ConstructGame(Game *g, int* noExit){
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
+    ConstructEntity(&g->entities[0], &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.d.srcrect);
 
     g->noExit = noExit;
@@ -24,13 +25,17 @@ void Go(Game *g){
 void UpdateLogic(Game *g){
     HandleEvents(g);
     UpdatePlayer(&g->player);
+    UpdateEntity(&g->entities[0]);
     UpdateCamera(&g->cam);
 }
 void Render(Game *g){ 
     int nToRender = 0;
     AddTileMapToRenderList(&g->tileMap, &g->cam, g->RenderList, &nToRender);
     AddToRenderList(g, &g->player.d, &nToRender);
-    
+    AddToRenderList(g, &g->entities[0].d, &nToRender);
+
+    printf("%d %d\n", g->player.d.z_index, g->entities[0].d.z_index);
+
     SortRenderList(g, &nToRender);
     RenderList(g, &nToRender);
 }
