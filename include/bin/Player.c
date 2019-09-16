@@ -24,7 +24,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
 void UpdatePlayer(Player* player){
     UpdatePlayerDirection(player);
     MovePlayer(player);
-    player->d.z_index = ((player->d.srcrect.y + player->d.srcrect.h)/ TILE_HEIGHT + 1) * 10 + 5;
+    player->d.z_index = ((player->d.srcrect.y + player->d.srcrect.h) / TILE_HEIGHT) * TILE_Z_INDEX_MAX + Map((player->d.srcrect.y + player->d.srcrect.h) % TILE_HEIGHT, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 15, Row 2 = 25....
 }
 
 void UpdatePlayerDirection(Player* player){
