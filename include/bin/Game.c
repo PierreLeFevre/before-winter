@@ -8,7 +8,6 @@ void ConstructGame(Game *g, int* noExit){
     ConstructPlayer(&g->player, &g->gfx);
     ConstructEntity(&g->entities[0], &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.d.srcrect);
-    printf("THE THICK BOI x:%d y:%d w:%d h:%d\n", g->player.hitbox.x, g->player.hitbox.y, g->player.hitbox.w, g->player.hitbox.h);
 
     g->noExit = noExit;
 }
@@ -39,8 +38,6 @@ void Render(Game *g){
     AddTileMapToRenderList(&g->tileMap, &g->cam, g->RenderList, &nToRender);
     AddToRenderList(g, &g->player.d, &nToRender);
     AddToRenderList(g, &g->entities[0].d, &nToRender);
-
-    printf("%d %d\n", g->player.d.z_index, g->entities[0].d.z_index);
 
     SortRenderList(g, &nToRender);
     RenderList(g, &nToRender);
