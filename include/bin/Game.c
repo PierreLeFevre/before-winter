@@ -24,16 +24,20 @@ void Go(Game *g){
 
 void UpdateLogic(Game *g){
     HandleEvents(g);
+    CalculateGoodTiles(g);
     UpdatePlayer(&g->player);
     UpdateCamera(&g->cam);
+    if(SDL_HasIntersection(&g->player.hitbox, &g->tileMap.tiles[0].hitboxes[0])){
+        printf("HIT!");
+    }
 }
 void Render(Game *g){ 
-    int nToRender = 0;
-    AddTileMapToRenderList(&g->tileMap, &g->cam, g->RenderList, &nToRender);
-    AddToRenderList(g, &g->player.d, &nToRender);
+    g->nToRender = 0;
+    AddTileMapToRenderList(g);
+    AddToRenderList(g, &g->player.d);
     
-    SortRenderList(g, &nToRender);
-    RenderList(g, &nToRender);
+    SortRenderList(g);
+    RenderList(g);
 }
 
 void HandleEvents(Game* g){
@@ -44,19 +48,57 @@ void HandleEvents(Game* g){
     }
 }
 
-void AddToRenderList(Game* g, Drawable* d, int* nToRender){
-    g->RenderList[*nToRender] = d;
-    (*nToRender)++;
+void CalculateGoodTiles(Game* g){
+    g->nGoodTiles = 0;
+    for(int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++){
+        SDL_Rect currTile = g->tileMap.tiles[i].ds[0].srcrect;
+        SDL_Rect camera = g->cam.camRectVirtual;
+        if(currTile.x > camera.x + camera.w + TILE_WIDTH * 2){
+            i += (int)(abs(currTile.x-(g->tileMap.nTiles_x * TILE_WIDTH)) / TILE_WIDTH) - 1;
+            continue;
+        }
+        if(currTile.x + currTile.w < camera.x - TILE_WIDTH * 2){
+            i += (int)(abs((currTile.x + currTile.w)-(camera.x - TILE_WIDTH * 2)) / TILE_WIDTH);
+            continue;
+        }
+        if(currTile.y + currTile.h < camera.y - TILE_HEIGHT * 2){
+            i += (int)(abs(g->tileMap.nTiles_x * TILE_WIDTH) / TILE_WIDTH);
+            continue;
+        }
+        if(currTile.y > camera.y + camera.h + TILE_HEIGHT * 2){
+            break;
+        };
+        for(int j = 0; j < g->tileMap.tiles[i].currentDrawables; j++){
+            if(SDL_HasIntersection(&g->tileMap.tiles[i].ds[j].srcrect, &g->cam.camRectVirtual)){
+                g->GoodTiles[g->nGoodTiles] = &g->tileMap.tiles[i];
+                g->nGoodTiles++;
+                break;
+            }
+        }
+    }
 }
-void RenderList(Game* g, int* nToRender){
-    for(int i = 0; i < *nToRender; i++){
+
+
+void AddToRenderList(Game* g, Drawable* d){
+    g->RenderList[g->nToRender] = d;
+    (g->nToRender)++;
+}
+void AddTileMapToRenderList(Game* g){
+    for(int i = 0; i < g->nGoodTiles; i++){
+        for(int j = 0; j < g->GoodTiles[i]->currentDrawables; j++){
+            AddToRenderList(g, &g->GoodTiles[i]->ds[j]);
+        }
+    }
+}
+void RenderList(Game* g){
+    for(int i = 0; i < g->nToRender; i++){
         CamDraw(&g->cam, *g->RenderList[i]);
     }
 }
-void SortRenderList(Game* g, int* nToRender){
-    for (int i = 0; i < (*nToRender) - 1; ++i)
+void SortRenderList(Game* g){
+    for (int i = 0; i < g->nToRender - 1; ++i)
     {
-        for (int j = 0; j < (*nToRender) - 1 - i; ++j )
+        for (int j = 0; j < g->nToRender - 1 - i; ++j )
         {
             if (g->RenderList[j]->z_index > g->RenderList[j+1]->z_index)
             {
