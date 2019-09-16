@@ -8,6 +8,7 @@ void ConstructGame(Game *g, int* noExit){
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.d.srcrect);
+    printf("THE THICK BOI x:%d y:%d w:%d h:%d\n", g->player.hitbox.x, g->player.hitbox.y, g->player.hitbox.w, g->player.hitbox.h);
 
     g->noExit = noExit;
 }
@@ -20,6 +21,11 @@ void Go(Game *g){
     UpdateLogic(g);
     Render(g);
     EndFrame(&g->gfx);
+    for(int i = 0; i < 600;i++){
+        // if(SDL_HasIntersection(&g->player.hitbox, &g->tileMap.tiles[i].ds[0].srcrect)){
+        //     printf("PLAYER IS ON %d\n",i);
+        // }
+    }
 }
 
 void UpdateLogic(Game *g){
