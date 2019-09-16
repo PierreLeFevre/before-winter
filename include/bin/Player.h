@@ -16,6 +16,7 @@ typedef struct Player{
 void ConstructPlayer(Player* player, Graphics* gfx);
 void UpdatePlayer(Player* player);
 void UpdatePlayerDirection(Player* player);
+void UpdatePlayerHitbox(Player* player);
 void MovePlayer(Player* player);
 
 void DrawPlayer(Player* player);
