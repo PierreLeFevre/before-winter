@@ -1,6 +1,5 @@
 #include "Player.h"
 #include <stdio.h>
-#include "TileMap.h"
 
 void ConstructPlayer(Player* player, Graphics* gfx){
     player->x_vel = 2.0f;

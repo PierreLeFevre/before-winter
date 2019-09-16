@@ -1,6 +1,6 @@
 #include "Tile.h"
 #include "Camera.h"
-#define TILE_Z_INDEX_MAX 100
+
 typedef struct TileMap{
     Tile* tiles;
     int nTiles_x;
