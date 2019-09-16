@@ -8,9 +8,6 @@
 #define TILE_WIDTH 60
 #define TILE_HEIGHT 60
 
-#define TILE_Z_INDEX_MIN -100
-#define TILE_Z_INDEX_MAX 100
-
 typedef struct Graphics{
     SDL_Window* win;
     SDL_Renderer* rend;

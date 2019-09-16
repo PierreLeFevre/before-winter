@@ -12,7 +12,7 @@ typedef struct TileMap{
     char* mapFile;
 }TileMap;
 
-typedef struct TileProperties{
+typedef struct TileImage{
     char* filePath;
     int drawable_height;
     int drawable_y_offset;
@@ -21,9 +21,7 @@ typedef struct TileProperties{
     int hitbox_y_offset;
     int hitbox_width;
     int htibox_height;
-
-    int z_index_offset;
-}TileProperties;
+}TileImage;
 
 typedef enum MapDataConverter{
     MUD,
@@ -32,6 +30,6 @@ typedef enum MapDataConverter{
 }MapDataConverter;
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* fullBackground);
-TileProperties GetTilePropertiesData(const MapDataConverter mdc);
+TileImage GetTileImageData(const MapDataConverter mdc);
 
 void AddTileMapToRenderList(TileMap* tm, Camera* cam, Drawable** RenderList, int* nToRender);
