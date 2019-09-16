@@ -4,30 +4,32 @@
 #include "Camera.h"
 #include "Animal.h"
 
-typedef enum GameState 
-{Startmenu,
-Level1} 
-GameState;
+typedef enum GameState
+{
+    Startmenu,
+    Level1
+} GameState;
 
-typedef struct Game{
-//BASE
-    int* noExit;
+typedef struct Game
+{
+    //BASE
+    int *noExit;
     int CurrentGameState;
     Graphics gfx;
     SDL_Event event;
     Camera cam;
-    Drawable* RenderList[5000];
+    Drawable *RenderList[5000];
     int nToRender;
-//----
+    //----
 
     TileMap tileMap;
-    Tile* GoodTiles[5000];
+    Tile *GoodTiles[5000];
     int nGoodTiles;
     Player player;
     Animal animal;
-}Game;
+} Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
-void ConstructGame(Game *g, int* noExit);
+void ConstructGame(Game *g, int *noExit);
 void DestroyGame(Game *g);
 
 void Go(Game *g);
@@ -35,11 +37,13 @@ void Go(Game *g);
 void UpdateLogic(Game *g);
 void Render(Game *g);
 
-void HandleEvents(Game* g);
+void HandleEvents(Game *g);
 
-void CalculateGoodTiles(Game* g);
+void CalculateGoodTiles(Game *g);
 
-void AddToRenderList(Game* g, Drawable* d);
-void AddTileMapToRenderList(Game* g);
-void RenderList(Game* g);
-void SortRenderList(Game* g);
+void AddToRenderList(Game *g, Drawable *d);
+void AddTileMapToRenderList(Game *g);
+void RenderList(Game *g);
+void SortRenderList(Game *g);
+
+int check_collision(SDL_Rect A, SDL_Rect B);

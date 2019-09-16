@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include "FuncLib.h"
 
-void ConstructPlayer(Player* player, Graphics* gfx){
+void ConstructPlayer(Player *player, Graphics *gfx)
+{
     player->x_vel = 2.0f;
     player->y_vel = 2.0f;
     player->x_dir = 0;
@@ -17,54 +18,64 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     UpdatePlayerHitbox(player);
 }
 
-void UpdatePlayer(Player* player){
+void UpdatePlayer(Player *player)
+{
     UpdatePlayerDirection(player);
     MovePlayer(player);
     UpdatePlayerHitbox(player);
-    player->d.z_index = ((player->d.srcrect.y + player->d.srcrect.h) / TILE_HEIGHT) * TILE_Z_INDEX_MAX + Map((player->d.srcrect.y + player->d.srcrect.h) % TILE_HEIGHT, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 15, Row 2 = 25....    
+    player->d.z_index = ((player->d.srcrect.y + player->d.srcrect.h) / TILE_HEIGHT) * TILE_Z_INDEX_MAX + Map((player->d.srcrect.y + player->d.srcrect.h) % TILE_HEIGHT, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 15, Row 2 = 25....
 }
 
-void UpdatePlayerDirection(Player* player){
+void UpdatePlayerDirection(Player *player)
+{
     player->x_dir = 0;
     player->y_dir = 0;
+
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     SDL_PumpEvents();
-    if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]) {
+    if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A])
+    {
         player->x_dir -= 1;
     }
-    if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) {
+    if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D])
+    {
         player->x_dir += 1;
     }
-    if (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]) {
+    if (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W])
+    {
         player->y_dir -= 1;
     }
-    if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
+    if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S])
+    {
         player->y_dir += 1;
     }
-
     AnimatePlayer(player);
 }
 
-void UpdatePlayerHitbox(Player* player){
+void UpdatePlayerHitbox(Player *player)
+{
     player->hitbox.x = player->d.srcrect.x + 10;
-    player->hitbox.y = player->d.srcrect.y + player->d.srcrect.h - 10;
+    player->hitbox.y = player->d.srcrect.y;
     player->hitbox.w = player->d.srcrect.w - 20;
-    player->hitbox.h = player->d.srcrect.h;
+    player->hitbox.h = player->d.srcrect.h - 10;
+
+    // printf("\nPlayer info\nhitbox\nx:%d\ty:%d\tw:%d\th:%d\n", player->hitbox.x, player->hitbox.y, player->hitbox.w, player->hitbox.h);
+    // printf("srcrect\nx:%d\ty:%d\tw:%d\th:%d\n", player->d.srcrect.x, player->d.srcrect.y, player->d.srcrect.w, player->d.srcrect.h);
 }
 
-void MovePlayer(Player* player){    
+void MovePlayer(Player *player)
+{
     player->d.srcrect.x += player->x_vel * player->x_dir;
     player->d.srcrect.y += player->y_vel * player->y_dir;
 }
 
-void AnimatePlayer(Player* player){
+void AnimatePlayer(Player *player)
+{
     player->d.destrect.w = 16;
     player->d.destrect.h = 18;
-
-    if(player->x_dir != 0 || player->y_dir != 0)
+    if (player->x_dir != 0 || player->y_dir != 0)
     {
         player->animationState += 1;
-
         //Choose direction in layer
         if (player->y_dir == -1)
         {
@@ -82,7 +93,6 @@ void AnimatePlayer(Player* player){
         {
             player->d.destrect.y = 54;
         }
-
         //Animate steps
         if (player->animationState == 0)
         {
@@ -110,8 +120,4 @@ void AnimatePlayer(Player* player){
         player->animationState = -1;
         player->d.destrect.x = 0;
     }
-    
-    
-    
-
 }
