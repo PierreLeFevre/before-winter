@@ -23,7 +23,7 @@ typedef enum Moveset{
     PointsMoveset
 }Moveset;
 
-void ConstructEntity(Entity *e, Graphics *g, SDL_Rect src, SDL_Rect dest, SDL_Rect Bounds);
+void ConstructEntity(Entity *e, Graphics* gfx, char* filePath);
 void UpdateEntity(Entity *e);
 void MoveEntitySoft(Entity *e);
 void Ai(Entity *e, Moveset m);

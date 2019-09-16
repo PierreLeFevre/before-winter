@@ -2,14 +2,20 @@
 #include <stdio.h>
 #include "FuncLib.h"
 #include <time.h>
-void ConstructEntity(Entity *e, Graphics *g, SDL_Rect src, SDL_Rect dest, SDL_Rect Boundrary){
+void ConstructEntity(Entity *e, Graphics* gfx, char* filePath){
     e->x_vel = 1;
     e->y_vel = 1;
+    e->Boundrary.x = 0;
+    e->Boundrary.y = 0;
+    e->Boundrary.w = 1000;
+    e->Boundrary.h = 1000;
     e->MoveCompleted = SDL_TRUE;
-    e->Boundrary = Boundrary;
-    ConstructDrawable(&e->d, g, e->img_path, src, 0);
+
+    SDL_Rect src = {10 * TILE_WIDTH, 10 * TILE_HEIGHT, 124, 200};
+    SDL_Rect dest = {40, 40, 40, 100};
+
+    ConstructDrawable(&e->d, gfx, filePath, src, 0);
     DrawableSetDestRect(&e->d, dest);
-    ChangeImagePath(&e->d, e->img_path);
 }
 void UpdateEntity(Entity *e){
     MoveEntitySoft(e);

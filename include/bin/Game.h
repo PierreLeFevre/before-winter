@@ -17,11 +17,14 @@ typedef struct Game{
     SDL_Event event;
     Camera cam;
     Drawable* RenderList[5000];
+    int nToRender;
 //----
 
     TileMap tileMap;
+    Tile* GoodTiles[5000];
+    int nGoodTiles;
     Player player;
-    Entity entities[ENTITY_LENGTH];
+    Entity entities[10];
 }Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int* noExit);
@@ -34,6 +37,9 @@ void Render(Game *g);
 
 void HandleEvents(Game* g);
 
-void AddToRenderList(Game* g, Drawable* d, int* nToRender);
-void RenderList(Game* g, int* nToRender);
-void SortRenderList(Game* g, int* nToRender);
+void CalculateGoodTiles(Game* g);
+
+void AddToRenderList(Game* g, Drawable* d);
+void AddTileMapToRenderList(Game* g);
+void RenderList(Game* g);
+void SortRenderList(Game* g);
