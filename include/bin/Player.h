@@ -8,6 +8,8 @@ typedef struct Player{
     int y_dir;
     int animationState;
 
+    SDL_Rect hitbox;
+
     char* img_path;
 }Player;
 
