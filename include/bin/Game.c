@@ -21,6 +21,11 @@ void Go(Game *g){
     UpdateLogic(g);
     Render(g);
     EndFrame(&g->gfx);
+    for(int i = 0; i < 600;i++){
+        // if(SDL_HasIntersection(&g->player.hitbox, &g->tileMap.tiles[i].ds[0].srcrect)){
+        //     printf("PLAYER IS ON %d\n",i);
+        // }
+    }
 }
 
 void UpdateLogic(Game *g){
@@ -34,7 +39,7 @@ void Render(Game *g){
     AddToRenderList(g, &g->player.d, &nToRender);
     //AddToRenderList(g, &g->entities[0].d, &nToRender);
 
-    printf("%d %d\n", g->player.d.z_index, g->entities[0].d.z_index);
+    //printf("%d %d\n", g->player.d.z_index, g->entities[0].d.z_index);
 
     SortRenderList(g, &nToRender);
     RenderList(g, &nToRender);
