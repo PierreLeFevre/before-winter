@@ -56,8 +56,6 @@ void MovePlayer(Player* player){
     player->hitbox.y = player->d.srcrect.y;
     player->hitbox.w = player->d.srcrect.w - 10;
     player->hitbox.h = player->d.srcrect.h - 10;
-
-        printf("player X:%d player Y:%d\n", player->d.srcrect.x, player->d.srcrect.y);
 }
 
 void AnimatePlayer(Player* player){

@@ -8,7 +8,7 @@ void ConstructGame(Game *g, int* noExit){
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.d.srcrect);
-    printf("THE THICK BOI x:%d y:%d w:%d h:%d\n", g->player.hitbox.x, g->player.hitbox.y, g->player.hitbox.w, g->player.hitbox.h);
+    //printf("THE THICK BOI x:%d y:%d w:%d h:%d\n", g->player.hitbox.x, g->player.hitbox.y, g->player.hitbox.w, g->player.hitbox.h);
 
     g->noExit = noExit;
 }
@@ -31,15 +31,16 @@ void Go(Game *g){
 void UpdateLogic(Game *g){
     HandleEvents(g);
     UpdatePlayer(&g->player);
+    UpdateEntity(&g->entities[0]);
     UpdateCamera(&g->cam);
 }
 void Render(Game *g){ 
     int nToRender = 0;
     AddTileMapToRenderList(&g->tileMap, &g->cam, g->RenderList, &nToRender);
     AddToRenderList(g, &g->player.d, &nToRender);
-    //AddToRenderList(g, &g->entities[0].d, &nToRender);
+    AddToRenderList(g, &g->entities[0].d, &nToRender);
 
-    //printf("%d %d\n", g->player.d.z_index, g->entities[0].d.z_index);
+    //printf("%d %d \n", g->player.d.z_index, g->entities[0].d.z_index);
 
     SortRenderList(g, &nToRender);
     RenderList(g, &nToRender);
