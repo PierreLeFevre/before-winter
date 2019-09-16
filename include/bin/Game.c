@@ -26,6 +26,11 @@ void UpdateLogic(Game *g){
     CalculateGoodTiles(g);
     UpdatePlayer(&g->player);
     UpdateCamera(&g->cam);
+    
+    //TEMP
+    if(SDL_HasIntersection(&g->player.hitbox, &g->tileMap.tiles[154].hitboxes[1])){
+        printf("HIT A TREE!\n");
+    }
 }
 void Render(Game *g){ 
     g->nToRender = 0;
@@ -34,6 +39,16 @@ void Render(Game *g){
     
     SortRenderList(g);
     RenderList(g);
+
+    //TEMP
+    SDL_Rect playerHitbox = g->player.hitbox;
+    playerHitbox.x -= g->cam.camRectVirtual.x;
+    playerHitbox.y -= g->cam.camRectVirtual.y;
+    SDL_Rect treeHitbox = g->tileMap.tiles[154].hitboxes[1];
+    treeHitbox.x -= g->cam.camRectVirtual.x;
+    treeHitbox.y -= g->cam.camRectVirtual.y;
+    SDL_RenderDrawRect(g->tileMap.gfx->rend, &playerHitbox);
+    SDL_RenderDrawRect(g->tileMap.gfx->rend, &treeHitbox);
 }
 
 void HandleEvents(Game* g){

@@ -49,7 +49,7 @@ void UpdatePlayerHitbox(Player* player){
     player->hitbox.x = player->d.srcrect.x + 10;
     player->hitbox.y = player->d.srcrect.y + player->d.srcrect.h - 10;
     player->hitbox.w = player->d.srcrect.w - 20;
-    player->hitbox.h = player->d.srcrect.h;
+    player->hitbox.h = 10;
 }
 
 void MovePlayer(Player* player){    
