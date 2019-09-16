@@ -9,12 +9,12 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->y_dir = 0;
 
     player->img_path = "./include/assets/character_set.png";
-    SDL_Rect src = {0 * TILE_WIDTH, 0 * TILE_HEIGHT, 60, 60};//he's not dumd thick
+    SDL_Rect src = {1 * TILE_WIDTH, 0 * TILE_HEIGHT, 70, 70};
     SDL_Rect dest = {0, 0, 18, 18};
     player->hitbox.x = src.x;
-    player->hitbox.y = src.y;
-    player->hitbox.w = src.w - 10;
-    player->hitbox.h = src.h - 10;
+    player->hitbox.y = src.y + src.h - 10;
+    player->hitbox.w = src.w;
+    player->hitbox.h = src.h;
 
     ConstructDrawable(&player->d, gfx, player->img_path, src, 0);
     DrawableSetDestRect(&player->d, dest);
@@ -51,11 +51,6 @@ void UpdatePlayerDirection(Player* player){
 void MovePlayer(Player* player){    
     player->d.srcrect.x += player->x_vel * player->x_dir;
     player->d.srcrect.y += player->y_vel * player->y_dir;
-
-    player->hitbox.x = player->d.srcrect.x;
-    player->hitbox.y = player->d.srcrect.y;
-    player->hitbox.w = player->d.srcrect.w - 10;
-    player->hitbox.h = player->d.srcrect.h - 10;
 }
 
 void AnimatePlayer(Player* player){
