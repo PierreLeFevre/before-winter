@@ -12,7 +12,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     SDL_Rect src = {1 * TILE_WIDTH, 0 * TILE_HEIGHT, 70, 70};
     SDL_Rect dest = {0, 0, 18, 18};
     player->hitbox.x = src.x;
-    player->hitbox.y = src.y + src.y - 10;
+    player->hitbox.y = src.y + src.h - 10;
     player->hitbox.w = src.w;
     player->hitbox.h = src.h;
 
