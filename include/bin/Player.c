@@ -3,102 +3,95 @@
 #include "FuncLib.h"
 
 void ConstructPlayer(Player* player, Graphics* gfx){
-    player->x_vel = 2.0f;
-    player->y_vel = 2.0f;
-    player->x_dir = 0;
-    player->y_dir = 0;
+    player->ent.x_vel = 2.0f;
+    player->ent.y_vel = 2.0f;
 
     player->img_path = "./include/assets/character_set.png";
     SDL_Rect src = {1 * TILE_WIDTH, 0 * TILE_HEIGHT, 60, 60};
     SDL_Rect dest = {0, 0, 18, 18};
+    ConstructEntity(&player->ent, gfx, src, player->img_path);
+    DrawableSetDestRect(&player->ent.d, dest);
 
-    ConstructDrawable(&player->d, gfx, player->img_path, src, 0);
-    DrawableSetDestRect(&player->d, dest);
     UpdatePlayerHitbox(player);
 }
 
 void UpdatePlayer(Player* player){
     UpdatePlayerHitbox(player);
     UpdatePlayerDirection(player);
-    MovePlayer(player);
-    player->d.z_index = ((player->d.srcrect.y + player->d.srcrect.h) / TILE_HEIGHT) * TILE_Z_INDEX_MAX + Map((player->d.srcrect.y + player->d.srcrect.h) % TILE_HEIGHT, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 15, Row 2 = 25....
+    UpdateEntity(&player->ent);    
 }
 
 void UpdatePlayerDirection(Player* player){
-    player->x_dir = 0;
-    player->y_dir = 0;
+    player->ent.x_dir = 0;
+    player->ent.y_dir = 0;
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     SDL_PumpEvents();
     if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]) {
-        player->x_dir -= 1;
+        player->ent.x_dir -= 1;
     }
     if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) {
-        player->x_dir += 1;
+        player->ent.x_dir += 1;
     }
     if (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]) {
-        player->y_dir -= 1;
+        player->ent.y_dir -= 1;
     }
     if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
-        player->y_dir += 1;
+        player->ent.y_dir += 1;
     }
 
     AnimatePlayer(player);
 }
 
 void UpdatePlayerHitbox(Player* player){
-    player->hitbox.x = player->d.srcrect.x + 10;
-    player->hitbox.y = player->d.srcrect.y + player->d.srcrect.h - 10;
-    player->hitbox.w = player->d.srcrect.w - 20;
+    player->hitbox.x = player->ent.d.srcrect.x + 10;
+    player->hitbox.y = player->ent.d.srcrect.y + player->ent.d.srcrect.h - 10;
+    player->hitbox.w = player->ent.d.srcrect.w - 20;
     player->hitbox.h = 10;
 }
 
-void MovePlayer(Player* player){    
-    player->d.srcrect.x += player->x_vel * player->x_dir;
-    player->d.srcrect.y += player->y_vel * player->y_dir;
-}
 
 void AnimatePlayer(Player* player){
-    player->d.destrect.w = 16;
-    player->d.destrect.h = 18;
+    player->ent.d.destrect.w = 16;
+    player->ent.d.destrect.h = 18;
 
-    if(player->x_dir != 0 || player->y_dir != 0)
+    if(player->ent.x_dir != 0 || player->ent.y_dir != 0)
     {
         player->animationState += 1;
 
         //Choose direction in layer
-        if (player->y_dir == -1)
+        if (player->ent.y_dir == -1)
         {
-            player->d.destrect.y = 18;
+            player->ent.d.destrect.y = 18;
         }
-        if (player->y_dir == 1)
+        if (player->ent.y_dir == 1)
         {
-            player->d.destrect.y = 0;
+            player->ent.d.destrect.y = 0;
         }
-        if (player->x_dir == -1)
+        if (player->ent.x_dir == -1)
         {
-            player->d.destrect.y = 36;
+            player->ent.d.destrect.y = 36;
         }
-        if (player->x_dir == 1)
+        if (player->ent.x_dir == 1)
         {
-            player->d.destrect.y = 54;
+            player->ent.d.destrect.y = 54;
         }
 
         //Animate steps
         if (player->animationState == 0)
         {
-            player->d.destrect.x = 16;
+            player->ent.d.destrect.x = 16;
         }
         if (player->animationState == 10)
         {
-            player->d.destrect.x = 0;
+            player->ent.d.destrect.x = 0;
         }
         if (player->animationState == 20)
         {
-            player->d.destrect.x = 32;
+            player->ent.d.destrect.x = 32;
         }
         if (player->animationState == 30)
         {
-            player->d.destrect.x = 0;
+            player->ent.d.destrect.x = 0;
         }
         if (player->animationState == 40)
         {
@@ -108,7 +101,7 @@ void AnimatePlayer(Player* player){
     else
     {
         player->animationState = -1;
-        player->d.destrect.x = 0;
+        player->ent.d.destrect.x = 0;
     }
     
     

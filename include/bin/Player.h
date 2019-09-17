@@ -1,7 +1,8 @@
-#include "Drawable.h"
+#include "Entity.h"
 
 typedef struct Player{
-    Drawable d;
+    Entity ent;
+
     float x_vel;
     float y_vel;
     int x_dir;

@@ -1,29 +1,22 @@
+#ifndef ENTITY_H
+#define ENTITY_H
 #include "Drawable.h"
-#define ENTITY_LENGTH 100
+
 typedef struct Entity{
     SDL_Rect Boundrary;
     Drawable d;
-    int x_vel;
-    int y_vel;
+    float x_pos;
+    float y_pos;
+    float x_vel;
+    float y_vel;
+    float x_dir;
+    float y_dir;
 
-    int x_dir;
-    int y_dir;
-
-    int x_distance;
-    int y_distance;
-
-    char *img_path;
-
-    int nrFrame;
-    SDL_bool MoveCompleted;
 }Entity;
 
-typedef enum Moveset{
-    RandomMoveset,
-    PointsMoveset
-}Moveset;
-
-void ConstructEntity(Entity *e, Graphics* gfx, char* filePath);
+void ConstructEntity(Entity *e, Graphics* gfx, SDL_Rect srcrect, char* filePath);
 void UpdateEntity(Entity *e);
-void MoveEntitySoft(Entity *e);
-void Ai(Entity *e, Moveset m);
+
+void MoveEntity(Entity* e);
+
+#endif

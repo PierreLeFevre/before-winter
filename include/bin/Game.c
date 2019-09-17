@@ -6,8 +6,8 @@ void ConstructGame(Game *g, int* noExit){
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
-    ConstructCamera(&g->cam, &g->gfx, &g->player.d.srcrect);    
-    ConstructEntity(&g->entities[0], &g->gfx, "./include/assets/cow_set.png");
+    ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.srcrect);    
+    ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
     g->noExit = noExit;
 }
 void DestroyGame(Game *g){
@@ -24,7 +24,7 @@ void Go(Game *g){
 void UpdateLogic(Game *g){
     CalculateGoodTiles(g);
     HandleEvents(g);
-    UpdateEntity(&g->entities[0]);    
+    UpdateAnimal(&g->animals[0]);    
     UpdatePlayer(&g->player);
     UpdateCamera(&g->cam);
     
@@ -37,8 +37,8 @@ void UpdateLogic(Game *g){
 void Render(Game *g){ 
     g->nToRender = 0;
     AddTileMapToRenderList(g);
-    AddToRenderList(g, &g->player.d);
-    AddToRenderList(g, &g->entities[0].d);
+    AddToRenderList(g, &g->player.ent.d);
+    AddToRenderList(g, &g->animals[0].ent.d);
     
     SortRenderList(g);
     RenderList(g);
