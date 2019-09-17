@@ -32,13 +32,6 @@ void UpdateLogic(Game *g)
     UpdateAnimal(&g->animals[0]);    
     UpdatePlayer(&g->player);
     UpdateCamera(&g->cam);
-    for (int i = 0; i < 600; i++)
-    {
-        if (SDL_HasIntersection(&g->player.hitbox, &g->tileMap.tiles[i].ds[0].srcrect))
-        {
-            printf("Player is on %d \n", i);
-        }
-    }
 }
 
 void Render(Game *g)
