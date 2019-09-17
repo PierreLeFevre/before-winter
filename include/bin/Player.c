@@ -23,21 +23,21 @@ void UpdatePlayer(Player *player)
 }
 
 void UpdatePlayerDirection(Player* player){
-    player->ent.x_dir = 0;
-    player->ent.y_dir = 0;
+    player->ent.x_dir = 0.0f;
+    player->ent.y_dir = 0.0f;
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     SDL_PumpEvents();
     if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]) {
-        player->ent.x_dir -= 1;
+        player->ent.x_dir -= 1.0f;
     }
     if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) {
-        player->ent.x_dir += 1;
+        player->ent.x_dir += 1.0f;
     }
     if (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]) {
-        player->ent.y_dir -= 1;
+        player->ent.y_dir -= 1.0f;
     }
     if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
-        player->ent.y_dir += 1;
+        player->ent.y_dir += 1.0f;
     }
     AnimatePlayer(player);
 }

@@ -12,8 +12,9 @@ void ConstructAnimal(Animal* a, Graphics* gfx, char* filePath){
     a->x_posSTART = 2 * TILE_WIDTH;
     a->y_posSTART = 2 * TILE_HEIGHT;
 
-    SDL_Rect src = {a->x_posSTART, a->x_posSTART, 124, 200};
+    SDL_Rect src = {a->x_posSTART, a->x_posSTART, 40, 60};
     SDL_Rect dest = {40, 40, 40, 100};
+    a->ent.hitbox = src;
     ConstructEntity(&a->ent, gfx, src, filePath);
     DrawableSetDestRect(&a->ent.d, dest);
     GenerateDesiredPosition(a);
@@ -32,6 +33,7 @@ void UpdateAnimal(Animal *a){
     a->ent.y_dir /= lenght;
     //------------------------------------
 
+    a->ent.hitbox = a->ent.d.srcrect;
     UpdateEntity(&a->ent);
 }
 void GenerateDesiredPosition(Animal* a){
