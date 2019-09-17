@@ -10,7 +10,7 @@ struct Stats{
 typedef struct Item{
     Drawable d;
     Stats s;
-    char* Name[100];
+    char Name[100];
     int Cost;
     int SellValue;
 }Item;

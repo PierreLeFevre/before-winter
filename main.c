@@ -21,7 +21,6 @@ int main()
         {
             SDL_Delay(Framedelay - frameTime);
         }
-        
     }
     DestroyGame(g);
     free(g);
