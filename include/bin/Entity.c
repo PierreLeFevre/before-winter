@@ -10,7 +10,7 @@ void ConstructEntity(Entity *e, Graphics* gfx, char* filePath){
     e->Boundrary.w = 1000;
     e->Boundrary.h = 1000;
     e->MoveCompleted = SDL_TRUE;
-
+    e->nrFrame = 0;
     SDL_Rect src = {10 * TILE_WIDTH, 10 * TILE_HEIGHT, 124, 200};
     SDL_Rect dest = {40, 40, 40, 100};
 
@@ -24,7 +24,6 @@ void UpdateEntity(Entity *e){
 }
 void Ai(Entity *e, Moveset m){
     srand(time(NULL));
-
     if (e->nrFrame == 0 && e->MoveCompleted == SDL_TRUE)
     {
         switch (m)
