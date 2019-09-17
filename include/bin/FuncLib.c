@@ -1,5 +1,7 @@
 #include "FuncLib.h"
+
 #include <stdio.h>
+#include <math.h>
 
 void RemoveCharacterFromArray(char* const buffer, char toRemove) {
     char* bufferP = buffer;
@@ -21,5 +23,15 @@ double Map(double value, double in_min, double in_max, double out_min, double ou
     }
     else{
         return value;
+    }
+}
+
+int Cap(int value_in, int cap_to){
+    if(value_in > abs(cap_to)){
+        return abs(cap_to);
+    }else if(value_in < -abs(cap_to)){
+        return -abs(cap_to);
+    }else{
+        return value_in;
     }
 }
