@@ -14,11 +14,12 @@ typedef struct Player
     char *img_path;
 } Player;
 
-void ConstructPlayer(Player *player, Graphics *gfx);
-void UpdatePlayer(Player *player);
-void UpdatePlayerDirection(Player *player);
-void UpdatePlayerHitbox(Player *player);
-void MovePlayer(Player *player);
+void ConstructPlayer(Player* player, Graphics* gfx);
+
+void UpdatePlayer(Player* player);
+void UpdatePlayerDirection(Player* player);
+void MovePlayer(Player* player);
+void UpdatePlayerHitbox(Player* player);
 
 void DrawPlayer(Player *player);
 void AnimatePlayer(Player *player);

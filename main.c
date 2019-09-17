@@ -9,8 +9,10 @@ int main()
     int frameTime;
 
     int noExit = 1;
-    Game g;    
+    Game g;
+    
     ConstructGame(&g, &noExit);
+
     while(noExit){
         frameStart = SDL_GetTicks();
         Go(&g);  //THIS IS A init() FUNKTION
