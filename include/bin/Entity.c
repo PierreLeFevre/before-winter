@@ -1,45 +1,17 @@
 #include "Entity.h"
 #include <stdio.h>
-#include "FuncLib.h"
-#include <time.h>
-void ConstructEntity(Entity *e, Graphics* gfx, char* filePath){
-    e->x_vel = 1;
-    e->y_vel = 1;
-    e->Boundrary.x = 0;
-    e->Boundrary.y = 0;
-    e->Boundrary.w = 1000;
-    e->Boundrary.h = 1000;
-    e->MoveCompleted = SDL_TRUE;
-    e->nrFrame = 0;
+void ConstructEntity(Entity *e, Graphics *g){
+
+    e->img_path = "./include/assets/cow_set.png";
     SDL_Rect src = {10 * TILE_WIDTH, 10 * TILE_HEIGHT, 124, 200};
     SDL_Rect dest = {40, 40, 40, 100};
-
-    ConstructDrawable(&e->d, gfx, filePath, src, 0);
+    ConstructDrawable(&e->d, g, e->img_path, src, 0);
     DrawableSetDestRect(&e->d, dest);
+    ChangeImagePath(&e->d, e->img_path);
 }
 void UpdateEntity(Entity *e){
     MoveEntitySoft(e);
-    Ai(e, RandomMoveset);
-    e->d.z_index = ((e->d.srcrect.y + e->d.srcrect.h) / TILE_HEIGHT) * TILE_Z_INDEX_MAX + Map((e->d.srcrect.y + e->d.srcrect.h) % TILE_HEIGHT, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 15, Row 2 = 25....
-}
-void Ai(Entity *e, Moveset m){
-    srand(time(NULL));
-    if (e->nrFrame == 0 && e->MoveCompleted == SDL_TRUE)
-    {
-        switch (m)
-        {
-            case RandomMoveset:
-                e->x_dir = rand() % 3 - 1;
-                e->y_dir = rand() % 3 - 1;
-                e->x_distance = rand() % 300;
-                e->y_distance = rand() % 300;
-                break;
-            default:
-                break;
-        }
-        
-    }
-    
+    e->d.z_index = ((e->d.srcrect.y + e->d.srcrect.h)/ TILE_HEIGHT + 1) * 10 + 5;
 }
 void MoveEntitySoft(Entity *e)
 {

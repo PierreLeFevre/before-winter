@@ -16,11 +16,6 @@ typedef struct Entity{
     int nrFrame;
 }Entity;
 
-typedef enum Moveset{
-    RandomMoveset,
-    PointsMoveset
-}Moveset;
-
-void ConstructEntity(Entity *e, Graphics* gfx, char* filePath);
+void ConstructEntity(Entity *e, Graphics *g);
 void UpdateEntity(Entity *e);
 void MoveEntitySoft(Entity *e);
