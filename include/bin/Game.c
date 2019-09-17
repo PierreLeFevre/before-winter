@@ -4,7 +4,6 @@
 
 void ConstructGame(Game *g, int *noExit)
 {
-
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
@@ -29,8 +28,13 @@ void UpdateLogic(Game *g)
 {
     CalculateGoodTiles(g);
     HandleEvents(g);
-    UpdateAnimal(&g->animals[0]);    
+    UpdateAnimal(&g->animals[0]);  
     UpdatePlayer(&g->player);
+    //TEMP--------
+    for(int i = 0; i < g->nGoodTiles; i++){
+        CheckEntityCollision(&g->player.ent, g->GoodTiles[i]->hitboxes[1]);
+    }
+    //------------
     UpdateCamera(&g->cam);
 }
 
@@ -43,6 +47,13 @@ void Render(Game *g)
     
     SortRenderList(g);
     RenderList(g);
+
+    //TEMP----------
+    SDL_RenderDrawRect(g->gfx.rend, &g->player.ent.hitbox);
+    for(int i = 0; i < g->nGoodTiles; i++){
+        SDL_RenderDrawRect(g->gfx.rend, &g->GoodTiles[i]->hitboxes[1]);
+    }
+    //--------------
 }
 
 void HandleEvents(Game *g)
@@ -84,7 +95,7 @@ void CalculateGoodTiles(Game *g)
         };
         for (int j = 0; j < g->tileMap.tiles[i].currentDrawables; j++)
         {
-            if (check_collision(g->tileMap.tiles[i].ds[j].srcrect, g->cam.camRectVirtual))
+            if (SDL_HasIntersection(&g->tileMap.tiles[i].ds[j].srcrect, &g->cam.camRectVirtual))
             {
                 g->GoodTiles[g->nGoodTiles] = &g->tileMap.tiles[i];
                 g->nGoodTiles++;
@@ -132,40 +143,3 @@ void SortRenderList(Game *g)
     }
 }
 
-int check_collision(SDL_Rect A, SDL_Rect B)
-{
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
-
-    leftA = A.x;
-    rightA = A.x + A.w;
-    topA = A.y;
-    bottomA = A.y + A.h;
-
-    leftB = B.x;
-    rightB = B.x + B.w;
-    topB = B.y;
-    bottomB = B.y + B.h;
-    if (bottomA <= topB)
-    {
-        return 0;
-    }
-
-    if (topA >= bottomB)
-    {
-        return 0;
-    }
-
-    if (rightA <= leftB)
-    {
-        return 0;
-    }
-
-    if (leftA >= rightB)
-    {
-        return 0;
-    }
-    return 1;
-}

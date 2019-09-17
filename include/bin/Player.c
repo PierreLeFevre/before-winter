@@ -18,7 +18,8 @@ void ConstructPlayer(Player* player, Graphics* gfx){
 void UpdatePlayer(Player *player)
 {
     UpdatePlayerDirection(player);
-    UpdateEntity(&player->ent);    
+    UpdateEntity(&player->ent);
+    UpdatePlayerHitbox(player);
 }
 
 void UpdatePlayerDirection(Player* player){

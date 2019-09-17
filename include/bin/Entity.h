@@ -23,7 +23,7 @@ void ConstructEntity(Entity *e, Graphics* gfx, SDL_Rect srcrect, char* filePath)
 void UpdateEntity(Entity *e);
 
 void MoveEntity(Entity* e);
-void CheckEntityCollision(Entity* e, SDL_Rect hitbox);
+void CheckEntityCollision(Entity* e, SDL_Rect other_hitbox);
 
 int BuyItem(Entity *e, Item *i);
 void SellItem(Entity *e, Item *i);

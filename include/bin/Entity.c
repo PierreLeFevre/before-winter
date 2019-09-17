@@ -19,12 +19,31 @@ void MoveEntity(Entity* e){
     e->d.srcrect.y = e->y_pos;
 }
 
-void CheckEntityCollision(Entity* e, SDL_Rect hitbox){
-    if(SDL_HasIntersection(&e->hitbox, &hitbox)){
-        e->x_pos -= e->x_vel * e->x_dir;
-        e->y_pos -= e->y_vel * e->y_dir;
-        e->d.srcrect.x = e->x_pos;
-        e->d.srcrect.y = e->y_pos;
+void CheckEntityCollision(Entity* e, SDL_Rect other_hitbox){
+    SDL_Rect result;
+    if(SDL_IntersectRect(&e->hitbox, &other_hitbox, &result)){
+        int xPrio = 0;
+        int yPrio = 0;
+        if(result.w >= result.h){
+            yPrio = 1;
+        }else{
+            xPrio = 1;
+        }
+        if(xPrio){
+            if(e->x_dir > 0){
+                e->x_pos -= result.w;
+            }
+            if(e->x_dir < 0){
+                e->x_pos += result.w;
+            }
+        }else if(yPrio){
+            if(e->y_dir > 0){
+                e->y_pos -= result.h;    
+            }
+            if(e->y_dir < 0){
+                e->y_pos += result.h;            
+            }
+        }
     }
 }
 
