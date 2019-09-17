@@ -21,7 +21,7 @@ int main()
         {
             SDL_Delay(Framedelay - frameTime);
         }
-        
+        printf("Items: %s for %d Gold\n", g->animals[0].ent.items[0]->Name, g->animals[0].ent.items[0]->Cost);
     }
     DestroyGame(g);
     free(g);

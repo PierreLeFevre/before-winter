@@ -1,7 +1,6 @@
 #include "Game.h"
 #include <stdio.h>
 #include "FuncLib.h"
-
 void ConstructGame(Game *g, int *noExit)
 {
 
@@ -10,6 +9,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.srcrect);    
     ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
+
     g->noExit = noExit;
 }
 void DestroyGame(Game *g)
