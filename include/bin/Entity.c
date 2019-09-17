@@ -3,6 +3,8 @@
 #include "FuncLib.h"
 #include <time.h>
 void ConstructEntity(Entity *e, Graphics* gfx, SDL_Rect srcrect, char* filePath){
+    e->x_pos = srcrect.x;
+    e->y_pos = srcrect.y;
     ConstructDrawable(&e->d, gfx, filePath, srcrect, 0);
 }
 void UpdateEntity(Entity *e){
