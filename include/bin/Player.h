@@ -1,7 +1,8 @@
-#include "Drawable.h"
+#include "Entity.h"
 
 typedef struct Player{
-    Drawable d;
+    Entity ent;
+
     float x_vel;
     float y_vel;
     int x_dir;
@@ -10,15 +11,14 @@ typedef struct Player{
 
     SDL_Rect hitbox;
 
-    char* img_path;
-}Player;
+    char *img_path;
+} Player;
 
-void ConstructPlayer(Player* player, Graphics* gfx);
+void ConstructPlayer(Player *player, Graphics *gfx);
+void UpdatePlayer(Player *player);
+void UpdatePlayerDirection(Player *player);
+void UpdatePlayerHitbox(Player *player);
+void MovePlayer(Player *player);
 
-void UpdatePlayer(Player* player);
-void UpdatePlayerDirection(Player* player);
-void MovePlayer(Player* player);
-void UpdatePlayerHitbox(Player* player);
-
-void DrawPlayer(Player* player);
-void AnimatePlayer(Player* player);
+void DrawPlayer(Player *player);
+void AnimatePlayer(Player *player);
