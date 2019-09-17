@@ -42,12 +42,11 @@ void UpdatePlayerDirection(Player* player){
 }
 
 void UpdatePlayerHitbox(Player* player){
-    player->hitbox.x = player->ent.d.srcrect.x + 10;
-    player->hitbox.y = player->ent.d.srcrect.y + player->ent.d.srcrect.h - 10;
-    player->hitbox.w = player->ent.d.srcrect.w - 20;
-    player->hitbox.h = 10;
+    player->ent.hitbox.x = player->ent.d.srcrect.x + 10;
+    player->ent.hitbox.y = player->ent.d.srcrect.y + player->ent.d.srcrect.h - 10;
+    player->ent.hitbox.w = player->ent.d.srcrect.w - 20;
+    player->ent.hitbox.h = 10;
 }
-
 
 void AnimatePlayer(Player* player){
     player->ent.d.destrect.w = 16;

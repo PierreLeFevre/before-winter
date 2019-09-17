@@ -16,3 +16,13 @@ void MoveEntity(Entity* e){
     e->d.srcrect.x = e->x_pos;
     e->d.srcrect.y = e->y_pos;
 }
+
+void CheckEntityCollision(Entity* e, SDL_Rect hitbox){
+    if(SDL_HasIntersection(&e->hitbox, &hitbox)){
+        printf("IN");
+        e->x_pos -= e->x_vel * e->x_dir;
+        e->y_pos -= e->y_vel * e->y_dir;
+        e->d.srcrect.x = e->x_pos;
+        e->d.srcrect.y = e->y_pos;
+    }
+}
