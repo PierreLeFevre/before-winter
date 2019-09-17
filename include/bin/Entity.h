@@ -1,8 +1,15 @@
 #include "Drawable.h"
+#include "Item.h"
+
 #define ENTITY_LENGTH 100
 typedef struct Entity{
     SDL_Rect Boundrary;
     Drawable d;
+    
+    int Gold;
+    Item *items[10];
+    int itemLength;
+    
     int x_vel;
     int y_vel;
 
@@ -27,3 +34,6 @@ void ConstructEntity(Entity *e, Graphics* gfx, char* filePath);
 void UpdateEntity(Entity *e);
 void MoveEntitySoft(Entity *e);
 void Ai(Entity *e, Moveset m);
+
+int BuyItem(Entity *e, Item *i);
+void SellItem(Entity *e, Item *i);

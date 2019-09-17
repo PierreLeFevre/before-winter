@@ -78,3 +78,28 @@ void MoveEntitySoft(Entity *e)
         if (e->x_distance == 0 && e-> y_distance == 0){e->MoveCompleted = SDL_TRUE;}
     }
 }
+//************************ITEMS*************************************
+int BuyItem(Entity *e, Item *i){
+    if (e->Gold >= i->Cost){
+        e->Gold -= i->Cost;
+        e->items[e->itemLength] = i;
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+void SellItem(Entity *e, Item *i){
+    for (int nr = 0; nr < e->itemLength; nr++)
+    {
+        if (e->items[nr] == i){
+            for (int del = nr; del < e->itemLength; del++)
+            {
+                e->items[del] = e->items[del + 1];
+            }
+            e->itemLength--;
+            e->Gold += i->SellValue;
+        }
+    }
+    
+}

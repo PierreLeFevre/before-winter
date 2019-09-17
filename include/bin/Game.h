@@ -25,6 +25,7 @@ typedef struct Game{
     int nGoodTiles;
     Player player;
     Entity entities[10];
+    Item item;
 }Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int* noExit);
