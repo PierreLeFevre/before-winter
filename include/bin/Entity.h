@@ -3,7 +3,6 @@
 #include "Drawable.h"
 
 typedef struct Entity{
-    SDL_Rect Boundrary;
     Drawable d;
     float x_pos;
     float y_pos;

@@ -15,8 +15,8 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     UpdatePlayerHitbox(player);
 }
 
-void UpdatePlayer(Player* player){
-    UpdatePlayerHitbox(player);
+void UpdatePlayer(Player *player)
+{
     UpdatePlayerDirection(player);
     UpdateEntity(&player->ent);    
 }
@@ -38,7 +38,6 @@ void UpdatePlayerDirection(Player* player){
     if (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) {
         player->ent.y_dir += 1;
     }
-
     AnimatePlayer(player);
 }
 
@@ -57,7 +56,6 @@ void AnimatePlayer(Player* player){
     if(player->ent.x_dir != 0 || player->ent.y_dir != 0)
     {
         player->animationState += 1;
-
         //Choose direction in layer
         if (player->ent.y_dir == -1)
         {
@@ -75,7 +73,6 @@ void AnimatePlayer(Player* player){
         {
             player->ent.d.destrect.y = 54;
         }
-
         //Animate steps
         if (player->animationState == 0)
         {
@@ -103,8 +100,4 @@ void AnimatePlayer(Player* player){
         player->animationState = -1;
         player->ent.d.destrect.x = 0;
     }
-    
-    
-    
-
 }
