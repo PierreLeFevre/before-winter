@@ -39,4 +39,4 @@ void SellItem(Entity *e, Item *i){
             e->Gold += i->SellValue;
         }
     }
-    
+}
