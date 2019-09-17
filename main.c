@@ -9,13 +9,13 @@ int main()
     int frameTime;
 
     int noExit = 1;
-    Game g;
+    Game* g = malloc(500000);
     
-    ConstructGame(&g, &noExit);
+    ConstructGame(g, &noExit);
 
     while(noExit){
         frameStart = SDL_GetTicks();
-        Go(&g);  //THIS IS A init() FUNKTION
+        Go(g);  //THIS IS A init() FUNKTION
         frameTime = SDL_GetTicks() - frameStart;
         if (Framedelay > frameTime)
         {
@@ -23,6 +23,7 @@ int main()
         }
         
     }
-    DestroyGame(&g);
+    DestroyGame(g);
+    free(g);
     return 0;
 }
