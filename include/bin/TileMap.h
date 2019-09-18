@@ -17,11 +17,15 @@ typedef struct TileProperties{
     char* filePath;
     int drawable_x_offset;
     int drawable_y_offset;
+    int drawable_x_correct;
+    int drawable_y_correct;
     int drawable_width_offset;
     int drawable_height_offset;
     
     int hitbox_x_offset;
     int hitbox_y_offset;
+    int hitbox_x_correct;
+    int hitbox_y_correct;
     int hitbox_width_offset;
     int hitbox_height_offset;
 
