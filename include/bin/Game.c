@@ -59,9 +59,15 @@ void Render(Game *g)
 
 
     #ifdef DEBUG
-    SDL_RenderDrawRect(g->gfx.rend, &g->player.ent.hitbox);
+    SDL_Rect playerHitbox = g->player.ent.hitbox;
+    playerHitbox.x -= g->cam.camRectVirtual.x;
+    playerHitbox.y -= g->cam.camRectVirtual.y;
+    SDL_RenderDrawRect(g->gfx.rend, &playerHitbox);
     for(int i = 0; i < g->nGoodTiles; i++){
-        SDL_RenderDrawRect(g->gfx.rend, &g->GoodTiles[i]->hitboxes[1]);
+        SDL_Rect treeHitbox = g->GoodTiles[i]->hitboxes[1];
+        treeHitbox.x -= g->cam.camRectVirtual.x;
+        treeHitbox.y -= g->cam.camRectVirtual.y;
+        SDL_RenderDrawRect(g->gfx.rend, &treeHitbox);
     }
     #endif
 }
