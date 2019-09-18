@@ -81,6 +81,8 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
      //--- Default ---
     tp.drawable_x_offset = 0;
     tp.drawable_y_offset = 0;
+    tp.drawable_x_correct = 0;
+    tp.drawable_y_correct = 0;
     tp.drawable_width_offset = 0;
     tp.drawable_height_offset = 0;
 
