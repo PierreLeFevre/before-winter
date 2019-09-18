@@ -15,8 +15,8 @@ void UpdateEntity(Entity *e){
 void MoveEntity(Entity* e){
     e->x_pos += e->x_vel * e->x_dir;
     e->y_pos += e->y_vel * e->y_dir;
-    e->d.srcrect.x = e->x_pos;
-    e->d.srcrect.y = e->y_pos;
+    e->d.srcrect.x = (e->x_pos + 0.5f);
+    e->d.srcrect.y = (e->y_pos + 0.5f);
 }
 
 void CheckEntityCollision(Entity* e, SDL_Rect other_hitbox){
@@ -38,10 +38,10 @@ void CheckEntityCollision(Entity* e, SDL_Rect other_hitbox){
             }
         }else if(yPrio){
             if(e->y_dir > 0){
-                e->y_pos -= result.h;    
+                e->y_pos -= result.h;
             }
             if(e->y_dir < 0){
-                e->y_pos += result.h;            
+                e->y_pos += result.h;      
             }
         }
     }
