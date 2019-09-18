@@ -24,52 +24,51 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
     char* mapData = malloc(numbytes + 1);
 	fread(mapData, 1, numbytes, fileIO);
     mapData[numbytes] = 0;
-    RemoveCharacterFromArray(mapData, '\r');
-    RemoveCharacterFromArray(mapData, '\n');
-    RemoveCharacterFromArray(mapData, ' ');
+    RemoveCharacterFromArray(mapData, '\r', numbytes);
+    RemoveCharacterFromArray(mapData, '\n', numbytes);
+    RemoveCharacterFromArray(mapData, ' ', numbytes);
     fclose(fileIO);
 
     for(int i = 0; i < tm->nTiles_x * tm->nTiles_y;){
-            //Beginning of new Tile
-            if(*mapData == ','){
-                mapData++;
-                i++;
-                continue;
-            }
-            // '*' is terminator
-            if(*mapData == '*'){
-                break;
-            }
-
-            //Marks where the current tiles Drawable is drawn, DEFAULT
-            SDL_Rect srcrect = {
-            tm->topleft_x + (int)(i % tm->nTiles_x) * TILE_WIDTH
-            ,tm->topleft_y + (int)(i / tm->nTiles_x) * TILE_HEIGHT
-            ,TILE_WIDTH
-            ,TILE_HEIGHT
-            };
-            
-            TileProperties tp = GetTilePropertiesData(*mapData - '0');
-            Drawable d;
-            SDL_Rect hitbox = srcrect;
-            ApplyTileProperties(tm, &tp, &d, &srcrect, &hitbox, i);
-
-            Tile t;
-            //"If new Tile"
-            if(*(mapData - 1) == ','){
-                ConstructTile(&t);
-                tm->tiles[i] = t;
-            }
-            else{
-                t = tm->tiles[i];
-            }
-            TileAddDrawable(&t, d);
-            TileAddHitbox(&t, hitbox);
-            tm->tiles[i] = t;
-
+        //Beginning of new Tile
+        if(*mapData == ','){
             mapData++;
+            i++;
+            continue;
+        }
+        // '*' is terminator
+        if(*mapData == '*'){
+            break;
+        }
+
+        //Marks where the current tiles Drawable is drawn, DEFAULT
+        SDL_Rect srcrect = {
+        tm->topleft_x + (int)(i % tm->nTiles_x) * TILE_WIDTH
+        ,tm->topleft_y + (int)(i / tm->nTiles_x) * TILE_HEIGHT
+        ,TILE_WIDTH
+        ,TILE_HEIGHT
+        };
+        
+        TileProperties tp = GetTilePropertiesData(*mapData - '0');
+        Drawable d;
+        SDL_Rect hitbox = srcrect;
+        ApplyTileProperties(tm, &tp, &d, &srcrect, &hitbox, i);
+
+        Tile t;
+        //"If new Tile"
+        if(*(mapData - 1) == ','){
+            ConstructTile(&t);
+            tm->tiles[i] = t;
+        }
+        else{
+            t = tm->tiles[i];
+        }
+        TileAddDrawable(&t, d);
+        TileAddHitbox(&t, hitbox);
+        tm->tiles[i] = t;
+
+        mapData++;
     }
-    free(mapData);
 }
 
 void DestroyTileMap(TileMap* tm){
