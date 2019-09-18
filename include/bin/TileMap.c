@@ -127,10 +127,10 @@ void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect*
     srcrect->w += tp->drawable_width_offset + tp->drawable_x_offset;
     srcrect->h += tp->drawable_height_offset + tp->drawable_y_offset;
     *hitbox = *srcrect;
-    hitbox->x += tp->hitbox_x_offset;
-    hitbox->y += tp->hitbox_y_offset;
-    hitbox->w += tp->hitbox_width_offset;
-    hitbox->h += tp->hitbox_height_offset;
+    hitbox->x += tp->hitbox_x_correct + tp->hitbox_x_offset;
+    hitbox->y += tp->hitbox_y_correct + tp->hitbox_y_offset;
+    hitbox->w += tp->hitbox_width_offset + tp->hitbox_x_offset;
+    hitbox->h += tp->hitbox_height_offset + tp->hitbox_y_offset;
     int z_index = (tm->topleft_y + (int)(index / tm->nTiles_x) * TILE_Z_INDEX_MAX) + tp->z_index_offset + Map(tp->drawable_y_offset, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 10, Row 2 = 20....
     ConstructDrawable(d, tm->gfx, tp->filePath, *srcrect, z_index);
 }
