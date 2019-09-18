@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include "FuncLib.h"
 #include <string.h>
+
+//#define DEBUG
+
 void ConstructGame(Game *g, int *noExit)
 {
     ConstructGraphics(&g->gfx);
@@ -38,11 +41,9 @@ void UpdateLogic(Game *g)
     HandleEvents(g);
     UpdateAnimal(&g->animals[0]);  
     UpdatePlayer(&g->player);
-    //TEMP--------
     for(int i = 0; i < g->nGoodTiles; i++){
         CheckEntityCollision(&g->player.ent, g->GoodTiles[i]->hitboxes[1]);
     }
-    //------------
     UpdateCamera(&g->cam);
 }
 
@@ -56,12 +57,13 @@ void Render(Game *g)
     SortRenderList(g);
     RenderList(g);
 
-    //TEMP----------
+
+    #ifdef DEBUG
     SDL_RenderDrawRect(g->gfx.rend, &g->player.ent.hitbox);
     for(int i = 0; i < g->nGoodTiles; i++){
         SDL_RenderDrawRect(g->gfx.rend, &g->GoodTiles[i]->hitboxes[1]);
     }
-    //--------------
+    #endif
 }
 
 void HandleEvents(Game *g)

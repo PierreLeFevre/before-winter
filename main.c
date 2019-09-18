@@ -12,7 +12,6 @@ int main()
     Game g;
     
     ConstructGame(&g, &noExit);
-
     while(noExit){
         frameStart = SDL_GetTicks();
         Go(&g);  //THIS IS A init() FUNKTION
