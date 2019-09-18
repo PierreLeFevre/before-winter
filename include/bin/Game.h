@@ -17,12 +17,12 @@ typedef struct Game
     Graphics gfx;
     SDL_Event event;
     Camera cam;
-    Drawable *RenderList[5000];
+    Drawable** RenderList;
     int nToRender;
     //----
 
     TileMap tileMap;
-    Tile *GoodTiles[5000];
+    Tile** GoodTiles;
     int nGoodTiles;
     Player player;
     Animal animals[10];

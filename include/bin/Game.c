@@ -10,10 +10,17 @@ void ConstructGame(Game *g, int *noExit)
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.srcrect);    
     ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
 
+    g->RenderList = (Drawable**) malloc(sizeof(Drawable*) * 5000);
+    g->GoodTiles = (Tile**) malloc(sizeof(Tile*) * 5000);
     g->noExit = noExit;
 }
 void DestroyGame(Game *g)
 {
+    free(g->RenderList);
+    g->RenderList = NULL;
+    free(g->GoodTiles);
+    g->GoodTiles = NULL;
+    DestroyTileMap(&g->tileMap);
     DestroyGraphics(&g->gfx);
 }
 

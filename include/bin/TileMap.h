@@ -35,6 +35,8 @@ typedef enum MapDataConverter{
 }MapDataConverter;
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* fullBackground);
+void DestroyTileMap(TileMap* tm);
+
 TileProperties GetTilePropertiesData(const MapDataConverter mdc);
 
 void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* srcrect, SDL_Rect* hitbox, int index);

@@ -72,6 +72,11 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
     free(mapData);
 }
 
+void DestroyTileMap(TileMap* tm){
+    free(tm->tiles);
+    tm->tiles = NULL;
+}
+
 TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     TileProperties tp;
      //--- Default ---
