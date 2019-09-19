@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <math.h>
-
+#include <stdlib.h>
 void RemoveCharacterFromArray(char* const buffer, char toRemove, int size) {
     // char* bufferP = buffer;
     // int nBytesToMove = 0;
@@ -112,40 +112,70 @@ float speed_cap(float value, float cap)
     }
     return value;
 }
-char IntToChar(int input){
-    switch (input)
+
+char* IntToCharArray(int number)
+{
+    int n = log10(number) + 1;
+    int k;
+    char *array = calloc(n, sizeof(char));
+    for ( k = 0; k < n; ++k, number /= 10 )
     {
-    case 0:
-        return 48;
-        break;
-    case 1:
-        return 49;
-        break;
-    case 2:
-        return 50;
-        break;
-    case 3:
-        return 51;
-        break;
-    case 4:
-        return 52;
-        break;
-    case 5:
-        return 53;
-        break;
-    case 6:
-        return 54;
-        break;
-    case 7:
-        return 55;
-        break;
-    case 8:
-        return 56;
-        break;
-    case 9:
-        return 57;
-        break;
-    default:
-        break;
+        array[k] = number % 10;
     }
+    printf("%d ", array[0]);
+    
+    for (int i = 0; i < k; i++)
+    {
+        switch (array[i])
+        {
+        case 0:
+            array[i] = 48;
+            break;
+        case 1:
+            array[i] = 49;
+            break;
+        case 2:
+            array[i] = 50;
+            break;
+        case 3:
+            array[i] = 51;
+            break;
+        case 4:
+            array[i] = 52;
+            break;
+        case 5:
+            array[i] = 53;
+            break;
+        case 6:
+            array[i] = 54;
+            break;
+        case 7:
+            array[i] = 55;
+            break;
+        case 8:
+            array[i] = 56;
+            break;
+        case 9:
+            array[i] = 57;
+            break;
+        default:
+            break;
+        }
+    }
+    reverseArray(array);
+    return array;
 }
+void reverseArray(char arr[]) 
+{
+    char temp;
+    int start = 0;
+    int end = sizeof(&arr)/sizeof(&arr[0]); 
+    while (start < end) 
+    { 
+        temp = arr[start];
+        arr[start] = arr[end]; 
+        arr[end] = temp; 
+        start++; 
+        end--; 
+    }    
+}    

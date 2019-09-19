@@ -14,5 +14,6 @@ int sign(int A);
 float signf(float A);
 float min(float a, float b);
 float speed_cap(float Value, float Cap);
-char IntToChar(int input);
+char* IntToCharArray(int nr);
+void reverseArray(char arr[]);   
 #endif
