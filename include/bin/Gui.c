@@ -1,6 +1,9 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "Gui.h"
 
-void ConstructGui(Gui* g, Graphics* gfx){
+void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     g->d.gfx = gfx;
     g->d.srcrect.x = 0;
     g->d.srcrect.y = 0;
@@ -9,7 +12,8 @@ void ConstructGui(Gui* g, Graphics* gfx){
 }
 
 void UpdateGui(Gui* g){
-    RenderText(g, 0, 0, 1, "HP: 10");
+    RenderText(g, 480, 3, 1, "HP: 50");
+    RenderText(g, 0, 580, 1, "Items: [1x Potion, 2x Seeds]");
 }
 
 void RenderText(Gui* g, int x, int y, int b, char text[]){

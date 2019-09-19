@@ -2,13 +2,15 @@
 #define GUI_H
 
 #include "Drawable.h"
+#include "Player.h"
 
 typedef struct Gui{
     Drawable d;
+    Player* p;
 
 }Gui;
 
-void ConstructGui(Gui* g, Graphics* gfx);
+void ConstructGui(Gui* g, Graphics* gfx, Player* p);
 void UpdateGui(Gui* g);
 void RenderText(Gui* g, int x, int y, int b, char text[]);
 

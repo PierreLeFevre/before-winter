@@ -18,6 +18,8 @@ typedef struct Entity{
     float x_face;
     float y_face;
 
+    float health;
+
     int Gold;
     Item *items[10];
     int itemLength;

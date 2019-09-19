@@ -11,7 +11,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.srcrect);    
-    ConstructGui(&g->gui, &g->gfx);
+    ConstructGui(&g->gui, &g->gfx, &g->player);
     ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
 
 
