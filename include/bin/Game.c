@@ -14,6 +14,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructGui(&g->gui, &g->gfx);
     ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
 
+
     g->RenderList = (Drawable**) malloc(sizeof(Drawable*) * 5000);
     g->GoodTiles = (Tile**) malloc(sizeof(Tile*) * 5000);
     g->noExit = noExit;
@@ -68,7 +69,6 @@ void Render(Game *g)
     AddTileMapToRenderList(g);
     AddToRenderList(g, &g->player.ent.d);
     AddToRenderList(g, &g->animals[0].ent.d);
-    AddToRenderList(g, &g->gui.d);
     
     SortRenderList(g);
     RenderList(g);
@@ -89,8 +89,6 @@ void Render(Game *g)
         SDL_RenderDrawRect(g->gfx.rend, &treeHitbox);
     }
     #endif
-
-    UpdateGui(&g->gui);
 }
 
 void HandleEvents(Game *g)
