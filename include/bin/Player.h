@@ -1,3 +1,5 @@
+#ifndef PLAYER_H
+#define PLAYER_H
 #include "Entity.h"
 
 typedef struct Player{
@@ -20,3 +22,5 @@ void MovePlayer(Player *player);
 
 void DrawPlayer(Player *player);
 void AnimatePlayer(Player *player);
+
+#endif
