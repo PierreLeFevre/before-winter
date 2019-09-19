@@ -112,3 +112,40 @@ float speed_cap(float value, float cap)
     }
     return value;
 }
+char IntToChar(int input){
+    switch (input)
+    {
+    case 0:
+        return 48;
+        break;
+    case 1:
+        return 49;
+        break;
+    case 2:
+        return 50;
+        break;
+    case 3:
+        return 51;
+        break;
+    case 4:
+        return 52;
+        break;
+    case 5:
+        return 53;
+        break;
+    case 6:
+        return 54;
+        break;
+    case 7:
+        return 55;
+        break;
+    case 8:
+        return 56;
+        break;
+    case 9:
+        return 57;
+        break;
+    default:
+        break;
+    }
+}
