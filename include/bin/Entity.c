@@ -3,6 +3,8 @@
 #include "FuncLib.h"
 #include <time.h>
 void ConstructEntity(Entity *e, Graphics* gfx, SDL_Rect srcrect, char* filePath){
+    e->interaction_hitbox_size = 10;
+    e->interaction_hitbox_offset = 25;
     e->x_pos = srcrect.x;
     e->y_pos = srcrect.y;
     ConstructDrawable(&e->d, gfx, filePath, srcrect, 0);
@@ -17,6 +19,13 @@ void MoveEntity(Entity* e){
     e->y_pos += e->y_vel * e->y_dir;
     e->d.srcrect.x = (e->x_pos + 0.5f);
     e->d.srcrect.y = (e->y_pos + 0.5f);
+    if(e->x_dir != 0 || e->y_dir != 0){
+        e->x_face = e->x_dir;
+        e->y_face = e->y_dir;
+        if(e->x_dir != 0 && e->y_dir != 0){
+            e->y_face = 0;
+        }
+    }
 }
 
 void CheckEntityCollision(Entity* e, SDL_Rect other_hitbox){

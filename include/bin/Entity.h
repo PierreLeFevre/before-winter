@@ -5,6 +5,9 @@
 typedef struct Entity{
     Drawable d;
     SDL_Rect hitbox;
+    SDL_Rect interaction_hitbox;
+    int interaction_hitbox_size;    
+    int interaction_hitbox_offset;
 
     float x_pos;
     float y_pos;
@@ -12,6 +15,8 @@ typedef struct Entity{
     float y_vel;
     float x_dir;
     float y_dir;
+    float x_face;
+    float y_face;
 
     int Gold;
     Item *items[10];

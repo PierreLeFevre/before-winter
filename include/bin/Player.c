@@ -7,7 +7,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->ent.y_vel = 2.0f;
 
     player->img_path = "./include/assets/character_set.png";
-    SDL_Rect src = {1 * TILE_WIDTH, 0 * TILE_HEIGHT, 60, 60};
+    SDL_Rect src = {6 * TILE_WIDTH, 9 * TILE_HEIGHT, 60, 60};
     SDL_Rect dest = {0, 0, 18, 18};
     ConstructEntity(&player->ent, gfx, src, player->img_path);
     DrawableSetDestRect(&player->ent.d, dest);
@@ -43,10 +43,16 @@ void UpdatePlayerDirection(Player* player){
 }
 
 void UpdatePlayerHitbox(Player* player){
-    player->ent.hitbox.x = player->ent.d.srcrect.x + 10;
-    player->ent.hitbox.y = player->ent.d.srcrect.y + player->ent.d.srcrect.h - 10;
-    player->ent.hitbox.w = player->ent.d.srcrect.w - 20;
-    player->ent.hitbox.h = 10;
+    Entity* e = &player->ent;
+    e->hitbox.x = e->d.srcrect.x + 10;
+    e->hitbox.y = e->d.srcrect.y + e->d.srcrect.h - 10;
+    e->hitbox.w = e->d.srcrect.w - 20;
+    e->hitbox.h = 10;
+
+    e->interaction_hitbox.x = e->hitbox.x + e->hitbox.w / 2 - e->interaction_hitbox_size / 2 + e->interaction_hitbox_offset * e->x_face;
+    e->interaction_hitbox.y = e->hitbox.y + e->hitbox.h / 2 - e->interaction_hitbox_size / 2 + e->interaction_hitbox_offset * e->y_face / 1.5f;
+    e->interaction_hitbox.w = e->interaction_hitbox_size;
+    e->interaction_hitbox.h = e->interaction_hitbox_size;
 }
 
 void AnimatePlayer(Player* player){

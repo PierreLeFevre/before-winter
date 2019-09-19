@@ -81,11 +81,15 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
      //--- Default ---
     tp.drawable_x_offset = 0;
     tp.drawable_y_offset = 0;
+    tp.drawable_x_correct = 0;
+    tp.drawable_y_correct = 0;
     tp.drawable_width_offset = 0;
     tp.drawable_height_offset = 0;
 
     tp.hitbox_x_offset = 0;
     tp.hitbox_y_offset = 0;
+    tp.hitbox_x_correct = 0;
+    tp.hitbox_y_correct = 0;
     tp.hitbox_width_offset = 0;
     tp.hitbox_height_offset = 0;
     
@@ -101,8 +105,8 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
         case TREE:
             tp.filePath = "include/assets/tree.png";
             tp.drawable_height_offset += 50;
-            tp.hitbox_x_offset += 5;
-            tp.hitbox_height_offset -= 85;
+            tp.hitbox_x_offset += 4;
+            tp.hitbox_height_offset -= 40;
             tp.hitbox_width_offset -= 10;
             tp.z_index_offset += 90;
             break;
@@ -111,20 +115,22 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             break;
     }
     //Because we inevitably draw from the top-left corner
-    tp.drawable_y_offset -= tp.drawable_height_offset;
-    tp.hitbox_y_offset -= tp.hitbox_height_offset;
+    tp.drawable_y_correct -= tp.drawable_height_offset;
+    tp.hitbox_y_correct -= tp.hitbox_height_offset;
     //--------------------------------------------------
     return tp;
 }
 
 void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* srcrect, SDL_Rect* hitbox, int index){
-    srcrect->y += tp->drawable_y_offset;
-    srcrect->h += tp->drawable_height_offset;
+    srcrect->x += tp->drawable_x_correct + tp->drawable_x_offset;
+    srcrect->y += tp->drawable_y_correct + tp->drawable_y_offset;
+    srcrect->w += tp->drawable_width_offset + tp->drawable_x_offset;
+    srcrect->h += tp->drawable_height_offset + tp->drawable_y_offset;
     *hitbox = *srcrect;
-    hitbox->x += tp->hitbox_x_offset;
-    hitbox->y += tp->hitbox_y_offset;
-    hitbox->w += tp->hitbox_width_offset;
-    hitbox->h += tp->hitbox_height_offset;
-    int z_index = (tm->topleft_y + (int)(index / tm->nTiles_x) * TILE_Z_INDEX_MAX) + tp->z_index_offset; //Row 1 = 10, Row 2 = 20....
+    hitbox->x += tp->hitbox_x_correct + tp->hitbox_x_offset;
+    hitbox->y += tp->hitbox_y_correct + tp->hitbox_y_offset;
+    hitbox->w += tp->hitbox_width_offset + tp->hitbox_x_offset;
+    hitbox->h += tp->hitbox_height_offset + tp->hitbox_y_offset;
+    int z_index = (tm->topleft_y + (int)(index / tm->nTiles_x) * TILE_Z_INDEX_MAX) + tp->z_index_offset + Map(tp->drawable_y_offset, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 10, Row 2 = 20....
     ConstructDrawable(d, tm->gfx, tp->filePath, *srcrect, z_index);
 }

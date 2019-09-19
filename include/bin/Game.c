@@ -42,8 +42,22 @@ void UpdateLogic(Game *g)
     HandleEvents(g);
     UpdateAnimal(&g->animals[0]);  
     UpdatePlayer(&g->player);
+
+    //TEMP --
+    const Uint8 *Keys = SDL_GetKeyboardState(NULL);
+    //-------
     for(int i = 0; i < g->nGoodTiles; i++){
         CheckEntityCollision(&g->player.ent, g->GoodTiles[i]->hitboxes[1]);
+        
+        //TEMP -----
+        if (Keys[SDL_SCANCODE_SPACE]) {
+            if(SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]) ){
+                if(!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.jpg")){
+                    ChangeImagePath(&g->GoodTiles[i]->ds[0], "include/assets/mud_seeded.jpg");
+                }
+            }
+        }
+        //-----------
     }
     UpdateCamera(&g->cam);
 }
@@ -60,9 +74,19 @@ void Render(Game *g)
     RenderList(g);
 
     #ifdef DEBUG
-    SDL_RenderDrawRect(g->gfx.rend, &g->player.ent.hitbox);
+    SDL_Rect playerHitbox = g->player.ent.hitbox;
+    playerHitbox.x -= g->cam.camRectVirtual.x;
+    playerHitbox.y -= g->cam.camRectVirtual.y;
+    SDL_RenderDrawRect(g->gfx.rend, &playerHitbox);
+    SDL_Rect playerInteractionHitbox = g->player.ent.interaction_hitbox;
+    playerInteractionHitbox.x -= g->cam.camRectVirtual.x;
+    playerInteractionHitbox.y -= g->cam.camRectVirtual.y;
+    SDL_RenderDrawRect(g->gfx.rend, &playerInteractionHitbox);
     for(int i = 0; i < g->nGoodTiles; i++){
-        SDL_RenderDrawRect(g->gfx.rend, &g->GoodTiles[i]->hitboxes[1]);
+        SDL_Rect treeHitbox = g->GoodTiles[i]->hitboxes[1];
+        treeHitbox.x -= g->cam.camRectVirtual.x;
+        treeHitbox.y -= g->cam.camRectVirtual.y;
+        SDL_RenderDrawRect(g->gfx.rend, &treeHitbox);
     }
     #endif
 
