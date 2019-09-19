@@ -9,7 +9,7 @@ void ConstructGui(Gui* g, Graphics* gfx){
 }
 
 void UpdateGui(Gui* g){
-    RenderText(g, 0, 0, 1, "HP: 10\nWW __");
+    RenderText(g, 0, 0, 1, "HP: 10");
 }
 
 void RenderText(Gui* g, int x, int y, int b, char text[]){
