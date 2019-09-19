@@ -43,40 +43,72 @@ int Cap(int value_in, int cap_to){
     }
 }
 
-int CheckCollision(SDL_Rect A, SDL_Rect B)
+int CheckCollision(SDL_Rect A, SDL_Rect B)//lazy foo  http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php
 {
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
-
-    leftA = A.x;
-    rightA = A.x + A.w;
-    topA = A.y;
-    bottomA = A.y + A.h;
-
-    leftB = B.x;
-    rightB = B.x + B.w;
-    topB = B.y;
-    bottomB = B.y + B.h;
-    if (bottomA <= topB)
+    if (A.y + A.h <= B.y)
     {
         return 0;
     }
 
-    if (topA >= bottomB)
+    if (A.y >= B.y + B.h)
     {
         return 0;
     }
 
-    if (rightA <= leftB)
+    if (A.x + A.w <= B.x)
     {
         return 0;
     }
 
-    if (leftA >= rightB)
+    if (A.x >= B.x + B.w)
     {
         return 0;
     }
     return 1;
+}
+int sign(int A)
+{
+    if (A == 0)
+    {
+        return 0;
+    }
+    else if (A < 0)
+    {
+        return -1;
+    }
+    else
+    {
+        return 1;
+    }
+}
+float signf(float A)
+{
+    if (A == 0)
+    {
+        return 0.0f;
+    }
+    else if (A < 0)
+    {
+        return -1.0f;
+    }
+    else
+    {
+        return 1.0f;
+    }
+}
+float min(float a, float b)
+{
+    if (a < b)
+    {
+        return a;
+    }
+    return b;
+}
+float speed_cap(float value, float cap)
+{
+    if (value > cap)
+    {
+        return cap;
+    }
+    return value;
 }
