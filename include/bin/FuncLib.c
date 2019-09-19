@@ -166,12 +166,12 @@ char* IntToCharArray(int number)
     return array;
 }
 void
-CharReverse(unsigned char *str)
+CharReverse(char *str)
 {
     int i;
     int j;
-    unsigned char a;
-    unsigned len = strlen((const char *)str);
+    char a;
+    char len = strlen(str);
     for (i = 0, j = len - 1; i < j; i++, j--)
     {
         a = str[i];

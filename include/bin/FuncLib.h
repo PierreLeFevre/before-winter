@@ -16,5 +16,5 @@ float min(float a, float b);
 float speed_cap(float Value, float Cap);
 char* IntToCharArray(int nr);
 
-void CharReverse(unsigned char *str);
+void CharReverse(char *str);
 #endif
