@@ -3,7 +3,7 @@
 #include "FuncLib.h"
 #include <string.h>
 
-#define DEBUG
+//#define DEBUG
 
 void ConstructGame(Game *g, int *noExit)
 {
@@ -50,8 +50,10 @@ void UpdateLogic(Game *g)
         
         //TEMP -----
         if (Keys[SDL_SCANCODE_SPACE]) {
-            if(SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
-                ChangeImagePath(&g->GoodTiles[i]->ds[0], "include/assets/1.png");
+            if(SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]) ){
+                if(!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.jpg")){
+                    ChangeImagePath(&g->GoodTiles[i]->ds[0], "include/assets/mud_seeded.jpg");
+                }
             }
         }
         //-----------
@@ -68,7 +70,6 @@ void Render(Game *g)
     
     SortRenderList(g);
     RenderList(g);
-
 
     #ifdef DEBUG
     SDL_Rect playerHitbox = g->player.ent.hitbox;
