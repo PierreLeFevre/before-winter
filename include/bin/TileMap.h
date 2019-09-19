@@ -43,4 +43,4 @@ void DestroyTileMap(TileMap* tm);
 
 TileProperties GetTilePropertiesData(const MapDataConverter mdc);
 
-void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* srcrect, SDL_Rect* hitbox, int index);
+void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* destrect, SDL_Rect* hitbox, int index);

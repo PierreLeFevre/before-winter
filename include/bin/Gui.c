@@ -2,10 +2,10 @@
 
 void ConstructGui(Gui* g, Graphics* gfx){
     g->d.gfx = gfx;
-    g->d.srcrect.x = 0;
-    g->d.srcrect.y = 0;
-    g->d.srcrect.w = 600;
-    g->d.srcrect.h = 600;
+    g->d.destrect.x = 0;
+    g->d.destrect.y = 0;
+    g->d.destrect.w = 600;
+    g->d.destrect.h = 600;
 }
 
 void UpdateGui(Gui* g){
@@ -16,9 +16,9 @@ void RenderText(Gui* g, int x, int y, int b, char text[]){
 
     Drawable charToPrint;
 
-    SDL_Rect src = {x, y, 17, 18};
+    SDL_Rect destrect = {x, y, 17, 18};
 
-    ConstructDrawable(&charToPrint, g->d.gfx, "include/assets/BW_ASCII.png", src, 20000);
+    ConstructDrawable(&charToPrint, g->d.gfx, "include/assets/BW_ASCII.png", destrect, 20000);
 
     int xStart = x;
 
@@ -37,15 +37,15 @@ void RenderText(Gui* g, int x, int y, int b, char text[]){
             x = xStart;
         }
         
-        charToPrint.srcrect.x = x;
-        charToPrint.srcrect.y = y;
-        charToPrint.srcrect.w = 17;
-        charToPrint.srcrect.h = 18;
-
-        charToPrint.destrect.x = 17 * ( text[i] - 32);
-        charToPrint.destrect.y = b * 18;
+        charToPrint.destrect.x = x;
+        charToPrint.destrect.y = y;
         charToPrint.destrect.w = 17;
         charToPrint.destrect.h = 18;
+
+        charToPrint.srcrect.x = 17 * ( text[i] - 32);
+        charToPrint.srcrect.y = b * 18;
+        charToPrint.srcrect.w = 17;
+        charToPrint.srcrect.h = 18;
 
         Draw(charToPrint);
 
