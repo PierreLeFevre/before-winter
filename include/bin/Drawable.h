@@ -13,10 +13,10 @@ typedef struct Drawable{
     int z_index;
 }Drawable;
 
-void ConstructDrawable(Drawable* d, Graphics* gfx, const char* filePath, SDL_Rect srcrect, int z_index);
+void ConstructDrawable(Drawable* d, Graphics* gfx, const char* filePath, SDL_Rect destrect, int z_index);
 void Draw(Drawable d);
 
 void ChangeImagePath(Drawable* d, const char* filePath);
-void DrawableSetDestRect(Drawable* d, SDL_Rect destrect);
+void DrawableSetSrcRect(Drawable* d, SDL_Rect srcrect);
 
 #endif

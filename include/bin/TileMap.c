@@ -42,7 +42,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         }
 
         //Marks where the current tiles Drawable is drawn, DEFAULT
-        SDL_Rect srcrect = {
+        SDL_Rect destrect = {
         tm->topleft_x + (int)(i % tm->nTiles_x) * TILE_WIDTH
         ,tm->topleft_y + (int)(i / tm->nTiles_x) * TILE_HEIGHT
         ,TILE_WIDTH
@@ -51,8 +51,8 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         
         TileProperties tp = GetTilePropertiesData(*mapData - '0');
         Drawable d;
-        SDL_Rect hitbox = srcrect;
-        ApplyTileProperties(tm, &tp, &d, &srcrect, &hitbox, i);
+        SDL_Rect hitbox = destrect;
+        ApplyTileProperties(tm, &tp, &d, &destrect, &hitbox, i);
 
         Tile t;
         //"If new Tile"
@@ -121,16 +121,16 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     return tp;
 }
 
-void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* srcrect, SDL_Rect* hitbox, int index){
-    srcrect->x += tp->drawable_x_correct + tp->drawable_x_offset;
-    srcrect->y += tp->drawable_y_correct + tp->drawable_y_offset;
-    srcrect->w += tp->drawable_width_offset + tp->drawable_x_offset;
-    srcrect->h += tp->drawable_height_offset + tp->drawable_y_offset;
-    *hitbox = *srcrect;
+void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* destrect, SDL_Rect* hitbox, int index){
+    destrect->x += tp->drawable_x_correct + tp->drawable_x_offset;
+    destrect->y += tp->drawable_y_correct + tp->drawable_y_offset;
+    destrect->w += tp->drawable_width_offset + tp->drawable_x_offset;
+    destrect->h += tp->drawable_height_offset + tp->drawable_y_offset;
+    *hitbox = *destrect;
     hitbox->x += tp->hitbox_x_correct + tp->hitbox_x_offset;
     hitbox->y += tp->hitbox_y_correct + tp->hitbox_y_offset;
     hitbox->w += tp->hitbox_width_offset + tp->hitbox_x_offset;
     hitbox->h += tp->hitbox_height_offset + tp->hitbox_y_offset;
     int z_index = (tm->topleft_y + (int)(index / tm->nTiles_x) * TILE_Z_INDEX_MAX) + tp->z_index_offset + Map(tp->drawable_y_offset, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 10, Row 2 = 20....
-    ConstructDrawable(d, tm->gfx, tp->filePath, *srcrect, z_index);
+    ConstructDrawable(d, tm->gfx, tp->filePath, *destrect, z_index);
 }

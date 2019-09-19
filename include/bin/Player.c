@@ -7,10 +7,10 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->ent.y_vel = 2.0f;
 
     player->img_path = "./include/assets/character_set.png";
-    SDL_Rect src = {6 * TILE_WIDTH, 9 * TILE_HEIGHT, 60, 60};
-    SDL_Rect dest = {0, 0, 18, 18};
-    ConstructEntity(&player->ent, gfx, src, player->img_path);
-    DrawableSetDestRect(&player->ent.d, dest);
+    SDL_Rect destrect = {6 * TILE_WIDTH, 9 * TILE_HEIGHT, 60, 60};
+    SDL_Rect srcrect = {0, 0, 18, 18};
+    ConstructEntity(&player->ent, gfx, destrect, player->img_path);
+    DrawableSetSrcRect(&player->ent.d, srcrect);
 
     UpdatePlayerHitbox(player);
 }
@@ -35,9 +35,9 @@ void UpdatePlayerDirection(Player* player){
 
 void UpdatePlayerHitbox(Player* player){
     Entity* e = &player->ent;
-    e->hitbox.x = e->d.srcrect.x + 10;
-    e->hitbox.y = e->d.srcrect.y + e->d.srcrect.h - 10;
-    e->hitbox.w = e->d.srcrect.w - 20;
+    e->hitbox.x = e->d.destrect.x + 10;
+    e->hitbox.y = e->d.destrect.y + e->d.destrect.h - 10;
+    e->hitbox.w = e->d.destrect.w - 20;
     e->hitbox.h = 10;
 
     e->interaction_hitbox.x = e->hitbox.x + e->hitbox.w / 2 - e->interaction_hitbox_size / 2 + e->interaction_hitbox_offset * e->x_face;
@@ -47,8 +47,8 @@ void UpdatePlayerHitbox(Player* player){
 }
 
 void AnimatePlayer(Player* player){
-    player->ent.d.destrect.w = 16;
-    player->ent.d.destrect.h = 18;
+    player->ent.d.srcrect.w = 16;
+    player->ent.d.srcrect.h = 18;
 
     if(player->ent.x_dir != 0 || player->ent.y_dir != 0)
     {
@@ -56,36 +56,36 @@ void AnimatePlayer(Player* player){
         //Choose direction in layer
         if (player->ent.y_dir == -1)
         {
-            player->ent.d.destrect.y = 18;
+            player->ent.d.srcrect.y = 18;
         }
         if (player->ent.y_dir == 1)
         {
-            player->ent.d.destrect.y = 0;
+            player->ent.d.srcrect.y = 0;
         }
         if (player->ent.x_dir == -1)
         {
-            player->ent.d.destrect.y = 36;
+            player->ent.d.srcrect.y = 36;
         }
         if (player->ent.x_dir == 1)
         {
-            player->ent.d.destrect.y = 54;
+            player->ent.d.srcrect.y = 54;
         }
         //Animate steps
         if (player->animationState == 0)
         {
-            player->ent.d.destrect.x = 16;
+            player->ent.d.srcrect.x = 16;
         }
         if (player->animationState == 10)
         {
-            player->ent.d.destrect.x = 0;
+            player->ent.d.srcrect.x = 0;
         }
         if (player->animationState == 20)
         {
-            player->ent.d.destrect.x = 32;
+            player->ent.d.srcrect.x = 32;
         }
         if (player->animationState == 30)
         {
-            player->ent.d.destrect.x = 0;
+            player->ent.d.srcrect.x = 0;
         }
         if (player->animationState == 40)
         {
@@ -95,6 +95,6 @@ void AnimatePlayer(Player* player){
     else
     {
         player->animationState = -1;
-        player->ent.d.destrect.x = 0;
+        player->ent.d.srcrect.x = 0;
     }
 }

@@ -18,13 +18,15 @@ typedef struct Entity{
     float x_face;
     float y_face;
 
+    float health;
+
     int Gold;
     Item *items[10];
     int itemLength;
 
 }Entity;
 
-void ConstructEntity(Entity *e, Graphics* gfx, SDL_Rect srcrect, char* filePath);
+void ConstructEntity(Entity *e, Graphics* gfx, SDL_Rect destrect, char* filePath);
 void UpdateEntity(Entity *e);
 
 void MoveEntity(Entity* e);

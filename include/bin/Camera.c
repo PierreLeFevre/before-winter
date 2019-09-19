@@ -26,9 +26,9 @@ void UpdateCamera(Camera* cam){
 }
 
 void CamDraw(Camera* cam, Drawable d){
-    if(SDL_HasIntersection(&cam->camRectVirtual, &d.srcrect)){
-    SDL_Rect srcrectAdjustedToCamera = {d.srcrect.x - cam->camRectVirtual.x, d.srcrect.y - cam->camRectVirtual.y, d.srcrect.w, d.srcrect.h};
-    d.srcrect = srcrectAdjustedToCamera;
+    if(SDL_HasIntersection(&cam->camRectVirtual, &d.destrect)){
+    SDL_Rect destrectAdjustedToCamera = {d.destrect.x - cam->camRectVirtual.x, d.destrect.y - cam->camRectVirtual.y, d.destrect.w, d.destrect.h};
+    d.destrect = destrectAdjustedToCamera;
     Draw(d);
     }
 }

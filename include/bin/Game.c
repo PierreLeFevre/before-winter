@@ -10,8 +10,8 @@ void ConstructGame(Game *g, int *noExit)
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
-    ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.srcrect);    
-    ConstructGui(&g->gui, &g->gfx);
+    ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);    
+    ConstructGui(&g->gui, &g->gfx, &g->player);
     ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
 
 
@@ -108,7 +108,7 @@ void CalculateGoodTiles(Game *g)
     g->nGoodTiles = 0;
     for (int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++)
     {
-        SDL_Rect currTile = g->tileMap.tiles[i].ds[0].srcrect;
+        SDL_Rect currTile = g->tileMap.tiles[i].ds[0].destrect;
         SDL_Rect camera = g->cam.camRectVirtual;
         if (currTile.x > camera.x + camera.w + TILE_WIDTH * 2)
         {
@@ -131,7 +131,7 @@ void CalculateGoodTiles(Game *g)
         };
         for (int j = 0; j < g->tileMap.tiles[i].currentDrawables; j++)
         {
-            if (SDL_HasIntersection(&g->tileMap.tiles[i].ds[j].srcrect, &g->cam.camRectVirtual))
+            if (SDL_HasIntersection(&g->tileMap.tiles[i].ds[j].destrect, &g->cam.camRectVirtual))
             {
                 g->GoodTiles[g->nGoodTiles] = &g->tileMap.tiles[i];
                 g->nGoodTiles++;
@@ -144,7 +144,7 @@ void CalculateGoodTiles(Game *g)
 void AddToRenderList(Game *g, Drawable *d)
 {
     g->RenderList[g->nToRender] = d;
-    (g->nToRender)++;
+    g->nToRender++;
 }
 void AddTileMapToRenderList(Game *g)
 {

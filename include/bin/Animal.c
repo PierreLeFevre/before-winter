@@ -12,28 +12,28 @@ void ConstructAnimal(Animal* a, Graphics* gfx, char* filePath){
     a->x_posSTART = 2 * TILE_WIDTH;
     a->y_posSTART = 2 * TILE_HEIGHT;
 
-    SDL_Rect src = {a->x_posSTART, a->x_posSTART, 40, 60};
-    SDL_Rect dest = {40, 40, 40, 100};
-    a->ent.hitbox = src;
-    ConstructEntity(&a->ent, gfx, src, filePath);
-    DrawableSetDestRect(&a->ent.d, dest);
+    SDL_Rect destrect = {a->x_posSTART, a->x_posSTART, 40, 60};
+    SDL_Rect srcrect = {40, 40, 40, 100};
+    a->ent.hitbox = destrect;
+    ConstructEntity(&a->ent, gfx, destrect, filePath);
+    DrawableSetSrcRect(&a->ent.d, destrect);
     GenerateDesiredPosition(a);
 }
 void UpdateAnimal(Animal *a){
     //Generate a direction vector towards desired position
-    if(a->ent.d.srcrect.x < a->x_desired + 2 && a->ent.d.srcrect.x > a->x_desired - 2 ){
+    if(a->ent.d.destrect.x < a->x_desired + 2 && a->ent.d.destrect.x > a->x_desired - 2 ){
         GenerateDesiredPosition(a);
     }
     //----------------------------------------------------
     //Sets direction towards that position
-    a->ent.x_dir = a->x_desired - a->ent.d.srcrect.x;
-    a->ent.y_dir = a->y_desired - a->ent.d.srcrect.y;
+    a->ent.x_dir = a->x_desired - a->ent.d.destrect.x;
+    a->ent.y_dir = a->y_desired - a->ent.d.destrect.y;
     int lenght = sqrt(pow(a->ent.x_dir, 2) + pow(a->ent.y_dir, 2));
     a->ent.x_dir /= lenght;
     a->ent.y_dir /= lenght;
     //------------------------------------
 
-    a->ent.hitbox = a->ent.d.srcrect;
+    a->ent.hitbox = a->ent.d.destrect;
     UpdateEntity(&a->ent);
 }
 void GenerateDesiredPosition(Animal* a){
