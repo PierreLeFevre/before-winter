@@ -72,6 +72,7 @@ void Render(Game *g)
     
     SortRenderList(g);
     RenderList(g);
+    UpdateGui(&g->gui);
 
     #ifdef DEBUG
     SDL_Rect playerHitbox = g->player.ent.hitbox;
