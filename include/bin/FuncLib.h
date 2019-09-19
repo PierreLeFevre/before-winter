@@ -9,6 +9,10 @@ double Map(double value, double range_1_min, double range_1_max, double range_2_
 
 int Cap(int value_in, int cap_to);
 
-int CheckCollision(SDL_Rect A, SDL_Rect B);
-
+int CheckCollision(SDL_Rect A, SDL_Rect B);//lazy foo http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php
+int sign(int A);
+float signf(float A);
+float min(float a, float b);
+float speed_cap(float Value, float Cap);
+char* IntToCharArray(int nr);
 #endif

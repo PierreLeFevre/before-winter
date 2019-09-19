@@ -2,7 +2,8 @@
 
 #include <stdio.h>
 #include <math.h>
-
+#include <stdlib.h>
+#include <string.h>
 void RemoveCharacterFromArray(char* const buffer, char toRemove, int size) {
     // char* bufferP = buffer;
     // int nBytesToMove = 0;
@@ -43,40 +44,124 @@ int Cap(int value_in, int cap_to){
     }
 }
 
-int CheckCollision(SDL_Rect A, SDL_Rect B)
+int CheckCollision(SDL_Rect A, SDL_Rect B)//lazy foo  http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php
 {
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
-
-    leftA = A.x;
-    rightA = A.x + A.w;
-    topA = A.y;
-    bottomA = A.y + A.h;
-
-    leftB = B.x;
-    rightB = B.x + B.w;
-    topB = B.y;
-    bottomB = B.y + B.h;
-    if (bottomA <= topB)
+    if (A.y + A.h <= B.y)
     {
         return 0;
     }
 
-    if (topA >= bottomB)
+    if (A.y >= B.y + B.h)
     {
         return 0;
     }
 
-    if (rightA <= leftB)
+    if (A.x + A.w <= B.x)
     {
         return 0;
     }
 
-    if (leftA >= rightB)
+    if (A.x >= B.x + B.w)
     {
         return 0;
     }
     return 1;
+}
+int sign(int A)
+{
+    if (A == 0)
+    {
+        return 0;
+    }
+    else if (A < 0)
+    {
+        return -1;
+    }
+    else
+    {
+        return 1;
+    }
+}
+float signf(float A)
+{
+    if (A == 0)
+    {
+        return 0.0f;
+    }
+    else if (A < 0)
+    {
+        return -1.0f;
+    }
+    else
+    {
+        return 1.0f;
+    }
+}
+float min(float a, float b)
+{
+    if (a < b)
+    {
+        return a;
+    }
+    return b;
+}
+float speed_cap(float value, float cap)
+{
+    if (value > cap)
+    {
+        return cap;
+    }
+    return value;
+}
+
+char* IntToCharArray(int number)
+{
+    int n = log10(number) + 1;
+    int k;
+    char *array = calloc(n, sizeof(char));
+    for ( k = 0; k < n; ++k, number /= 10 )
+    {
+        array[k] = number % 10;
+    }
+    
+    for (int i = 0; i < k; i++)
+    {
+        switch (array[i])
+        {
+        case 0:
+            array[i] = 48;
+            break;
+        case 1:
+            array[i] = 49;
+            break;
+        case 2:
+            array[i] = 50;
+            break;
+        case 3:
+            array[i] = 51;
+            break;
+        case 4:
+            array[i] = 52;
+            break;
+        case 5:
+            array[i] = 53;
+            break;
+        case 6:
+            array[i] = 54;
+            break;
+        case 7:
+            array[i] = 55;
+            break;
+        case 8:
+            array[i] = 56;
+            break;
+        case 9:
+            array[i] = 57;
+            break;
+        default:
+            break;
+        }
+    }
+    strrev(array);
+    return array;
 }
