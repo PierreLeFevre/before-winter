@@ -5,8 +5,11 @@
 
 typedef struct Gui{
     Drawable d;
-    int health;
-    int daysLeft;
+
 }Gui;
+
+void ConstructGui(Gui* g, Graphics* gfx);
+void UpdateGui(Gui* g);
+void RenderText(Gui* g, int x, int y, int b, char text[]);
 
 #endif

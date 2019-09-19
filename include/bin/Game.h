@@ -3,6 +3,8 @@
 #include "TileMap.h"
 #include "Camera.h"
 #include "Animal.h"
+#include "Gui.h"
+
 typedef enum GameState
 {
     Startmenu,
@@ -27,6 +29,7 @@ typedef struct Game
     Player player;
     Animal animals[10];
     Item items[10];
+    Gui gui;
 }Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int *noExit);
