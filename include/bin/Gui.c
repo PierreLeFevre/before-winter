@@ -18,7 +18,7 @@ void UpdateGui(Gui* g){
     DrawGuiBoxes(g);
 
     RenderText(g, 160, 520, 1, "Gold:");
-    RenderText(g, 220, 520, 1, IntToCharArray(g->p->ent.Gold));
+    //RenderText(g, 220, 520, 1, IntToCharArray(g->p->ent.Gold));
 
     RenderText(g, 160, 540, 1, "Items:");
     //RenderText(g, 235, 540, 1, g->p->ent.items[0]->Name);

@@ -138,7 +138,7 @@ char* IntToCharArray(int number)
         i = 0;
     }
     
-    for (i; i < k; i++)
+    for (i = 0; i < k; i++)
     {
         switch (array[i])
         {
