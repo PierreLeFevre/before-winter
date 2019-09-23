@@ -17,7 +17,6 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
 void UpdateGui(Gui* g){
     DrawGuiBoxes(g);
 
-<<<<<<< HEAD
     RenderText(g, 160, 520, 1, "Gold:");
     RenderText(g, 220, 520, 1, IntToCharArray(g->p->ent.Gold));
 
@@ -27,11 +26,6 @@ void UpdateGui(Gui* g){
     RenderText(g, 160, 560, 1, "HP: ");
 
     //RenderText(g, 190, 520, 1, IntToCharArray( g->p->ent.health ));
-=======
-    RenderText(g, 160, 520, 1, IntToCharArray(g->p->ent.d.destrect.x));
-    RenderText(g, 160, 540, 1, "Items: [1x Potion, 2x Seeds]");
-    RenderText(g, 160, 560, 1, "HP: 50");
->>>>>>> be75eac138c380531741f56a84a44cbe55c02dac
 }
 
 void DrawGuiBoxes(Gui* g){
