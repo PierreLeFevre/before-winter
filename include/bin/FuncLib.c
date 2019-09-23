@@ -125,7 +125,8 @@ char* IntToCharArray(int number)
 
     int n = log10(number) + 1;
     int k;
-    char *array = SDL_calloc(n, sizeof(char));
+    char *array = malloc(n * sizeof(char));
+    //char *array = calloc(n, sizeof(char));
     for ( k = 0; k < n; ++k, number /= 10 )
     {
         array[k] = number % 10;
