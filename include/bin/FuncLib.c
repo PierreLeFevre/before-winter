@@ -131,14 +131,13 @@ char* IntToCharArray(int number)
         array[k] = number % 10;
     }
 
-    int i = 0;
+    
 
     if (isNegative){
         array[k] = '-';
-        i = 0;
     }
     
-    for (i; i < k; i++)
+    for (int i = 0; i < k; i++)
     {
         switch (array[i])
         {
