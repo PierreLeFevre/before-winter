@@ -5,15 +5,25 @@
 
 void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     g->d.gfx = gfx;
-    g->d.destrect.x = 0;
-    g->d.destrect.y = 0;
-    g->d.destrect.w = 600;
-    g->d.destrect.h = 600;
+    g->p = p;
+    g->d.destrect.x = 100;
+    g->d.destrect.y = 500;
+    g->d.destrect.w = 400;
+    g->d.destrect.h = 100;
+
+    ConstructDrawable(&g->d, g->d.gfx, "include/assets/guibox.png", g->d.destrect, 19999);
 }
 
 void UpdateGui(Gui* g){
-    RenderText(g, 480, 3, 1, "HP: 50");
-    RenderText(g, 0, 580, 1, "Items: [1x Potion, 2x Seeds]");
+    DrawGuiBoxes(g);
+
+    RenderText(g, 160, 520, 1, IntToCharArray(rand()));
+    RenderText(g, 160, 540, 1, "Items: [1x Potion, 2x Seeds]");
+    RenderText(g, 160, 560, 1, "HP: 50");
+}
+
+void DrawGuiBoxes(Gui* g){
+    Draw(g->d);
 }
 
 void RenderText(Gui* g, int x, int y, int b, char text[]){
