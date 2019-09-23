@@ -176,6 +176,7 @@ char* IntToCharArray(int number)
         }
         
     }
+    array[k + 1] = '\0';
     CharReverse(array);
     return array;
 }
