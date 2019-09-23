@@ -116,6 +116,13 @@ float speed_cap(float value, float cap)
 
 char* IntToCharArray(int number)
 {
+    int isNegative = 0;
+
+    if (number < 0){
+        isNegative = 1;
+        number*=-1;
+    }
+
     int n = log10(number) + 1;
     int k;
     char *array = calloc(n, sizeof(char));
@@ -123,8 +130,15 @@ char* IntToCharArray(int number)
     {
         array[k] = number % 10;
     }
+
+    int i = 0;
+
+    if (isNegative){
+        array[k] = '-';
+        i = 0;
+    }
     
-    for (int i = 0; i < k; i++)
+    for (i; i < k; i++)
     {
         switch (array[i])
         {
@@ -161,6 +175,7 @@ char* IntToCharArray(int number)
         default:
             break;
         }
+        
     }
     CharReverse(array);
     return array;
