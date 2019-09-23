@@ -17,7 +17,7 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
 void UpdateGui(Gui* g){
     DrawGuiBoxes(g);
 
-    RenderText(g, 160, 520, 1, IntToCharArray(rand()));
+    RenderText(g, 160, 520, 1, IntToCharArray(g->p->ent.d.destrect.x));
     RenderText(g, 160, 540, 1, "Items: [1x Potion, 2x Seeds]");
     RenderText(g, 160, 560, 1, "HP: 50");
 }

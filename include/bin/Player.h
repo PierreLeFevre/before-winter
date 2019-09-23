@@ -7,9 +7,8 @@ typedef struct Player{
 
     float x_vel;
     float y_vel;
-    int x_dir;
-    int y_dir;
     int animationState;
+
 
     char *img_path;
 } Player;
