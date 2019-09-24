@@ -7,6 +7,7 @@
 
 typedef struct Gui{
     Drawable d;
+    Drawable charToPrint;
     Player* p;
 
 }Gui;
