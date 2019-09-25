@@ -64,7 +64,8 @@ void UpdateLogic(Game *g)
 
     //TEMP --
     SDL_Rect r = g->player.ent.d.destrect;
-    r.y -= 50;
+    r.y += 0;//Right 1
+    r.x += 20;//Hand 2
     UpdateItem(&g->items[0], r, g->player.ent.d.z_index);
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
