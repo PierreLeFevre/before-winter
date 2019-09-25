@@ -1,13 +1,13 @@
 #include "Drawable.h"
 
-typedef struct Stats Stats;
-struct Stats{
+typedef struct Stats{
     int Power;
     int Protection;
     int Health;
-};
+}Stats;
 
 typedef struct Item{
+    
     Drawable d;
     Stats s;
     char Name[100];
