@@ -42,7 +42,7 @@ void UpdateGui(Gui* g){
     RenderText(g, 365, 520, 1, health);
 
     RenderText(g, 160, 540, 1, "Items:");
-    //RenderText(g, 235, 540, 1, g->p->ent.items[0]->Name);
+    RenderText(g, 235, 540, 1, g->p->ent.items[0]->Name);
 
     if(g->messageActive){
         //Draw message box
