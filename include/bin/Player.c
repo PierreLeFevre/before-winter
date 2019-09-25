@@ -6,10 +6,11 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->ent.x_vel = 2.0f;
     player->ent.y_vel = 2.0f;
 
-    player->img_path = "./include/assets/character_set.png";
     SDL_Rect destrect = {6 * TILE_WIDTH, 9 * TILE_HEIGHT, 60, 60};
+    SDL_Rect destrectItemPreview = {destrect.x, destrect.y - 50, destrect.w, destrect.h};
     SDL_Rect srcrect = {0, 0, 18, 18};
-    ConstructEntity(&player->ent, gfx, destrect, player->img_path);
+    ConstructEntity(&player->ent, gfx, destrect, "include/assets/character_set.png");
+    ConstructDrawable(&player->itemPreview, gfx, player->itemPreview.filePath, destrectItemPreview, player->ent.d.z_index);
     DrawableSetSrcRect(&player->ent.d, srcrect);
 
     UpdatePlayerHitbox(player);
@@ -19,7 +20,15 @@ void UpdatePlayer(Player *player)
 {
     UpdatePlayerDirection(player);
     UpdateEntity(&player->ent);
+    UpdateItemPreview(player);
     UpdatePlayerHitbox(player);
+}
+
+void UpdateItemPreview(Player* player){
+    player->itemPreview.z_index = player->ent.d.z_index;
+    SDL_Rect destrect = player->ent.d.destrect;
+    SDL_Rect destrectItemPreview = {destrect.x, destrect.y - 50, destrect.w, destrect.h};
+    player->itemPreview.destrect = destrectItemPreview;
 }
 
 void UpdatePlayerDirection(Player* player){
