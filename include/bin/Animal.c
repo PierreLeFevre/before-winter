@@ -13,7 +13,6 @@ void ConstructAnimal(Animal* a, Graphics* gfx, char* filePath){
     a->y_posSTART = 2 * TILE_HEIGHT;
 
     SDL_Rect destrect = {a->x_posSTART, a->x_posSTART, 40, 60};
-    SDL_Rect srcrect = {40, 40, 40, 100};
     a->ent.hitbox = destrect;
     ConstructEntity(&a->ent, gfx, destrect, filePath);
     DrawableSetSrcRect(&a->ent.d, destrect);
