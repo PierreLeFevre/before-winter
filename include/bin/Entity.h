@@ -22,7 +22,7 @@ typedef struct Entity{
 
     int Gold;
     Item *items[10];
-    int itemLength;
+    int n_items;
 
 }Entity;
 
