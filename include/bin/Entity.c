@@ -59,7 +59,7 @@ void CheckEntityCollision(Entity* e, SDL_Rect other_hitbox){
 int BuyItem(Entity *e, Item *i){
     if (e->Gold >= i->Cost){
         e->Gold -= i->Cost;
-        e->items[e->itemLength] = i;
+        e->items[e->n_items] = i;
         return 1;
     }
     else{
@@ -67,14 +67,14 @@ int BuyItem(Entity *e, Item *i){
     }
 }
 void SellItem(Entity *e, Item *i){
-    for (int nr = 0; nr < e->itemLength; nr++)
+    for (int nr = 0; nr < e->n_items; nr++)
     {
         if (e->items[nr] == i){
-            for (int del = nr; del < e->itemLength; del++)
+            for (int del = nr; del < e->n_items; del++)
             {
                 e->items[del] = e->items[del + 1];
             }
-            e->itemLength--;
+            e->n_items--;
             e->Gold += i->SellValue;
         }
     }
