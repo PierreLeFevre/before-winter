@@ -27,7 +27,7 @@ void ConstructGame(Game *g, int *noExit)
 
     g->items[0] = i;
 
-    ConstructItem(&g->items[0], &g->gfx, "./include/assets/iron_axe.png");
+    ConstructItem(&g->items[0], &g->gfx, "./include/assets/item/iron_axe.png");
 
     g->RenderList = (Drawable**) malloc(sizeof(Drawable*) * 5000);
     g->GoodTiles = (Tile**) malloc(sizeof(Tile*) * 5000);
