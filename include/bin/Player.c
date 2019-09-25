@@ -14,7 +14,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     ConstructEntity(&player->ent, gfx, destrect, "include/assets/character_set.png");
     player->ent.health = 100;
     player->ent.Gold = 0;
-    strcpy(player->ent.items[0]->Name, "Iron Axe");
+    strcpyMACFRIENDLY(player->ent.items[0]->Name, "Iron Axe");
     
     ConstructDrawable(&player->itemPreview, gfx, "", destrectItemPreview, player->ent.d.z_index);
     DrawableSetSrcRect(&player->ent.d, srcrect);

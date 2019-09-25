@@ -16,4 +16,5 @@ float speed_cap(float Value, float Cap);
 char* IntToCharArray(int nr);
 
 void CharReverse(char *str);
+char *strcpyMACFRIENDLY(char *d, const char *s);
 #endif
