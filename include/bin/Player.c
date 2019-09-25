@@ -10,6 +10,11 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     SDL_Rect destrectItemPreview = {destrect.x, destrect.y - 50, destrect.w, destrect.h};
     SDL_Rect srcrect = {0, 0, 18, 18};
     ConstructEntity(&player->ent, gfx, destrect, "include/assets/character_set.png");
+    
+    player->ent.health = 100;
+    player->ent.Gold = 0;
+    strcpy(player->ent.items[0]->Name, "Iron Axe");
+
     ConstructDrawable(&player->itemPreview, gfx, player->itemPreview.filePath, destrectItemPreview, player->ent.d.z_index);
     DrawableSetSrcRect(&player->ent.d, srcrect);
 
