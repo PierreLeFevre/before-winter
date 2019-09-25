@@ -50,3 +50,6 @@ void RenderList(Game *g);
 void SortRenderList(Game *g);
 
 int check_collision(SDL_Rect A, SDL_Rect B);
+
+void ConstructItem(Item *i, Graphics *gfx, char *FilePath);
+void UpdateItem(Item *i, SDL_Rect r, int zDrawIndex);

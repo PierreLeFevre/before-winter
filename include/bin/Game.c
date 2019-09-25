@@ -13,7 +13,21 @@ void ConstructGame(Game *g, int *noExit)
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);    
     ConstructGui(&g->gui, &g->gfx, &g->player);
     ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
+    
+    Item i;
+    i.d.srcrect.x = 0;
+    i.d.srcrect.y = 0;
+    i.d.srcrect.h = 30;
+    i.d.srcrect.w = 30;
 
+    i.d.destrect.x = 300;
+    i.d.destrect.y = 300;
+    i.d.destrect.w = 500;
+    i.d.destrect.h = 500;
+
+    g->items[0] = i;
+
+    ConstructItem(&g->items[0], &g->gfx, "./include/assets/iron_axe.png");
 
     g->RenderList = (Drawable**) malloc(sizeof(Drawable*) * 5000);
     g->GoodTiles = (Tile**) malloc(sizeof(Tile*) * 5000);
@@ -44,7 +58,14 @@ void UpdateLogic(Game *g)
     UpdateAnimal(&g->animals[0]);  
     UpdatePlayer(&g->player);
 
+   
+    
+    
+
     //TEMP --
+    SDL_Rect r = g->player.ent.d.destrect;
+    r.y -= 50;
+    UpdateItem(&g->items[0], r, g->player.ent.d.z_index);
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
     for(int i = 0; i < g->nGoodTiles; i++){
@@ -70,6 +91,8 @@ void Render(Game *g)
     AddToRenderList(g, &g->player.ent.d);
     AddToRenderList(g, &g->animals[0].ent.d);
     
+    AddToRenderList(g, &g->items[0].d);
+
     SortRenderList(g);
     RenderList(g);
     UpdateGui(&g->gui);
@@ -177,5 +200,12 @@ void SortRenderList(Game *g)
             }
         }
     }
+}
+void ConstructItem(Item *i, Graphics *gfx, char *FilePath){
+    ConstructDrawable(&i->d, gfx, FilePath, i->d.destrect, 0);
+}
+void UpdateItem(Item *i, SDL_Rect r, int zDrawIndex){
+    i->d.z_index = zDrawIndex;
+    i->d.destrect = r;
 }
 

@@ -14,4 +14,3 @@ typedef struct Item{
     int Cost;
     int SellValue;
 }Item;
-
