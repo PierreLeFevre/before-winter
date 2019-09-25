@@ -27,7 +27,7 @@ void UpdateAnimal(Animal *a){
     //Sets direction towards that position
     a->ent.x_dir = a->x_desired - a->ent.d.destrect.x;
     a->ent.y_dir = a->y_desired - a->ent.d.destrect.y;
-    int length = sqrt(pow(a->ent.x_dir, 2) + pow(a->ent.y_dir, 2));
+    int length = Dist(0.0f, 0.0f, a->ent.x_dir, a->ent.y_dir);
     a->ent.x_dir /= length;
     a->ent.y_dir /= length;
     //------------------------------------
