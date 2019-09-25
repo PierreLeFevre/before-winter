@@ -20,8 +20,8 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     SDL_Rect charToPrint_destRect = {0,0,0,0};
     ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII.png", charToPrint_destRect, 20000);
 
-    //MsgBoxShow(g, 1); Turn messagebox on or off: 1= active, 0 = off
-    //MsgBoxText(g, "halloj!"); Set text for messageBox
+    MsgBoxShow(g, 1); //Turn messagebox on or off: 1= active, 0 = off
+    MsgBoxText(g, "number 15 burger king foot lettuce\nthe last thing you want in your burger king\nburger is someone else's foot fungus.\nbut as it turns out, that might be what you get.\n\nEsc to close."); //Set text for messageBox
 
 }
 
@@ -45,6 +45,12 @@ void UpdateGui(Gui* g){
     RenderText(g, 235, 540, 1, g->p->ent.items[0]->Name);
 
     if(g->messageActive){
+
+        const Uint8 *Keys = SDL_GetKeyboardState(NULL);
+        if (Keys[SDL_SCANCODE_ESCAPE]) {
+            MsgBoxShow(g, 0);
+        }
+
         //Draw message box
         Draw(g->messageBox);
 
@@ -102,6 +108,6 @@ void MsgBoxShow(Gui* g, int messageActive){
     g->messageActive = messageActive;
 }
 
-void MsgBoxText(Gui* g, char message[101]){
+void MsgBoxText(Gui* g, char message[201]){
     strcpy(g->message, message);
 }
