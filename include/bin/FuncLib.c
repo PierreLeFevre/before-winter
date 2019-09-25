@@ -44,6 +44,11 @@ int Cap(int value_in, int cap_to){
     }
 }
 
+
+float Dist(float x1, float y1, float x2, float y2){
+    return sq(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+}
+
 int CheckCollision(SDL_Rect A, SDL_Rect B)//lazy foo  http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php
 {
     if (A.y + A.h <= B.y)
