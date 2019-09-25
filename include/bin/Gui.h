@@ -9,7 +9,7 @@ typedef struct Gui{
     Drawable d;
     Drawable charToPrint;
     Drawable messageBox;
-    char message[101];
+    char message[201];
     int messageActive;
     Player* p;
 
@@ -20,6 +20,6 @@ void UpdateGui(Gui* g);
 void RenderText(Gui* g, int x, int y, int b, char text[]);
 
 void MsgBoxShow(Gui* g, int messageActive);
-void MsgBoxText(Gui* g, char message[101]);
+void MsgBoxText(Gui* g, char message[201]);
 
 #endif
