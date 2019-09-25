@@ -6,38 +6,52 @@
 void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     g->d.gfx = gfx;
     g->charToPrint.gfx = gfx;
+    g->messageBox.gfx = gfx;
     g->p = p;
 
-    g->d.destrect.x = 100;
-    g->d.destrect.y = 500;
-    g->d.destrect.w = 400;
-    g->d.destrect.h = 100;
+    g->messageActive = 0;
 
-    SDL_Rect destrect = {0,0,0,0};
-    ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII.png", destrect, 20000);
+    SDL_Rect gui_destrect = {100, 500, 400, 100};
+    ConstructDrawable(&g->d, g->d.gfx, "include/assets/guibox.png", gui_destrect, 19999);
 
-    ConstructDrawable(&g->d, g->d.gfx, "include/assets/guibox.png", g->d.destrect, 19999);
+    SDL_Rect messageBox_destrect = {50, 50, 500, 400};
+    ConstructDrawable(&g->messageBox, g->messageBox.gfx, "include/assets/guibox.png", messageBox_destrect, 19998);
+
+    SDL_Rect charToPrint_destRect = {0,0,0,0};
+    ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII.png", charToPrint_destRect, 20000);
+
+    //MsgBoxShow(g, 1); Turn messagebox on or off: 1= active, 0 = off
+    //MsgBoxText(g, "halloj!"); Set text for messageBox
+
 }
 
 void UpdateGui(Gui* g){
-    DrawGuiBoxes(g);
 
+    //Draw gui box
+    Draw(g->d);
+
+    //Render gui text
     RenderText(g, 160, 520, 1, "Gold:");
     char gold[100];
     gcvt(g->p->ent.Gold, 6, gold);
     RenderText(g, 220, 520, 1, gold);
 
-    RenderText(g, 160, 540, 1, "Items:");
-    //RenderText(g, 235, 540, 1, g->p->ent.items[0]->Name);
-
-    RenderText(g, 160, 560, 1, "HP: ");
+    RenderText(g, 320, 520, 1, "HP: ");
     char health[100];
     gcvt(g->p->ent.health, 6, health);
-    RenderText(g, 190, 560, 1, health);
-}
+    RenderText(g, 365, 520, 1, health);
 
-void DrawGuiBoxes(Gui* g){
-    Draw(g->d);
+    RenderText(g, 160, 540, 1, "Items:");
+    RenderText(g, 235, 540, 1, g->p->ent.items[0]->Name);
+
+    if(g->messageActive){
+        //Draw message box
+        Draw(g->messageBox);
+
+        //Draw message text
+        RenderText(g, 65, 80, 0, g->message);
+    }
+
 }
 
 void RenderText(Gui* g, int x, int y, int b, char text[]){
@@ -82,4 +96,12 @@ void RenderText(Gui* g, int x, int y, int b, char text[]){
 
         i++;
     }
+}
+
+void MsgBoxShow(Gui* g, int messageActive){
+    g->messageActive = messageActive;
+}
+
+void MsgBoxText(Gui* g, char message[101]){
+    strcpy(g->message, message);
 }
