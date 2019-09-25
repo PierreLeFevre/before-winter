@@ -20,8 +20,8 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     SDL_Rect charToPrint_destRect = {0,0,0,0};
     ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII.png", charToPrint_destRect, 20000);
 
-    MsgBoxShow(g, 1);
-    MsgBoxText(g, "halloj!");
+    //MsgBoxShow(g, 1); Turn messagebox on or off: 1= active, 0 = off
+    //MsgBoxText(g, "halloj!"); Set text for messageBox
 
 }
 
