@@ -197,13 +197,10 @@ CharReverse(char *str)
         str[j] = a;
     }
 }
-char *strcpyMACFRIENDLY(char *d, const char *s)
+char *strcpyMACFRIENDLY(char *s1, const char *s2)
 {
-   char *saved = d;
-   while (*s)
-   {
-       *d++ = *s++;
-   }
-   *d = 0;
-   return saved;
+    char *s = s1;
+    while ((*s++ = *s2++) != 0)
+	;
+    return (s1);
 }
