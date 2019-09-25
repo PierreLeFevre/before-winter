@@ -4,8 +4,8 @@
 #include <string.h>
 
 void ConstructDrawable(Drawable* d, Graphics* gfx, const char* filePath, SDL_Rect destrect, int z_index){
-    d->gfx = gfx;
     strcpy(d->filePath, filePath);
+    d->gfx = gfx;
     d->surf = IMG_Load(d->filePath);
     d->tex = SDL_CreateTextureFromSurface(d->gfx->rend, d->surf);
     SDL_FreeSurface(d->surf);
