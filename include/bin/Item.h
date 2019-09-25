@@ -14,3 +14,7 @@ typedef struct Item{
     int Cost;
     int SellValue;
 }Item;
+
+void ConstructItem(Item *i, Graphics *gfx, char *FilePath);
+
+void UpdateItem(Item *i, SDL_Rect r, int zDrawIndex);

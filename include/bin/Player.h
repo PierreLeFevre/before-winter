@@ -4,17 +4,15 @@
 
 typedef struct Player{
     Entity ent;
-
-    float x_vel;
-    float y_vel;
+    Drawable itemPreview;
+    Item* activeItem;
+    
     int animationState;
-
-
-    char *img_path;
 } Player;
 
 void ConstructPlayer(Player *player, Graphics *gfx);
 void UpdatePlayer(Player *player);
+void UpdateItemPreview(Player* player);
 void UpdatePlayerDirection(Player *player);
 void UpdatePlayerHitbox(Player *player);
 void MovePlayer(Player *player);
