@@ -70,6 +70,13 @@ void RenderText(Gui* g, int x, int y, int b, char text[]){
     int i = 0;
 
     while (1){
+        /*TMP REMOVE DOTT
+        if (strlen(text) -1 == i){
+            if (text[i] == '.'){
+                return;
+            }
+        }
+        */
         if(text[i] == '\0')
         {
             break;
