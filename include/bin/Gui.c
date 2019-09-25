@@ -21,7 +21,7 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII.png", charToPrint_destRect, 20000);
 
     MsgBoxShow(g, 1); //Turn messagebox on or off: 1= active, 0 = off
-    MsgBoxText(g, "number 15 burger king foot lettuce\nthe last thing you want in your burger king\nburger is someone else's foot fungus.\nbut as it turns out, that might be what you get."); //Set text for messageBox
+    MsgBoxText(g, "number 15 burger king foot lettuce\nthe last thing you want in your burger king\nburger is someone else's foot fungus.\nbut as it turns out, that might be what you get.\n\nEsc to close."); //Set text for messageBox
 
 }
 
