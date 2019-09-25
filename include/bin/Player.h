@@ -6,9 +6,7 @@ typedef struct Player{
     Entity ent;
     Drawable itemPreview;
     Item* activeItem;
-
-    float x_vel;
-    float y_vel;
+    
     int animationState;
 } Player;
 
