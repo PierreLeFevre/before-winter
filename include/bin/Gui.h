@@ -11,19 +11,20 @@ typedef struct Gui{
     Drawable messageBox;
     char message[201];
     int messageActive;
+    int messageToggler;
     Player* p;
 
 }Gui;
 
 typedef enum Color{
-    Black,
-    White,
-    Red,
-    Green,
-    Yellow,
-    Blue,
-    Magenta,
-    Cyan
+    Black,  // 0
+    White,  // 1
+    Red,    // 2
+    Green,  // 3
+    Yellow, // 4
+    Blue,   // 5
+    Magenta,// 6
+    Cyan    // 7
 }Color;
 
 typedef enum Format{
