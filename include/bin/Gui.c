@@ -10,6 +10,7 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     g->p = p;
 
     g->messageActive = 0;
+    g->messageToggler = 0;
 
     SDL_Rect gui_destrect = {100, 500, 400, 100};
     ConstructDrawable(&g->d, g->d.gfx, "include/assets/guibox.png", gui_destrect, 19999);
@@ -44,12 +45,13 @@ void UpdateGui(Gui* g){
     RenderText(g, 235, 540, Black, Regular, g->p->ent.items[0]->Name);
     
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
-    if (g->messageToggler > 30)
+    if (g->messageToggler > 20)
     {
         if(g->messageActive){
 
             if (Keys[SDL_SCANCODE_ESCAPE]) {
                 MsgBoxShow(g, 0);
+                g->messageToggler = 0;
             }
 
             //Draw message box
@@ -74,10 +76,10 @@ void UpdateGui(Gui* g){
         { 
             if (Keys[SDL_SCANCODE_ESCAPE]) {
                 MsgBoxShow(g, 1);
+                g->messageToggler = 0;
             }
         }
     }
-
 
     g->messageToggler += 1;
     
