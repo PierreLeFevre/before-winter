@@ -1,0 +1,43 @@
+body{
+    font-family: 'Open Sans', sans-serif;
+    background-color: #444;
+}
+
+h1, h2, h3, h4, h5{
+    font-family: 'Roboto Slab', sans-serif;
+}
+
+.wrapper{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.sidebar{
+    background-color: #444;
+    color: white;
+    position: fixed;
+    height: 100vh;
+    width: 20vw;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.content-wrapper{
+    background-color: white;
+    width: 80vw;
+    min-height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding: 1rem 3rem;
+}
