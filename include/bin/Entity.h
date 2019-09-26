@@ -21,7 +21,7 @@ typedef struct Entity{
     float health;
 
     int Gold;
-    Item items[10];
+    Item items[100];
     int n_items;
 
 }Entity;
