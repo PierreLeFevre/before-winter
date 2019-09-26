@@ -79,3 +79,22 @@ void SellItem(Entity *e, Item *i){
         }
     }
 }
+
+void AddItem(Entity *e, Item *i, int index){
+    e->items[index] = i;
+    e->items[index]->d.destrect.x = e->x_pos;
+    e->items[index]->d.destrect.y = e->y_pos;
+}
+void UpdateItem(Entity *e, Item *i, int index){
+    // e->items[index]->d.destrect.x = e->x_pos;
+    // e->items[index]->d.destrect.y = e->y_pos;
+}
+void CreateItem(Item *i, Graphics *gfx, ItemEnums item){
+    SDL_Rect r= {100, 100,60,60};
+    int z = 10000;
+    switch(item){
+        case IronAxeEnum:
+            ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_axe.png", r, z);
+        break;
+    }
+}

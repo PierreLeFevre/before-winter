@@ -5,14 +5,14 @@
 typedef struct Player{
     Entity ent;
     Drawable itemPreview;
-    Item* activeItem;
+    Item activeItem;
     
     int animationState;
 } Player;
 
 void ConstructPlayer(Player *player, Graphics *gfx);
 void UpdatePlayer(Player *player);
-void UpdateItemPreview(Player* player);
+void UpdateItemPreview(Player* player, Item *i);
 void UpdatePlayerDirection(Player *player);
 void UpdatePlayerHitbox(Player *player);
 void MovePlayer(Player *player);

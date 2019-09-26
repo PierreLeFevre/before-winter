@@ -30,6 +30,7 @@ void DestroyGame(Game *g)
 
 void Go(Game *g)
 {
+    
     BeginFrame(&g->gfx);
     UpdateLogic(g);
     Render(g);
@@ -40,22 +41,10 @@ void UpdateLogic(Game *g)
 {
     CalculateGoodTiles(g);
     HandleEvents(g);
-    UpdateAnimal(&g->animals[0]);  
+    UpdateAnimal(&g->animals[0]);
     UpdatePlayer(&g->player);
     //TEMP --
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
-    if (Keys[SDL_SCANCODE_1]){
-        ChangeImagePath(&g->player.itemPreview, "include/assets/item/iron_axe.png");
-    }
-    else if (Keys[SDL_SCANCODE_2]){
-        ChangeImagePath(&g->player.itemPreview, "include/assets/item/iron_sword.png");
-    }
-    else if (Keys[SDL_SCANCODE_3]){
-        ChangeImagePath(&g->player.itemPreview, "include/assets/item/iron_shovel.png");
-    }
-    else if (Keys[SDL_SCANCODE_4]){
-        ChangeImagePath(&g->player.itemPreview, "include/assets/item/iron_pickaxe.png");
-    }
     //-------
     for(int i = 0; i < g->nGoodTiles; i++){
         CheckEntityCollision(&g->player.ent, g->GoodTiles[i]->hitboxes[1]);
@@ -78,14 +67,14 @@ void Render(Game *g)
     g->nToRender = 0;
     AddTileMapToRenderList(g);
     AddToRenderList(g, &g->player.ent.d);
-    AddToRenderList(g, &g->player.itemPreview);
     AddToRenderList(g, &g->animals[0].ent.d);
 
+    AddToRenderList(g, &g->player.itemPreview);
     SortRenderList(g);
-   
+
     RenderList(g);
     UpdateGui(&g->gui);
-
+    
     #ifdef DEBUG
     SDL_Rect playerHitbox = g->player.ent.hitbox;
     playerHitbox.x -= g->cam.camRectVirtual.x;

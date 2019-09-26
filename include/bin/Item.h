@@ -1,5 +1,9 @@
 #include "Drawable.h"
 
+typedef enum ItemEnums{
+    IronAxeEnum
+}ItemEnums;
+
 typedef struct Stats{
     int Power;
     int Protection;
@@ -7,14 +11,9 @@ typedef struct Stats{
 }Stats;
 
 typedef struct Item{
-    
     Drawable d;
     Stats s;
     char Name[100];
     int Cost;
     int SellValue;
 }Item;
-
-void ConstructItem(Item *i, Graphics *gfx, char *FilePath);
-
-void UpdateItem(Item *i, SDL_Rect r, int zDrawIndex);

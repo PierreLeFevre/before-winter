@@ -2,21 +2,22 @@
 #include <stdio.h>
 #include <string.h>
 #include "FuncLib.h"
+#include "Entity.h"
 
 void ConstructPlayer(Player* player, Graphics* gfx){
     player->ent.x_vel = 2.0f;
     player->ent.y_vel = 2.0f;
 
     SDL_Rect destrect = {6 * TILE_WIDTH, 9 * TILE_HEIGHT, 60, 60};
-    SDL_Rect destrectItemPreview = {destrect.x, destrect.y - 50, destrect.w, destrect.h};
     SDL_Rect srcrect = {0, 0, 18, 18};
 
     ConstructEntity(&player->ent, gfx, destrect, "include/assets/character_set.png");
     player->ent.health = 100;
     player->ent.Gold = 0;
-    //strcpyMACFRIENDLY(player->ent.items[0]->Name, "Iron Axe");
     
-    ConstructDrawable(&player->itemPreview, gfx, "", destrectItemPreview, player->ent.d.z_index);
+    CreateItem(&player->activeItem, gfx, IronAxeEnum);
+    AddItem(&player->ent, &player->activeItem, 0);
+
     DrawableSetSrcRect(&player->ent.d, srcrect);
 
     UpdatePlayerHitbox(player);
@@ -26,15 +27,16 @@ void UpdatePlayer(Player *player)
 {
     UpdatePlayerDirection(player);
     UpdateEntity(&player->ent);
-    UpdateItemPreview(player);
+
+    UpdateItemPreview(player, player->ent.items[0]);
+
     UpdatePlayerHitbox(player);
 }
 
-void UpdateItemPreview(Player* player){
-    player->itemPreview.z_index = player->ent.d.z_index;
-    SDL_Rect destrect = player->ent.d.destrect;
-    SDL_Rect destrectItemPreview = {destrect.x, destrect.y - 50, destrect.w, destrect.h};
-    player->itemPreview.destrect = destrectItemPreview;
+void UpdateItemPreview(Player* player, Item *i){
+    player->itemPreview = i->d;
+    player->itemPreview.destrect.x = player->ent.d.destrect.x;
+    player->itemPreview.destrect.y = player->ent.d.destrect.y -70;
 }
 
 void UpdatePlayerDirection(Player* player){
