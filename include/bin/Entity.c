@@ -59,7 +59,7 @@ void CheckEntityCollision(Entity* e, SDL_Rect other_hitbox){
 int BuyItem(Entity *e, Item *i){
     if (e->Gold >= i->Cost){
         e->Gold -= i->Cost;
-        e->items[e->n_items] = i;
+        e->items[e->n_items] = *i;
         return 1;
     }
     else{
@@ -69,7 +69,7 @@ int BuyItem(Entity *e, Item *i){
 void SellItem(Entity *e, Item *i){
     for (int nr = 0; nr < e->n_items; nr++)
     {
-        if (e->items[nr] == i){
+        if (&e->items[nr] == i){
             for (int del = nr; del < e->n_items; del++)
             {
                 e->items[del] = e->items[del + 1];
@@ -81,9 +81,10 @@ void SellItem(Entity *e, Item *i){
 }
 
 void AddItem(Entity *e, Item *i, int index){
-    e->items[index] = i;
-    e->items[index]->d.destrect.x = e->x_pos;
-    e->items[index]->d.destrect.y = e->y_pos;
+    
+    e->items[index] = *i;
+    e->items[index].d.destrect.x = e->x_pos;
+    e->items[index].d.destrect.y = e->y_pos;
 }
 void UpdateItem(Entity *e, Item *i, int index){
     // e->items[index]->d.destrect.x = e->x_pos;
@@ -95,6 +96,12 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item){
     switch(item){
         case IronAxeEnum:
             ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_axe.png", r, z);
-        break;
+            break;
+        case IronPickaxeEnum:
+            ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_pickaxe.png", r, z);
+            break;
+        case IronSwordEnum:
+            ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_sword.png", r, z);
+            break;
     }
 }

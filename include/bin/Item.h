@@ -1,7 +1,9 @@
 #include "Drawable.h"
 
 typedef enum ItemEnums{
-    IronAxeEnum
+    IronAxeEnum,
+    IronPickaxeEnum,
+    IronSwordEnum
 }ItemEnums;
 
 typedef struct Stats{

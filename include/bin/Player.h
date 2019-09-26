@@ -19,5 +19,5 @@ void MovePlayer(Player *player);
 
 void DrawPlayer(Player *player);
 void AnimatePlayer(Player *player);
-
+void CreateAllStandardItemsIntoCorrectSlot(Player *p, Graphics *gfx);
 #endif

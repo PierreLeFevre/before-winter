@@ -15,8 +15,14 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->ent.health = 100;
     player->ent.Gold = 0;
     
-    CreateItem(&player->activeItem, gfx, IronAxeEnum);
-    AddItem(&player->ent, &player->activeItem, 0);
+    CreateItem(&player->ent.items[0], gfx, IronAxeEnum);
+    AddItem(&player->ent, &player->ent.items[0], 0);
+    strcpy(player->ent.items[0].Name, "Iron Axe");
+
+    CreateItem(&player->ent.items[1], gfx, IronPickaxeEnum);
+    AddItem(&player->ent, &player->ent.items[1], 1);
+    strcpy(player->ent.items[1].Name, "Iron Pickaxe");
+
 
     DrawableSetSrcRect(&player->ent.d, srcrect);
 
@@ -28,7 +34,7 @@ void UpdatePlayer(Player *player)
     UpdatePlayerDirection(player);
     UpdateEntity(&player->ent);
 
-    UpdateItemPreview(player, player->ent.items[0]);
+    UpdateItemPreview(player, &player->ent.items[1]);
 
     UpdatePlayerHitbox(player);
 }
@@ -114,4 +120,17 @@ void AnimatePlayer(Player* player){
         player->animationState = -1;
         player->ent.d.srcrect.x = 0;
     }
+}
+void CreateAllStandardItemsIntoCorrectSlot(Player *player, Graphics *gfx){
+    CreateItem(&player->ent.items[0], gfx, IronAxeEnum);
+    AddItem(&player->ent, &player->ent.items[0], 0);
+    strcpy(player->ent.items[0].Name, "Iron Axe");
+
+    CreateItem(&player->ent.items[1], gfx, IronPickaxeEnum);
+    AddItem(&player->ent, &player->ent.items[1], 1);
+    strcpy(player->ent.items[1].Name, "Iron Pickaxe");
+
+    CreateItem(&player->ent.items[2], gfx, IronSwordEnum);
+    AddItem(&player->ent, &player->ent.items[2], 2);
+    strcpy(player->ent.items[2].Name, "Iron Sword");
 }
