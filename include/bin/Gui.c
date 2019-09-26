@@ -18,7 +18,7 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     ConstructDrawable(&g->messageBox, g->messageBox.gfx, "include/assets/guibox.png", messageBox_destrect, 19998);
 
     SDL_Rect charToPrint_destRect = {0,0,0,0};
-    ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII.png", charToPrint_destRect, 20000);
+    ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII_COLOR.png", charToPrint_destRect, 20000);
 
     MsgBoxShow(g, 0); //Turn messagebox on or off: 1= active, 0 = off
     MsgBoxText(g, ""); //Set text for messageBox
@@ -33,15 +33,15 @@ void UpdateGui(Gui* g){
     RenderText(g, 160, 520, 1, "Gold:");
     char gold[100];
     gcvt(g->p->ent.Gold, 6, gold);
-    RenderText(g, 220, 520, 1, gold);
+    RenderText(g, 220, 520, 6, gold);
 
     RenderText(g, 320, 520, 1, "HP: ");
     char health[100];
     gcvt(g->p->ent.health, 6, health);
-    RenderText(g, 365, 520, 1, health);
+    RenderText(g, 365, 520, 4, health);
 
     RenderText(g, 160, 540, 1, "Items:");
-    RenderText(g, 235, 540, 1, g->p->ent.items[0]->Name);
+    RenderText(g, 235, 540, 0, g->p->ent.items[0]->Name);
     
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     if(g->messageActive){
@@ -77,6 +77,16 @@ void UpdateGui(Gui* g){
 }
 
 void RenderText(Gui* g, int x, int y, int b, char text[]){
+
+    // b: Define color and thiccness
+    // b = 0: Black;    Regular 
+    // b = 1: Black;    Bold 
+    // b = 2: White;    Regular 
+    // b = 3: White;    Bold 
+    // b = 4: Red;      Regular 
+    // b = 5: Red;      Bold 
+    // b = 6: Green;    Regular 
+    // b = 7: Green;    Bold 
 
     SDL_Rect destrect = {x, y, 17, 18};
      
