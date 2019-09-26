@@ -15,9 +15,25 @@ typedef struct Gui{
 
 }Gui;
 
+typedef enum Color{
+    Black,
+    White,
+    Red,
+    Green,
+    Yellow,
+    Blue,
+    Magenta,
+    Cyan
+}Color;
+
+typedef enum Format{
+    Regular,
+    Bold
+}Format;
+
 void ConstructGui(Gui* g, Graphics* gfx, Player* p);
 void UpdateGui(Gui* g);
-void RenderText(Gui* g, int x, int y, int b, char text[]);
+void RenderText(Gui* g, int x, int y, Color c, Format f, char text[]);
 
 void MsgBoxShow(Gui* g, int messageActive);
 void MsgBoxText(Gui* g, char message[201]);

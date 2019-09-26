@@ -30,18 +30,18 @@ void UpdateGui(Gui* g){
     Draw(g->d);
 
     //Render gui text
-    RenderText(g, 160, 520, 1, "Gold:");
+    RenderText(g, 160, 520, Black, Regular, "Gold:");
     char gold[100];
     gcvt(g->p->ent.Gold, 6, gold);
-    RenderText(g, 220, 520, 6, gold);
+    RenderText(g, 220, 520, Green, Bold, gold);
 
-    RenderText(g, 320, 520, 1, "HP: ");
+    RenderText(g, 320, 520, Black, Bold, "HP: ");
     char health[100];
     gcvt(g->p->ent.health, 6, health);
-    RenderText(g, 365, 520, 4, health);
+    RenderText(g, 365, 520, Red, Regular, health);
 
-    RenderText(g, 160, 540, 1, "Items:");
-    RenderText(g, 235, 540, 0, g->p->ent.items[0]->Name);
+    RenderText(g, 160, 540, Black, Bold, "Items:");
+    RenderText(g, 235, 540, Black, Regular, g->p->ent.items[0]->Name);
     
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     if(g->messageActive){
@@ -54,17 +54,17 @@ void UpdateGui(Gui* g){
         Draw(g->messageBox);
 
         //Draw message text
-        RenderText(g, 65, 80, 0, g->message);
+        RenderText(g, 65, 80, Red, Bold, g->message);
         
-        RenderText(g, 65, 100, 0, "X:          Y:");
+        RenderText(g, 65, 100, Black, Bold, "X:          Y:");
 
         char xPos[100];
         gcvt(g->p->ent.d.destrect.x, 6, xPos);
-        RenderText(g, 65, 120, 0, xPos);
+        RenderText(g, 65, 120, Black, Regular, xPos);
 
         char yPos[100];
         gcvt(g->p->ent.d.destrect.y, 6, yPos);
-        RenderText(g, 185, 120, 0, yPos);
+        RenderText(g, 185, 120, Black, Regular, yPos);
     }
     else
     { 
@@ -76,17 +76,7 @@ void UpdateGui(Gui* g){
 
 }
 
-void RenderText(Gui* g, int x, int y, int b, char text[]){
-
-    // b: Define color and thiccness
-    // b = 0: Black;    Regular 
-    // b = 1: Black;    Bold 
-    // b = 2: White;    Regular 
-    // b = 3: White;    Bold 
-    // b = 4: Red;      Regular 
-    // b = 5: Red;      Bold 
-    // b = 6: Green;    Regular 
-    // b = 7: Green;    Bold 
+void RenderText(Gui* g, int x, int y, Color c, Format f, char text[]){
 
     SDL_Rect destrect = {x, y, 17, 18};
      
@@ -121,7 +111,7 @@ void RenderText(Gui* g, int x, int y, int b, char text[]){
         g->charToPrint.destrect.h = 18;
 
         g->charToPrint.srcrect.x = 17 * ( text[i] - 32);
-        g->charToPrint.srcrect.y = b * 18;
+        g->charToPrint.srcrect.y = f * 18 + 2 * c * 18;
         g->charToPrint.srcrect.w = 17;
         g->charToPrint.srcrect.h = 18;
 
