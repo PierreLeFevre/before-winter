@@ -15,13 +15,7 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->ent.health = 100;
     player->ent.Gold = 0;
     
-    CreateItem(&player->ent.items[0], gfx, IronAxeEnum);
-    AddItem(&player->ent, &player->ent.items[0], 0);
-    strcpy(player->ent.items[0].Name, "Iron Axe");
-
-    CreateItem(&player->ent.items[1], gfx, IronPickaxeEnum);
-    AddItem(&player->ent, &player->ent.items[1], 1);
-    strcpy(player->ent.items[1].Name, "Iron Pickaxe");
+    CreateAllStandardItemsIntoCorrectSlot(player, gfx);
 
 
     DrawableSetSrcRect(&player->ent.d, srcrect);

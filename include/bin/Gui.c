@@ -42,7 +42,7 @@ void UpdateGui(Gui* g){
     RenderText(g, 365, 520, Red, Regular, health);
 
     RenderText(g, 160, 540, Black, Bold, "Items:");
-    RenderText(g, 235, 540, Black, Regular, g->p->ent.items[0].Name);
+    RenderText(g, 235, 540, Black, Regular, g->p->ent.items[1].Name);
     
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     if (g->messageToggler > 20)
