@@ -11,13 +11,79 @@
         <div class="sidebar">
         <h3>Before Winter Docs</h3>
 
+        <a href="#welcome">welcome</a>
+        <a href="#gui">gui</a>
+
         </div>
         <div class="content-wrapper">
-            <section id="top">
-                <h1>Welcome</h1>
+            <section id="welcome">
+                <a href="#welcome"><h1>#welcome</h1></a>
                 <p>Hello world</p>
 
+                <img src="./img/game.png" width="400">
             </section>
+
+            <section id="gui">
+                <a href="#gui"><h1>#gui</h1></a>
+                <img class="img-no-native-shadow" src="./img/gui.png" width="400">
+                <h4>Intro to gui</h4>
+                <p>The GUI in Before Winter is created using a texture map of the ascii table in full 8 bit color. The available font weights being Regular and Bold.</p>  
+                <br><br>
+                <h2>Overview</h2>
+                <p class="code">
+                    <span class="clr-blue">void</span> <span class="clr-yellow">ConstructGui</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>, <span class="clr-green">Graphics</span>* <span class="clr-lblue">gfx</span>, <span class="clr-green">Player</span>* <span class="clr-lblue">p</span>);<br>
+                    <span class="clr-blue">void</span> <span class="clr-yellow">UpdateGui</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>);<br>
+                    <span class="clr-blue">void</span> <span class="clr-yellow">RenderText</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>, <span class="clr-blue">int</span> <span class="clr-lblue">x</span>, <span class="clr-blue">int</span> <span class="clr-lblue">y</span>, <span class="clr-blue">int</span> <span class="clr-lblue">w</span>, <span class="clr-green">Color</span> <span class="clr-lblue">c</span>, <span class="clr-green">Format</span> <span class="clr-lblue">f</span>, <span class="clr-blue">char</span> <span class="clr-lblue">text</span>[]);<br>
+
+                    <span class="clr-blue">void</span> <span class="clr-yellow">MsgBoxShow</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>, <span class="clr-blue">int</span> <span class="clr-lblue">messageActive</span>);<br>
+                    <span class="clr-blue">void</span> <span class="clr-yellow">MsgBoxText</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>, <span class="clr-blue">char</span> <span class="clr-lblue">message</span>[<span class="clr-green">201</span>]);
+                </p>
+                <br>
+                <h2>ConstructGui & Gui struct</h2>
+                <p class="code"><span class="clr-blue">void</span> <span class="clr-yellow">ConstructGui</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>, <span class="clr-green">Graphics</span>* <span class="clr-lblue">gfx</span>, <span class="clr-green">Player</span>* <span class="clr-lblue">p</span>);<br><br>
+                    
+                    <span class="clr-blue">typedef struct</span> <span class="clr-green">Gui</span>{<br>
+                        &nbsp;&nbsp;<span class="clr-green">Drawable</span> <span class="clr-lblue">d</span>;<br>
+                        &nbsp;&nbsp;<span class="clr-green">Drawable</span> <span class="clr-lblue">charToPrint</span>;<br>
+                        &nbsp;&nbsp;<span class="clr-green">Drawable</span> <span class="clr-lblue">messageBox</span>;<br>
+                        &nbsp;&nbsp;<span class="clr-blue">char</span> <span class="clr-lblue">message</span>[<span class="clr-green">201</span>];<br>
+                        &nbsp;&nbsp;<span class="clr-blue">int</span> <span class="clr-lblue">messageActive</span>;<br>
+                        &nbsp;&nbsp;<span class="clr-blue">int</span> <span class="clr-lblue">messageToggler</span>;<br>
+                        &nbsp;&nbsp;<span class="clr-green">Player</span>* p;<br>
+                    
+                    }<span class="clr-green">Gui</span>;
+                </p>
+
+                <p>The function takes in Gui, Gfx and Player objects created in <a href="#game">#game</a> and assigns them to the respective pointers in the Gui objects.
+
+                </p>
+
+                <br>
+                <h2>UpdateGui</h2>
+                <p class="code"><span class="clr-blue">void</span> <span class="clr-yellow">UpdateGui</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>);</p>
+                
+                <p>The function takes in Gui, Gfx and Player objects created in <a href="#game">#game</a> and assigns them to the respective pointers in the Gui objects.</p>
+
+                <br>
+                <h2>RenderText</h2>
+                <p class="code"><span class="clr-blue">void</span> <span class="clr-yellow">RenderText</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>, <span class="clr-blue">int</span> <span class="clr-lblue">x</span>, <span class="clr-blue">int</span> <span class="clr-lblue">y</span>, <span class="clr-blue">int</span> <span class="clr-lblue">w</span>, <span class="clr-green">Color</span> <span class="clr-lblue">c</span>, <span class="clr-green">Format</span> <span class="clr-lblue">f</span>, <span class="clr-blue">char</span> <span class="clr-lblue">text</span>[]);</p>
+                
+                <p>The function takes in Gui, Gfx and Player objects created in <a href="#game">#game</a> and assigns them to the respective pointers in the Gui objects.</p>
+
+                <br>
+                <h2>MsgBoxShow</h2>
+                <p class="code"><span class="clr-blue">void</span> <span class="clr-yellow">MsgBoxShow</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>, <span class="clr-blue">int</span> <span class="clr-lblue">messageActive</span>);</p>
+                
+                <p>The function takes in Gui, Gfx and Player objects created in <a href="#game">#game</a> and assigns them to the respective pointers in the Gui objects.</p>
+
+                <br>
+                <h2>MsgBoxText</h2>
+                <p class="code"><span class="clr-blue">void</span> <span class="clr-yellow">MsgBoxText</span>(<span class="clr-green">Gui</span>* <span class="clr-lblue">g</span>, <span class="clr-blue">char</span> <span class="clr-lblue">message</span>[<span class="clr-green">201</span>]);</p>
+                
+                <p>The function takes in Gui, Gfx and Player objects created in <a href="#game">#game</a> and assigns them to the respective pointers in the Gui objects.</p>
+                
+            </section>
+            
         </div>
     </div>
 
