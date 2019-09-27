@@ -21,6 +21,9 @@ typedef struct Gui{
 
     int invActive;
     int invToggler;
+
+    char promptText[20];
+    int promptToggler;
     
     Player* p;
 
@@ -50,5 +53,7 @@ void MsgBoxShow(Gui* g, int messageActive);
 void MsgBoxText(Gui* g, char message[201]);
 void GuiInventory(Gui* g);
 void GuiMenu(Gui* g);
+void GuiPrompt(Gui* g);
+void guiPingToggler(Gui* g, int timer, char promptText[20]);
 
 #endif

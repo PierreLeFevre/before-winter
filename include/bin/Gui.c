@@ -20,6 +20,8 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     g->invActive = 0;
     g->invToggler = 0;
 
+    g->promptToggler = 0;
+
     SDL_Rect charToPrint_destRect = {0,0,0,0};
     ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII_COLOR.png", charToPrint_destRect, 20000);
 
@@ -70,6 +72,7 @@ void UpdateGui(Gui* g){
 
     GuiInventory(g);
     GuiMenu(g);
+    GuiPrompt(g);
 }
 
 void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]){
@@ -153,6 +156,8 @@ void GuiInventory(Gui* g){
             if (Keys[SDL_SCANCODE_E]){
                 g->invActive = 0;
                 g->invToggler = 0;
+
+                guiPingToggler(g, 3, "halloj");
             }
             else
             {
@@ -215,4 +220,18 @@ void GuiMenu(Gui* g){
     }
 
     g->menuToggler += 1;
+}
+
+void GuiPrompt(Gui* g){
+    
+    if(g->promptToggler > 0)
+    {
+        RenderText(g, 15, 15, 0, Black, Bold, g->promptText);
+        g->promptToggler -= 1;
+    }    
+}
+
+void guiPingToggler(Gui* g, int timer, char promptText[20]){
+    strcpy(g->promptText, promptText);
+    g->promptToggler = 60*timer;
 }
