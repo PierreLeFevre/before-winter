@@ -84,14 +84,20 @@ void UpdateLogic(Game *g)
 
     //DISPLAY ITEMS****************************
     if (Keys[SDL_SCANCODE_1]){
+        g->player.ent.items[0].d.destrect.x = g->player.activeItem.d.destrect.x;
+        g->player.ent.items[0].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[0];
         g->player.activeItemIndex = 0;
     }
     if (Keys[SDL_SCANCODE_2]){
+        g->player.ent.items[1].d.destrect.x = g->player.activeItem.d.destrect.x;
+        g->player.ent.items[1].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[1];
         g->player.activeItemIndex = 1;
     }
     if (Keys[SDL_SCANCODE_3]){
+        g->player.ent.items[2].d.destrect.x = g->player.activeItem.d.destrect.x;
+        g->player.ent.items[2].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[2];
         g->player.activeItemIndex = 2;
     }
