@@ -22,7 +22,7 @@ typedef struct Gui{
     int invActive;
     int invToggler;
 
-    char promptText[20];
+    char promptText[100];
     int promptToggler;
     
     Player* p;

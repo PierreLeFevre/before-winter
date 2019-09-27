@@ -156,8 +156,6 @@ void GuiInventory(Gui* g){
             if (Keys[SDL_SCANCODE_E]){
                 g->invActive = 0;
                 g->invToggler = 0;
-
-                guiPingToggler(g, 3, "halloj");
             }
             else
             {
@@ -231,7 +229,7 @@ void GuiPrompt(Gui* g){
     }    
 }
 
-void guiPingToggler(Gui* g, int timer, char promptText[20]){
+void guiPingToggler(Gui* g, int timer, char promptText[100]){
     strcpy(g->promptText, promptText);
     g->promptToggler = 60*timer;
 }

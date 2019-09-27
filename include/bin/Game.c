@@ -68,18 +68,28 @@ void UpdateLogic(Game *g)
     g->BuyItemCooldown++;
     if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50){
         g->BuyItemCooldown = 0;
-        printf("bought item 0\n");
-        BuyItem(&g->player.ent, &g->CoreItems[0]);//BUY ITEM EVENT
+        BuyItem(&g->player.ent, &g->CoreItems[0]);
+
+        char buffer[100];
+        sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
+        guiPingToggler(&g->gui, 3, buffer);
     }
     if (Keys[SDL_SCANCODE_R] && g->BuyItemCooldown > 50){
         g->BuyItemCooldown = 0;
-        printf("bought item 1\n");
-        BuyItem(&g->player.ent, &g->CoreItems[1]);//BUY ITEM EVENT
+        BuyItem(&g->player.ent, &g->CoreItems[1]);
+
+        char buffer[100];
+        sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
+        guiPingToggler(&g->gui, 3, buffer);
+
     }
     if (Keys[SDL_SCANCODE_T] && g->BuyItemCooldown > 50){
         g->BuyItemCooldown = 0;
-        printf("bought item 2\n");
-        BuyItem(&g->player.ent, &g->CoreItems[2]);//BUY ITEM EVENT
+        BuyItem(&g->player.ent, &g->CoreItems[2]);
+
+        char buffer[100];
+        sprintf(buffer, "Bought item: %s", g->CoreItems[2].Name);
+        guiPingToggler(&g->gui, 3, buffer);
     }
 
     //DISPLAY ITEMS****************************
