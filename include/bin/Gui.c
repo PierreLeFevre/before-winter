@@ -51,7 +51,7 @@ void UpdateGui(Gui* g){
     RenderText(g, 160, 520, 0, Black, Regular, "Gold:");
     char gold[100];
     gcvt(g->p->ent.Gold, 6, gold);
-    RenderText(g, 220, 520, 0, Green, Bold, gold);
+    RenderText(g, 220, 520, 0, Yellow, Bold, gold);
 
     RenderText(g, 320, 520, 0, Black, Bold, "HP:");
     char health[100];

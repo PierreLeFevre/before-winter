@@ -16,8 +16,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
 
     //TMP items*************
-    CreateItem(&g->CoreItems[0], &g->gfx, IronPickaxeEnum);
-    CreateItem(&g->CoreItems[1], &g->gfx, IronAxeEnum);
+    CreateAllStandardItems(g);
     //TMP items****************
 
     g->RenderList = (Drawable**) malloc(sizeof(Drawable*) * 5000);
@@ -77,12 +76,32 @@ void UpdateLogic(Game *g)
         printf("bought item 1\n");
         BuyItem(&g->player.ent, &g->CoreItems[1]);//BUY ITEM EVENT
     }
+    if (Keys[SDL_SCANCODE_T] && g->BuyItemCooldown > 50){
+        g->BuyItemCooldown = 0;
+        printf("bought item 2\n");
+        BuyItem(&g->player.ent, &g->CoreItems[2]);//BUY ITEM EVENT
+    }
+
+    //DISPLAY ITEMS****************************
     if (Keys[SDL_SCANCODE_1]){
+        g->player.ent.items[0].d.destrect.x = g->player.activeItem.d.destrect.x;
+        g->player.ent.items[0].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[0];
+        g->player.activeItemIndex = 0;
     }
     if (Keys[SDL_SCANCODE_2]){
+        g->player.ent.items[1].d.destrect.x = g->player.activeItem.d.destrect.x;
+        g->player.ent.items[1].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[1];
+        g->player.activeItemIndex = 1;
     }
+    if (Keys[SDL_SCANCODE_3]){
+        g->player.ent.items[2].d.destrect.x = g->player.activeItem.d.destrect.x;
+        g->player.ent.items[2].d.destrect.y = g->player.activeItem.d.destrect.y;
+        g->player.activeItem = g->player.ent.items[2];
+        g->player.activeItemIndex = 2;
+    }
+    //DISPLAY ITEMS****************************
     UpdateCamera(&g->cam);
 }
 
@@ -93,7 +112,7 @@ void Render(Game *g)
     AddToRenderList(g, &g->player.ent.d);
     AddToRenderList(g, &g->animals[0].ent.d);
 
-    AddToRenderList(g, &g->player.itemPreview);
+    AddToRenderList(g, &g->player.activeItem.d);
 
     SortRenderList(g);
 
@@ -203,4 +222,9 @@ void SortRenderList(Game *g)
             }
         }
     }
+}
+void CreateAllStandardItems(Game *g){
+    CreateItem(&g->CoreItems[0], &g->gfx, IronPickaxeEnum);
+    CreateItem(&g->CoreItems[1], &g->gfx, IronAxeEnum);
+    CreateItem(&g->CoreItems[2], &g->gfx, IronSwordEnum);
 }
