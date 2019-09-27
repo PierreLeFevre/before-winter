@@ -102,12 +102,15 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item){
     switch(item){
         case IronAxeEnum:
             ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_axe.png", r, z);
+            strcpy(i->Name, "Iron Axe");
             break;
         case IronPickaxeEnum:
             ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_pickaxe.png", r, z);
+            strcpy(i->Name, "Iron Pickaxe");
             break;
         case IronSwordEnum:
             ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_sword.png", r, z);
+            strcpy(i->Name, "Iron Sword");
             break;
     }
 }
