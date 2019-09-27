@@ -97,7 +97,7 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     //----------------
     switch(mdc){
         case MUD:
-            tp.filePath = "include/assets/mud.jpg";
+            tp.filePath = "include/assets/mud-new.jpg";
             break;
         case GRASS:
             tp.filePath = "include/assets/grass-tile-3.png";

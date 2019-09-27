@@ -58,8 +58,8 @@ void UpdateLogic(Game *g)
         //TEMP -----
         if (Keys[SDL_SCANCODE_SPACE]) {
             if(SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]) ){
-                if(!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.jpg")){
-                    ChangeImagePath(&g->GoodTiles[i]->ds[0], "include/assets/mud_seeded.jpg");
+                if(!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg")){
+                    ChangeImagePath(&g->GoodTiles[i]->ds[0], "include/assets/mud-new_seeded.jpg");
                 }
             }
         }
