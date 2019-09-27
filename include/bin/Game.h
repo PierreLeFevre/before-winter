@@ -28,6 +28,9 @@ typedef struct Game
     int nGoodTiles;
     Player player;
     Animal animals[10];
+    
+    Item CoreItems[100];
+    int BuyItemCooldown;
     Gui gui;
 }Game;
 void Input(SDL_Event *e, GameState gs, Game *g);

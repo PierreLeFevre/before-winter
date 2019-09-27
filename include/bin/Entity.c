@@ -57,9 +57,14 @@ void CheckEntityCollision(Entity* e, SDL_Rect other_hitbox){
 }
 
 int BuyItem(Entity *e, Item *i){
+    if (e->n_items >= N_ENTITYITEMS){
+        printf("max Items %d\n", e->n_items);
+        return 0;
+    }
     if (e->Gold >= i->Cost){
         e->Gold -= i->Cost;
         e->items[e->n_items] = *i;
+        e->n_items = e->n_items + 1;
         return 1;
     }
     else{
@@ -91,6 +96,9 @@ void UpdateItem(Entity *e, Item *i, int index){
 void CreateItem(Item *i, Graphics *gfx, ItemEnums item){
     SDL_Rect r= {100, 100,60,60};
     int z = 10000;
+
+    i->Cost = 0;
+
     switch(item){
         case IronAxeEnum:
             ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_axe.png", r, z);

@@ -2,6 +2,7 @@
 #define ENTITY_H
 #include "Drawable.h"
 #include "Item.h"
+#define N_ENTITYITEMS 10
 typedef struct Entity{
     Drawable d;
     SDL_Rect hitbox;
@@ -21,7 +22,7 @@ typedef struct Entity{
     float health;
 
     int Gold;
-    Item items[100];
+    Item items[N_ENTITYITEMS];
     int n_items;
 
 }Entity;

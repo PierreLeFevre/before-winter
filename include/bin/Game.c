@@ -7,12 +7,18 @@
 
 void ConstructGame(Game *g, int *noExit)
 {
+    
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);    
     ConstructGui(&g->gui, &g->gfx, &g->player);
     ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
+
+    //TMP items*************
+    CreateItem(&g->CoreItems[0], &g->gfx, IronPickaxeEnum);
+    CreateItem(&g->CoreItems[1], &g->gfx, IronAxeEnum);
+    //TMP items****************
 
     g->RenderList = (Drawable**) malloc(sizeof(Drawable*) * 5000);
     g->GoodTiles = (Tile**) malloc(sizeof(Tile*) * 5000);
@@ -59,6 +65,24 @@ void UpdateLogic(Game *g)
         }
         //-----------
     }
+
+    g->BuyItemCooldown++;
+    if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50){
+        g->BuyItemCooldown = 0;
+        printf("bought item 0\n");
+        BuyItem(&g->player.ent, &g->CoreItems[0]);//BUY ITEM EVENT
+    }
+    if (Keys[SDL_SCANCODE_R] && g->BuyItemCooldown > 50){
+        g->BuyItemCooldown = 0;
+        printf("bought item 1\n");
+        BuyItem(&g->player.ent, &g->CoreItems[1]);//BUY ITEM EVENT
+    }
+    if (Keys[SDL_SCANCODE_1]){
+        g->player.activeItem = g->player.ent.items[0];
+    }
+    if (Keys[SDL_SCANCODE_2]){
+        g->player.activeItem = g->player.ent.items[1];
+    }
     UpdateCamera(&g->cam);
 }
 
@@ -70,6 +94,7 @@ void Render(Game *g)
     AddToRenderList(g, &g->animals[0].ent.d);
 
     AddToRenderList(g, &g->player.itemPreview);
+
     SortRenderList(g);
 
     RenderList(g);

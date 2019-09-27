@@ -14,8 +14,6 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     ConstructEntity(&player->ent, gfx, destrect, "include/assets/character_set.png");
     player->ent.health = 100;
     player->ent.Gold = 0;
-    
-    CreateAllStandardItemsIntoCorrectSlot(player, gfx);
 
 
     DrawableSetSrcRect(&player->ent.d, srcrect);
@@ -28,8 +26,8 @@ void UpdatePlayer(Player *player)
     UpdatePlayerDirection(player);
     UpdateEntity(&player->ent);
 
-    UpdateItemPreview(player, &player->ent.items[1]);
-
+    UpdateItemPreview(player, &player->activeItem);
+    
     UpdatePlayerHitbox(player);
 }
 
