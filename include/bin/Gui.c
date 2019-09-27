@@ -31,18 +31,18 @@ void UpdateGui(Gui* g){
     Draw(g->d);
 
     //Render gui text
-    RenderText(g, 160, 520, Black, Regular, "Gold:");
+    RenderText(g, 160, 520, 0, Black, Regular, "Gold:");
     char gold[100];
     gcvt(g->p->ent.Gold, 6, gold);
-    RenderText(g, 220, 520, Green, Bold, gold);
+    RenderText(g, 220, 520, 0, Green, Bold, gold);
 
-    RenderText(g, 320, 520, Black, Bold, "HP:");
+    RenderText(g, 320, 520, 0, Black, Bold, "HP:");
     char health[100];
     gcvt(g->p->ent.health, 6, health);
-    RenderText(g, 365, 520, Red, Regular, health);
+    RenderText(g, 365, 520, 0, Red, Regular, health);
 
-    RenderText(g, 160, 540, Black, Bold, "Items:");
-    RenderText(g, 235, 540, Black, Regular, g->p->ent.items[1].Name);
+    RenderText(g, 160, 540, 0, Black, Bold, "Items:");
+    RenderText(g, 235, 540, 0, Black, Regular, g->p->ent.items[1].Name);
     
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     if (g->messageToggler > 20)
@@ -58,19 +58,19 @@ void UpdateGui(Gui* g){
             Draw(g->messageBox);
 
             //Draw message text
-            RenderText(g, 65, 80, Red, Bold, g->message);
+            RenderText(g, 65, 80, 0, Red, Bold, g->message);
             
-            RenderText(g, 65, 100, Black, Bold, "X:          Y:");
+            RenderText(g, 65, 100, 0, Black, Bold, "X:          Y:");
 
             char xPos[100];
             gcvt(g->p->ent.d.destrect.x, 6, xPos);
-            RenderText(g, 95, 100, Black, Regular, xPos);
+            RenderText(g, 95, 100, 0, Black, Regular, xPos);
 
             char yPos[100];
             gcvt(g->p->ent.d.destrect.y, 6, yPos);
-            RenderText(g, 215, 100, Black, Regular, yPos);
+            RenderText(g, 215, 100, 0, Black, Regular, yPos);
 
-            RenderText(g, 260, 160, Black, Regular, "$$00hello $$10world \n$$01hello $$11world \n$$02hello $$12world \n$$03hello $$13world \n$$04hello $$14world \n$$05hello $$15world \n$$07hello $$17world\n");
+            RenderText(g, 70, 160, 460, Black, Regular, "$$00hello $$10world $$01hello $$11world $$02hello $$12world $$03hello $$13world $$04hello $$14world $$05hello $$15world $$07hello $$17world");
         }
         else
         { 
@@ -85,7 +85,7 @@ void UpdateGui(Gui* g){
     
 }
 
-void RenderText(Gui* g, int x, int y, Color c, Format f, char text[]){
+void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]){
 
     SDL_Rect destrect = {x, y, 17, 18};
      
@@ -119,6 +119,12 @@ void RenderText(Gui* g, int x, int y, Color c, Format f, char text[]){
             f = text[i+2] - 48;
             c = text[i+3] - 48;
             i += 4;
+        }
+
+        if(x-xStart >= w && w != 0)
+        {
+            y+=18;
+            x = xStart;
         }
         
         g->charToPrint.destrect.x = x;
