@@ -114,3 +114,6 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item){
             break;
     }
 }
+void SortItemList(){
+    
+}

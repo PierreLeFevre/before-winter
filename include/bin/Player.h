@@ -4,8 +4,8 @@
 
 typedef struct Player{
     Entity ent;
-    Drawable itemPreview;
     Item activeItem;
+    int activeItemIndex;
     
     int animationState;
 } Player;
@@ -19,5 +19,4 @@ void MovePlayer(Player *player);
 
 void DrawPlayer(Player *player);
 void AnimatePlayer(Player *player);
-void CreateAllStandardItemsIntoCorrectSlot(Player *p, Graphics *gfx);
 #endif
