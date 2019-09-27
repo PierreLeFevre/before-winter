@@ -7,19 +7,34 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     g->d.gfx = gfx;
     g->charToPrint.gfx = gfx;
     g->messageBox.gfx = gfx;
+    g->menu.gfx = gfx;
+    g->inv.gfx = gfx;
+
     g->p = p;
 
     g->messageActive = 0;
-    g->messageToggler = 0;
+
+    g->menuActive = 0;
+    g->menuToggler = 0;
+
+    g->invActive = 0;
+    g->invToggler = 0;
+
+    SDL_Rect charToPrint_destRect = {0,0,0,0};
+    ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII_COLOR.png", charToPrint_destRect, 20000);
 
     SDL_Rect gui_destrect = {100, 500, 400, 100};
     ConstructDrawable(&g->d, g->d.gfx, "include/assets/guibox.png", gui_destrect, 19999);
 
-    SDL_Rect messageBox_destrect = {50, 50, 500, 400};
-    ConstructDrawable(&g->messageBox, g->messageBox.gfx, "include/assets/guibox.png", messageBox_destrect, 19998);
+    SDL_Rect menu_destrect = {50, 50, 500, 400};
+    ConstructDrawable(&g->menu, g->menu.gfx, "include/assets/guibox.png", menu_destrect, 19998);
 
-    SDL_Rect charToPrint_destRect = {0,0,0,0};
-    ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII_COLOR.png", charToPrint_destRect, 20000);
+    SDL_Rect messageBox_destrect = {50, 50, 500, 400};
+    ConstructDrawable(&g->messageBox, g->messageBox.gfx, "include/assets/guibox.png", messageBox_destrect, 19997);
+
+    SDL_Rect inv_destrect = {50, 50, 500, 400};
+    ConstructDrawable(&g->inv, g->inv.gfx, "include/assets/guibox.png", inv_destrect, 19995);
+
 
     MsgBoxShow(g, 0); //Turn messagebox on or off: 1= active, 0 = off
     MsgBoxText(g, ""); //Set text for messageBox
@@ -41,48 +56,20 @@ void UpdateGui(Gui* g){
     gcvt(g->p->ent.health, 6, health);
     RenderText(g, 365, 520, 0, Red, Regular, health);
 
-    RenderText(g, 160, 540, 0, Black, Bold, "Items:");
-    RenderText(g, 235, 540, 0, Black, Regular, g->p->ent.items[1].Name);
+    RenderText(g, 160, 540, 0, Black, Bold, "Hand:");
+    RenderText(g, 220, 540, 0, Black, Regular, g->p->activeItem.Name);
     
-    const Uint8 *Keys = SDL_GetKeyboardState(NULL);
-    if (g->messageToggler > 20)
-    {
-        if(g->messageActive){
-
-            if (Keys[SDL_SCANCODE_ESCAPE]) {
-                MsgBoxShow(g, 0);
-                g->messageToggler = 0;
-            }
-
-            //Draw message box
-            Draw(g->messageBox);
-
-            //Draw message text
-            RenderText(g, 65, 80, 0, Red, Bold, g->message);
-            
-            RenderText(g, 65, 100, 0, Black, Bold, "X:          Y:");
-
-            char xPos[100];
-            gcvt(g->p->ent.d.destrect.x, 6, xPos);
-            RenderText(g, 95, 100, 0, Black, Regular, xPos);
-
-            char yPos[100];
-            gcvt(g->p->ent.d.destrect.y, 6, yPos);
-            RenderText(g, 215, 100, 0, Black, Regular, yPos);
-
-            RenderText(g, 70, 160, 460, Black, Regular, "$$00hello $$10world $$01hello $$11world $$02hello $$12world $$03hello $$13world $$04hello $$14world $$05hello $$15world $$07hello $$17world");
-        }
-        else
-        { 
-            if (Keys[SDL_SCANCODE_ESCAPE]) {
-                MsgBoxShow(g, 1);
-                g->messageToggler = 0;
-            }
-        }
+    //Draw message box
+    if(g->messageActive){
+        //Draw msgBox background
+        Draw(g->menu);
+        
+        //Draw message text
+        RenderText(g, 65, 80, 0, Red, Bold, g->message);
     }
 
-    g->messageToggler += 1;
-    
+    GuiInventory(g);
+    GuiMenu(g);
 }
 
 void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]){
@@ -154,4 +141,78 @@ void MsgBoxShow(Gui* g, int messageActive){
 
 void MsgBoxText(Gui* g, char message[201]){
     strcpy(g->message, message);
+}
+
+void GuiInventory(Gui* g){
+    //Draw debug window
+    const Uint8 *Keys = SDL_GetKeyboardState(NULL);
+    if (g->invToggler > 20)
+    {
+        if(g->invActive){
+
+            if (Keys[SDL_SCANCODE_E]){
+                g->invActive = 0;
+                g->invToggler = 0;
+            }
+            else
+            {
+                Draw(g->menu);
+                
+                RenderText(g, 65, 100, 0, Black, Bold, "Inventory:");
+                
+                for (int i = 0; i < 10; i++)
+                { 
+                    RenderText(g, 65, (120 + 20 * i), 0, Black, Regular, g->p->ent.items[i].Name);
+                }
+                
+            }
+        }
+        else
+        { 
+            if (Keys[SDL_SCANCODE_E]) {
+                g->invActive = 1;
+                g->invToggler = 0;
+            }
+        }
+    }
+
+    g->invToggler += 1;
+}
+
+void GuiMenu(Gui* g){
+    //Draw debug window
+    const Uint8 *Keys = SDL_GetKeyboardState(NULL);
+    if (g->menuToggler > 20)
+    {
+        if(g->menuActive){
+
+            if (Keys[SDL_SCANCODE_ESCAPE]){
+                g->menuActive = 0;
+                g->menuToggler = 0;
+            }
+
+            Draw(g->menu);
+            
+            RenderText(g, 65, 100, 0, Black, Bold, "X:          Y:");
+
+            char xPos[100];
+            gcvt(g->p->ent.d.destrect.x, 6, xPos);
+            RenderText(g, 95, 100, 0, Black, Regular, xPos);
+
+            char yPos[100];
+            gcvt(g->p->ent.d.destrect.y, 6, yPos);
+            RenderText(g, 215, 100, 0, Black, Regular, yPos);
+
+            RenderText(g, 70, 160, 460, Black, Regular, "$$00hello $$10world $$01hello $$11world $$02hello $$12world $$03hello $$13world $$04hello $$14world $$05hello $$15world $$07hello $$17world");
+        }
+        else
+        { 
+            if (Keys[SDL_SCANCODE_ESCAPE]) {
+                g->menuActive = 1;
+                g->menuToggler = 0;
+            }
+        }
+    }
+
+    g->menuToggler += 1;
 }

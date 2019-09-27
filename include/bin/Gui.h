@@ -7,11 +7,21 @@
 
 typedef struct Gui{
     Drawable d;
+    Drawable menu;
+    Drawable inv;
+
     Drawable charToPrint;
+
     Drawable messageBox;
     char message[201];
     int messageActive;
-    int messageToggler;
+
+    int menuActive;
+    int menuToggler;
+
+    int invActive;
+    int invToggler;
+    
     Player* p;
 
 }Gui;
@@ -38,5 +48,7 @@ void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]);
 
 void MsgBoxShow(Gui* g, int messageActive);
 void MsgBoxText(Gui* g, char message[201]);
+void GuiInventory(Gui* g);
+void GuiMenu(Gui* g);
 
 #endif
