@@ -70,7 +70,7 @@ void UpdateLogic(Game *g)
         g->BuyItemCooldown = 0;
         BuyItem(&g->player.ent, &g->CoreItems[0]);
 
-        char buffer[100];
+        char buffer[1000];
         sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
         guiPingToggler(&g->gui, 3, buffer);
     }
@@ -78,7 +78,7 @@ void UpdateLogic(Game *g)
         g->BuyItemCooldown = 0;
         BuyItem(&g->player.ent, &g->CoreItems[1]);
 
-        char buffer[100];
+        char buffer[1000];
         sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
         guiPingToggler(&g->gui, 3, buffer);
 
@@ -87,7 +87,7 @@ void UpdateLogic(Game *g)
         g->BuyItemCooldown = 0;
         BuyItem(&g->player.ent, &g->CoreItems[2]);
 
-        char buffer[100];
+        char buffer[1000];
         sprintf(buffer, "Bought item: %s", g->CoreItems[2].Name);
         guiPingToggler(&g->gui, 3, buffer);
     }
