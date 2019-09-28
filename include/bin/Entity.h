@@ -25,6 +25,9 @@ typedef struct Entity{
     
     Item items[N_ENTITYITEMS];
     int n_items;
+    
+    Item droppableItem;
+    SDL_bool deadTrigger;
 
 }Entity;
 

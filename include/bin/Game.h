@@ -27,7 +27,8 @@ typedef struct Game
     Tile** GoodTiles;
     int nGoodTiles;
     Player player;
-    Animal animals[10];
+    Animal animals[100];
+    int n_animals;
     
     Item CoreItems[100];
     int BuyItemCooldown;
@@ -56,3 +57,4 @@ int check_collision(SDL_Rect A, SDL_Rect B);
 void ConstructItem(Item *i, Graphics *gfx, char *FilePath);
 
 void CreateAllStandardItems(Game *g);
+void EntityDeathEvent(Game *g, Entity *e);

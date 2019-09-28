@@ -8,6 +8,7 @@ void ConstructEntity(Entity *e, Graphics* gfx, SDL_Rect destrect, char* filePath
     e->x_pos = destrect.x;
     e->y_pos = destrect.y;
     ConstructDrawable(&e->d, gfx, filePath, destrect, 0);
+    e->deadTrigger = SDL_FALSE;
 }
 void UpdateEntity(Entity *e){
     MoveEntity(e);

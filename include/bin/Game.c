@@ -112,6 +112,9 @@ void UpdateLogic(Game *g)
         g->player.activeItemIndex = 2;
     }
     //DISPLAY ITEMS****************************
+    for(int i; i < g->n_animals;i++){
+        EntityDeathEvent(g, &g->animals[i].ent);
+    }
     UpdateCamera(&g->cam);
 }
 
@@ -237,4 +240,13 @@ void CreateAllStandardItems(Game *g){
     CreateItem(&g->CoreItems[0], &g->gfx, IronPickaxeEnum);
     CreateItem(&g->CoreItems[1], &g->gfx, IronAxeEnum);
     CreateItem(&g->CoreItems[2], &g->gfx, IronSwordEnum);
+}
+void EntityDeathEvent(Game *g, Entity *e){
+    if (e->health <= 0 && !e->deadTrigger){
+        e->deadTrigger = SDL_TRUE;
+        //***********DEATH***************
+        e->droppableItem.d.destrect.x = e->d.destrect.x;
+        e->droppableItem.d.destrect.y = e->d.destrect.y;
+        AddToRenderList(g, &e->droppableItem.d);
+    }
 }
