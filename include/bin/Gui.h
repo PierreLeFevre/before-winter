@@ -57,6 +57,6 @@ void MsgBoxText(Gui* g, char message[201]);
 void GuiInventory(Gui* g);
 void GuiMenu(Gui* g);
 void GuiPrompt(Gui* g);
-void alertGui(Gui* g, int timer, char promptText[20]);
+void AlertGui(Gui* g, int timer, char promptText[20]);
 
 #endif
