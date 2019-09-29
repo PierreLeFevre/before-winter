@@ -247,7 +247,7 @@ void EntityDeathEvent(Game *g, Entity *e){
         e->deadTrigger = SDL_TRUE;
         //***********DEATH***************
         e->droppableItem = g->CoreItems[3];
-        e->droppableItem.d.z_index = e->d.z_index - 100;
+        e->droppableItem.d.z_index = e->d.z_index;
         e->droppableItem.d.destrect.x = e->d.destrect.x;
         e->droppableItem.d.destrect.y = e->d.destrect.y;
     }
