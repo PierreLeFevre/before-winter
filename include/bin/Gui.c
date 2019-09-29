@@ -270,7 +270,7 @@ void GuiPrompt(Gui* g){
     }
 }
 
-void alertGui(Gui* g, int timer, char promptText[100]){
+void AlertGui(Gui* g, int timer, char promptText[100]){
     strcpy(g->promptText, promptText);
     g->promptToggler = 60*timer;
     g->promptInit = g->promptToggler;
