@@ -54,6 +54,7 @@ int BuyItem(Entity *e, Item *i)
     }
     if (e->Gold >= i->Cost)
     {
+        
         e->Gold -= i->Cost;
         e->items[e->n_items] = *i;
         e->n_items = e->n_items + 1;

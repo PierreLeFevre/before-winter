@@ -17,7 +17,7 @@ void ConstructPlayer(Player *player, Graphics *gfx)
 
     ConstructEntity(&player->ent, gfx, destrect, "include/assets/character_set.png");
     player->ent.health = 100;
-    player->ent.Gold = 0;
+    player->ent.Gold = 10000;
 
     DrawableSetSrcRect(&player->ent.d, srcrect);
 
