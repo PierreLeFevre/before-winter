@@ -42,16 +42,20 @@ void CheckEntityCollision(Entity* e, SDL_Rect other_hitbox){
         if(xPrio){
             if(e->x_dir > 0){
                 e->x_pos -= result.w;
+                e->x_dir -=1;
             }
             if(e->x_dir < 0){
                 e->x_pos += result.w;
+                e->x_dir +=1;
             }
         }else if(yPrio){
             if(e->y_dir > 0){
                 e->y_pos -= result.h;
+                e->y_dir -=1;
             }
             if(e->y_dir < 0){
-                e->y_pos += result.h;      
+                e->y_dir +=1;
+                e->y_pos += result.h;  
             }
         }
     }

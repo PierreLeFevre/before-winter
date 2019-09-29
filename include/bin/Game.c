@@ -132,7 +132,6 @@ void Render(Game *g)
     RenderList(g);
     UpdateGui(&g->gui);
     
-    #ifdef DEBUG
     SDL_Rect playerHitbox = g->player.ent.hitbox;
     playerHitbox.x -= g->cam.camRectVirtual.x;
     playerHitbox.y -= g->cam.camRectVirtual.y;
@@ -147,6 +146,8 @@ void Render(Game *g)
         treeHitbox.y -= g->cam.camRectVirtual.y;
         SDL_RenderDrawRect(g->gfx.rend, &treeHitbox);
     }
+    #ifdef DEBUG
+    
     #endif
 }
 

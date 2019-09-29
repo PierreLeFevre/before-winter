@@ -7,6 +7,8 @@ typedef struct Entity{
     Drawable d;
     SDL_Rect hitbox;
     SDL_Rect interaction_hitbox;
+
+
     int interaction_hitbox_size;    
     int interaction_hitbox_offset;
 
