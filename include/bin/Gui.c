@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include "Gui.h"
 
@@ -9,6 +10,7 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     g->messageBox.gfx = gfx;
     g->menu.gfx = gfx;
     g->inv.gfx = gfx;
+    g->promptBg.gfx = gfx;
 
     g->p = p;
 
@@ -25,8 +27,8 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     SDL_Rect charToPrint_destRect = {0,0,0,0};
     ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII_COLOR.png", charToPrint_destRect, 20000);
 
-    SDL_Rect gui_destrect = {100, 500, 400, 100};
-    ConstructDrawable(&g->d, g->d.gfx, "include/assets/guibox.png", gui_destrect, 19999);
+    SDL_Rect gui_destrect = {80, 512, 440, 88};
+    ConstructDrawable(&g->d, g->d.gfx, "include/assets/GuiBottom.png", gui_destrect, 19999);
 
     SDL_Rect menu_destrect = {50, 50, 500, 400};
     ConstructDrawable(&g->menu, g->menu.gfx, "include/assets/guibox.png", menu_destrect, 19998);
@@ -36,6 +38,9 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
 
     SDL_Rect inv_destrect = {50, 50, 500, 400};
     ConstructDrawable(&g->inv, g->inv.gfx, "include/assets/guibox.png", inv_destrect, 19995);
+
+    SDL_Rect prompt_destrect = {0, 0, 300, 60};
+    ConstructDrawable(&g->promptBg, g->promptBg.gfx, "include/assets/GuiTop.png", prompt_destrect, 19994);
 
 
     MsgBoxShow(g, 0); //Turn messagebox on or off: 1= active, 0 = off
@@ -48,18 +53,32 @@ void UpdateGui(Gui* g){
     Draw(g->d);
 
     //Render gui text
-    RenderText(g, 160, 520, 0, Black, Regular, "Gold:");
+
+    RenderText(g, 120, 525, 0, White, Bold, "Spring, Day 15");
+    RenderText(g, 320, 525, 0, White, Bold, "Clear $$1716C");
+
+    RenderText(g, 120, 550, 0, Yellow, Bold, "Gold:");
     char gold[100];
     gcvt(g->p->ent.Gold, 6, gold);
-    RenderText(g, 220, 520, 0, Yellow, Bold, gold);
+    RenderText(g, 180, 550, 0, Yellow, Regular, gold);
 
-    RenderText(g, 320, 520, 0, Black, Bold, "HP:");
     char health[100];
     gcvt(g->p->ent.health, 6, health);
-    RenderText(g, 365, 520, 0, Red, Regular, health);
+    if(g->p->ent.health > 20)
+    {
+        RenderText(g, 320, 550, 0, White, Bold, "HP:");
+        RenderText(g, 365, 550, 0, Green, Bold, health);
+    }
+    else
+    {
+        RenderText(g, 320, 550, 0, Red, Bold, "HP:");
+        RenderText(g, 365, 550, 0, Red, Bold, health);
+    }
 
-    RenderText(g, 160, 540, 0, Black, Bold, "Hand:");
-    RenderText(g, 220, 540, 0, Black, Regular, g->p->activeItem.Name);
+    RenderText(g, 120, 575, 0, White, Bold, "Equipped:");
+    RenderText(g, 220, 575, 0, White, Regular, g->p->activeItem.Name);
+
+
     
     //Draw message box
     if(g->messageActive){
@@ -224,12 +243,35 @@ void GuiPrompt(Gui* g){
     
     if(g->promptToggler > 0)
     {
-        RenderText(g, 15, 15, 0, Black, Bold, g->promptText);
+        float percentage;
+        int total = g->promptInit;
+        int current = g->promptToggler;
+        float y = 0;
+
+
+        percentage = 100 - (float)current / total * 100.0;
+
+        if (percentage <= 33){
+            y = - 45 + 15*(percentage/100*12);
+        }
+        else if (percentage > 33 && percentage <= 66){
+            y = 15;
+        }
+        else if (percentage > 66){
+            y = - 45 + 15*((100 - percentage)/100*12);
+        }
+
+        g->promptBg.destrect.y = y - 30;
+
+        Draw(g->promptBg);
+        RenderText(g, 20, round(y) - 7, 0, White, Bold, g->promptText);
+
         g->promptToggler -= 1;
-    }    
+    }
 }
 
 void guiPingToggler(Gui* g, int timer, char promptText[100]){
     strcpy(g->promptText, promptText);
     g->promptToggler = 60*timer;
+    g->promptInit = g->promptToggler;
 }

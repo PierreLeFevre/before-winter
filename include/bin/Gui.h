@@ -22,8 +22,10 @@ typedef struct Gui{
     int invActive;
     int invToggler;
 
+    Drawable promptBg;
     char promptText[100];
     int promptToggler;
+    int promptInit;
     
     Player* p;
 
