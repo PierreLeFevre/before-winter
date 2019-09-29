@@ -3,7 +3,8 @@
 typedef enum ItemEnums{
     IronAxeEnum,
     IronPickaxeEnum,
-    IronSwordEnum
+    IronSwordEnum,
+    DiamondEnum
 }ItemEnums;
 
 typedef struct Stats{

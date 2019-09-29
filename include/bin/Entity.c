@@ -117,6 +117,10 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item){
             ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_sword.png", r, z);
             strcpy(i->Name, "Iron Sword");
             break;
+        case DiamondEnum:
+            ConstructDrawable(&i->d, gfx, "./include/assets/item/diamond.png", r, z);
+            strcpy(i->Name, "Diamond");
+            break;
     }
 }
 void SortItemList(){

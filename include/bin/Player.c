@@ -16,7 +16,6 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     player->ent.Gold = 0;
 
 
-
     DrawableSetSrcRect(&player->ent.d, srcrect);
 
     UpdatePlayerHitbox(player);
@@ -24,9 +23,10 @@ void ConstructPlayer(Player* player, Graphics* gfx){
 
 void UpdatePlayer(Player *player)
 {
+    player->ent.health -= 1;
     UpdatePlayerDirection(player);
     UpdateEntity(&player->ent);
-
+    
     UpdateItemPreview(player, &player->activeItem);
     UpdatePlayerHitbox(player);
 }

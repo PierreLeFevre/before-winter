@@ -112,9 +112,7 @@ void UpdateLogic(Game *g)
         g->player.activeItemIndex = 2;
     }
     //DISPLAY ITEMS****************************
-    for(int i; i < g->n_animals;i++){
-        EntityDeathEvent(g, &g->animals[i].ent);
-    }
+    EntityDeathEvent(g, &g->player.ent);
     UpdateCamera(&g->cam);
 }
 
@@ -126,11 +124,12 @@ void Render(Game *g)
     AddToRenderList(g, &g->animals[0].ent.d);
 
     AddToRenderList(g, &g->player.activeItem.d);
-
+    AddToRenderList(g, &g->player.ent.droppableItem.d);
     SortRenderList(g);
 
     RenderList(g);
     UpdateGui(&g->gui);
+
     
     
     #ifdef DEBUG
@@ -241,13 +240,14 @@ void CreateAllStandardItems(Game *g){
     CreateItem(&g->CoreItems[0], &g->gfx, IronPickaxeEnum);
     CreateItem(&g->CoreItems[1], &g->gfx, IronAxeEnum);
     CreateItem(&g->CoreItems[2], &g->gfx, IronSwordEnum);
+    CreateItem(&g->CoreItems[3], &g->gfx, DiamondEnum);
 }
 void EntityDeathEvent(Game *g, Entity *e){
-    if (e->health <= 0 && !e->deadTrigger){
+    if (e->health <= 0 && e->deadTrigger == SDL_FALSE){
         e->deadTrigger = SDL_TRUE;
         //***********DEATH***************
+        e->droppableItem = g->CoreItems[3];
         e->droppableItem.d.destrect.x = e->d.destrect.x;
         e->droppableItem.d.destrect.y = e->d.destrect.y;
-        AddToRenderList(g, &e->droppableItem.d);
     }
 }
