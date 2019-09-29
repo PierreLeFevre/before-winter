@@ -44,6 +44,5 @@ void SellItem(Entity *e, Item *i);
 
 void AddItem(Entity *e, Item *i, int index);
 void CreateItem(Item *i,Graphics *gfx, ItemEnums item);
-void UpdateItem(Entity *e, Item *i, int index);
 void SpawnItemOnMap(int x, int y, Item *i);
 #endif
