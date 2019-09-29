@@ -3,8 +3,10 @@
 #include "FuncLib.h"
 #include <time.h>
 #include <math.h>
+#include <stdlib.h>
 
-void ConstructAnimal(Animal* a, Graphics* gfx, char* filePath){
+void ConstructAnimal(Animal *a, Graphics *gfx, char *filePath)
+{
     a->ent.x_vel = 0.4f;
     a->ent.y_vel = 0.4f;
     a->biggest_distance_x = 100;
@@ -18,9 +20,11 @@ void ConstructAnimal(Animal* a, Graphics* gfx, char* filePath){
     DrawableSetSrcRect(&a->ent.d, destrect);
     GenerateDesiredPosition(a);
 }
-void UpdateAnimal(Animal *a){
+void UpdateAnimal(Animal *a)
+{
     //Generate a direction vector towards desired position
-    if(a->ent.d.destrect.x < a->x_desired + 2 && a->ent.d.destrect.x > a->x_desired - 2 ){
+    if (a->ent.d.destrect.x < a->x_desired + 2 && a->ent.d.destrect.x > a->x_desired - 2)
+    {
         GenerateDesiredPosition(a);
     }
     //----------------------------------------------------
@@ -35,7 +39,10 @@ void UpdateAnimal(Animal *a){
     a->ent.hitbox = a->ent.d.destrect;
     UpdateEntity(&a->ent);
 }
-void GenerateDesiredPosition(Animal* a){
+void GenerateDesiredPosition(Animal *a)
+{
+    time_t t;
+    srand((unsigned)time(&t));
     a->x_desired = Map(rand() % (int)a->biggest_distance_x, 0, a->biggest_distance_x, a->x_posSTART - a->biggest_distance_x / 2, a->x_posSTART + a->biggest_distance_x / 2);
     a->y_desired = Map(rand() % (int)a->biggest_distance_y, 0, a->biggest_distance_y, a->x_posSTART - a->biggest_distance_y / 2, a->x_posSTART + a->biggest_distance_y / 2);
 }

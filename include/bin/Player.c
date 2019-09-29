@@ -4,9 +4,13 @@
 #include "FuncLib.h"
 #include "Entity.h"
 
-void ConstructPlayer(Player* player, Graphics* gfx){
-    player->ent.x_vel = 2.0f;
-    player->ent.y_vel = 2.0f;
+void ConstructPlayer(Player *player, Graphics *gfx)
+{
+    // player->ent.x_vel = 2.0f;
+    // player->ent.y_vel = 2.0f;
+    player->ent.movement_speed = 5.0f;
+    player->ent.accaleration = 1.1f;
+    player->ent.friction = 0.6f;
 
     SDL_Rect destrect = {6 * TILE_WIDTH, 9 * TILE_HEIGHT, 60, 60};
     SDL_Rect srcrect = {0, 0, 18, 18};
@@ -14,7 +18,6 @@ void ConstructPlayer(Player* player, Graphics* gfx){
     ConstructEntity(&player->ent, gfx, destrect, "include/assets/character_set.png");
     player->ent.health = 100;
     player->ent.Gold = 0;
-
 
     DrawableSetSrcRect(&player->ent.d, srcrect);
 
@@ -26,30 +29,33 @@ void UpdatePlayer(Player *player)
     player->ent.health -= 1;
     UpdatePlayerDirection(player);
     UpdateEntity(&player->ent);
-    
+
     UpdateItemPreview(player, &player->activeItem);
     UpdatePlayerHitbox(player);
 }
 
-void UpdateItemPreview(Player* player, Item *i){
+void UpdateItemPreview(Player *player, Item *i)
+{
     player->activeItem.d = i->d;
     player->activeItem.d.destrect.x = player->ent.d.destrect.x;
-    player->activeItem.d.destrect.y = player->ent.d.destrect.y -70;
+    player->activeItem.d.destrect.y = player->ent.d.destrect.y - 70;
 }
 
-void UpdatePlayerDirection(Player* player){
+void UpdatePlayerDirection(Player *player)
+{
     player->ent.x_dir = 0.0f;
     player->ent.y_dir = 0.0f;
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     SDL_PumpEvents();
     player->ent.x_dir += (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) - (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]);
     player->ent.y_dir += (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) - (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]);
-    
+
     AnimatePlayer(player);
 }
 
-void UpdatePlayerHitbox(Player* player){
-    Entity* e = &player->ent;
+void UpdatePlayerHitbox(Player *player)
+{
+    Entity *e = &player->ent;
     e->hitbox.x = e->d.destrect.x + 10;
     e->hitbox.y = e->d.destrect.y + e->d.destrect.h - 10;
     e->hitbox.w = e->d.destrect.w - 20;
@@ -61,11 +67,12 @@ void UpdatePlayerHitbox(Player* player){
     e->interaction_hitbox.h = e->interaction_hitbox_size;
 }
 
-void AnimatePlayer(Player* player){
+void AnimatePlayer(Player *player)
+{
     player->ent.d.srcrect.w = 16;
     player->ent.d.srcrect.h = 18;
 
-    if(player->ent.x_dir != 0 || player->ent.y_dir != 0)
+    if (player->ent.x_dir != 0 || player->ent.y_dir != 0)
     {
         player->animationState += 1;
         //Choose direction in layer
