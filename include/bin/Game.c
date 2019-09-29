@@ -78,7 +78,7 @@ void UpdateLogic(Game *g)
 
         char buffer[1000];
         sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
-        guiPingToggler(&g->gui, 2, buffer);
+        alertGui(&g->gui, 2, buffer);
     }
     if (Keys[SDL_SCANCODE_R] && g->BuyItemCooldown > 50)
     {
@@ -87,7 +87,7 @@ void UpdateLogic(Game *g)
 
         char buffer[1000];
         sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
-        guiPingToggler(&g->gui, 2, buffer);
+        alertGui(&g->gui, 2, buffer);
     }
     if (Keys[SDL_SCANCODE_T] && g->BuyItemCooldown > 50)
     {
@@ -96,7 +96,7 @@ void UpdateLogic(Game *g)
 
         char buffer[1000];
         sprintf(buffer, "Bought item: %s", g->CoreItems[2].Name);
-        guiPingToggler(&g->gui, 2, buffer);
+        alertGui(&g->gui, 2, buffer);
     }
 
     //DISPLAY ITEMS****************************
