@@ -19,21 +19,21 @@ typedef struct Game
     Graphics gfx;
     SDL_Event event;
     Camera cam;
-    Drawable** RenderList;
+    Drawable **RenderList;
     int nToRender;
     //----
 
     TileMap tileMap;
-    Tile** GoodTiles;
+    Tile **GoodTiles;
     int nGoodTiles;
     Player player;
     Animal animals[100];
     int n_animals;
-    
+
     Item CoreItems[100];
     int BuyItemCooldown;
     Gui gui;
-}Game;
+} Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int *noExit);
 void DestroyGame(Game *g);
@@ -52,9 +52,9 @@ void AddTileMapToRenderList(Game *g);
 void RenderList(Game *g);
 void SortRenderList(Game *g);
 
-int check_collision(SDL_Rect A, SDL_Rect B);
-
 void ConstructItem(Item *i, Graphics *gfx, char *FilePath);
 
 void CreateAllStandardItems(Game *g);
 void EntityDeathEvent(Game *g, Entity *e);
+
+void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max);

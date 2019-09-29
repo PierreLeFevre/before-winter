@@ -2,25 +2,26 @@
 #include <stdio.h>
 #include "FuncLib.h"
 #include <string.h>
+#include <stdlib.h>
 
 //#define DEBUG
 
 void ConstructGame(Game *g, int *noExit)
 {
-    
+
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
-    ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);    
+    ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player);
-    ConstructAnimal(&g->animals[0], &g->gfx,"./include/assets/cow_set.png");
+    ConstructAnimal(&g->animals[0], &g->gfx, "./include/assets/cow_set.png");
 
     //TMP items*************
     CreateAllStandardItems(g);
     //TMP items****************
 
-    g->RenderList = (Drawable**) malloc(sizeof(Drawable*) * 5000);
-    g->GoodTiles = (Tile**) malloc(sizeof(Tile*) * 5000);
+    g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
+    g->GoodTiles = (Tile **)malloc(sizeof(Tile *) * 5000);
     g->noExit = noExit;
 }
 void DestroyGame(Game *g)
@@ -35,7 +36,7 @@ void DestroyGame(Game *g)
 
 void Go(Game *g)
 {
-    
+
     BeginFrame(&g->gfx);
     UpdateLogic(g);
     Render(g);
@@ -48,16 +49,20 @@ void UpdateLogic(Game *g)
     HandleEvents(g);
     UpdateAnimal(&g->animals[0]);
     UpdatePlayer(&g->player);
+    CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
     //TEMP --
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
-    for(int i = 0; i < g->nGoodTiles; i++){
-        CheckEntityCollision(&g->player.ent, g->GoodTiles[i]->hitboxes[1]);
-        
+    for (int i = 0; i < g->nGoodTiles; i++)
+    {
+
         //TEMP -----
-        if (Keys[SDL_SCANCODE_SPACE]) {
-            if(SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]) ){
-                if(!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg")){
+        if (Keys[SDL_SCANCODE_SPACE])
+        {
+            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
+            {
+                if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg"))
+                {
                     ChangeImagePath(&g->GoodTiles[i]->ds[0], "include/assets/mud-new_seeded.jpg");
                 }
             }
@@ -66,7 +71,8 @@ void UpdateLogic(Game *g)
     }
 
     g->BuyItemCooldown++;
-    if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50){
+    if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50)
+    {
         g->BuyItemCooldown = 0;
         BuyItem(&g->player.ent, &g->CoreItems[0]);
 
@@ -74,16 +80,17 @@ void UpdateLogic(Game *g)
         sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
         guiPingToggler(&g->gui, 3, buffer);
     }
-    if (Keys[SDL_SCANCODE_R] && g->BuyItemCooldown > 50){
+    if (Keys[SDL_SCANCODE_R] && g->BuyItemCooldown > 50)
+    {
         g->BuyItemCooldown = 0;
         BuyItem(&g->player.ent, &g->CoreItems[1]);
 
         char buffer[1000];
         sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
         guiPingToggler(&g->gui, 3, buffer);
-
     }
-    if (Keys[SDL_SCANCODE_T] && g->BuyItemCooldown > 50){
+    if (Keys[SDL_SCANCODE_T] && g->BuyItemCooldown > 50)
+    {
         g->BuyItemCooldown = 0;
         BuyItem(&g->player.ent, &g->CoreItems[2]);
 
@@ -93,19 +100,22 @@ void UpdateLogic(Game *g)
     }
 
     //DISPLAY ITEMS****************************
-    if (Keys[SDL_SCANCODE_1]){
+    if (Keys[SDL_SCANCODE_1])
+    {
         g->player.ent.items[0].d.destrect.x = g->player.activeItem.d.destrect.x;
         g->player.ent.items[0].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[0];
         g->player.activeItemIndex = 0;
     }
-    if (Keys[SDL_SCANCODE_2]){
+    if (Keys[SDL_SCANCODE_2])
+    {
         g->player.ent.items[1].d.destrect.x = g->player.activeItem.d.destrect.x;
         g->player.ent.items[1].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[1];
         g->player.activeItemIndex = 1;
     }
-    if (Keys[SDL_SCANCODE_3]){
+    if (Keys[SDL_SCANCODE_3])
+    {
         g->player.ent.items[2].d.destrect.x = g->player.activeItem.d.destrect.x;
         g->player.ent.items[2].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[2];
@@ -130,9 +140,7 @@ void Render(Game *g)
     RenderList(g);
     UpdateGui(&g->gui);
 
-    
-    
-    #ifdef DEBUG
+#ifdef DEBUG
     SDL_Rect playerHitbox = g->player.ent.hitbox;
     playerHitbox.x -= g->cam.camRectVirtual.x;
     playerHitbox.y -= g->cam.camRectVirtual.y;
@@ -141,13 +149,14 @@ void Render(Game *g)
     playerInteractionHitbox.x -= g->cam.camRectVirtual.x;
     playerInteractionHitbox.y -= g->cam.camRectVirtual.y;
     SDL_RenderDrawRect(g->gfx.rend, &playerInteractionHitbox);
-    for(int i = 0; i < g->nGoodTiles; i++){
+    for (int i = 0; i < g->nGoodTiles; i++)
+    {
         SDL_Rect treeHitbox = g->GoodTiles[i]->hitboxes[1];
         treeHitbox.x -= g->cam.camRectVirtual.x;
         treeHitbox.y -= g->cam.camRectVirtual.y;
         SDL_RenderDrawRect(g->gfx.rend, &treeHitbox);
     }
-    #endif
+#endif
 }
 
 void HandleEvents(Game *g)
@@ -236,19 +245,68 @@ void SortRenderList(Game *g)
         }
     }
 }
-void CreateAllStandardItems(Game *g){
+void CreateAllStandardItems(Game *g)
+{
     CreateItem(&g->CoreItems[0], &g->gfx, IronPickaxeEnum);
     CreateItem(&g->CoreItems[1], &g->gfx, IronAxeEnum);
     CreateItem(&g->CoreItems[2], &g->gfx, IronSwordEnum);
     CreateItem(&g->CoreItems[3], &g->gfx, DiamondEnum);
 }
-void EntityDeathEvent(Game *g, Entity *e){
-    if (e->health <= 0 && e->deadTrigger == SDL_FALSE){
+void EntityDeathEvent(Game *g, Entity *e)
+{
+    if (e->health <= 0 && e->deadTrigger == SDL_FALSE)
+    {
         e->deadTrigger = SDL_TRUE;
         //***********DEATH***************
         e->droppableItem = g->CoreItems[3];
         e->droppableItem.d.z_index = e->d.z_index;
         e->droppableItem.d.destrect.x = e->d.destrect.x;
         e->droppableItem.d.destrect.y = e->d.destrect.y;
+    }
+}
+void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
+{
+    int pre_colision[2] = {0, 0};
+    for (int i = 0; i < max; i++)
+    {
+        if (Pre_X_CheckCollision(e->hitbox, GoodTiles[i]->hitboxes[1], e->x_axis))
+        {
+            pre_colision[0] = 1;
+        }
+        if (Pre_Y_CheckCollision(e->hitbox, GoodTiles[i]->hitboxes[1], e->y_axis))
+        {
+            pre_colision[1] = 1;
+        }
+    }
+
+    if ((abs(e->x_axis) <= 0.6f))
+    {
+        e->x_axis = 0;
+    }
+    if ((abs(e->y_axis) <= 0.6f))
+    {
+        e->y_axis = 0;
+    }
+    if (pre_colision[0] == 0 && pre_colision[1] == 0)
+    {
+        e->x_pos += e->x_axis;
+        e->y_pos += e->y_axis;
+        e->d.destrect.x = (e->x_pos + 0.5f);
+        e->d.destrect.y = (e->y_pos + 0.5f);
+    }
+    else
+    {
+        if (pre_colision[0] == 1)
+        {
+            e->y_pos += e->y_axis;
+            e->x_pos -= e->x_axis;
+        }
+        if (pre_colision[1] == 1)
+        {
+            e->x_pos += e->x_axis;
+            e->y_pos -= e->y_axis;
+        }
+        e->d.destrect.x = (e->x_pos + 0.5f);
+        e->d.destrect.y = (e->y_pos + 0.5f);
     }
 }

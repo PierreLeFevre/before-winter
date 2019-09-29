@@ -4,7 +4,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-void RemoveCharacterFromArray(char* const buffer, char toRemove, int size) {
+void RemoveCharacterFromArray(char *const buffer, char toRemove, int size)
+{
     // char* bufferP = buffer;
     // int nBytesToMove = 0;
     // for (bufferP = buffer; *(bufferP - 1) != 0; bufferP++) {
@@ -13,43 +14,79 @@ void RemoveCharacterFromArray(char* const buffer, char toRemove, int size) {
     //         nBytesToMove++;
     //     }
     // }
-    for(int i = 0; i < size; i++){
-        while (buffer[i] == toRemove) {
-            for(int j = i ; j < size; j++){
+    for (int i = 0; i < size; i++)
+    {
+        while (buffer[i] == toRemove)
+        {
+            for (int j = i; j < size; j++)
+            {
                 buffer[j] = buffer[j + 1];
             }
         }
     }
 }
 
-double Map(double value, double in_min, double in_max, double out_min, double out_max){
-    if(in_min > in_max || out_min > out_max){
+double Map(double value, double in_min, double in_max, double out_min, double out_max)
+{
+    if (in_min > in_max || out_min > out_max)
+    {
         return -1;
     }
-    if(value > in_min || value < out_max){
-        return (value - in_min) * ((out_max - out_min)/(in_max - in_min)) + out_min;
+    if (value > in_min || value < out_max)
+    {
+        return (value - in_min) * ((out_max - out_min) / (in_max - in_min)) + out_min;
     }
-    else{
+    else
+    {
         return value;
     }
 }
 
-int Cap(int value_in, int cap_to){
-    if(value_in > abs(cap_to)){
+int Cap(int value_in, int cap_to)
+{
+    if (value_in > abs(cap_to))
+    {
         return abs(cap_to);
-    }else if(value_in < -abs(cap_to)){
+    }
+    else if (value_in < -abs(cap_to))
+    {
         return -abs(cap_to);
-    }else{
+    }
+    else
+    {
         return value_in;
     }
 }
 
-
-float Dist(float x1, float y1, float x2, float y2){
+float Dist(float x1, float y1, float x2, float y2)
+{
     return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
 
-int CheckCollision(SDL_Rect A, SDL_Rect B)//lazy foo  http://lazyfoo.net/tutorials/SDL/27_collision_detection/index.php
+int Pre_CheckCollision(SDL_Rect A, SDL_Rect B, float x_axis, float y_axis)
+{
+    if (A.y + A.h <= B.y - y_axis)
+    {
+        return 0;
+    }
+
+    if (A.y + y_axis >= B.y + B.h)
+    {
+        return 0;
+    }
+
+    if (A.x + A.w + x_axis <= B.x)
+    {
+        return 0;
+    }
+
+    if (A.x + x_axis >= B.x + B.w)
+    {
+        return 0;
+    }
+    return 1;
+}
+int Pre_X_CheckCollision(SDL_Rect A, SDL_Rect B, float x_axis)
 {
     if (A.y + A.h <= B.y)
     {
@@ -57,6 +94,29 @@ int CheckCollision(SDL_Rect A, SDL_Rect B)//lazy foo  http://lazyfoo.net/tutoria
     }
 
     if (A.y >= B.y + B.h)
+    {
+        return 0;
+    }
+
+    if (A.x + A.w + x_axis <= B.x)
+    {
+        return 0;
+    }
+
+    if (A.x + x_axis >= B.x + B.w)
+    {
+        return 0;
+    }
+    return 1;
+}
+int Pre_Y_CheckCollision(SDL_Rect A, SDL_Rect B, float y_axis)
+{
+    if (A.y + A.h + y_axis <= B.y)
+    {
+        return 0;
+    }
+
+    if (A.y + y_axis >= B.y + B.h)
     {
         return 0;
     }
@@ -119,27 +179,29 @@ float speed_cap(float value, float cap)
     return value;
 }
 
-char* IntToCharArray(int number)
+char *IntToCharArray(int number)
 {
     int isNegative = 0;
 
-    if (number < 0){
+    if (number < 0)
+    {
         isNegative = 1;
-        number*=-1;
+        number *= -1;
     }
 
     int n = log10(number) + 1;
     int k;
     char *array = malloc(n * sizeof(char));
     //char *array = calloc(n, sizeof(char));
-    for ( k = 0; k < n; ++k, number /= 10 )
+    for (k = 0; k < n; ++k, number /= 10)
     {
         array[k] = number % 10;
     }
-    if (isNegative){
+    if (isNegative)
+    {
         array[k] = '-';
     }
-    
+
     for (int i = 0; i < k; i++)
     {
         switch (array[i])
@@ -177,14 +239,12 @@ char* IntToCharArray(int number)
         default:
             break;
         }
-        
     }
     array[k + 1] = '\0';
     CharReverse(array);
     return array;
 }
-void
-CharReverse(char *str)
+void CharReverse(char *str)
 {
     int i;
     int j;
@@ -201,6 +261,6 @@ char *strcpyMACFRIENDLY(char *s1, const char *s2)
 {
     char *s = s1;
     while ((*s++ = *s2++) != 0)
-	;
+        ;
     return (s1);
 }
