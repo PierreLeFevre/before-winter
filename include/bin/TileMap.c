@@ -64,6 +64,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
             t = tm->tiles[i];
         }
         TileAddDrawable(&t, d);
+        hitbox.h = 59;
         TileAddHitbox(&t, hitbox);
         tm->tiles[i] = t;
 
