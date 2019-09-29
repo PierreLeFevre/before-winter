@@ -26,7 +26,9 @@ void ConstructPlayer(Player *player, Graphics *gfx)
 
 void UpdatePlayer(Player *player)
 {
-    player->ent.health -= 1;
+    if (player->ent.health >= 0){
+        player->ent.health -= 1;
+    }
     UpdatePlayerDirection(player);
     UpdateEntity(&player->ent);
 
