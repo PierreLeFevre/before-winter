@@ -54,6 +54,8 @@ void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]);
 
 void MsgBoxShow(Gui* g, int messageActive);
 void MsgBoxText(Gui* g, char message[201]);
+
+void GuiBar(Gui* g);
 void GuiInventory(Gui* g);
 void GuiMenu(Gui* g);
 void GuiPrompt(Gui* g);
