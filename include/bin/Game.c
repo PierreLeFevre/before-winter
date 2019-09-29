@@ -279,11 +279,11 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
         }
     }
 
-    if ((abs(e->x_axis) <= 0.6f))
+    if ((abs((int)e->x_axis) <= 0.6f))
     {
         e->x_axis = 0;
     }
-    if ((abs(e->y_axis) <= 0.6f))
+    if ((abs((int)e->y_axis) <= 0.6f))
     {
         e->y_axis = 0;
     }

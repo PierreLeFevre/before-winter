@@ -24,11 +24,11 @@ void MoveEntity(Entity *e)
 {
     e->x_axis += e->accaleration * e->x_dir;
     e->y_axis += e->accaleration * e->y_dir;
-    e->x_axis -= min(e->friction, abs(e->x_axis)) * sign(e->x_axis) * (e->x_dir == 0);
-    e->y_axis -= min(e->friction, abs(e->y_axis)) * sign(e->y_axis) * (e->y_dir == 0);
+    e->x_axis -= min(e->friction, abs((int)e->x_axis)) * sign(e->x_axis) * (e->x_dir == 0);
+    e->y_axis -= min(e->friction, abs((int)e->y_axis)) * sign(e->y_axis) * (e->y_dir == 0);
 
-    e->x_axis = min(abs(e->x_axis), e->movement_speed) * sign(e->x_axis);
-    e->y_axis = min(abs(e->y_axis), e->movement_speed) * sign(e->y_axis);
+    e->x_axis = min(abs((int)e->x_axis), e->movement_speed) * sign(e->x_axis);
+    e->y_axis = min(abs((int)e->y_axis), e->movement_speed) * sign(e->y_axis);
     // if (e->x_axis != 0 && e->y_axis != 0)
     // {
     //     e->x_axis *= sq2;
