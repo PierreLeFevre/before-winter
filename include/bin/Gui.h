@@ -50,6 +50,7 @@ typedef enum Format{
 void ConstructGui(Gui* g, Graphics* gfx, Player* p);
 void UpdateGui(Gui* g);
 void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]);
+// each char 15 wide.
 
 void MsgBoxShow(Gui* g, int messageActive);
 void MsgBoxText(Gui* g, char message[201]);
