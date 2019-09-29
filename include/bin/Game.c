@@ -49,7 +49,9 @@ void UpdateLogic(Game *g)
     HandleEvents(g);
     UpdateAnimal(&g->animals[0]);
     UpdatePlayer(&g->player);
-    CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
+    if (!g->gui.menuActive){
+        CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
+    }
     //TEMP --
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
