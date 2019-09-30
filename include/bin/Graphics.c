@@ -2,6 +2,11 @@
 #include <stdio.h>
 
 void ConstructGraphics(Graphics *gfx){
+    gfx->wWidth = WINDOW_WIDTH;
+    gfx->wHeight = WINDOW_HEIGHT;
+    
+    gfx->wFullscreen = 0;
+
     if(SDL_Init(SDL_INIT_VIDEO) != 0){
         printf("Error initalizing SDL: %s\n", SDL_GetError());
         return;

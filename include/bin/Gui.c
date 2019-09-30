@@ -252,6 +252,16 @@ void GuiMenu(Gui* g){
                     case 1:
                         g->p->ent.friction -= .1;
                         break;
+                    case 5:
+                        g->d.gfx->wWidth -= 10;
+                        SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);    
+                        break;
+                    case 6:
+                        g->d.gfx->wHeight -= 10;
+                        SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);    
+                        break;
+                    case 7:
+                        g->d.gfx->wFullscreen = 0;
                     default:
                         break;
                     }
@@ -265,7 +275,14 @@ void GuiMenu(Gui* g){
                     case 1:
                         g->p->ent.friction += .1;
                         break;
-                    
+                    case 5:
+                        g->d.gfx->wWidth += 10;
+                        SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);    
+                        break;
+                    case 6:
+                        g->d.gfx->wHeight += 10;
+                        SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);    
+                        break;
                     default:
                         break;
                     }                    
@@ -297,6 +314,15 @@ void GuiMenu(Gui* g){
 
 
             RenderText(g, 65, 200, 0, White, Bold, "~~~ Graphics Options");
+            RenderText(g, 65, 220, 0, White, Bold, "    Window width");
+            char wWidth[100];
+            gcvt(g->d.gfx->wWidth, 6, wWidth);
+            RenderText(g, 275, 220, 0, White, Regular, wWidth);
+
+            RenderText(g, 65, 240, 0, White, Bold, "    Window height");
+            char wHeight[100];
+            gcvt(g->d.gfx->wHeight, 6, wHeight);
+            RenderText(g, 275, 240, 0, White, Regular, wHeight);
 
 
             RenderText(g, 65, 300, 0, White, Bold, "~~~ Debug Info");

@@ -13,6 +13,9 @@
 
 typedef struct Graphics{
     SDL_Window* win;
+    int wWidth;
+    int wHeight;
+    int wFullscreen;
     SDL_Renderer* rend;
 }Graphics;
 

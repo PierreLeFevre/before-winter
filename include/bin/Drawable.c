@@ -11,8 +11,8 @@ void ConstructDrawable(Drawable* d, Graphics* gfx, const char* filePath, SDL_Rec
     SDL_FreeSurface(d->surf);
     d->srcrect.x = 0;
     d->srcrect.y = 0;
-    d->srcrect.w = WINDOW_WIDTH;
-    d->srcrect.h = WINDOW_HEIGHT;
+    d->srcrect.w = gfx->wWidth;
+    d->srcrect.h = gfx->wHeight;
     d->destrect = destrect;
     d->z_index = z_index;
 }
