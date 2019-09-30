@@ -57,6 +57,39 @@
                 <p class="code">
                     void MsgBoxHide(Gui* g);
                 </p>
+                <br><br>
+                <h4>Render text</h4>
+                <p class="code">
+                    void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]);
+                </p>
+                <ul>
+                    <li>x: x Position, top left of text</li>
+                    <li>y: y Position, top left of text</li>
+                    <li>w: Width of text to print before new line. Set to 0 to deactivate</li>
+                    <li>c: Color of text (Enum, use either int or color name)
+                        <ul>
+                            <li>0 | Black</li>
+                            <li>1 | White</li>
+                            <li>2 | Red</li>
+                            <li>3 | Green</li>
+                            <li>4 | Yellow</li>
+                            <li>5 | Blue</li>
+                            <li>6 | Magenta</li>
+                            <li>7 | Cyan</li>
+                        </ul>
+                    </li>
+                    <li>f: Format of text (Enum, use either int or format name)
+                        <ul>
+                            <li>0 | Regular</li>
+                            <li>1 | Bold</li>
+                        </ul>
+                    </li>
+                    <li>text: text to print </li>
+                </ul>
+                <p>
+                    RenderText supports changing color and formatting inline. 
+                    <br><br>Use the <p class="code">$$FC</p> Format to change parameters. F being format as int, C being color as int.
+                </p>
                 
                 
             </section>
