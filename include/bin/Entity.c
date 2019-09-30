@@ -126,7 +126,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
             
             plant->nPlantStages = 2;
 
-            plant->plantStages[0].GrowTick = 10;
+            plant->plantStages[0].GrowTick = 0;
             strcpy(plant->plantStages[0].FilePath, "./include/assets/item/seeds_melon.png");
             ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, 10000);
 
