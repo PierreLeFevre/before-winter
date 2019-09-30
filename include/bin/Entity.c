@@ -118,7 +118,7 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
         break;
     }
 }
-void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile){
+void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced){
     
     switch (plantEnum)
     {
@@ -139,11 +139,13 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
     default:
         break;
     }
+    plant->TickPlaced = TickPlaced;
     plant->Current = plant->plantStages[0].drawable;
 }
 void UpdatePlant(Plant *plant, Uint32 Tick){
+    Uint32 calcTick = Tick - plant->TickPlaced;
     for(int i = 0; i < plant->nPlantStages; i++){
-        if (plant->plantStages[i].GrowTick <= Tick){
+        if (plant->plantStages[i].GrowTick <= calcTick){
             plant->Current = plant->plantStages[i].drawable;
         }
     }

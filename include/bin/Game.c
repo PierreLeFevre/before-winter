@@ -64,7 +64,7 @@ void UpdateLogic(Game *g)
         {
             if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
             {
-                CreatePlant(&g->plants[0], &g->gfx, MelonEnum, g->GoodTiles[i]->ds[0].destrect);
+                CreatePlant(&g->plants[0], &g->gfx, MelonEnum, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks());
                 g->nPlants += 1;
             }
         }
