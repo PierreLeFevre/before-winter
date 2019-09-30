@@ -76,29 +76,29 @@ void UpdateLogic(Game *g)
     if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
-        BuyItem(&g->player.ent, &g->CoreItems[0]);
-
-        char buffer[1000];
-        sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
-        AlertGui(&g->gui, 2, buffer);
+        if (BuyItem(&g->player.ent, &g->CoreItems[0])){
+            char buffer[1000];
+            sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
+            AlertGui(&g->gui, 2, buffer);
+        }
     }
     if (Keys[SDL_SCANCODE_R] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
-        BuyItem(&g->player.ent, &g->CoreItems[1]);
-
-        char buffer[1000];
-        sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
-        AlertGui(&g->gui, 2, buffer);
+        if (BuyItem(&g->player.ent, &g->CoreItems[1])){
+            char buffer[1000];
+            sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
+            AlertGui(&g->gui, 2, buffer);
+        }
     }
     if (Keys[SDL_SCANCODE_T] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
-        BuyItem(&g->player.ent, &g->CoreItems[2]);
-
-        char buffer[1000];
-        sprintf(buffer, "Bought item: %s", g->CoreItems[2].Name);
-        AlertGui(&g->gui, 2, buffer);
+        if (BuyItem(&g->player.ent, &g->CoreItems[2])){
+            char buffer[1000];
+            sprintf(buffer, "Bought item: %s", g->CoreItems[2].Name);
+            AlertGui(&g->gui, 2, buffer);
+        }
     }
 
     //DISPLAY ITEMS****************************

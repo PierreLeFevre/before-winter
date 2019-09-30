@@ -49,7 +49,6 @@ int BuyItem(Entity *e, Item *i)
 {
     if (e->n_items >= N_ENTITYITEMS)
     {
-        printf("max Items %d\n", e->n_items);
         return 0;
     }
     if (e->Gold >= i->Cost)
@@ -90,7 +89,7 @@ void AddItem(Entity *e, Item *i, int index)
 }
 void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
 {
-    SDL_Rect r = {100, 100, 50, 50};
+    SDL_Rect r = {100, 100, 30, 30};
     int z = 10000;
 
     i->Cost = 0;
