@@ -2,6 +2,7 @@
 #define ENTITY_H
 #include "Drawable.h"
 #include "Item.h"
+#include "Plants.h"
 #define N_ENTITYITEMS 10
 typedef struct Entity
 {
@@ -48,5 +49,7 @@ void SellItem(Entity *e, Item *i);
 
 void AddItem(Entity *e, Item *i, int index);
 void CreateItem(Item *i, Graphics *gfx, ItemEnums item);
-void SpawnItemOnMap(int x, int y, Item *i);
+
+void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum);
+void UpdatePlant(Plant *p);
 #endif
