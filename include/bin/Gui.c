@@ -44,9 +44,6 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     SDL_Rect prompt_destrect = {0, 0, 300, 60};
     ConstructDrawable(&g->promptBg, g->promptBg.gfx, "include/assets/GuiTop.png", prompt_destrect, 19994);
 
-
-    MsgBoxShow(g, 0); //Turn messagebox on or off: 1= active, 0 = off
-    MsgBoxText(g, ""); //Set text for messageBox
 }
 
 void UpdateGui(Gui* g){
@@ -59,15 +56,7 @@ void UpdateGui(Gui* g){
     char strFPS[100];
     gcvt(round(dT), 6, strFPS);
     RenderText(g, 15, g->d.gfx->wHeight-25, 0, Black, Bold, strFPS);
-    
-    //Draw message box
-    if(g->messageActive){
-        //Draw msgBox background
-        Draw(g->messageBox);
-        
-        //Draw message text
-        RenderText(g, 65, 80, 0, Red, Bold, g->message);
-    }
+
     
     GuiMenu(g);
     
@@ -75,6 +64,7 @@ void UpdateGui(Gui* g){
         GuiBar(g);
         GuiInventory(g);
         GuiPrompt(g);
+        GuiMsgBox(g);
     }
 }
 
@@ -141,12 +131,9 @@ void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]){
     }
 }
 
-void MsgBoxShow(Gui* g, int messageActive){
-    g->messageActive = messageActive;
-}
-
-void MsgBoxText(Gui* g, char message[201]){
+void MsgBoxShow(Gui* g, char message[201]){
     strcpy(g->message, message);
+    g->messageActive = 1;
 }
 
 void GuiBar(Gui* g){    
@@ -391,6 +378,32 @@ void GuiMenu(Gui* g){
     }
 
     g->menuToggler += 1;
+}
+
+void GuiMsgBox(Gui* g){
+    g->messageBox.destrect.x = g->messageBox.gfx->wWidth/2 - g->messageBox.destrect.w/2;
+    int x = g->messageBox.destrect.x;
+    g->messageBox.destrect.y = g->messageBox.gfx->wHeight/2 - g->messageBox.destrect.h/2;
+    int y = g->messageBox.destrect.y;
+
+    const Uint8 *Keys = SDL_GetKeyboardState(NULL);
+    if(g->messageActive){
+
+        if (Keys[SDL_SCANCODE_RETURN]){
+            g->messageActive = 0;
+        }
+
+        //Draw message box
+        if(g->messageActive){
+            //Draw msgBox background
+            Draw(g->messageBox);
+            
+            //Draw message text
+            RenderText(g, x+25, y+25, 0, White, Regular, g->message);
+
+            RenderText(g, x + g->messageBox.destrect.w/2 - 15*12*.5, y + g->messageBox.destrect.h - 25, 0, White, Bold, "[RETURN] To close");
+        }    
+    }
 }
 
 void GuiPrompt(Gui* g){
