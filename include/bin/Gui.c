@@ -211,17 +211,89 @@ void GuiMenu(Gui* g){
     if (g->menuToggler > 20)
     {
         if(g->menuActive){
+            g->menuSelectToggler += 1;
 
             if (Keys[SDL_SCANCODE_ESCAPE]){
                 g->menuActive = 0;
                 g->menuToggler = 0;
             }
+            if(g->menuSelectToggler >= 5){
+
+                if (Keys[SDL_SCANCODE_DOWN]){
+                    if(g->menuSelectedIndex != 3){
+
+                        if(g->menuSelectedIndex < 8)
+                        g->menuSelectedIndex += 1;
+                    
+                    }
+                    else{
+                        g->menuSelectedIndex += 2;
+                    }
+                }
+                
+                if (Keys[SDL_SCANCODE_UP]){
+                    if(g->menuSelectedIndex != 5){
+
+                        if(g->menuSelectedIndex > 0)
+                        g->menuSelectedIndex -= 1;
+                    
+                    }
+                    else{
+                        g->menuSelectedIndex -= 2;
+                    }
+                }
+
+                if (Keys[SDL_SCANCODE_LEFT]){
+                    switch (g->menuSelectedIndex)
+                    {
+                    case 0:
+                        g->p->ent.movement_speed -= 5;
+                        break;
+                    case 1:
+                        g->p->ent.friction -= .1;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                if (Keys[SDL_SCANCODE_RIGHT]){
+                    switch (g->menuSelectedIndex)
+                    {
+                    case 0:
+                        g->p->ent.movement_speed += 5;
+                        break;
+                    case 1:
+                        g->p->ent.friction += .1;
+                        break;
+                    
+                    default:
+                        break;
+                    }                    
+                }
+
+                g->menuSelectToggler = 0;
+            }
+
 
             Draw(g->menu);
+
+            SDL_Rect selectRect = {100, 120 + g->menuSelectedIndex * 20, 600, 20};
+            SDL_SetRenderDrawColor(g->d.gfx->rend, 255, 255, 255, 1);
+            SDL_RenderDrawRect(g->d.gfx->rend, &selectRect);
 
             RenderText(g, 240, 40, 0, White, Bold, "~~~ MENU ~~~");
 
             RenderText(g, 65, 100, 0, White, Bold, "~~~ Game Options");
+
+            RenderText(g, 65, 120, 0, White, Bold, "    Player Speed");
+            char playerSpeed[100];
+            gcvt(g->p->ent.movement_speed, 6, playerSpeed);
+            RenderText(g, 275, 120, 0, White, Regular, playerSpeed);
+
+            RenderText(g, 65, 140, 0, White, Bold, "    Player Friction");
+            char playerFriction[100];
+            gcvt(g->p->ent.friction, 6, playerFriction);
+            RenderText(g, 275, 140, 0, White, Regular, playerFriction);
 
 
             RenderText(g, 65, 200, 0, White, Bold, "~~~ Graphics Options");
@@ -229,15 +301,17 @@ void GuiMenu(Gui* g){
 
             RenderText(g, 65, 300, 0, White, Bold, "~~~ Debug Info");
 
-            RenderText(g, 65, 330, 0, White, Bold, "X:          Y:");
+            RenderText(g, 125, 340, 0, White, Bold, "X:          Y:");
 
             char xPos[100];
             gcvt(g->p->ent.d.destrect.x, 6, xPos);
-            RenderText(g, 95, 330, 0, White, Regular, xPos);
+            RenderText(g, 170, 340, 0, White, Regular, xPos);
 
             char yPos[100];
             gcvt(g->p->ent.d.destrect.y, 6, yPos);
-            RenderText(g, 215, 330, 0, White, Regular, yPos);
+            RenderText(g, 275, 340, 0, White, Regular, yPos);
+
+            RenderText(g, 190, 560, 0, White, Bold, "[L/-] [UP/DOWN] [R/+]");
         }
         else
         { 
