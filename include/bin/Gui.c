@@ -140,33 +140,37 @@ void MsgBoxText(Gui* g, char message[201]){
 
 void GuiBar(Gui* g){    
     //Draw gui box
+    g->d.destrect.x = g->d.gfx->wWidth/2 - g->d.destrect.w/2;
+    int x = g->d.destrect.x;
+    g->d.destrect.y = g->d.gfx->wHeight - g->d.destrect.h;
+    int y = g->d.destrect.y;
     Draw(g->d);
 
     //Render gui text
 
-    RenderText(g, 120, 525, 0, White, Bold, "Spring, Day 15");
-    RenderText(g, 320, 525, 0, White, Bold, "Clear $$1716C");
+    RenderText(g, x+50, y+15, 0, White, Bold, "Spring, Day 15");
+    RenderText(g, x+250, y+15, 0, White, Bold, "Clear $$1716C");
 
-    RenderText(g, 120, 550, 0, Yellow, Bold, "Gold:");
+    RenderText(g, x+50, y+40, 0, Yellow, Bold, "Gold:");
     char gold[100];
     gcvt(g->p->ent.Gold, 6, gold);
-    RenderText(g, 180, 550, 0, Yellow, Regular, gold);
+    RenderText(g, x+100, y+40, 0, Yellow, Regular, gold);
 
     char health[100];
     gcvt(g->p->ent.health, 6, health);
     if(g->p->ent.health > 20)
     {
-        RenderText(g, 320, 550, 0, White, Bold, "HP:");
-        RenderText(g, 365, 550, 0, Green, Bold, health);
+        RenderText(g, x+250, y+40, 0, White, Bold, "HP:");
+        RenderText(g, x+300, y+40, 0, Green, Bold, health);
     }
     else
     {
-        RenderText(g, 320, 550, 0, Red, Bold, "HP:");
-        RenderText(g, 365, 550, 0, Red, Bold, health);
+        RenderText(g, x+250, y+40, 0, Red, Bold, "HP:");
+        RenderText(g, x+300, y+40, 0, Red, Bold, health);
     }
 
-    RenderText(g, 120, 575, 0, White, Bold, "Equipped:");
-    RenderText(g, 220, 575, 0, White, Regular, g->p->activeItem.Name);
+    RenderText(g, x+50, y+65, 0, White, Bold, "Equipped:");
+    RenderText(g, x+150, y+65, 0, White, Regular, g->p->activeItem.Name);
 }
 
 void GuiInventory(Gui* g){
@@ -181,14 +185,20 @@ void GuiInventory(Gui* g){
                 g->invToggler = 0;
             }
             else
-            {
+            {   
+                g->inv.destrect.x = g->inv.gfx->wWidth/2 - g->inv.destrect.w/2;
+                int x = g->inv.destrect.x;
+                g->inv.destrect.y = g->inv.gfx->wHeight/2 - g->inv.destrect.h/2;
+                int y = g->inv.destrect.y;
+                Draw(g->inv);
+
                 Draw(g->inv);
                 
-                RenderText(g, 90, 100, 0, White, Bold, "Inventory:");
+                RenderText(g, x+25, y+25, 0, White, Bold, "Inventory:");
                 
                 for (int i = 0; i < 10; i++)
                 { 
-                    RenderText(g, 90, (120 + 20 * i), 0, White, Regular, g->p->ent.items[i].Name);
+                    RenderText(g, x+25, (y+50 + 20 * i), 0, White, Regular, g->p->ent.items[i].Name);
                 }
                 
             }
@@ -206,6 +216,11 @@ void GuiInventory(Gui* g){
 }
 
 void GuiMenu(Gui* g){
+    g->menu.destrect.w = g->d.gfx->wWidth + 50;
+    int x = g->d.destrect.w/2;
+    g->menu.destrect.h = g->d.gfx->wHeight + 50;
+    //int y = g->d.destrect.h/2;
+
     //Draw debug window
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     if (g->menuToggler > 20)
@@ -294,11 +309,11 @@ void GuiMenu(Gui* g){
 
             Draw(g->menu);
 
-            SDL_Rect selectRect = {100, 120 + g->menuSelectedIndex * 20, 600, 20};
+            SDL_Rect selectRect = {100, 120 + g->menuSelectedIndex * 20, 300, 20};
             SDL_SetRenderDrawColor(g->d.gfx->rend, 255, 255, 255, 1);
             SDL_RenderDrawRect(g->d.gfx->rend, &selectRect);
 
-            RenderText(g, 240, 40, 0, White, Bold, "~~~ MENU ~~~");
+            RenderText(g, x-90, 40, 0, White, Bold, "~~~ MENU ~~~");
 
             RenderText(g, 65, 100, 0, White, Bold, "~~~ Game Options");
 

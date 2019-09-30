@@ -2,8 +2,8 @@
 #define GRAPHICS_H
 #include "../SDL2/SDL.h"
 
-#define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 750
 
 #define TILE_WIDTH 60
 #define TILE_HEIGHT 60
