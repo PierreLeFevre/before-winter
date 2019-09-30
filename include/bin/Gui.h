@@ -31,6 +31,9 @@ typedef struct Gui{
     
     Player* p;
 
+    Uint32 last;
+    Uint32 now;
+
 }Gui;
 
 typedef enum Color{

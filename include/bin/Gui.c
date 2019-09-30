@@ -48,6 +48,15 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
 }
 
 void UpdateGui(Gui* g){
+    //FPS Counter
+    g->last = g->now;
+
+    g->now = SDL_GetTicks();
+    double dT = 1/((double)(g->now-g->last)/1000);
+
+    char strFPS[100];
+    gcvt(round(dT), 6, strFPS);
+    RenderText(g, 15, g->d.gfx->wHeight-25, 0, Black, Bold, strFPS);
     
     //Draw message box
     if(g->messageActive){
@@ -277,6 +286,7 @@ void GuiMenu(Gui* g){
                         break;
                     case 7:
                         g->d.gfx->wFullscreen = 0;
+                        break;
                     default:
                         break;
                     }
@@ -297,6 +307,9 @@ void GuiMenu(Gui* g){
                     case 6:
                         g->d.gfx->wHeight += 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);    
+                        break;
+                    case 7:
+                        g->d.gfx->wFullscreen = 1;
                         break;
                     default:
                         break;
@@ -338,6 +351,16 @@ void GuiMenu(Gui* g){
             char wHeight[100];
             gcvt(g->d.gfx->wHeight, 6, wHeight);
             RenderText(g, 275, 240, 0, White, Regular, wHeight);
+
+            RenderText(g, 65, 260, 0, White, Bold, "    Fullscreen");
+
+            if(g->d.gfx->wFullscreen){
+                SDL_SetWindowFullscreen(g->d.gfx->win, 1);
+                RenderText(g, 275, 260, 0, White, Regular, "ON");
+            }else{
+                SDL_SetWindowFullscreen(g->d.gfx->win, 0);
+                RenderText(g, 275, 260, 0, White, Regular, "OFF");
+            }
 
 
             RenderText(g, 65, 300, 0, White, Bold, "~~~ Debug Info");
