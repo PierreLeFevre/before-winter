@@ -38,7 +38,7 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     SDL_Rect messageBox_destrect = {75, 50, 450, 450};
     ConstructDrawable(&g->messageBox, g->messageBox.gfx, "include/assets/guibox.png", messageBox_destrect, 19997);
 
-    SDL_Rect inv_destrect = {75, 50, 450, 450};
+    SDL_Rect inv_destrect = {75, 50, 440, 440};
     ConstructDrawable(&g->inv, g->inv.gfx, "include/assets/guibox.png", inv_destrect, 19995);
 
     SDL_Rect prompt_destrect = {0, 0, 300, 60};
