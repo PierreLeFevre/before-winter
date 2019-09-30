@@ -1,4 +1,4 @@
 w: main.c
-	gcc main.c include/bin/game.c include/bin/graphics.c include/bin/drawable.c include/bin/tile.c  include/bin/tilemap.c include/bin/player.c  include/bin/camera.c include/bin/funclib.c include/bin/entity.c include/bin/animal.c include/bin/gui.c include/bin/plants.h -o main.exe -Llib -lSDL2 -lSDL2_image -Wall
+	gcc main.c include/bin/game.c include/bin/graphics.c include/bin/drawable.c include/bin/tile.c  include/bin/tilemap.c include/bin/player.c  include/bin/camera.c include/bin/funclib.c include/bin/entity.c include/bin/animal.c include/bin/gui.c -o main.exe -Llib -lSDL2 -lSDL2_image -Wall
 u: main.c
 	gcc main.c include/bin/game.c include/bin/graphics.c include/bin/drawable.c include/bin/tile.c  include/bin/tilemap.c include/bin/player.c  include/bin/camera.c include/bin/funclib.c include/bin/entity.c include/bin/animal.c include/bin/gui.c -o main.out -Llib -lSDL2 -lSDL2_image -Wall

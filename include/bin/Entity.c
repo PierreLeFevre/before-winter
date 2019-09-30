@@ -90,7 +90,7 @@ void AddItem(Entity *e, Item *i, int index)
 }
 void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
 {
-    SDL_Rect r = {100, 100, 30, 30};
+    SDL_Rect r = {100, 100, 50, 50};
     int z = 10000;
 
     i->Cost = 0;
@@ -119,6 +119,9 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
         break;
     }
 }
-void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum){
+// void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum){
 
-}
+// }
+// void UpdatePlant(Plant *p){
+
+// }
