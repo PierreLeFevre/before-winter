@@ -118,7 +118,7 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
         break;
     }
 }
-void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced){
+void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex){
     
     switch (plantEnum)
     {
@@ -128,11 +128,11 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
             plant->plantStages[0].GrowTick = 0;
             strcpy(plant->plantStages[0].FilePath, "./include/assets/item/seeds_melon.png");
-            ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, 10000);
+            ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
 
             plant->plantStages[1].GrowTick = 2000;
             strcpy(plant->plantStages[1].FilePath, "./include/assets/item/seeds_pumpkin.png");
-            ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, 10000);
+            ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
             
         break;
     

@@ -50,6 +50,6 @@ void SellItem(Entity *e, Item *i);
 void AddItem(Entity *e, Item *i, int index);
 void CreateItem(Item *i, Graphics *gfx, ItemEnums item);
 
-void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 PlacedTick);
+void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 PlacedTick, int zIndex);
 void UpdatePlant(Plant *p, Uint32 Tick);
 #endif
