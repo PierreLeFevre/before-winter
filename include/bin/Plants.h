@@ -2,7 +2,13 @@
 typedef enum PlantEnum{
     MelonEnum,
 }PlantEnum;
+typedef struct PlantStges{
+    Drawable drawable;
+    char FilePath[100];
+    int GrowTick;
+}PlantStages;
 typedef struct Plant{
-    Drawable d[2];
-    int growIntervals[2];
+    Drawable Current;
+    PlantStages plantStages[10];
+    int nPlantStages;
 }Plant;

@@ -18,6 +18,7 @@ void ConstructGame(Game *g, int *noExit)
 
     //TMP items*************
     CreateAllStandardItems(g);
+    g->nPlants = 0;
     //TMP items****************
 
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
@@ -63,10 +64,8 @@ void UpdateLogic(Game *g)
         {
             if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
             {
-                if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg"))
-                {
-                    ChangeImagePath(&g->GoodTiles[i]->ds[0], "include/assets/mud-new_seeded.jpg");
-                }
+                CreatePlant(&g->plants[0], &g->gfx, MelonEnum, g->GoodTiles[i]->ds[0].destrect);
+                g->nPlants += 1;
             }
         }
         //-----------
@@ -125,6 +124,8 @@ void UpdateLogic(Game *g)
     }
     //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
+
+    UpdatePlant(&g->plants[0], SDL_GetTicks());
     UpdateCamera(&g->cam);
 }
 
@@ -137,6 +138,9 @@ void Render(Game *g)
 
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
+
+    AddToRenderList(g, &g->plants[0].Current);
+
     SortRenderList(g);
 
     RenderList(g);

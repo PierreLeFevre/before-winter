@@ -32,6 +32,9 @@ typedef struct Game
 
     Item CoreItems[100];
     int BuyItemCooldown;
+
+    Plant plants[100];
+    int nPlants;
     Gui gui;
 } Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
