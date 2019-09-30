@@ -18,6 +18,8 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
 
     g->menuActive = 0;
     g->menuToggler = 0;
+    g->menuSelectedIndex = 0;
+    g->menuSelectToggler = 0;
 
     g->invActive = 0;
     g->invToggler = 0;
@@ -380,6 +382,8 @@ void GuiMenu(Gui* g){
         else
         { 
             if (Keys[SDL_SCANCODE_ESCAPE]) {
+                g->menuSelectedIndex = 0;
+                g->menuSelectToggler = 0;
                 g->menuActive = 1;
                 g->menuToggler = 0;
             }
