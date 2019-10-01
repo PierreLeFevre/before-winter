@@ -311,7 +311,7 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
         e->d.destrect.y = (e->y_pos + 0.5f);
     }
 }
-void TryCreatePlant(Game *g){
+void TryPlacePlant(Game *g){
     for (int i = 0; i < g->nGoodTiles; i++)
     {
         if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
