@@ -324,18 +324,15 @@ void TryPlacePlant(Game *g, PlantEnum plant){
                 for (int k = 0; k < g->nPlants; k++){
                     if (SDL_HasIntersection(&g->plants[k].Current.destrect, &g->player.ent.interaction_hitbox)){
                         found++;
-                        // printf("found\n");
                         break;
                     }
                     else{
-                        // printf("no found\n");
                     }
                 }
                 if (found == 0){
                     CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
                     g->nPlants++;
                 }
-                // printf("done: %d, plants: %d\n", found, g->nPlants);
             }
         }
     }
