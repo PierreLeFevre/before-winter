@@ -62,14 +62,7 @@ void UpdateLogic(Game *g)
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
     if (Keys[SDL_SCANCODE_SPACE]){
-        TryPlacePlant(g, WheatEnum);
-    }
-    if (Keys[SDL_SCANCODE_K]){
-        for(int i = 0; i < g->nPlants; i++){
-            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].Current.destrect)){
-                TryHarvestPlant(g, g->plants[i], &g->gui);
-            }
-        }
+        TryPlacePlant(g, ParsnipType);
     }
     g->BuyItemCooldown++;
     if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50)
@@ -127,6 +120,11 @@ void UpdateLogic(Game *g)
 
     for(int i = 0; i < g->nPlants; i++){
         UpdatePlant(&g->plants[i], SDL_GetTicks());
+        if (Keys[SDL_SCANCODE_K]){
+            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].Current.destrect)){
+                TryHarvestPlant(g, g->plants[i], &g->gui);
+            }
+        }
     }
 
     //TEMP
@@ -305,6 +303,7 @@ void TryPlacePlant(Game *g, PlantEnum plant){
                     CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
                     g->nPlants++;
                 }
+                break;
             }
         }
     }

@@ -1,8 +1,6 @@
 #include "Drawable.h"
-typedef enum PlantEnum{
-    PumpkinEnum,
-    MelonSeedsIntoRoseEnum,
-    WheatEnum
+typedef enum PlantEnum{ //16x32
+    ParsnipType
 }PlantEnum;
 typedef struct PlantStges{
     Drawable drawable;
