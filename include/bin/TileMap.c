@@ -48,11 +48,14 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         ,TILE_WIDTH
         ,TILE_HEIGHT
         };
+
+        //Default srcrect, if not set
+        SDL_Rect srcrect = {0,0,gfx->wWidth, gfx->wHeight};
         
         TileProperties tp = GetTilePropertiesData(*mapData - '0');
         Drawable d;
         SDL_Rect hitbox = destrect;
-        ApplyTileProperties(tm, &tp, &d, &destrect, &hitbox, i);
+        ApplyTileProperties(tm, &tp, &d, &destrect, &srcrect, &hitbox, i);
 
         Tile t;
         //"If new Tile"
@@ -64,6 +67,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
             t = tm->tiles[i];
         }
         TileAddDrawable(&t, d);
+        DrawableSetSrcRect(&t.ds[t.currentDrawables - 1], srcrect);
         hitbox.h = 59;
         TileAddHitbox(&t, hitbox);
         tm->tiles[i] = t;
@@ -86,6 +90,11 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     tp.drawable_y_correct = 0;
     tp.drawable_width_offset = 0;
     tp.drawable_height_offset = 0;
+
+    tp.drawable_srcrect_x = 0;
+    tp.drawable_srcrect_y = 0;
+    tp.drawable_srcrect_width = 10000;
+    tp.drawable_srcrect_height = 10000;
 
     tp.hitbox_x_offset = 0;
     tp.hitbox_y_offset = 0;
@@ -122,11 +131,17 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     return tp;
 }
 
-void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* destrect, SDL_Rect* hitbox, int index){
+void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* destrect, SDL_Rect* srcrect, SDL_Rect* hitbox, int index){
     destrect->x += tp->drawable_x_correct + tp->drawable_x_offset;
     destrect->y += tp->drawable_y_correct + tp->drawable_y_offset;
     destrect->w += tp->drawable_width_offset + tp->drawable_x_offset;
     destrect->h += tp->drawable_height_offset + tp->drawable_y_offset;
+
+    srcrect->x = tp->drawable_srcrect_x;
+    srcrect->y = tp->drawable_srcrect_y;
+    srcrect->w = tp->drawable_srcrect_width;
+    srcrect->h = tp->drawable_srcrect_height;
+
     *hitbox = *destrect;
     hitbox->x += tp->hitbox_x_correct + tp->hitbox_x_offset;
     hitbox->y += tp->hitbox_y_correct + tp->hitbox_y_offset;

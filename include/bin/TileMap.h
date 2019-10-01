@@ -22,6 +22,11 @@ typedef struct TileProperties{
     int drawable_width_offset;
     int drawable_height_offset;
     
+    int drawable_srcrect_x;
+    int drawable_srcrect_y;
+    int drawable_srcrect_width;
+    int drawable_srcrect_height;
+    
     int hitbox_x_offset;
     int hitbox_y_offset;
     int hitbox_x_correct;
@@ -43,4 +48,4 @@ void DestroyTileMap(TileMap* tm);
 
 TileProperties GetTilePropertiesData(const MapDataConverter mdc);
 
-void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* destrect, SDL_Rect* hitbox, int index);
+void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* destrect, SDL_Rect* srcrect, SDL_Rect* hitbox, int index);
