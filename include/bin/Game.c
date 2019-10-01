@@ -57,7 +57,7 @@ void UpdateLogic(Game *g)
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
     if (Keys[SDL_SCANCODE_SPACE]){
-        TryPlacePlant(g, MelonSeedsIntoRoseEnum);
+        TryPlacePlant(g, WheatEnum);
     }
 
     g->BuyItemCooldown++;

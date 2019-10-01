@@ -122,16 +122,16 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
     
     switch (plantEnum)
     {
-        case MelonEnum:
+        case PumpkinEnum:
             
             plant->nPlantStages = 2;
 
             plant->plantStages[0].GrowTick = 0;
-            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_melon.png");
+            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_pumpkin.png");
             ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
 
             plant->plantStages[1].GrowTick = 2000;
-            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/seeds_pumpkin.png");
+            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/pumpkin_stem_disconnected.png");
             ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
         break;
 
@@ -144,6 +144,18 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
             plant->plantStages[1].GrowTick = 2000;
             strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/flower_rose.png");
+            ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
+        break;
+
+        case WheatEnum:
+            plant->nPlantStages = 2;
+
+            plant->plantStages[0].GrowTick = 0;
+            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_wheat.png");
+            ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
+
+            plant->plantStages[1].GrowTick = 2000;
+            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/wheat.png");
             ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
         break;
     
