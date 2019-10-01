@@ -37,10 +37,11 @@ void UpdatePlayer(Player *player)
 void UpdateItemPreview(Player *player, Item *i)
 {
     player->activeItem.d = i->d;
+    player->activeItem.d.z_index = player->ent.d.z_index;
+
     player->activeItem.d.destrect.x = player->ent.d.destrect.x + 15;
     player->activeItem.d.destrect.y = player->ent.d.destrect.y - 35;
 }
-
 void UpdatePlayerDirection(Player *player)
 {
     player->ent.x_dir = 0.0f;

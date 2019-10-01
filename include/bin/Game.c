@@ -67,7 +67,7 @@ void UpdateLogic(Game *g)
     if (Keys[SDL_SCANCODE_K]){
         for(int i = 0; i < g->nPlants; i++){
             if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].Current.destrect)){
-                TryHarvestPlant(g, g->plants[i]);
+                TryHarvestPlant(g, g->plants[i], &g->gui);
             }
         }
     }
@@ -309,8 +309,9 @@ void TryPlacePlant(Game *g, PlantEnum plant){
         }
     }
 }
-void TryHarvestPlant(Game *g, const Plant plant){
+void TryHarvestPlant(Game *g, const Plant plant, Gui *gui){
     if (g->player.ent.n_items >= N_ENTITYITEMS){
+        AlertGui(gui, 2, "Inventory full");
         return;
     }
     for(int i = 0; i < g->nPlants; i++){
