@@ -59,7 +59,13 @@ void UpdateLogic(Game *g)
     if (Keys[SDL_SCANCODE_SPACE]){
         TryPlacePlant(g, WheatEnum);
     }
-
+    if (Keys[SDL_SCANCODE_K]){
+        for(int i = 0; i < g->nPlants; i++){
+            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].Current.destrect)){
+                TryHarvestPlant(g, g->plants[i]);
+            }
+        }
+    }
     g->BuyItemCooldown++;
     if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50)
     {
@@ -336,4 +342,23 @@ void TryPlacePlant(Game *g, PlantEnum plant){
             }
         }
     }
+}
+void TryHarvestPlant(Game *g, const Plant plant){
+    if (g->player.ent.n_items >= N_ENTITYITEMS){
+        return;
+    }
+    for(int i = 0; i < g->nPlants; i++){
+        if (SDL_HasIntersection(&g->plants[i].Current.destrect, &plant.Current.destrect)){
+            g->player.ent.items[g->player.ent.n_items].d = plant.Current;
+            g->player.ent.items[g->player.ent.n_items].IsStackable = 1;
+            strcpy(g->player.ent.items[g->player.ent.n_items].Name, plant.Name);
+
+            for(int k = i; k < g->nPlants;k++){
+                g->plants[k] = g->plants[k + 1];
+            }
+            g->player.ent.n_items++;
+            g->nPlants--;
+        }
+    }
+    
 }

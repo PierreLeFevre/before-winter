@@ -10,6 +10,7 @@ typedef struct PlantStges{
     int GrowTick;
 }PlantStages;
 typedef struct Plant{
+    char Name[100];
     Drawable Current;
     PlantStages plantStages[10];
     int nPlantStages;
