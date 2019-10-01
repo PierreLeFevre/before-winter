@@ -56,36 +56,8 @@ void UpdateLogic(Game *g)
     //TEMP --
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
-    for (int i = 0; i < g->nGoodTiles; i++)
-    {
-
-        //TEMP -----
-        if (Keys[SDL_SCANCODE_SPACE])
-        {
-            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
-            {
-                if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg"))
-                {
-                    int found = 0;
-                    for (int k = 0; k < g->nPlants; k++){
-                        if (SDL_HasIntersection(&g->plants[k].Current.destrect, &g->player.ent.interaction_hitbox)){
-                            found++;
-                            //printf("found\n");
-                            break;
-                        }
-                        else{
-                            //printf("no found\n");
-                        }
-                    }
-                    if (found == 0){
-                        CreatePlant(&g->plants[g->nPlants], &g->gfx, MelonEnum, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
-                        g->nPlants++;
-                    }
-                    //printf("done: %d, plants: %d\n", found, g->nPlants);
-                }
-            }
-        }
-        //-----------
+    if (Keys[SDL_SCANCODE_SPACE]){
+        TryCreatePlant(g);
     }
 
     g->BuyItemCooldown++;
@@ -337,5 +309,30 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
         }
         e->d.destrect.x = (e->x_pos + 0.5f);
         e->d.destrect.y = (e->y_pos + 0.5f);
+    }
+}
+void TryCreatePlant(Game *g){
+    for (int i = 0; i < g->nGoodTiles; i++)
+    {
+        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
+            if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg")){
+                int found = 0;
+                for (int k = 0; k < g->nPlants; k++){
+                    if (SDL_HasIntersection(&g->plants[k].Current.destrect, &g->player.ent.interaction_hitbox)){
+                        found++;
+                        // printf("found\n");
+                        break;
+                    }
+                    else{
+                        // printf("no found\n");
+                    }
+                }
+                if (found == 0){
+                    CreatePlant(&g->plants[g->nPlants], &g->gfx, MelonEnum, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
+                    g->nPlants++;
+                }
+                // printf("done: %d, plants: %d\n", found, g->nPlants);
+            }
+        }
     }
 }

@@ -61,3 +61,4 @@ void CreateAllStandardItems(Game *g);
 void EntityDeathEvent(Game *g, Entity *e);
 
 void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max);
+void TryCreatePlant(Game *g);
