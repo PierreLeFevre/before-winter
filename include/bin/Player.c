@@ -6,8 +6,6 @@
 
 void ConstructPlayer(Player *player, Graphics *gfx)
 {
-    // player->ent.x_vel = 2.0f;
-    // player->ent.y_vel = 2.0f;
     player->ent.movement_speed = 5.0f;
     player->ent.accaleration = 1.1f;
     player->ent.friction = 0.6f;
@@ -22,6 +20,9 @@ void ConstructPlayer(Player *player, Graphics *gfx)
     DrawableSetSrcRect(&player->ent.d, srcrect);
 
     UpdatePlayerHitbox(player);
+    
+    player->itemAttractionRange = 50.0f;
+    player->itemPickupRange = 15.0f;
 }
 
 void UpdatePlayer(Player *player)

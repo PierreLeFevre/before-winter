@@ -45,6 +45,53 @@ void MoveEntity(Entity *e)
     }
 }
 
+void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
+{
+    int pre_colision[2] = {0, 0};
+    for (int i = 0; i < max; i++)
+    {
+        if (Pre_X_CheckCollision(e->hitbox, GoodTiles[i]->hitboxes[1], e->x_axis))
+        {
+            pre_colision[0] = 1;
+        }
+        if (Pre_Y_CheckCollision(e->hitbox, GoodTiles[i]->hitboxes[1], e->y_axis))
+        {
+            pre_colision[1] = 1;
+        }
+    }
+
+    if ((abs((int)e->x_axis) <= 0.6f))
+    {
+        e->x_axis = 0;
+    }
+    if ((abs((int)e->y_axis) <= 0.6f))
+    {
+        e->y_axis = 0;
+    }
+    if (pre_colision[0] == 0 && pre_colision[1] == 0)
+    {
+        e->x_pos += e->x_axis;
+        e->y_pos += e->y_axis;
+        e->d.destrect.x = (e->x_pos + 0.5f);
+        e->d.destrect.y = (e->y_pos + 0.5f);
+    }
+    else
+    {
+        if (pre_colision[0] == 1)
+        {
+            e->y_pos += e->y_axis;
+            e->x_pos -= e->x_axis;
+        }
+        if (pre_colision[1] == 1)
+        {
+            e->x_pos += e->x_axis;
+            e->y_pos -= e->y_axis;
+        }
+        e->d.destrect.x = (e->x_pos + 0.5f);
+        e->d.destrect.y = (e->y_pos + 0.5f);
+    }
+}
+
 int BuyItem(Entity *e, Item *i)
 {
     if (e->n_items >= N_ENTITYITEMS)

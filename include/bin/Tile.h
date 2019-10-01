@@ -1,3 +1,5 @@
+#ifndef TILE_H
+#define TILE_H
 #include "Drawable.h"
 
 typedef struct Tile{
@@ -11,3 +13,5 @@ void ConstructTile(Tile* t);
 
 void TileAddDrawable(Tile* t, Drawable d);
 void TileAddHitbox(Tile* t, SDL_Rect hitbox);
+
+#endif

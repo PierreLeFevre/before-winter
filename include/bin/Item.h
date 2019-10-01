@@ -23,4 +23,6 @@ typedef struct Item{
     int SellValue;
 }Item;
 
+void ConstructItem(Item* item, Graphics* gfx, char* file_path);
+
 #endif

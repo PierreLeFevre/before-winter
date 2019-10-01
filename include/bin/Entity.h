@@ -3,6 +3,8 @@
 #include "Drawable.h"
 #include "Item.h"
 #include "Plants.h"
+#include "Tile.h"
+
 #define N_ENTITYITEMS 10
 typedef struct Entity
 {
@@ -43,6 +45,8 @@ void ConstructEntity(Entity *e, Graphics *gfx, SDL_Rect destrect, char *filePath
 void UpdateEntity(Entity *e);
 
 void MoveEntity(Entity *e);
+
+void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max);
 
 int BuyItem(Entity *e, Item *i);
 void SellItem(Entity *e, Item *i);

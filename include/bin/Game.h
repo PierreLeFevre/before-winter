@@ -39,6 +39,10 @@ typedef struct Game
     Plant plants[MAXPLANTS];
     int nPlants;
     Gui gui;
+
+    //TEMP
+    Item item;
+    DroppedItem d_item;
 } Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int *noExit);
@@ -58,10 +62,7 @@ void AddTileMapToRenderList(Game *g);
 void RenderList(Game *g);
 void SortRenderList(Game *g);
 
-void ConstructItem(Item *i, Graphics *gfx, char *FilePath);
-
 void CreateAllStandardItems(Game *g);
 void EntityDeathEvent(Game *g, Entity *e);
 
-void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max);
 void TryPlacePlant(Game *g, PlantEnum plant);
