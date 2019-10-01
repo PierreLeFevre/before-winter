@@ -66,4 +66,4 @@ void EntityDeathEvent(Game *g, Entity *e);
 void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max);
 
 void TryPlacePlant(Game *g, PlantEnum plant);
-void TryHarvestPlant(Game *g, Plant plant);
+void TryHarvestPlant(Game *g, Plant plant, Gui *gui);
