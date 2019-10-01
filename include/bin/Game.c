@@ -66,8 +66,22 @@ void UpdateLogic(Game *g)
             {
                 if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg"))
                 {
-                    CreatePlant(&g->plants[0], &g->gfx, MelonEnum, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
-                    g->nPlants += 1;
+                    int found = 0;
+                    for (int k = 0; k < g->nPlants; k++){
+                        if (SDL_HasIntersection(&g->plants[k].Current.destrect, &g->player.ent.interaction_hitbox)){
+                            found++;
+                            //printf("found\n");
+                            break;
+                        }
+                        else{
+                            //printf("no found\n");
+                        }
+                    }
+                    if (found == 0){
+                        CreatePlant(&g->plants[g->nPlants], &g->gfx, MelonEnum, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
+                        g->nPlants++;
+                    }
+                    //printf("done: %d, plants: %d\n", found, g->nPlants);
                 }
             }
         }
@@ -127,8 +141,11 @@ void UpdateLogic(Game *g)
     }
     //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
+    for(int i = 0; i < g->nPlants; i++){
+        UpdatePlant(&g->plants[i], SDL_GetTicks());
+    }
+    
 
-    UpdatePlant(&g->plants[0], SDL_GetTicks());
     UpdateCamera(&g->cam);
 }
 
@@ -142,7 +159,10 @@ void Render(Game *g)
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
 
-    AddToRenderList(g, &g->plants[0].Current);
+    for(int i = 0; i < g->nPlants; i++){
+        AddToRenderList(g, &g->plants[i].Current);
+    }
+    
 
     SortRenderList(g);
 
