@@ -21,6 +21,7 @@ typedef struct Item{
     char Name[100];
     int Cost;
     int SellValue;
+    int IsStackable;
 }Item;
 
 #endif

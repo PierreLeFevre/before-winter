@@ -149,6 +149,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         case WheatEnum:
             plant->nPlantStages = 2;
+            strcpy(plant->Name, "Wheat");
 
             plant->plantStages[0].GrowTick = 0;
             strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_wheat.png");
