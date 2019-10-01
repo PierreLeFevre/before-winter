@@ -1,6 +1,7 @@
 #include "Drawable.h"
 typedef enum PlantEnum{
     MelonEnum,
+    MelonSeedsIntoRoseEnum
 }PlantEnum;
 typedef struct PlantStges{
     Drawable drawable;

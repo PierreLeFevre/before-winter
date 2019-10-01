@@ -57,7 +57,7 @@ void UpdateLogic(Game *g)
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
     if (Keys[SDL_SCANCODE_SPACE]){
-        TryPlacePlant(g);
+        TryPlacePlant(g, MelonSeedsIntoRoseEnum);
     }
 
     g->BuyItemCooldown++;
@@ -312,7 +312,7 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
         e->d.destrect.y = (e->y_pos + 0.5f);
     }
 }
-void TryPlacePlant(Game *g){
+void TryPlacePlant(Game *g, PlantEnum plant){
     if (g->nPlants >= MAXPLANTS){
         return;
     }
@@ -332,7 +332,7 @@ void TryPlacePlant(Game *g){
                     }
                 }
                 if (found == 0){
-                    CreatePlant(&g->plants[g->nPlants], &g->gfx, MelonEnum, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
+                    CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
                     g->nPlants++;
                 }
                 // printf("done: %d, plants: %d\n", found, g->nPlants);

@@ -127,13 +127,24 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
             plant->nPlantStages = 2;
 
             plant->plantStages[0].GrowTick = 0;
-            strcpy(plant->plantStages[0].FilePath, "./include/assets/item/seeds_melon.png");
+            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_melon.png");
             ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
 
             plant->plantStages[1].GrowTick = 2000;
-            strcpy(plant->plantStages[1].FilePath, "./include/assets/item/seeds_pumpkin.png");
+            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/seeds_pumpkin.png");
             ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
-            
+        break;
+
+        case MelonSeedsIntoRoseEnum:
+            plant->nPlantStages = 2;
+
+            plant->plantStages[0].GrowTick = 0;
+            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_melon.png");
+            ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
+
+            plant->plantStages[1].GrowTick = 2000;
+            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/flower_rose.png");
+            ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
         break;
     
     default:
