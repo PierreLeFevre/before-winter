@@ -18,6 +18,7 @@ void ConstructGame(Game *g, int *noExit)
 
     //TMP items*************
     CreateAllStandardItems(g);
+    g->nPlants = 0;
     //TMP items****************
 
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
@@ -55,50 +56,37 @@ void UpdateLogic(Game *g)
     //TEMP --
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
-    for (int i = 0; i < g->nGoodTiles; i++)
-    {
-
-        //TEMP -----
-        if (Keys[SDL_SCANCODE_SPACE])
-        {
-            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
-            {
-                if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg"))
-                {
-                    ChangeImagePath(&g->GoodTiles[i]->ds[0], "include/assets/mud-new_seeded.jpg");
-                }
-            }
-        }
-        //-----------
+    if (Keys[SDL_SCANCODE_SPACE]){
+        TryPlacePlant(g, WheatEnum);
     }
 
     g->BuyItemCooldown++;
     if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
-        BuyItem(&g->player.ent, &g->CoreItems[0]);
-
-        char buffer[1000];
-        sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
-        AlertGui(&g->gui, 2, buffer);
+        if (BuyItem(&g->player.ent, &g->CoreItems[0])){
+            char buffer[1000];
+            sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
+            AlertGui(&g->gui, 2, buffer);
+        }
     }
     if (Keys[SDL_SCANCODE_R] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
-        BuyItem(&g->player.ent, &g->CoreItems[1]);
-
-        char buffer[1000];
-        sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
-        AlertGui(&g->gui, 2, buffer);
+        if (BuyItem(&g->player.ent, &g->CoreItems[1])){
+            char buffer[1000];
+            sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
+            AlertGui(&g->gui, 2, buffer);
+        }
     }
     if (Keys[SDL_SCANCODE_T] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
-        BuyItem(&g->player.ent, &g->CoreItems[2]);
-
-        char buffer[1000];
-        sprintf(buffer, "Bought item: %s", g->CoreItems[2].Name);
-        AlertGui(&g->gui, 2, buffer);
+        if (BuyItem(&g->player.ent, &g->CoreItems[2])){
+            char buffer[1000];
+            sprintf(buffer, "Bought item: %s", g->CoreItems[2].Name);
+            AlertGui(&g->gui, 2, buffer);
+        }
     }
 
     //DISPLAY ITEMS****************************
@@ -125,6 +113,12 @@ void UpdateLogic(Game *g)
     }
     //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
+
+    for(int i = 0; i < g->nPlants; i++){
+        UpdatePlant(&g->plants[i], SDL_GetTicks());
+    }
+    
+
     UpdateCamera(&g->cam);
 }
 
@@ -137,6 +131,12 @@ void Render(Game *g)
 
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
+
+    for(int i = 0; i < g->nPlants; i++){
+        AddToRenderList(g, &g->plants[i].Current);
+    }
+    
+
     SortRenderList(g);
 
     RenderList(g);
@@ -310,5 +310,30 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
         }
         e->d.destrect.x = (e->x_pos + 0.5f);
         e->d.destrect.y = (e->y_pos + 0.5f);
+    }
+}
+void TryPlacePlant(Game *g, PlantEnum plant){
+    if (g->nPlants >= MAXPLANTS){
+        return;
+    }
+    for (int i = 0; i < g->nGoodTiles; i++)
+    {
+        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
+            if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg")){
+                int found = 0;
+                for (int k = 0; k < g->nPlants; k++){
+                    if (SDL_HasIntersection(&g->plants[k].Current.destrect, &g->player.ent.interaction_hitbox)){
+                        found++;
+                        break;
+                    }
+                    else{
+                    }
+                }
+                if (found == 0){
+                    CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
+                    g->nPlants++;
+                }
+            }
+        }
     }
 }

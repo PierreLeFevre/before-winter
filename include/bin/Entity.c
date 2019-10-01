@@ -49,7 +49,6 @@ int BuyItem(Entity *e, Item *i)
 {
     if (e->n_items >= N_ENTITYITEMS)
     {
-        printf("max Items %d\n", e->n_items);
         return 0;
     }
     if (e->Gold >= i->Cost)
@@ -90,7 +89,7 @@ void AddItem(Entity *e, Item *i, int index)
 }
 void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
 {
-    SDL_Rect r = {100, 100, 60, 60};
+    SDL_Rect r = {100, 100, 30, 30};
     int z = 10000;
 
     i->Cost = 0;
@@ -117,5 +116,60 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
         strcpy(i->Name, "Diamond");
         i->Cost = 1000;
         break;
+    }
+}
+void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex){
+    
+    switch (plantEnum)
+    {
+        case PumpkinEnum:
+            
+            plant->nPlantStages = 2;
+
+            plant->plantStages[0].GrowTick = 0;
+            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_pumpkin.png");
+            ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
+
+            plant->plantStages[1].GrowTick = 2000;
+            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/pumpkin_stem_disconnected.png");
+            ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
+        break;
+
+        case MelonSeedsIntoRoseEnum:
+            plant->nPlantStages = 2;
+
+            plant->plantStages[0].GrowTick = 0;
+            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_melon.png");
+            ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
+
+            plant->plantStages[1].GrowTick = 2000;
+            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/flower_rose.png");
+            ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
+        break;
+
+        case WheatEnum:
+            plant->nPlantStages = 2;
+
+            plant->plantStages[0].GrowTick = 0;
+            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_wheat.png");
+            ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
+
+            plant->plantStages[1].GrowTick = 2000;
+            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/wheat.png");
+            ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
+        break;
+    
+    default:
+        break;
+    }
+    plant->TickPlaced = TickPlaced;
+    plant->Current = plant->plantStages[0].drawable;
+}
+void UpdatePlant(Plant *plant, Uint32 Tick){
+    Uint32 calcTick = Tick - plant->TickPlaced;
+    for(int i = 0; i < plant->nPlantStages; i++){
+        if (plant->plantStages[i].GrowTick <= calcTick){
+            plant->Current = plant->plantStages[i].drawable;
+        }
     }
 }

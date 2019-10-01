@@ -8,7 +8,7 @@ typedef struct Player{
     int activeItemIndex;
     
     int animationState;
-} Player;
+}Player;
 
 void ConstructPlayer(Player *player, Graphics *gfx);
 void UpdatePlayer(Player *player);

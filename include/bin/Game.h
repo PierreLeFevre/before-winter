@@ -6,6 +6,8 @@
 #include "Gui.h"
 #include "DroppedItem.h"
 
+#define MAXPLANTS 100
+
 typedef enum GameState
 {
     Startmenu,
@@ -33,6 +35,9 @@ typedef struct Game
 
     Item CoreItems[100];
     int BuyItemCooldown;
+
+    Plant plants[MAXPLANTS];
+    int nPlants;
     Gui gui;
 } Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
@@ -59,3 +64,4 @@ void CreateAllStandardItems(Game *g);
 void EntityDeathEvent(Game *g, Entity *e);
 
 void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max);
+void TryPlacePlant(Game *g, PlantEnum plant);
