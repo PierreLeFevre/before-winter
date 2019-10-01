@@ -5,6 +5,8 @@
 #include "Animal.h"
 #include "Gui.h"
 
+#define MAXPLANTS 100
+
 typedef enum GameState
 {
     Startmenu,
@@ -33,7 +35,7 @@ typedef struct Game
     Item CoreItems[100];
     int BuyItemCooldown;
 
-    Plant plants[100];
+    Plant plants[MAXPLANTS];
     int nPlants;
     Gui gui;
 } Game;

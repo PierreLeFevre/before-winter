@@ -57,7 +57,7 @@ void UpdateLogic(Game *g)
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     //-------
     if (Keys[SDL_SCANCODE_SPACE]){
-        TryCreatePlant(g);
+        TryPlacePlant(g);
     }
 
     g->BuyItemCooldown++;
@@ -113,6 +113,7 @@ void UpdateLogic(Game *g)
     }
     //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
+
     for(int i = 0; i < g->nPlants; i++){
         UpdatePlant(&g->plants[i], SDL_GetTicks());
     }
@@ -312,6 +313,9 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
     }
 }
 void TryPlacePlant(Game *g){
+    if (g->nPlants >= MAXPLANTS){
+        return;
+    }
     for (int i = 0; i < g->nGoodTiles; i++)
     {
         if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
