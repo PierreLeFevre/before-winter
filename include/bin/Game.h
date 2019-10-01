@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Animal.h"
 #include "Gui.h"
+#include "DroppedItem.h"
 
 typedef enum GameState
 {

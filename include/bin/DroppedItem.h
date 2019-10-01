@@ -1,3 +1,5 @@
+#ifndef DROPPEDITEM_H
+#define DROPPEDITEM_H
 #include "Item.h"
 #include "Player.h"
 
@@ -11,3 +13,5 @@ typedef struct DroppedItem{
 void ConstructDroppedItem(DroppedItem* d_item, Item* item, float x_pos, float y_pos);
 
 void UpdateDroppedItem(DroppedItem* d_item, Player* player);
+
+#endif

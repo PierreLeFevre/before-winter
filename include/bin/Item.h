@@ -1,3 +1,5 @@
+#ifndef ITEM_H
+#define ITEM_H
 #include "Drawable.h"
 
 typedef enum ItemEnums{
@@ -20,3 +22,5 @@ typedef struct Item{
     int Cost;
     int SellValue;
 }Item;
+
+#endif
