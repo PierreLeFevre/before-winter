@@ -169,40 +169,18 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
     
     switch (plantEnum)
     {
-        case PumpkinEnum:
-            
-            plant->nPlantStages = 2;
-
-            plant->plantStages[0].GrowTick = 0;
-            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_pumpkin.png");
-            ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
-
-            plant->plantStages[1].GrowTick = 2000;
-            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/pumpkin_stem_disconnected.png");
-            ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
-        break;
-
-        case MelonSeedsIntoRoseEnum:
-            plant->nPlantStages = 2;
-
-            plant->plantStages[0].GrowTick = 0;
-            strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_melon.png");
-            ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
-
-            plant->plantStages[1].GrowTick = 2000;
-            strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/flower_rose.png");
-            ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
-        break;
-
         case WheatEnum:
             plant->nPlantStages = 2;
 
             plant->plantStages[0].GrowTick = 0;
             strcpy(plant->plantStages[0].FilePath, "./include/assets/plant_textures/seeds_wheat.png");
+            strcpy(plant->plantStages[0].Name, "Wheat Seed");
             ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
+
 
             plant->plantStages[1].GrowTick = 2000;
             strcpy(plant->plantStages[1].FilePath, "./include/assets/plant_textures/wheat.png");
+            strcpy(plant->plantStages[1].Name, "Wheat");
             ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
         break;
     
@@ -210,13 +188,15 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         break;
     }
     plant->TickPlaced = TickPlaced;
-    plant->Current = plant->plantStages[0].drawable;
+    //initial plant update
+    UpdatePlant(plant, SDL_GetTicks());
 }
 void UpdatePlant(Plant *plant, Uint32 Tick){
     Uint32 calcTick = Tick - plant->TickPlaced;
     for(int i = 0; i < plant->nPlantStages; i++){
         if (plant->plantStages[i].GrowTick <= calcTick){
             plant->Current = plant->plantStages[i].drawable;
+            strcpy(plant->Name, plant->plantStages[i].Name);
         }
     }
 }

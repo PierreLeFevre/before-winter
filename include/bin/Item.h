@@ -21,6 +21,7 @@ typedef struct Item{
     char Name[100];
     int Cost;
     int SellValue;
+    int IsStackable;
 }Item;
 
 void ConstructItem(Item* item, Graphics* gfx, char* file_path);
