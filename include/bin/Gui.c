@@ -27,23 +27,22 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     g->promptToggler = 0;
 
     SDL_Rect charToPrint_destRect = {0,0,0,0};
-    ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/BW_ASCII_COLOR.png", charToPrint_destRect, 20000);
+    ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/gui/BW_ASCII_COLOR.png", charToPrint_destRect, 20000);
 
     SDL_Rect gui_destrect = {80, 512, 440, 88};
-    ConstructDrawable(&g->d, g->d.gfx, "include/assets/GuiBottom.png", gui_destrect, 19999);
+    ConstructDrawable(&g->d, g->d.gfx, "include/assets/gui/GuiBottom.png", gui_destrect, 19999);
 
     SDL_Rect menu_destrect = {-25, -25, 650, 650};
-    ConstructDrawable(&g->menu, g->menu.gfx, "include/assets/guibox.png", menu_destrect, 19998);
+    ConstructDrawable(&g->menu, g->menu.gfx, "include/assets/gui/guibox.png", menu_destrect, 19998);
 
     SDL_Rect messageBox_destrect = {75, 50, 450, 450};
-    ConstructDrawable(&g->messageBox, g->messageBox.gfx, "include/assets/guibox.png", messageBox_destrect, 19997);
+    ConstructDrawable(&g->messageBox, g->messageBox.gfx, "include/assets/gui/guibox.png", messageBox_destrect, 19997);
 
     SDL_Rect inv_destrect = {75, 50, 440, 440};
-    ConstructDrawable(&g->inv, g->inv.gfx, "include/assets/guibox.png", inv_destrect, 19995);
+    ConstructDrawable(&g->inv, g->inv.gfx, "include/assets/gui/guibox.png", inv_destrect, 19995);
 
     SDL_Rect prompt_destrect = {0, 0, 300, 60};
-    ConstructDrawable(&g->promptBg, g->promptBg.gfx, "include/assets/GuiTop.png", prompt_destrect, 19994);
-
+    ConstructDrawable(&g->promptBg, g->promptBg.gfx, "include/assets/gui/GuiTop.png", prompt_destrect, 19994);
 }
 
 void UpdateGui(Gui* g){

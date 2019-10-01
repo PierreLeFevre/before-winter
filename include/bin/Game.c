@@ -319,7 +319,7 @@ void TryPlacePlant(Game *g, PlantEnum plant){
     for (int i = 0; i < g->nGoodTiles; i++)
     {
         if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
-            if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud-new.jpg")){
+            if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.png")){
                 int found = 0;
                 for (int k = 0; k < g->nPlants; k++){
                     if (SDL_HasIntersection(&g->plants[k].Current.destrect, &g->player.ent.interaction_hitbox)){
