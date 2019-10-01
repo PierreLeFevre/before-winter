@@ -8,6 +8,9 @@ typedef struct Player{
     int activeItemIndex;
     
     int animationState;
+
+    float itemAttractionRange;
+    float itemPickupRange;
 }Player;
 
 void ConstructPlayer(Player *player, Graphics *gfx);

@@ -24,4 +24,6 @@ typedef struct Item{
     int IsStackable;
 }Item;
 
+void ConstructItem(Item* item, Graphics* gfx, char* file_path);
+
 #endif
