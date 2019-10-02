@@ -144,11 +144,9 @@ void Render(Game *g)
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
 
-    for(int i = 0; i < g->nPlants; i++){
+    for (int i=0;i<g->nPlants;i++){
         AddToRenderList(g, &g->plants[i].TextureMap);
     }
-    
-    AddToRenderList(g, &g->plants[0].TextureMap);
 
     //TEMP
     AddToRenderList(g, &g->d_item.ent.d);
@@ -291,11 +289,19 @@ void TryPlacePlant(Game *g, PlantEnum plant){
     for (int i = 0; i < g->nGoodTiles; i++)
     {
         if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
-            if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.png") && g->GoodTiles[i]->PlantedGround == 0){
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
-                g->GoodTiles[i]->PlantedGround = 1;
-                g->nPlants++;
-                break;
+            if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.png")){
+                int found = 0;
+                for (int j = 0;j < g->nPlants;j++){
+                    if (SDL_HasIntersection(&g->plants[j].TextureMap.destrect, &g->GoodTiles[i]->ds[0].destrect)){
+                        found++;
+                    }
+                }
+                if(found == 0){
+                    CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
+                    g->nPlants++;
+                    break;
+                }
+                
             }
         }
     }

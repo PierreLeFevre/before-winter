@@ -4,7 +4,6 @@ typedef enum PlantEnum{ //16x32
 }PlantEnum;
 typedef struct PlantStges{
     SDL_Rect srcrect;
-    char FilePath[100];
     char Name[100];
     int GrowTick;
 }PlantStages;

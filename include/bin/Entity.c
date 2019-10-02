@@ -171,39 +171,34 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
     {
         case ParsnipType:
             plant->nPlantStages = 6;
+            plant->nToUpdate = 0;
 
             plant->plantStages[0].GrowTick = 0;
-            strcpy(plant->plantStages[0].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
             strcpy(plant->plantStages[0].Name, "Parsnip Seed");
             SDL_Rect a = {0, 0, 16, 32};
             plant->plantStages[0].srcrect = a;
 
             plant->plantStages[1].GrowTick = 3000;
-            strcpy(plant->plantStages[1].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
             strcpy(plant->plantStages[1].Name, "Parsnip Seed");
             SDL_Rect b = {16, 0, 16, 32};
             plant->plantStages[1].srcrect = b;
 
             plant->plantStages[2].GrowTick = 6000;
-            strcpy(plant->plantStages[2].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
             strcpy(plant->plantStages[2].Name, "Parsnip Seed");
             SDL_Rect c = {32, 0, 16, 32};
             plant->plantStages[2].srcrect = c;
 
             plant->plantStages[3].GrowTick = 8000;
-            strcpy(plant->plantStages[3].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
             strcpy(plant->plantStages[3].Name, "Parsnip Seed");
             SDL_Rect d = {48, 0, 16, 32};
             plant->plantStages[3].srcrect = d;
 
             plant->plantStages[4].GrowTick = 12000;
-            strcpy(plant->plantStages[4].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
             strcpy(plant->plantStages[4].Name, "Parsnip Seed");
             SDL_Rect e = {64, 0, 16, 32};
             plant->plantStages[4].srcrect = e;
 
             plant->plantStages[5].GrowTick = 16000;
-            strcpy(plant->plantStages[5].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
             strcpy(plant->plantStages[5].Name, "Parsnip");
             SDL_Rect f = {80, 0, 16, 32};
             plant->plantStages[5].srcrect = f;
@@ -218,10 +213,9 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 void UpdatePlant(Plant *plant, Uint32 Tick){
     Uint32 calcTick = Tick - plant->TickPlaced;
     if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick){
-        DrawableSetSrcRect(&plant->TextureMap, plant->plantStages[plant->nPlantStages].srcrect);
-        strcpy(plant->Name, plant->plantStages[plant->nToUpdate].Name);
-        if (plant->nToUpdate != plant->nPlantStages){
-            plant->nToUpdate++; 
+        DrawableSetSrcRect(&plant->TextureMap, plant->plantStages[plant->nToUpdate].srcrect);
+        if (plant->nToUpdate < plant->nPlantStages - 1){
+            plant->nToUpdate++;
         }
     }
 }
