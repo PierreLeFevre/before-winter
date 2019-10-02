@@ -167,41 +167,30 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
 }
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex){
     ConstructDrawable(&plant->TextureMap, gfx, "./include/assets/unpacked/TileSheets/crops.png", tile, zIndex);
+    SDL_Rect r;
     switch (plantEnum)
     {
         case ParsnipType:
-            plant->nPlantStages = 6;
-            plant->nToUpdate = 0;
+            r.x = 0;
+            r.y = 0;
+            r.w = 16;
+            r.h = 32;
 
-            plant->plantStages[0].GrowTick = 0;
-            strcpy(plant->plantStages[0].Name, "Parsnip Seed");
-            SDL_Rect a = {0, 0, 16, 32};
-            plant->plantStages[0].srcrect = a;
+            r.y += 10;
+            r.h = 20;
+            CreatePlantType(plant, "Parsnip", r, 6, 5000, ParsnipType);
 
-            plant->plantStages[1].GrowTick = 3000;
-            strcpy(plant->plantStages[1].Name, "Parsnip Seed");
-            SDL_Rect b = {16, 0, 16, 32};
-            plant->plantStages[1].srcrect = b;
+        break;
 
-            plant->plantStages[2].GrowTick = 6000;
-            strcpy(plant->plantStages[2].Name, "Parsnip Seed");
-            SDL_Rect c = {32, 0, 16, 32};
-            plant->plantStages[2].srcrect = c;
+        case CauliflowerType:
+            r.x = 0;
+            r.y = 32;
+            r.w = 16;
+            r.h = 32;
 
-            plant->plantStages[3].GrowTick = 8000;
-            strcpy(plant->plantStages[3].Name, "Parsnip Seed");
-            SDL_Rect d = {48, 0, 16, 32};
-            plant->plantStages[3].srcrect = d;
-
-            plant->plantStages[4].GrowTick = 12000;
-            strcpy(plant->plantStages[4].Name, "Parsnip Seed");
-            SDL_Rect e = {64, 0, 16, 32};
-            plant->plantStages[4].srcrect = e;
-
-            plant->plantStages[5].GrowTick = 16000;
-            strcpy(plant->plantStages[5].Name, "Parsnip");
-            SDL_Rect f = {80, 0, 16, 32};
-            plant->plantStages[5].srcrect = f;
+            r.h -= 16;
+            r.y += 16;
+            CreatePlantType(plant, "Cauliflower", r, 7, 5000, CauliflowerType);
 
         break;
     
@@ -209,6 +198,17 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         break;
     }
     plant->TickPlaced = TickPlaced;
+}
+void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime, PlantEnum plantType){
+    plant->nPlantStages = length - 1;
+    plant->nToUpdate = 0;
+    SDL_Rect r = base;
+
+    for(int i = 0;i < length;i++){
+        r.x += 16;
+        plant->plantStages[i].srcrect = r;
+        plant->plantStages[i].GrowTick = diffTime * i;
+    }
 }
 void UpdatePlant(Plant *plant, Uint32 Tick){
     Uint32 calcTick = Tick - plant->TickPlaced;
