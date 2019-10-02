@@ -6,7 +6,9 @@
 typedef enum DrawableType{
     DT_Player,
     DT_GUI,
-    DT_Other
+    DT_Other,
+    DT_Plant,
+    DT_Item
 }DrawableType;
 
 typedef struct Drawable{

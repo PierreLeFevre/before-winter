@@ -50,6 +50,17 @@ void ConstructGraphics(Graphics *gfx){
         printf("Error creating texture (Leah.png): %s\n", SDL_GetError());
     }
 
+    //Plants
+    SDL_FreeSurface(surf);
+        surf = IMG_Load("include/assets/unpacked/TileSheets/crops.png"); 
+    if(!surf){
+        printf("Error creating surface (Plants): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_PLANT] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if(!gfx->textures[SS_PLANT]){
+        printf("Error creating texture (Plants): %s\n", SDL_GetError());
+    }
+
     //GUI
     SDL_FreeSurface(surf);
         surf = IMG_Load("include/assets/GUI.png"); 
@@ -61,6 +72,7 @@ void ConstructGraphics(Graphics *gfx){
         printf("Error creating texture (GUI.png): %s\n", SDL_GetError());
     }
     SDL_FreeSurface(surf);
+
     
 }
 
