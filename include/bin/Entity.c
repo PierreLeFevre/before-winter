@@ -221,11 +221,11 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
     // plant->TickPlaced = TickPlaced;
 }
 void UpdatePlant(Plant *plant, Uint32 Tick){
-    Uint32 calcTick = Tick - plant->TickPlaced;
-    if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick){
-        DrawableSetSrcRect(&plant->TextureMap, plant->plantStages[plant->nToUpdate].srcrect);
-        if (plant->nToUpdate < plant->nPlantStages - 1){
-            plant->nToUpdate++;
-        }
-    }
+    // Uint32 calcTick = Tick - plant->TickPlaced;
+    // if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick){
+    //     DrawableSetSrcRect(&plant->TextureMap, plant->plantStages[plant->nToUpdate].srcrect);
+    //     if (plant->nToUpdate < plant->nPlantStages - 1){
+    //         plant->nToUpdate++;
+    //     }
+    // }
 }
