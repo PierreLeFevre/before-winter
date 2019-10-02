@@ -121,7 +121,7 @@ void UpdateLogic(Game *g)
     for(int i = 0; i < g->nPlants; i++){
         UpdatePlant(&g->plants[i], SDL_GetTicks());
         if (Keys[SDL_SCANCODE_K]){
-            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].Current.destrect)){
+            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].TextureMap.destrect)){
                 TryHarvestPlant(g, g->plants[i]);
             }
         }
@@ -145,10 +145,10 @@ void Render(Game *g)
     AddToRenderList(g, &g->player.ent.droppableItem.d);
 
     for(int i = 0; i < g->nPlants; i++){
-        AddToRenderList(g, &g->plants[i].Current);
+        AddToRenderList(g, &g->plants[i].TextureMap);
     }
     
-    AddToRenderList(g, &g->plants[0].Current);
+    AddToRenderList(g, &g->plants[0].TextureMap);
 
     //TEMP
     AddToRenderList(g, &g->d_item.ent.d);
@@ -302,8 +302,8 @@ void TryPlacePlant(Game *g, PlantEnum plant){
 }
 void TryHarvestPlant(Game *g, const Plant plant){
     for(int i = 0; i < g->nPlants; i++){
-        if (SDL_HasIntersection(&g->plants[i].Current.destrect, &plant.Current.destrect)){
-            g->player.ent.items[g->player.ent.n_items].d = plant.Current;
+        if (SDL_HasIntersection(&g->plants[i].TextureMap.destrect, &plant.TextureMap.destrect)){
+            g->player.ent.items[g->player.ent.n_items].d = plant.TextureMap;
             g->player.ent.items[g->player.ent.n_items].IsStackable = 1;
             strcpy(g->player.ent.items[g->player.ent.n_items].Name, plant.Name);
 
