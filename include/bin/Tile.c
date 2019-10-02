@@ -1,5 +1,4 @@
 #include "Tile.h"
-
 void ConstructTile(Tile* tile){
     tile->currentSpriteAmmount = 0;
 }

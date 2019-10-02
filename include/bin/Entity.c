@@ -136,96 +136,86 @@ void AddItem(Entity *e, Item *i, int index)
 }
 void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
 {
-    //SDL_Rect r = {100, 100, 30, 30};
-    //int z = 10000;
+    // SDL_Rect r = {100, 100, 30, 30};
+    // int z = 10000;
 
-    //i->Cost = 0;
+    // i->Cost = 0;
 
     // switch (item)
     // {
     // case IronAxeEnum:
-    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_axe.png", r, z);
+    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_axe.png",SS_ITEM , r, r, z);
     //     strcpy(i->Name, "Iron Axe");
     //     i->Cost = 50;
     //     break;
     // case IronPickaxeEnum:
-    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_pickaxe.png", r, z);
+    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_pickaxe.png", SS_ITEM , r, r, z);
     //     strcpy(i->Name, "Iron Pickaxe");
     //     i->Cost = 50;
     //     break;
     // case IronSwordEnum:
-    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_sword.png", r, z);
+    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_sword.png", SS_ITEM , r, r, z);
     //     strcpy(i->Name, "Iron Sword");
     //     i->Cost = 100;
     //     break;
     // case DiamondEnum:
-    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/diamond.png", r, z);
+    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/diamond.png", SS_ITEM , r, r, z);
     //     strcpy(i->Name, "Diamond");
     //     i->Cost = 1000;
     //     break;
     // }
 }
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex){
-    // switch (plantEnum)
-    // {
-    //     case ParsnipType:
-    //         plant->nPlantStages = 6;
+    ConstructDrawable(&plant->TextureMap, DT_Plant, gfx, SS_PLANT, tile, tile, zIndex);
+    SDL_Rect r;
+    switch (plantEnum)
+    {
+        case ParsnipType:
+            r.x = 0;
+            r.y = 0;
+            r.w = 16;
+            r.h = 32;
 
-    //         plant->plantStages[0].GrowTick = 0;
-    //         strcpy(plant->plantStages[0].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
-    //         strcpy(plant->plantStages[0].Name, "Parsnip Seed");
-    //         ConstructDrawable(&plant->plantStages[0].drawable, gfx, plant->plantStages[0].FilePath, tile, zIndex);
-    //         SDL_Rect a = {0, 0, 16, 32};
-    //         DrawableSetSrcRect(&plant->plantStages[0].drawable, a);
+            r.y += 10;
+            r.h = 20;
+            CreatePlantType(plant, "Parsnip", r, 6, 5000, ParsnipType);
 
-    //         plant->plantStages[1].GrowTick = 3000;
-    //         strcpy(plant->plantStages[1].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
-    //         strcpy(plant->plantStages[1].Name, "Parsnip Seed");
-    //         ConstructDrawable(&plant->plantStages[1].drawable, gfx, plant->plantStages[1].FilePath, tile, zIndex);
-    //         SDL_Rect b = {16, 0, 16, 32};
-    //         DrawableSetSrcRect(&plant->plantStages[1].drawable, b);
+        break;
 
-    //         plant->plantStages[2].GrowTick = 6000;
-    //         strcpy(plant->plantStages[2].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
-    //         strcpy(plant->plantStages[2].Name, "Parsnip Seed");
-    //         ConstructDrawable(&plant->plantStages[2].drawable, gfx, plant->plantStages[2].FilePath, tile, zIndex);
-    //         SDL_Rect c = {32, 0, 16, 32};
-    //         DrawableSetSrcRect(&plant->plantStages[2].drawable, c);
+        case CauliflowerType:
+            r.x = 0;
+            r.y = 32;
+            r.w = 16;
+            r.h = 32;
 
-    //         plant->plantStages[3].GrowTick = 8000;
-    //         strcpy(plant->plantStages[3].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
-    //         strcpy(plant->plantStages[3].Name, "Parsnip Seed");
-    //         ConstructDrawable(&plant->plantStages[3].drawable, gfx, plant->plantStages[3].FilePath, tile, zIndex);
-    //         SDL_Rect d = {48, 0, 16, 32};
-    //         DrawableSetSrcRect(&plant->plantStages[3].drawable, d);
+            r.h -= 16;
+            r.y += 16;
+            CreatePlantType(plant, "Cauliflower", r, 7, 5000, CauliflowerType);
 
-    //         plant->plantStages[4].GrowTick = 12000;
-    //         strcpy(plant->plantStages[4].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
-    //         strcpy(plant->plantStages[4].Name, "Parsnip Seed");
-    //         ConstructDrawable(&plant->plantStages[4].drawable, gfx, plant->plantStages[4].FilePath, tile, zIndex);
-    //         SDL_Rect e = {64, 0, 16, 32};
-    //         DrawableSetSrcRect(&plant->plantStages[4].drawable, e);
-
-    //         plant->plantStages[5].GrowTick = 16000;
-    //         strcpy(plant->plantStages[5].FilePath, "./include/assets/unpacked/TileSheets/crops.png");
-    //         strcpy(plant->plantStages[5].Name, "Parsnip");
-    //         ConstructDrawable(&plant->plantStages[5].drawable, gfx, plant->plantStages[5].FilePath, tile, zIndex);
-    //         SDL_Rect f = {80, 0, 16, 32};
-    //         DrawableSetSrcRect(&plant->plantStages[5].drawable, f);
-
-    //     break;
+        break;
     
-    // default:
-    //     break;
-    // }
-    // plant->TickPlaced = TickPlaced;
+    default:
+        break;
+    }
+    plant->TickPlaced = TickPlaced;
+}
+void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime, PlantEnum plantType){
+    plant->nPlantStages = length - 1;
+    plant->nToUpdate = 0;
+    SDL_Rect r = base;
+
+    for(int i = 0;i < length;i++){
+        r.x += 16;
+        plant->plantStages[i].srcrect = r;
+        plant->plantStages[i].GrowTick = diffTime * i;
+    }
 }
 void UpdatePlant(Plant *plant, Uint32 Tick){
-    // Uint32 calcTick = Tick - plant->TickPlaced;
-    // if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick){
-    //     DrawableSetSrcRect(&plant->TextureMap, plant->plantStages[plant->nToUpdate].srcrect);
-    //     if (plant->nToUpdate < plant->nPlantStages - 1){
-    //         plant->nToUpdate++;
-    //     }
-    // }
+    Uint32 calcTick = Tick - plant->TickPlaced;
+    if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick){
+        plant->TextureMap.srcrect = plant->plantStages[plant->nToUpdate].srcrect;
+        if (plant->nToUpdate < plant->nPlantStages - 1){
+            plant->nToUpdate++;
+        }
+    }
 }

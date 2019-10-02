@@ -59,7 +59,7 @@ void UpdateLogic(Game *g)
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     if (Keys[SDL_SCANCODE_SPACE])
     {
-        TryPlacePlant(g, ParsnipType);
+        TryPlacePlant(g, CauliflowerType);
     }
     g->BuyItemCooldown++;
     if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50)
@@ -129,11 +129,9 @@ void UpdateLogic(Game *g)
             }
         }
     }
-
     //TEMP
     UpdateDroppedItem(&g->d_item, &g->player);
     //----
-
     UpdateCamera(&g->cam);
 }
 
@@ -146,6 +144,11 @@ void Render(Game *g)
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
     AddToRenderList(g, &g->d_item.ent.d);
+
+    for (int i = 0; i < g->nPlants; i++)
+    {
+        AddToRenderList(g, &g->plants[i].TextureMap);
+    }
 
     SortRenderList(g);
     RenderList(g);
@@ -289,12 +292,21 @@ void TryPlacePlant(Game *g, PlantEnum plant)
     {
         if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
         {
-            // if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.png") && g->GoodTiles[i]->PlantedGround == 0){
-            //     CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->destrects[0], SDL_GetTicks(), g->GoodTiles[i]->z_indicies[0] + 1);
-            //     g->GoodTiles[i]->PlantedGround = 1;
-            //     g->nPlants++;
-            //     break;
-            // }
+            int found = 0;
+            for (int j = 0; j < g->nPlants; j++)
+            {
+                if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[j].TextureMap.destrect))
+                {
+                    found++;
+                    break;
+                }
+            }
+            if (found == 0)
+            {
+                CreatePlant(&g->plants[g->nPlants], &g->gfx, CauliflowerType, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
+                g->nPlants++;
+            }
+            break;
         }
     }
 }

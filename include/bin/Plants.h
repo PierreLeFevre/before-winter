@@ -1,6 +1,7 @@
 #include "Drawable.h"
 typedef enum PlantEnum{ //16x32
-    ParsnipType
+    ParsnipType,
+    CauliflowerType
 }PlantEnum;
 typedef struct PlantStges{
     SDL_Rect srcrect;

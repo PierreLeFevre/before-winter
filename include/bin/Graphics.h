@@ -15,6 +15,8 @@ typedef enum SpriteSheet{
     SS_TILEMAP,
     SS_PLAYER,
     SS_GUI,
+    SS_PLANT,
+    SS_ITEM,
     SS_FONT
 }SpriteSheet;
 
