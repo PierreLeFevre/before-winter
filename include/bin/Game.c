@@ -8,26 +8,24 @@
 
 void ConstructGame(Game *g, int *noExit)
 {
-
+    Entity buildEntity;
+    Drawable buildDrawable;
+    SDL_Rect buildSrcrect = {0,0,10000,10000};
+    SDL_Rect buildDestrect = {300,300,50,50};
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player);
-    ConstructAnimal(&g->animals[0], &g->gfx, "./include/assets/cow_set.png");
 
-    //TEMP
-    ConstructItem(&g->item, &g->gfx, "include/assets/item/beef_raw.png");
-    ConstructDroppedItem(&g->d_item, &g->item, &g->gfx, 280.0f, 350.0f);
-    //----
-
-    //TMP items*************
-    CreateAllStandardItems(g);
-    g->nPlants = 0;
-    //TMP items****************
+    ConstructDrawable(&buildDrawable, DT_Other, &g->gfx, SS_TILEMAP,  buildSrcrect, buildDestrect, 10000);
+    ConstructItem(&g->item, &buildDrawable);
+    ConstructEntity(&buildEntity, &buildDrawable);
+    ConstructDroppedItem(&g->d_item, &g->item, &buildEntity);
 
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
     g->GoodTiles = (Tile **)malloc(sizeof(Tile *) * 5000);
+    g->nPlants = 0;
     g->noExit = noExit;
 }
 void DestroyGame(Game *g)
@@ -42,7 +40,6 @@ void DestroyGame(Game *g)
 
 void Go(Game *g)
 {
-
     BeginFrame(&g->gfx);
     UpdateLogic(g);
     Render(g);
@@ -53,14 +50,12 @@ void UpdateLogic(Game *g)
 {
     CalculateGoodTiles(g);
     HandleEvents(g);
-    UpdateAnimal(&g->animals[0]);
     UpdatePlayer(&g->player);
     if (!g->gui.menuActive){
         CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
     }
-    //TEMP --
+
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
-    //-------
     if (Keys[SDL_SCANCODE_SPACE]){
         TryPlacePlant(g, ParsnipType);
     }
@@ -92,6 +87,7 @@ void UpdateLogic(Game *g)
             AlertGui(&g->gui, 2, buffer);
         }
     }
+    
 
     //DISPLAY ITEMS****************************
     if (Keys[SDL_SCANCODE_1])
@@ -126,7 +122,7 @@ void UpdateLogic(Game *g)
             }
         }
     }
-
+    
     //TEMP
     UpdateDroppedItem(&g->d_item, &g->player);
     //----
@@ -139,20 +135,10 @@ void Render(Game *g)
     g->nToRender = 0;
     AddTileMapToRenderList(g);
     AddToRenderList(g, &g->player.ent.d);
-    AddToRenderList(g, &g->animals[0].ent.d);
 
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
-
-    for(int i = 0; i < g->nPlants; i++){
-        AddToRenderList(g, &g->plants[i].Current);
-    }
-    
-    AddToRenderList(g, &g->plants[0].Current);
-
-    //TEMP
     AddToRenderList(g, &g->d_item.ent.d);
-    //----
 
     SortRenderList(g);
     RenderList(g);
@@ -194,7 +180,7 @@ void CalculateGoodTiles(Game *g)
     g->nGoodTiles = 0;
     for (int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++)
     {
-        SDL_Rect currTile = g->tileMap.tiles[i].ds[0].destrect;
+        SDL_Rect currTile = g->tileMap.tiles[i].drawables[0].destrect;
         SDL_Rect camera = g->cam.camRectVirtual;
         if (currTile.x > camera.x + camera.w + TILE_WIDTH * 2)
         {
@@ -215,9 +201,9 @@ void CalculateGoodTiles(Game *g)
         {
             break;
         };
-        for (int j = 0; j < g->tileMap.tiles[i].currentDrawables; j++)
+        for (int j = 0; j < g->tileMap.tiles[i].currentSpriteAmmount; j++)
         {
-            if (SDL_HasIntersection(&g->tileMap.tiles[i].ds[j].destrect, &g->cam.camRectVirtual))
+            if (SDL_HasIntersection(&g->tileMap.tiles[i].drawables[j].destrect, &g->cam.camRectVirtual))
             {
                 g->GoodTiles[g->nGoodTiles] = &g->tileMap.tiles[i];
                 g->nGoodTiles++;
@@ -236,9 +222,9 @@ void AddTileMapToRenderList(Game *g)
 {
     for (int i = 0; i < g->nGoodTiles; i++)
     {
-        for (int j = 0; j < g->GoodTiles[i]->currentDrawables; j++)
+        for (int j = 0; j < g->GoodTiles[i]->currentSpriteAmmount; j++)
         {
-            AddToRenderList(g, &g->GoodTiles[i]->ds[j]);
+            AddToRenderList(g, &g->GoodTiles[i]->drawables[j]);
         }
     }
 }
@@ -291,12 +277,12 @@ void TryPlacePlant(Game *g, PlantEnum plant){
     for (int i = 0; i < g->nGoodTiles; i++)
     {
         if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
-            if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.png") && g->GoodTiles[i]->PlantedGround == 0){
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
-                g->GoodTiles[i]->PlantedGround = 1;
-                g->nPlants++;
-                break;
-            }
+            // if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.png") && g->GoodTiles[i]->PlantedGround == 0){
+            //     CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->destrects[0], SDL_GetTicks(), g->GoodTiles[i]->z_indicies[0] + 1);
+            //     g->GoodTiles[i]->PlantedGround = 1;
+            //     g->nPlants++;
+            //     break;
+            // }
         }
     }
 }

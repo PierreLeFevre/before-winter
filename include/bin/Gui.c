@@ -26,23 +26,27 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
 
     g->promptToggler = 0;
 
+    //TEMP
+    SDL_Rect srcrect = {0,0,10000,10000};
+    //----
+
     SDL_Rect charToPrint_destRect = {0,0,0,0};
-    ConstructDrawable(&g->charToPrint, g->charToPrint.gfx, "include/assets/gui/BW_ASCII_COLOR.png", charToPrint_destRect, 20000);
+    ConstructDrawable(&g->charToPrint, DT_GUI,g->charToPrint.gfx, SS_GUI, srcrect, charToPrint_destRect, 20000);
 
     SDL_Rect gui_destrect = {80, 512, 440, 88};
-    ConstructDrawable(&g->d, g->d.gfx, "include/assets/gui/GuiBottom.png", gui_destrect, 19999);
+    ConstructDrawable(&g->d, DT_GUI,g->d.gfx, SS_GUI, srcrect, gui_destrect, 19999);
 
     SDL_Rect menu_destrect = {-25, -25, 650, 650};
-    ConstructDrawable(&g->menu, g->menu.gfx, "include/assets/gui/guibox.png", menu_destrect, 19998);
+    ConstructDrawable(&g->menu, DT_GUI,g->d.gfx, SS_GUI, srcrect, menu_destrect, 19998);
 
     SDL_Rect messageBox_destrect = {75, 50, 450, 450};
-    ConstructDrawable(&g->messageBox, g->messageBox.gfx, "include/assets/gui/guibox.png", messageBox_destrect, 19997);
+    ConstructDrawable(&g->messageBox, DT_GUI,g->d.gfx, SS_GUI, srcrect, messageBox_destrect, 19997);
 
     SDL_Rect inv_destrect = {75, 50, 440, 440};
-    ConstructDrawable(&g->inv, g->inv.gfx, "include/assets/gui/guibox.png", inv_destrect, 19995);
+    ConstructDrawable(&g->inv, DT_GUI,g->d.gfx, SS_GUI, srcrect, inv_destrect, 19995);
 
     SDL_Rect prompt_destrect = {0, 0, 300, 60};
-    ConstructDrawable(&g->promptBg, g->promptBg.gfx, "include/assets/gui/GuiTop.png", prompt_destrect, 19994);
+    ConstructDrawable(&g->promptBg, DT_GUI,g->d.gfx, SS_GUI, srcrect, prompt_destrect, 19994);
 }
 
 void UpdateGui(Gui* g){
@@ -119,7 +123,7 @@ void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]){
         g->charToPrint.srcrect.w = 17;
         g->charToPrint.srcrect.h = 18;
 
-        Draw(g->charToPrint);
+        Draw(&g->charToPrint);
 
         if(text[i] != '\n')
         {
@@ -141,7 +145,7 @@ void GuiBar(Gui* g){
     int x = g->d.destrect.x;
     g->d.destrect.y = g->d.gfx->wHeight - g->d.destrect.h;
     int y = g->d.destrect.y;
-    Draw(g->d);
+    Draw(&g->d);
 
     //Render gui text
 
@@ -187,9 +191,9 @@ void GuiInventory(Gui* g){
                 int x = g->inv.destrect.x;
                 g->inv.destrect.y = g->inv.gfx->wHeight/2 - g->inv.destrect.h/2;
                 int y = g->inv.destrect.y;
-                Draw(g->inv);
+                Draw(&g->inv);
 
-                Draw(g->inv);
+                Draw(&g->inv);
                 
                 RenderText(g, x+25, y+25, 0, White, Bold, "Inventory:");
                 
@@ -308,7 +312,7 @@ void GuiMenu(Gui* g){
             }
 
 
-            Draw(g->menu);
+            Draw(&g->menu);
 
             SDL_Rect selectRect = {100, 120 + g->menuSelectedIndex * 20, 300, 20};
             SDL_SetRenderDrawColor(g->d.gfx->rend, 255, 255, 255, 1);
@@ -395,7 +399,7 @@ void GuiMsgBox(Gui* g){
         //Draw message box
         if(g->messageActive){
             //Draw msgBox background
-            Draw(g->messageBox);
+            Draw(&g->messageBox);
             
             //Draw message text
             RenderText(g, x+25, y+25, 0, White, Regular, g->message);
@@ -429,7 +433,7 @@ void GuiPrompt(Gui* g){
 
         g->promptBg.destrect.y = y - 30;
 
-        Draw(g->promptBg);
+        Draw(&g->promptBg);
         RenderText(g, 20, round(y) - 7, 0, White, Bold, g->promptText);
 
         g->promptToggler -= 1;

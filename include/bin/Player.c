@@ -9,20 +9,19 @@ void ConstructPlayer(Player *player, Graphics *gfx)
     player->ent.movement_speed = 2.0f;
     player->ent.accaleration = 1.1f;
     player->ent.friction = 0.6f;
+    player->ent.health = 100;
+    player->ent.Gold = 10000;
+    player->itemAttractionRange = 50.0f;
+    player->itemPickupRange = 15.0f;
 
     SDL_Rect destrect = {6 * TILE_WIDTH, 9 * TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT * 2};
     SDL_Rect srcrect = {0, 0, 18, 18};
 
-    ConstructEntity(&player->ent, gfx, destrect, "include/assets/unpacked/characters/penny.png");
-    player->ent.health = 100;
-    player->ent.Gold = 10000;
-
-    DrawableSetSrcRect(&player->ent.d, srcrect);
+    Drawable d;
+    ConstructDrawable(&d, DT_Player, gfx, SS_PLAYER, srcrect, destrect, 0);
+    ConstructEntity(&player->ent, &d);
 
     UpdatePlayerHitbox(player);
-    
-    player->itemAttractionRange = 50.0f;
-    player->itemPickupRange = 15.0f;
 }
 
 void UpdatePlayer(Player *player)

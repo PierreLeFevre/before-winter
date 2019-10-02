@@ -8,16 +8,16 @@
 #include <math.h>
 #include <string.h>
 
-void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* mapFile){
+void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file){
     tm->gfx = gfx;
     tm->tiles = (Tile*) malloc(sizeof(Tile) * nTiles_x * nTiles_y);
     tm->nTiles_x = nTiles_x;
     tm->nTiles_y = nTiles_y;
     tm->topleft_x = topleft_x;
     tm->topleft_y = topleft_y;
-    tm->mapFile = mapFile;
+    tm->map_file = map_file;
     
-	FILE* fileIO = fopen(mapFile, "rb");
+	FILE* fileIO = fopen(map_file, "rb");
 	fseek(fileIO, 0L, SEEK_END);
 	long int numbytes = ftell(fileIO);
 	fseek(fileIO, 0L, SEEK_SET);
@@ -41,7 +41,14 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
             break;
         }
 
-        //Marks where the current tiles Drawable is drawn, DEFAULT
+        // ----------------------------------
+        // ----- DEFAULT TILEPROPERTIES -----
+        // ----------------------------------
+
+        //Srcrect is full texture size
+        SDL_Rect srcrect = {0,0,gfx->wWidth, gfx->wHeight};
+
+        //Marks where the current tile is drawn
         SDL_Rect destrect = {
         tm->topleft_x + (int)(i % tm->nTiles_x) * TILE_WIDTH
         ,tm->topleft_y + (int)(i / tm->nTiles_x) * TILE_HEIGHT
@@ -49,13 +56,18 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         ,TILE_HEIGHT
         };
 
-        //Default srcrect, if not set
-        SDL_Rect srcrect = {0,0,gfx->wWidth, gfx->wHeight};
+        //Hitbox is the drawn texture
+        SDL_Rect hitbox = destrect;
+
+        ////Row 1 = 10, Row 2 = 20....
+        int z_index = (tm->topleft_y + (int)(i / tm->nTiles_x) * TILE_Z_INDEX_MAX);
+        
+        Drawable drawable;
+        ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP, srcrect, destrect, z_index);
+        // ----------------------------------
         
         TileProperties tp = GetTilePropertiesData(*mapData - '0');
-        Drawable d;
-        SDL_Rect hitbox = destrect;
-        ApplyTileProperties(tm, &tp, &d, &destrect, &srcrect, &hitbox, i);
+        ApplyTileProperties(tm, &tp, &drawable, &hitbox);
 
         Tile t;
         //"If new Tile"
@@ -66,10 +78,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         else{
             t = tm->tiles[i];
         }
-        TileAddDrawable(&t, d);
-        DrawableSetSrcRect(&t.ds[t.currentDrawables - 1], srcrect);
-        hitbox.h = 59;
-        TileAddHitbox(&t, hitbox);
+        TileAddSprite(&t, drawable, hitbox, z_index);
         tm->tiles[i] = t;
 
         mapData++;
@@ -84,6 +93,8 @@ void DestroyTileMap(TileMap* tm){
 TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     TileProperties tp;
      //--- Default ---
+    tp.type = DT_Other;
+
     tp.drawable_x_offset = 0;
     tp.drawable_y_offset = 0;
     tp.drawable_x_correct = 0;
@@ -107,21 +118,18 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     //----------------
     switch(mdc){
         case MUD:
-            tp.filePath = "include/assets/unpacked/maps/spring_outdoorsTileSheet.png";
             tp.drawable_srcrect_x = 16;
             tp.drawable_srcrect_y = 112;
             tp.drawable_srcrect_width = 16;
             tp.drawable_srcrect_height = 16;
             break;
         case GRASS:
-            tp.filePath = "include/assets/unpacked/maps/spring_outdoorsTileSheet.png";
             tp.drawable_srcrect_x = 0;
             tp.drawable_srcrect_y = 112;
             tp.drawable_srcrect_width = 16;
             tp.drawable_srcrect_height = 16;
             break;
         case TREE:
-            tp.filePath = "include/assets/unpacked/maps/spring_outdoorsTileSheet.png";
             tp.drawable_height_offset += TILE_HEIGHT * 5;
             tp.drawable_width_offset += TILE_HEIGHT * 3;
             tp.drawable_x_offset -= TILE_HEIGHT;
@@ -136,7 +144,6 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             tp.drawable_srcrect_height = 96;
             break;
         default:
-            tp.filePath = "include/assets/Question_mark.jpg";
             break;
     }
     //Because we inevitably draw from the top-left corner
@@ -146,22 +153,24 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     return tp;
 }
 
-void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* destrect, SDL_Rect* srcrect, SDL_Rect* hitbox, int index){
-    destrect->x += tp->drawable_x_correct + tp->drawable_x_offset;
-    destrect->y += tp->drawable_y_correct + tp->drawable_y_offset;
-    destrect->w += tp->drawable_width_offset + tp->drawable_x_offset;
-    destrect->h += tp->drawable_height_offset + tp->drawable_y_offset;
+void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* drawable, SDL_Rect* hitbox){
+    drawable->type = tp->type;
 
-    srcrect->x = tp->drawable_srcrect_x;
-    srcrect->y = tp->drawable_srcrect_y;
-    srcrect->w = tp->drawable_srcrect_width;
-    srcrect->h = tp->drawable_srcrect_height;
+    drawable->destrect.x += tp->drawable_x_correct + tp->drawable_x_offset;
+    drawable->destrect.y += tp->drawable_y_correct + tp->drawable_y_offset;
+    drawable->destrect.w += tp->drawable_width_offset + tp->drawable_x_offset;
+    drawable->destrect.h += tp->drawable_height_offset + tp->drawable_y_offset;
 
-    *hitbox = *destrect;
+    drawable->srcrect.x = tp->drawable_srcrect_x;
+    drawable->srcrect.y = tp->drawable_srcrect_y;
+    drawable->srcrect.w = tp->drawable_srcrect_width;
+    drawable->srcrect.h = tp->drawable_srcrect_height;
+
+    *hitbox = drawable->destrect;
     hitbox->x += tp->hitbox_x_correct + tp->hitbox_x_offset;
     hitbox->y += tp->hitbox_y_correct + tp->hitbox_y_offset;
     hitbox->w += tp->hitbox_width_offset + tp->hitbox_x_offset;
     hitbox->h += tp->hitbox_height_offset + tp->hitbox_y_offset;
-    int z_index = (tm->topleft_y + (int)(index / tm->nTiles_x) * TILE_Z_INDEX_MAX) + tp->z_index_offset + Map(tp->drawable_y_offset, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); //Row 1 = 10, Row 2 = 20....
-    ConstructDrawable(d, tm->gfx, tp->filePath, *destrect, z_index);
+
+    drawable->z_index += tp->z_index_offset + Map(tp->drawable_y_offset, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); 
 }

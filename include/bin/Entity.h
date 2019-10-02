@@ -41,7 +41,7 @@ typedef struct Entity
 
 } Entity;
 
-void ConstructEntity(Entity *e, Graphics *gfx, SDL_Rect destrect, char *filePath);
+void ConstructEntity(Entity* e, Drawable* d);
 void UpdateEntity(Entity *e);
 
 void MoveEntity(Entity *e);

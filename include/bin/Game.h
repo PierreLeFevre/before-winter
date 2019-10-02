@@ -43,6 +43,7 @@ typedef struct Game
     //TEMP
     Item item;
     DroppedItem d_item;
+    //----
 } Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int *noExit);

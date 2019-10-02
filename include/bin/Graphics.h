@@ -11,15 +11,23 @@
 #define TILE_Z_INDEX_MIN -100
 #define TILE_Z_INDEX_MAX 100
 
+typedef enum SpriteSheet{
+    SS_TILEMAP,
+    SS_PLAYER,
+    SS_GUI
+}SpriteSheet;
+
 typedef struct Graphics{
     SDL_Window* win;
     int wWidth;
     int wHeight;
     int wFullscreen;
     SDL_Renderer* rend;
+    SDL_Texture** textures;
 }Graphics;
 
 void ConstructGraphics(Graphics *gfx);
+
 void DrawFilledRectangle(SDL_Renderer *r,const SDL_Rect *rect);
 void DrawHollowRectangle(SDL_Renderer *r, const SDL_Rect *rect);
 void DestroyGraphics(Graphics *gfx);
