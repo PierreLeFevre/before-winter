@@ -10,7 +10,7 @@ typedef struct DroppedItem{
     float y_desired;
 }DroppedItem;
 
-void ConstructDroppedItem(DroppedItem* d_item, Item* item, Graphics* gfx, float x_pos, float y_pos);
+void ConstructDroppedItem(DroppedItem* d_item, Item* item, Entity* ent);
 
 void UpdateDroppedItem(DroppedItem* d_item, Player* player);
 

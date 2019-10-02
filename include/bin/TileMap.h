@@ -4,17 +4,19 @@
 typedef struct TileMap{
     Graphics* gfx;
     Tile* tiles;
+    char* map_file;
+    Drawable sprite_sheet;
     int nTiles_x;
     int nTiles_y;
     int tile_width;
     int tile_height;
     int topleft_x;
     int topleft_y;
-    char* mapFile;
 }TileMap;
 
 typedef struct TileProperties{
-    char* filePath;
+    DrawableType type;
+
     int drawable_x_offset;
     int drawable_y_offset;
     int drawable_x_correct;
@@ -43,9 +45,11 @@ typedef enum MapDataConverter{
     TREE
 }MapDataConverter;
 
-void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* fullBackground);
+void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file);
 void DestroyTileMap(TileMap* tm);
+
+void DrawTileMap(TileMap* tm);
 
 TileProperties GetTilePropertiesData(const MapDataConverter mdc);
 
-void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* d, SDL_Rect* destrect, SDL_Rect* srcrect, SDL_Rect* hitbox, int index);
+void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* drawable, SDL_Rect* hitbox);

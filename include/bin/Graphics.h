@@ -5,11 +5,17 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 750
 
-#define TILE_WIDTH 60
-#define TILE_HEIGHT 60
+#define TILE_WIDTH 32
+#define TILE_HEIGHT 32
 
 #define TILE_Z_INDEX_MIN -100
 #define TILE_Z_INDEX_MAX 100
+
+typedef enum SpriteSheet{
+    SS_TILEMAP,
+    SS_PLAYER,
+    SS_GUI
+}SpriteSheet;
 
 typedef struct Graphics{
     SDL_Window* win;
@@ -17,9 +23,11 @@ typedef struct Graphics{
     int wHeight;
     int wFullscreen;
     SDL_Renderer* rend;
+    SDL_Texture** textures;
 }Graphics;
 
 void ConstructGraphics(Graphics *gfx);
+
 void DrawFilledRectangle(SDL_Renderer *r,const SDL_Rect *rect);
 void DrawHollowRectangle(SDL_Renderer *r, const SDL_Rect *rect);
 void DestroyGraphics(Graphics *gfx);

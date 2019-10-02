@@ -5,13 +5,13 @@
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
-void ConstructEntity(Entity *e, Graphics *gfx, SDL_Rect destrect, char *filePath)
+void ConstructEntity(Entity* e, Drawable* d)
 {
+    e->d = *d;
+    e->x_pos = e->d.destrect.x;
+    e->y_pos = e->d.destrect.y;
     e->interaction_hitbox_size = 10;
     e->interaction_hitbox_offset = 25;
-    e->x_pos = destrect.x;
-    e->y_pos = destrect.y;
-    ConstructDrawable(&e->d, gfx, filePath, destrect, 0);
     e->deadTrigger = SDL_FALSE;
 }
 void UpdateEntity(Entity *e)
@@ -136,37 +136,37 @@ void AddItem(Entity *e, Item *i, int index)
 }
 void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
 {
-    SDL_Rect r = {100, 100, 30, 30};
-    int z = 10000;
+    // SDL_Rect r = {100, 100, 30, 30};
+    // int z = 10000;
 
-    i->Cost = 0;
+    // i->Cost = 0;
 
-    switch (item)
-    {
-    case IronAxeEnum:
-        ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_axe.png", r, z);
-        strcpy(i->Name, "Iron Axe");
-        i->Cost = 50;
-        break;
-    case IronPickaxeEnum:
-        ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_pickaxe.png", r, z);
-        strcpy(i->Name, "Iron Pickaxe");
-        i->Cost = 50;
-        break;
-    case IronSwordEnum:
-        ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_sword.png", r, z);
-        strcpy(i->Name, "Iron Sword");
-        i->Cost = 100;
-        break;
-    case DiamondEnum:
-        ConstructDrawable(&i->d, gfx, "./include/assets/item/diamond.png", r, z);
-        strcpy(i->Name, "Diamond");
-        i->Cost = 1000;
-        break;
-    }
+    // switch (item)
+    // {
+    // case IronAxeEnum:
+    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_axe.png",SS_ITEM , r, r, z);
+    //     strcpy(i->Name, "Iron Axe");
+    //     i->Cost = 50;
+    //     break;
+    // case IronPickaxeEnum:
+    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_pickaxe.png", SS_ITEM , r, r, z);
+    //     strcpy(i->Name, "Iron Pickaxe");
+    //     i->Cost = 50;
+    //     break;
+    // case IronSwordEnum:
+    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/iron_sword.png", SS_ITEM , r, r, z);
+    //     strcpy(i->Name, "Iron Sword");
+    //     i->Cost = 100;
+    //     break;
+    // case DiamondEnum:
+    //     ConstructDrawable(&i->d, gfx, "./include/assets/item/diamond.png", SS_ITEM , r, r, z);
+    //     strcpy(i->Name, "Diamond");
+    //     i->Cost = 1000;
+    //     break;
+    // }
 }
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex){
-    ConstructDrawable(&plant->TextureMap, gfx, "./include/assets/unpacked/TileSheets/crops.png", tile, zIndex);
+    ConstructDrawable(&plant->TextureMap, DT_Plant, gfx, SS_PLANT, tile, tile, zIndex);
     SDL_Rect r;
     switch (plantEnum)
     {
@@ -213,7 +213,7 @@ void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int d
 void UpdatePlant(Plant *plant, Uint32 Tick){
     Uint32 calcTick = Tick - plant->TickPlaced;
     if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick){
-        DrawableSetSrcRect(&plant->TextureMap, plant->plantStages[plant->nToUpdate].srcrect);
+        plant->TextureMap.srcrect = plant->plantStages[plant->nToUpdate].srcrect;
         if (plant->nToUpdate < plant->nPlantStages - 1){
             plant->nToUpdate++;
         }

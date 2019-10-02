@@ -3,13 +3,11 @@
 #include <stdio.h>
 
 
-void ConstructDroppedItem(DroppedItem* d_item, Item* item, Graphics* gfx, float x_pos, float y_pos){
+void ConstructDroppedItem(DroppedItem* d_item, Item* item, Entity* ent){
     d_item->item = item;
-    d_item->x_desired = x_pos;
-    d_item->y_desired = y_pos;
-    SDL_Rect destrect = {x_pos, y_pos, 20, 20};
-    ConstructEntity(&d_item->ent, gfx, destrect, d_item->item->d.filePath);
-    
+    d_item->ent = *ent;
+    d_item->x_desired = d_item->ent.x_pos;
+    d_item->y_desired = d_item->ent.y_pos;    
     d_item->ent.movement_speed = 3.0f;
     d_item->ent.x_dir = 0.0f;
     d_item->ent.y_dir = 0.0f;

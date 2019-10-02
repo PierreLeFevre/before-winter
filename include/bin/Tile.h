@@ -3,16 +3,13 @@
 #include "Drawable.h"
 
 typedef struct Tile{
-    Drawable ds[3];
-    int currentDrawables;
+    Drawable drawables[3];
     SDL_Rect hitboxes[3];
-    int currentHitboxes;
-    int PlantedGround;
+    int currentSpriteAmmount;
 }Tile;
 
 void ConstructTile(Tile* t);
 
-void TileAddDrawable(Tile* t, Drawable d);
-void TileAddHitbox(Tile* t, SDL_Rect hitbox);
+void TileAddSprite(Tile* tile, Drawable drawable, SDL_Rect hitbox, int z_index);
 
 #endif

@@ -3,20 +3,23 @@
 
 #include "Graphics.h"
 
+typedef enum DrawableType{
+    DT_Player,
+    DT_GUI,
+    DT_Other
+}DrawableType;
+
 typedef struct Drawable{
+    DrawableType type;
     Graphics* gfx;
-    SDL_Surface* surf;
+    SpriteSheet spritesheet;
     SDL_Texture* tex;
-    SDL_Rect destrect;
     SDL_Rect srcrect;
-    char filePath[100];
+    SDL_Rect destrect;
     int z_index;
 }Drawable;
 
-void ConstructDrawable(Drawable* d, Graphics* gfx, const char* filePath, SDL_Rect destrect, int z_index);
-void Draw(Drawable d);
-
-void ChangeImagePath(Drawable* d, const char* filePath);
-void DrawableSetSrcRect(Drawable* d, SDL_Rect srcrect);
+void ConstructDrawable(Drawable* d, DrawableType type, Graphics* gfx, SpriteSheet spritesheet, SDL_Rect srcrect, SDL_Rect destrect, int z_index);
+void Draw(Drawable* d);
 
 #endif
