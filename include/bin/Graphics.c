@@ -41,7 +41,7 @@ void ConstructGraphics(Graphics *gfx){
     SDL_FreeSurface(surf);
 
     //PLAYER
-    surf = IMG_Load("include/assets/unpacked/Characters/Leah.png"); 
+    surf = IMG_Load("include/assets/unpacked/Characters/haley.png"); 
     if(!surf){
         printf("Error creating surface (Leah.png): %s\n", SDL_GetError());
     }
@@ -49,9 +49,9 @@ void ConstructGraphics(Graphics *gfx){
     if(!gfx->textures[SS_PLAYER]){
         printf("Error creating texture (Leah.png): %s\n", SDL_GetError());
     }
+    SDL_FreeSurface(surf);
 
     //Plants
-    SDL_FreeSurface(surf);
         surf = IMG_Load("include/assets/unpacked/TileSheets/crops.png"); 
     if(!surf){
         printf("Error creating surface (Plants): %s\n", SDL_GetError());
@@ -60,9 +60,9 @@ void ConstructGraphics(Graphics *gfx){
     if(!gfx->textures[SS_PLANT]){
         printf("Error creating texture (Plants): %s\n", SDL_GetError());
     }
-
-    //GUI
+    
     SDL_FreeSurface(surf);
+    //GUI
         surf = IMG_Load("include/assets/GUI.png"); 
     if(!surf){
         printf("Error creating surface (GUI.png): %s\n", SDL_GetError());
@@ -71,8 +71,17 @@ void ConstructGraphics(Graphics *gfx){
     if(!gfx->textures[SS_GUI]){
         printf("Error creating texture (GUI.png): %s\n", SDL_GetError());
     }
-    SDL_FreeSurface(surf);
 
+    //Font
+    SDL_FreeSurface(surf);
+        surf = IMG_Load("include/assets/font.png"); 
+    if(!surf){
+        printf("Error creating surface (font.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_FONT] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if(!gfx->textures[SS_FONT]){
+        printf("Error creating texture (font.png): %s\n", SDL_GetError());
+    }
     
 }
 
