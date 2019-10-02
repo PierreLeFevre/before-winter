@@ -13,7 +13,7 @@ void ConstructGame(Game *g, int *noExit)
     SDL_Rect buildSrcrect = {0,0,10000,10000};
     SDL_Rect buildDestrect = {300,300,50,50};
     ConstructGraphics(&g->gfx);
-    ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
+    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player);

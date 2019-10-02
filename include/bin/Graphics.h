@@ -5,8 +5,8 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 750
 
-#define TILE_WIDTH 60
-#define TILE_HEIGHT 60
+#define TILE_WIDTH 32
+#define TILE_HEIGHT 32
 
 #define TILE_Z_INDEX_MIN -100
 #define TILE_Z_INDEX_MAX 100
