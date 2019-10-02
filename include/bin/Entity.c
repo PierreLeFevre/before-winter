@@ -219,15 +219,14 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         break;
     }
     plant->TickPlaced = TickPlaced;
-    //initial plant update
-    UpdatePlant(plant, SDL_GetTicks());
 }
 void UpdatePlant(Plant *plant, Uint32 Tick){
     Uint32 calcTick = Tick - plant->TickPlaced;
-    for(int i = 0; i < plant->nPlantStages; i++){
-        if (plant->plantStages[i].GrowTick <= calcTick){
-            plant->Current = plant->plantStages[i].drawable;
-            strcpy(plant->Name, plant->plantStages[i].Name);
+    if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick){
+        plant->Current = plant->plantStages[plant->nToUpdate].drawable;
+        strcpy(plant->Name, plant->plantStages[plant->nToUpdate].Name);
+        if (plant->nToUpdate != plant->nPlantStages){
+            plant->nToUpdate++; 
         }
     }
 }

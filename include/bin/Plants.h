@@ -14,4 +14,5 @@ typedef struct Plant{
     PlantStages plantStages[10];
     int nPlantStages;
     Uint32 TickPlaced;
+    int nToUpdate;
 }Plant;

@@ -7,6 +7,7 @@ typedef struct Tile{
     int currentDrawables;
     SDL_Rect hitboxes[3];
     int currentHitboxes;
+    int PlantedGround;
 }Tile;
 
 void ConstructTile(Tile* t);

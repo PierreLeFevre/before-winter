@@ -122,7 +122,7 @@ void UpdateLogic(Game *g)
         UpdatePlant(&g->plants[i], SDL_GetTicks());
         if (Keys[SDL_SCANCODE_K]){
             if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].Current.destrect)){
-                TryHarvestPlant(g, g->plants[i], &g->gui);
+                TryHarvestPlant(g, g->plants[i]);
             }
         }
     }
@@ -148,6 +148,8 @@ void Render(Game *g)
         AddToRenderList(g, &g->plants[i].Current);
     }
     
+    AddToRenderList(g, &g->plants[0].Current);
+
     //TEMP
     AddToRenderList(g, &g->d_item.ent.d);
     //----
@@ -289,30 +291,16 @@ void TryPlacePlant(Game *g, PlantEnum plant){
     for (int i = 0; i < g->nGoodTiles; i++)
     {
         if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
-            if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.png")){
-                int found = 0;
-                for (int k = 0; k < g->nPlants; k++){
-                    if (SDL_HasIntersection(&g->plants[k].Current.destrect, &g->player.ent.interaction_hitbox)){
-                        found++;
-                        break;
-                    }
-                    else{
-                    }
-                }
-                if (found == 0){
-                    CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
-                    g->nPlants++;
-                }
+            if (!strcmp(g->GoodTiles[i]->ds[0].filePath, "include/assets/mud.png") && g->GoodTiles[i]->PlantedGround == 0){
+                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->ds[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->ds[0].z_index + 1);
+                g->GoodTiles[i]->PlantedGround = 1;
+                g->nPlants++;
                 break;
             }
         }
     }
 }
-void TryHarvestPlant(Game *g, const Plant plant, Gui *gui){
-    if (g->player.ent.n_items >= N_ENTITYITEMS){
-        AlertGui(gui, 2, "Inventory full");
-        return;
-    }
+void TryHarvestPlant(Game *g, const Plant plant){
     for(int i = 0; i < g->nPlants; i++){
         if (SDL_HasIntersection(&g->plants[i].Current.destrect, &plant.Current.destrect)){
             g->player.ent.items[g->player.ent.n_items].d = plant.Current;
