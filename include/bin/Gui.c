@@ -31,7 +31,7 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
     //----
 
     SDL_Rect charToPrint_destRect = {0,0,0,0};
-    ConstructDrawable(&g->charToPrint, DT_GUI,g->charToPrint.gfx, SS_GUI, srcrect, charToPrint_destRect, 20000);
+    ConstructDrawable(&g->charToPrint, DT_GUI, g->charToPrint.gfx, SS_FONT, srcrect, charToPrint_destRect, 20000);
 
     SDL_Rect gui_destrect = {80, 512, 440, 88};
     ConstructDrawable(&g->d, DT_GUI,g->d.gfx, SS_GUI, srcrect, gui_destrect, 19999);
@@ -58,7 +58,7 @@ void UpdateGui(Gui* g){
 
     char strFPS[100];
     gcvt(round(dT), 6, strFPS);
-    RenderText(g, 15, g->d.gfx->wHeight-25, 0, Black, Bold, strFPS);
+    RenderText(g, 15, g->d.gfx->wHeight-25, 0, White, Bold, strFPS);
 
     
     GuiMenu(g);

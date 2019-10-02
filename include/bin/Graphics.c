@@ -49,9 +49,9 @@ void ConstructGraphics(Graphics *gfx){
     if(!gfx->textures[SS_PLAYER]){
         printf("Error creating texture (Leah.png): %s\n", SDL_GetError());
     }
+    SDL_FreeSurface(surf);
 
     //GUI
-    SDL_FreeSurface(surf);
         surf = IMG_Load("include/assets/GUI.png"); 
     if(!surf){
         printf("Error creating surface (GUI.png): %s\n", SDL_GetError());
@@ -59,6 +59,17 @@ void ConstructGraphics(Graphics *gfx){
     gfx->textures[SS_GUI] = SDL_CreateTextureFromSurface(gfx->rend, surf);
     if(!gfx->textures[SS_GUI]){
         printf("Error creating texture (GUI.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+
+    //Font
+        surf = IMG_Load("include/assets/font.png"); 
+    if(!surf){
+        printf("Error creating surface (font.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_FONT] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if(!gfx->textures[SS_FONT]){
+        printf("Error creating texture (font.png): %s\n", SDL_GetError());
     }
     SDL_FreeSurface(surf);
     
