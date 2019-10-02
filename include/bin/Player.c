@@ -6,14 +6,14 @@
 
 void ConstructPlayer(Player *player, Graphics *gfx)
 {
-    player->ent.movement_speed = 2.0f;
+    player->ent.movement_speed = 5.0f;
     player->ent.accaleration = 1.1f;
     player->ent.friction = 0.6f;
 
-    SDL_Rect destrect = {6 * TILE_WIDTH, 9 * TILE_HEIGHT, TILE_HEIGHT, TILE_HEIGHT * 2};
+    SDL_Rect destrect = {6 * TILE_WIDTH, 9 * TILE_HEIGHT, 60, 60};
     SDL_Rect srcrect = {0, 0, 18, 18};
 
-    ConstructEntity(&player->ent, gfx, destrect, "include/assets/unpacked/characters/penny.png");
+    ConstructEntity(&player->ent, gfx, destrect, "include/assets/character_set.png");
     player->ent.health = 100;
     player->ent.Gold = 10000;
 
@@ -71,7 +71,7 @@ void UpdatePlayerHitbox(Player *player)
 void AnimatePlayer(Player *player)
 {
     player->ent.d.srcrect.w = 16;
-    player->ent.d.srcrect.h = 36;
+    player->ent.d.srcrect.h = 18;
 
     if (player->ent.x_dir != 0 || player->ent.y_dir != 0)
     {
@@ -79,7 +79,7 @@ void AnimatePlayer(Player *player)
         //Choose direction in layer
         if (player->ent.y_dir == -1)
         {
-            player->ent.d.srcrect.y = 64;
+            player->ent.d.srcrect.y = 18;
         }
         if (player->ent.y_dir == 1)
         {
@@ -87,11 +87,11 @@ void AnimatePlayer(Player *player)
         }
         if (player->ent.x_dir == -1)
         {
-            player->ent.d.srcrect.y = 96;
+            player->ent.d.srcrect.y = 36;
         }
         if (player->ent.x_dir == 1)
         {
-            player->ent.d.srcrect.y = 32;
+            player->ent.d.srcrect.y = 54;
         }
         //Animate steps
         if (player->animationState == 0)
@@ -100,11 +100,11 @@ void AnimatePlayer(Player *player)
         }
         if (player->animationState == 10)
         {
-            player->ent.d.srcrect.x = 32;
+            player->ent.d.srcrect.x = 0;
         }
         if (player->animationState == 20)
         {
-            player->ent.d.srcrect.x = 48;
+            player->ent.d.srcrect.x = 32;
         }
         if (player->animationState == 30)
         {

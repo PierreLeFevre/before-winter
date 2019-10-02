@@ -107,33 +107,18 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     //----------------
     switch(mdc){
         case MUD:
-            tp.filePath = "include/assets/unpacked/maps/spring_outdoorsTileSheet.png";
-            tp.drawable_srcrect_x = 16;
-            tp.drawable_srcrect_y = 112;
-            tp.drawable_srcrect_width = 16;
-            tp.drawable_srcrect_height = 16;
+            tp.filePath = "include/assets/mud.png";
             break;
         case GRASS:
-            tp.filePath = "include/assets/unpacked/maps/spring_outdoorsTileSheet.png";
-            tp.drawable_srcrect_x = 0;
-            tp.drawable_srcrect_y = 112;
-            tp.drawable_srcrect_width = 16;
-            tp.drawable_srcrect_height = 16;
+            tp.filePath = "include/assets/grass-tile-3.png";
             break;
         case TREE:
-            tp.filePath = "include/assets/unpacked/maps/spring_outdoorsTileSheet.png";
-            tp.drawable_height_offset += TILE_HEIGHT * 5;
-            tp.drawable_width_offset += TILE_HEIGHT * 3;
-            tp.drawable_x_offset -= TILE_HEIGHT;
-
-            tp.hitbox_x_offset -= TILE_HEIGHT * 5;
-            tp.hitbox_y_offset -= TILE_HEIGHT * 3;
+            tp.filePath = "include/assets/tree.png";
+            tp.drawable_height_offset += 50;
+            tp.hitbox_x_offset += 4;
+            tp.hitbox_height_offset -= 40;
+            tp.hitbox_width_offset -= 10;
             tp.z_index_offset += 90;
-
-            tp.drawable_srcrect_x = 48;
-            tp.drawable_srcrect_y = 0;
-            tp.drawable_srcrect_width = 48;
-            tp.drawable_srcrect_height = 96;
             break;
         default:
             tp.filePath = "include/assets/Question_mark.jpg";
