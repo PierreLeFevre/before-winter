@@ -26,27 +26,29 @@ void ConstructGui(Gui* g, Graphics* gfx, Player* p){
 
     g->promptToggler = 0;
 
-    //TEMP
-    SDL_Rect srcrect = {0,0,10000,10000};
-    //----
-
+    SDL_Rect char_srcrect = {0,0,10000,10000};
     SDL_Rect charToPrint_destRect = {0,0,0,0};
-    ConstructDrawable(&g->charToPrint, DT_GUI, g->charToPrint.gfx, SS_FONT, srcrect, charToPrint_destRect, 20000);
+    ConstructDrawable(&g->charToPrint, DT_GUI, g->charToPrint.gfx, SS_FONT, char_srcrect, charToPrint_destRect, 20000);
 
+    SDL_Rect gui_srcrect = {0,0,400,80};
     SDL_Rect gui_destrect = {80, 512, 440, 88};
-    ConstructDrawable(&g->d, DT_GUI,g->d.gfx, SS_GUI, srcrect, gui_destrect, 19999);
+    ConstructDrawable(&g->d, DT_GUI,g->d.gfx, SS_GUI, gui_srcrect, gui_destrect, 19999);
 
+    SDL_Rect menu_srcrect = {26,106,350,350};
     SDL_Rect menu_destrect = {-25, -25, 650, 650};
-    ConstructDrawable(&g->menu, DT_GUI,g->d.gfx, SS_GUI, srcrect, menu_destrect, 19998);
+    ConstructDrawable(&g->menu, DT_GUI,g->d.gfx, SS_GUI, menu_srcrect, menu_destrect, 19998);
 
+    SDL_Rect msgBox_srcrect = {0,80,400,400};
     SDL_Rect messageBox_destrect = {75, 50, 450, 450};
-    ConstructDrawable(&g->messageBox, DT_GUI,g->d.gfx, SS_GUI, srcrect, messageBox_destrect, 19997);
+    ConstructDrawable(&g->messageBox, DT_GUI,g->d.gfx, SS_GUI, msgBox_srcrect, messageBox_destrect, 19997);
 
+    SDL_Rect inv_srcrect = {0,80,400,400};
     SDL_Rect inv_destrect = {75, 50, 440, 440};
-    ConstructDrawable(&g->inv, DT_GUI,g->d.gfx, SS_GUI, srcrect, inv_destrect, 19995);
+    ConstructDrawable(&g->inv, DT_GUI,g->d.gfx, SS_GUI, inv_srcrect, inv_destrect, 19995);
 
+    SDL_Rect prompt_srcrect = {0,480,400,80};
     SDL_Rect prompt_destrect = {0, 0, 300, 60};
-    ConstructDrawable(&g->promptBg, DT_GUI,g->d.gfx, SS_GUI, srcrect, prompt_destrect, 19994);
+    ConstructDrawable(&g->promptBg, DT_GUI,g->d.gfx, SS_GUI, prompt_srcrect, prompt_destrect, 19994);
 }
 
 void UpdateGui(Gui* g){

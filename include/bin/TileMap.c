@@ -143,6 +143,13 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             tp.drawable_srcrect_width = 48;
             tp.drawable_srcrect_height = 96;
             break;
+        case WATER_LAKE:
+            tp.drawable_srcrect_x = 336;
+            tp.drawable_srcrect_y = 800;
+            tp.drawable_srcrect_width = 16;
+            tp.drawable_srcrect_height = 16;
+            break;
+
         default:
             break;
     }
