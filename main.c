@@ -12,5 +12,7 @@ int main()
         Go(&g); //THIS IS A init() FUNKTION
     }
     DestroyGame(&g);
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    atexit(SDL_Quit);
     return 0;
 }

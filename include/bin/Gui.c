@@ -263,7 +263,7 @@ void GuiMenu(Gui* g){
                     switch (g->menuSelectedIndex)
                     {
                     case 0:
-                        g->p->ent.movement_speed -= .5;
+                        g->p->ent.movement_speed -= 5;
                         break;
                     case 1:
                         g->p->ent.friction -= .1;
@@ -287,7 +287,7 @@ void GuiMenu(Gui* g){
                     switch (g->menuSelectedIndex)
                     {
                     case 0:
-                        g->p->ent.movement_speed += .5;
+                        g->p->ent.movement_speed += 5;
                         break;
                     case 1:
                         g->p->ent.friction += .1;

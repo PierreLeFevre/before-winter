@@ -264,3 +264,8 @@ char *strcpyMACFRIENDLY(char *s1, const char *s2)
         ;
     return (s1);
 }
+int Get_Tile_Number(int x, int y){
+    x = x / 60;
+    y = y / 60;
+    return x+(y*30);
+}

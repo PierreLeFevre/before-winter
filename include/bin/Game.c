@@ -13,7 +13,7 @@ void ConstructGame(Game *g, int *noExit)
     SDL_Rect buildSrcrect = {0,0,10000,10000};
     SDL_Rect buildDestrect = {300,300,50,50};
     ConstructGraphics(&g->gfx);
-    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
+    ConstructTileMap(&g->tileMap, &g->gfx, 30, 30, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player);
@@ -117,7 +117,7 @@ void UpdateLogic(Game *g)
     for(int i = 0; i < g->nPlants; i++){
         UpdatePlant(&g->plants[i], SDL_GetTicks());
         if (Keys[SDL_SCANCODE_K]){
-            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].Current.destrect)){
+            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].TextureMap.destrect)){
                 TryHarvestPlant(g, g->plants[i]);
             }
         }
@@ -288,8 +288,8 @@ void TryPlacePlant(Game *g, PlantEnum plant){
 }
 void TryHarvestPlant(Game *g, const Plant plant){
     for(int i = 0; i < g->nPlants; i++){
-        if (SDL_HasIntersection(&g->plants[i].Current.destrect, &plant.Current.destrect)){
-            g->player.ent.items[g->player.ent.n_items].d = plant.Current;
+        if (SDL_HasIntersection(&g->plants[i].TextureMap.destrect, &plant.TextureMap.destrect)){
+            g->player.ent.items[g->player.ent.n_items].d = plant.TextureMap;
             g->player.ent.items[g->player.ent.n_items].IsStackable = 1;
             strcpy(g->player.ent.items[g->player.ent.n_items].Name, plant.Name);
 
