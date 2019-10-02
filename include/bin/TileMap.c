@@ -137,6 +137,11 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             tp.hitbox_x_offset -= TILE_HEIGHT * 5;
             tp.hitbox_y_offset -= TILE_HEIGHT * 3;
             tp.z_index_offset += 90;
+
+            tp.drawable_srcrect_x = 48;
+            tp.drawable_srcrect_y = 0;
+            tp.drawable_srcrect_width = 48;
+            tp.drawable_srcrect_height = 96;
             break;
         default:
             break;
