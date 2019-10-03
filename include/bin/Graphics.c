@@ -1,5 +1,6 @@
 #include "Graphics.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "../SDL2/SDL_image.h"
 
 void ConstructGraphics(Graphics *gfx)
