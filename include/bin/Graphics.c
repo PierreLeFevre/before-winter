@@ -48,7 +48,7 @@ void ConstructGraphics(Graphics *gfx)
     SDL_FreeSurface(surf);
 
     //PLAYER
-    surf = IMG_Load("include/assets/unpacked/Characters/haley.png");
+    surf = IMG_Load("include/assets/unpacked/Characters/robin.png");
     if (!surf)
     {
         printf("Error creating surface (Leah.png): %s\n", SDL_GetError());
