@@ -221,7 +221,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         r.h = 32;
         CreatePlantType(plant, "Tomato", r, 8, 1000);
         plant->nPlantStages -= 1;
-        plant->TimeToRegrow = 1000;
+        plant->TickToRegrow = 2000;
         plant->HasHarvestableBerries = 1;
     break;
 
@@ -254,17 +254,14 @@ void UpdatePlant(Plant *plant, Uint32 Tick)
             }
         }
         else{
-            if (plant->nPlantStages - 1 >= plant->nToUpdate + 1){
-                if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick){
-                    plant->nToUpdate++;
-                }
+            if (plant->plantStages[plant->nPlantStages].GrowTick > Tick - plant->TickPlaced){ //initial growth
+                plant->nToUpdate++;
             }
-            else{
-
-            }
-            if (plant->nPlantStages - 1 == plant->nToUpdate){
+            if (plant->nPlantStages == plant->nToUpdate){//no berries
                 plant->TickSinceLastHarvested = Tick - plant->TickAtHarvestation;
-                //printf("%d\n", plant->TickSinceLastHarvested);
+                if (plant->TickToRegrow <= plant->TickSinceLastHarvested){
+                    plant->nToUpdate--;
+                }
             }
         }
     }

@@ -5,6 +5,7 @@
 #include "Animal.h"
 #include "Gui.h"
 #include "DroppedItem.h"
+#include "Keys.h"
 
 #define MAXPLANTS 100
 
@@ -39,6 +40,8 @@ typedef struct Game
     Plant plants[MAXPLANTS];
     int nPlants;
     Gui gui;
+    Keys keys;
+    Pressed Key_Pressed;
 
     //TEMP
     Item item;
@@ -55,6 +58,7 @@ void UpdateLogic(Game *g);
 void Render(Game *g);
 
 void HandleEvents(Game *g);
+void Key_Options(Game *g);
 
 void CalculateGoodTiles(Game *g);
 

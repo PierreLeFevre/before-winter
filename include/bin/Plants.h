@@ -24,5 +24,5 @@ typedef struct Plant{
     int HasHarvestableBerries;
     int TickSinceLastHarvested;
     int TickAtHarvestation;
-    int TimeToRegrow;
+    int TickToRegrow;
 }Plant;
