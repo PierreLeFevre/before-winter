@@ -8,7 +8,9 @@ typedef enum DrawableType{
     DT_GUI,
     DT_Other,
     DT_Plant,
-    DT_Item
+    DT_Item,
+    DT_Grass,
+    DT_Dirt
 }DrawableType;
 
 typedef struct Drawable{

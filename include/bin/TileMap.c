@@ -90,78 +90,90 @@ void DestroyTileMap(TileMap* tm){
     tm->tiles = NULL;
 }
 
+
+void FixTileTransistions(TileMap* tm){
+    for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){
+        if(tm->tiles[i].drawables[1].type == DT_Grass){
+            if(tm->tiles[i+1].drawables[1].type == DT_Dirt){
+                //....
+            }
+        }
+    }
+}
+
+
 TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     TileProperties tp;
      //--- Default ---
     tp.type = DT_Other;
 
-    tp.drawable_x_offset = 0;
-    tp.drawable_y_offset = 0;
+    tp.destrect_offset.x = 0;
+    tp.destrect_offset.y = 0;
     tp.drawable_x_correct = 0;
     tp.drawable_y_correct = 0;
-    tp.drawable_width_offset = 0;
-    tp.drawable_height_offset = 0;
+    tp.destrect_offset.w = 0;
+    tp.destrect_offset.h = 0;
 
-    tp.drawable_srcrect_x = 0;
-    tp.drawable_srcrect_y = 0;
-    tp.drawable_srcrect_width = 10000;
-    tp.drawable_srcrect_height = 10000;
+    tp.srcrect.x = 0;
+    tp.srcrect.y = 0;
+    tp.srcrect.w = 10000;
+    tp.srcrect.h = 10000;
 
-    tp.hitbox_x_offset = 0;
-    tp.hitbox_y_offset = 0;
+    tp.hitbox_offset.x = 0;
+    tp.hitbox_offset.y = 0;
     tp.hitbox_x_correct = 0;
     tp.hitbox_y_correct = 0;
-    tp.hitbox_width_offset = 0;
-    tp.hitbox_height_offset = 0;
+    tp.hitbox_offset.w = 0;
+    tp.hitbox_offset.h = 0;
     
     tp.z_index_offset = 0;
     //----------------
     switch(mdc){
         case MUD:
-            tp.drawable_srcrect_x = 80;
-            tp.drawable_srcrect_y = 400;
-            tp.drawable_srcrect_width = 16;
-            tp.drawable_srcrect_height = 16;
+            tp.srcrect.x = 80;
+            tp.srcrect.y = 400;
+            tp.srcrect.w = 16;
+            tp.srcrect.h = 16;
             break;
         case GRASS:
-            tp.drawable_srcrect_x = 0;
-            tp.drawable_srcrect_y = 112;
-            tp.drawable_srcrect_width = 16;
-            tp.drawable_srcrect_height = 16;
+            tp.srcrect.x = 0;
+            tp.srcrect.y = 112;
+            tp.srcrect.w = 16;
+            tp.srcrect.h = 16;
             break;
         case TREE:
-            tp.drawable_height_offset += TILE_HEIGHT * 5;
-            tp.drawable_width_offset += TILE_HEIGHT * 3;
-            tp.drawable_x_offset -= TILE_HEIGHT;
+            tp.destrect_offset.h += TILE_HEIGHT * 5;
+            tp.destrect_offset.w += TILE_HEIGHT * 3;
+            tp.destrect_offset.x -= TILE_HEIGHT;
 
-            tp.hitbox_x_offset -= TILE_HEIGHT * 5;
-            tp.hitbox_y_offset -= TILE_HEIGHT * 3;
+            tp.hitbox_offset.x -= TILE_HEIGHT * 5;
+            tp.hitbox_offset.y -= TILE_HEIGHT * 3;
             tp.z_index_offset += 90;
 
-            tp.drawable_srcrect_x = 48;
-            tp.drawable_srcrect_y = 0;
-            tp.drawable_srcrect_width = 48;
-            tp.drawable_srcrect_height = 96;
+            tp.srcrect.x = 48;
+            tp.srcrect.y = 0;
+            tp.srcrect.w = 48;
+            tp.srcrect.h = 96;
             break;
         case WATER_LAKE:
-            tp.drawable_srcrect_x = 128;
-            tp.drawable_srcrect_y = 208;
-            tp.drawable_srcrect_width = 16;
-            tp.drawable_srcrect_height = 16;
+            tp.srcrect.x = 128;
+            tp.srcrect.y = 208;
+            tp.srcrect.w = 16;
+            tp.srcrect.h = 16;
             break;
         case WATER_TOP:
-            tp.drawable_srcrect_x = 144;
-            tp.drawable_srcrect_y = 113;
-            tp.drawable_srcrect_width = 16;
-            tp.drawable_srcrect_height = 16;
+            tp.srcrect.x = 144;
+            tp.srcrect.y = 113;
+            tp.srcrect.w = 16;
+            tp.srcrect.h = 16;
             break;
 
         default:
             break;
     }
     //Because we inevitably draw from the top-left corner
-    tp.drawable_y_correct -= tp.drawable_height_offset;
-    tp.hitbox_y_correct -= tp.hitbox_height_offset;
+    tp.drawable_y_correct -= tp.destrect_offset.h;
+    tp.hitbox_y_correct -= tp.hitbox_offset.h;
     //--------------------------------------------------
     return tp;
 }
@@ -169,21 +181,21 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
 void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* drawable, SDL_Rect* hitbox){
     drawable->type = tp->type;
 
-    drawable->destrect.x += tp->drawable_x_correct + tp->drawable_x_offset;
-    drawable->destrect.y += tp->drawable_y_correct + tp->drawable_y_offset;
-    drawable->destrect.w += tp->drawable_width_offset + tp->drawable_x_offset;
-    drawable->destrect.h += tp->drawable_height_offset + tp->drawable_y_offset;
+    drawable->destrect.x += tp->drawable_x_correct + tp->destrect_offset.x;
+    drawable->destrect.y += tp->drawable_y_correct + tp->destrect_offset.y;
+    drawable->destrect.w += tp->destrect_offset.w + tp->destrect_offset.x;
+    drawable->destrect.h += tp->destrect_offset.h + tp->destrect_offset.y;
 
-    drawable->srcrect.x = tp->drawable_srcrect_x;
-    drawable->srcrect.y = tp->drawable_srcrect_y;
-    drawable->srcrect.w = tp->drawable_srcrect_width;
-    drawable->srcrect.h = tp->drawable_srcrect_height;
+    drawable->srcrect.x = tp->srcrect.x;
+    drawable->srcrect.y = tp->srcrect.y;
+    drawable->srcrect.w = tp->srcrect.w;
+    drawable->srcrect.h = tp->srcrect.h;
 
     *hitbox = drawable->destrect;
-    hitbox->x += tp->hitbox_x_correct + tp->hitbox_x_offset;
-    hitbox->y += tp->hitbox_y_correct + tp->hitbox_y_offset;
-    hitbox->w += tp->hitbox_width_offset + tp->hitbox_x_offset;
-    hitbox->h += tp->hitbox_height_offset + tp->hitbox_y_offset;
+    hitbox->x += tp->hitbox_x_correct + tp->hitbox_offset.x;
+    hitbox->y += tp->hitbox_y_correct + tp->hitbox_offset.y;
+    hitbox->w += tp->hitbox_offset.w + tp->hitbox_offset.x;
+    hitbox->h += tp->hitbox_offset.h + tp->hitbox_offset.y;
 
-    drawable->z_index += tp->z_index_offset + Map(tp->drawable_y_offset, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); 
+    drawable->z_index += tp->z_index_offset + Map(tp->destrect_offset.y, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); 
 }

@@ -16,6 +16,7 @@ typedef struct PlantStge{
 typedef struct Plant{
     char Name[100];
     Drawable TextureMap;
+    Drawable GrownItems;
     PlantStage plantStages[10];
     int nPlantStages;
     Uint32 TickPlaced;

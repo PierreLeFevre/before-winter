@@ -13,6 +13,10 @@ void ConstructEntity(Entity *e, Drawable *d)
     e->interaction_hitbox_size = 10;
     e->interaction_hitbox_offset = 25;
     e->deadTrigger = SDL_FALSE;
+
+    for(int i = 0; i < INVENTORY_SIZE; i++){
+        e->items[i].d.gfx = e->d.gfx;
+    }
 }
 void UpdateEntity(Entity *e)
 {
@@ -94,7 +98,7 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
 
 int BuyItem(Entity *e, Item *i)
 {
-    if (e->n_items >= N_ENTITYITEMS)
+    if (e->n_items >= INVENTORY_SIZE)
     {
         return 0;
     }
@@ -166,7 +170,8 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
     // }
 }
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex)
-{
+{   
+    ConstructDrawable(&plant->GrownItems,DT_Plant, gfx, SS_ITEM, tile, tile, zIndex);
     ConstructDrawable(&plant->TextureMap, DT_Plant, gfx, SS_PLANT, tile, tile, zIndex);
     SDL_Rect r;
     switch (plantEnum)
@@ -179,6 +184,11 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         r.y += 10;
         r.h = 20;
+
+        plant->GrownItems.srcrect.x = 0;
+        plant->GrownItems.srcrect.y = 16;
+        plant->GrownItems.srcrect.w = 16;
+        plant->GrownItems.srcrect.h = 16;
         CreatePlantType(plant, "Parsnip", r, 6, 5000);
 
         break;
@@ -191,6 +201,11 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         r.h -= 16;
         r.y += 16;
+
+        plant->GrownItems.srcrect.x = 22*16;
+        plant->GrownItems.srcrect.y = 7*16;
+        plant->GrownItems.srcrect.w = 16;
+        plant->GrownItems.srcrect.h = 16;
         CreatePlantType(plant, "Cauliflower", r, 7, 5000);
     break;
 
@@ -219,8 +234,13 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         r.y = 96 + 32;
         r.w = 16;
         r.h = 32;
+        plant->GrownItems.srcrect.x = 16*16;
+        plant->GrownItems.srcrect.y = 10*16;
+        plant->GrownItems.srcrect.w = 16;
+        plant->GrownItems.srcrect.h = 16;
+
         CreatePlantType(plant, "Tomato", r, 8, 1000);
-        plant->nPlantStages -= 1;
+        plant->nPlantStages -= 1;//to avoid changing the function
         plant->TickToRegrow = 2000;
         plant->HasHarvestableBerries = 1;
     break;
@@ -234,7 +254,7 @@ void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int d
     plant->nPlantStages = length - 1;
     plant->nToUpdate = 0;
     SDL_Rect r = base;
-
+    strcpy(plant->Name, name);
     for (int i = 0; i < length; i++)
     {
         r.x += 16;
