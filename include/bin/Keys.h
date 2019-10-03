@@ -22,7 +22,6 @@ typedef struct Pressed
     int LEFT;
     /*interaction*/
     int testkey;
-    int testkey;
     int inventroy;
     int harvestTemp;
     int meny;
