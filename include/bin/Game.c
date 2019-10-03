@@ -119,7 +119,7 @@ void UpdateLogic(Game *g)
     //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
 
-    if (Keys[SDL_SCANCODE_K])
+    if (g->Key_Pressed.harvestTemp == 1)
     {
         for (int i = 0; i < g->nPlants; i++)
         {
@@ -250,13 +250,41 @@ void HandleEvents(Game *g)
             {
                 g->Key_Pressed.harvestTemp = 1;
             }
-            if (g->event.key.keysym.scancode == g->keys.harvestTemp)
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[0])
             {
-                g->Key_Pressed.harvestTemp = 1;
+                g->Key_Pressed.quickSlot[0] = 1;
             }
-            if (g->event.key.keysym.scancode == g->keys.harvestTemp)
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[1])
             {
-                g->Key_Pressed.harvestTemp = 1;
+                g->Key_Pressed.quickSlot[1] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[2])
+            {
+                g->Key_Pressed.quickSlot[2] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[3])
+            {
+                g->Key_Pressed.quickSlot[3] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[4])
+            {
+                g->Key_Pressed.quickSlot[4] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[5])
+            {
+                g->Key_Pressed.quickSlot[5] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[6])
+            {
+                g->Key_Pressed.quickSlot[6] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[7])
+            {
+                g->Key_Pressed.quickSlot[7] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[8])
+            {
+                g->Key_Pressed.quickSlot[8] = 1;
             }
         }
     }
@@ -395,8 +423,9 @@ void TryHarvestPlant(Game *g, Plant *plant)
     }
     if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested)
     {
-        
-    }else{
+    }
+    else
+    {
         if (plant->nPlantStages - 1 == plant->nToUpdate)
         {
             plant->TickAtHarvestation = SDL_GetTicks();
@@ -408,24 +437,28 @@ void TryHarvestPlant(Game *g, Plant *plant)
         }
         return;
     }
-    if (!plant->HasHarvestableBerries){
-        if (plant->plantStages[plant->nPlantStages].GrowTick <= SDL_GetTicks() - plant->TickPlaced){
+    if (!plant->HasHarvestableBerries)
+    {
+        if (plant->plantStages[plant->nPlantStages].GrowTick <= SDL_GetTicks() - plant->TickPlaced)
+        {
             //DELETE PLANT
             //PROCC DROPPED ITEMS ON
             DeletePlant(g, plant);
-            
         }
     }
 }
-void DeletePlant(Game *g, Plant *plant){
-    for(int i = 0; g->nPlants;i++){
-        if(SDL_HasIntersection(&g->plants[i].TextureMap.destrect, &plant->TextureMap.destrect)){
-            for(int j = i;j < g->nPlants;j++){
-                g->plants[j] = g->plants[j+1];
+void DeletePlant(Game *g, Plant *plant)
+{
+    for (int i = 0; g->nPlants; i++)
+    {
+        if (SDL_HasIntersection(&g->plants[i].TextureMap.destrect, &plant->TextureMap.destrect))
+        {
+            for (int j = i; j < g->nPlants; j++)
+            {
+                g->plants[j] = g->plants[j + 1];
             }
             g->nPlants--;
             break;
         }
     }
-    
 }
