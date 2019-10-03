@@ -13,6 +13,10 @@ void ConstructEntity(Entity *e, Drawable *d)
     e->interaction_hitbox_size = 10;
     e->interaction_hitbox_offset = 25;
     e->deadTrigger = SDL_FALSE;
+
+    for(int i = 0; i < INVENTORY_SIZE; i++){
+        e->items[i].d.gfx = e->d.gfx;
+    }
 }
 void UpdateEntity(Entity *e)
 {
@@ -94,7 +98,7 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
 
 int BuyItem(Entity *e, Item *i)
 {
-    if (e->n_items >= N_ENTITYITEMS)
+    if (e->n_items >= INVENTORY_SIZE)
     {
         return 0;
     }
