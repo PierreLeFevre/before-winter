@@ -7,6 +7,10 @@ typedef struct Keys
     int LEFT[2];
     /*interaction*/
     int testkey;
+    int inventroy;
+    int harvestTemp;
+    int meny;
+    int quickSlot[9];
 
 } Keys;
 typedef struct Pressed
@@ -18,5 +22,10 @@ typedef struct Pressed
     int LEFT;
     /*interaction*/
     int testkey;
+    int testkey;
+    int inventroy;
+    int harvestTemp;
+    int meny;
+    int quickSlot[9];
 
 } Pressed;

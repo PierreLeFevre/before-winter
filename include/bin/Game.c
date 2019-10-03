@@ -192,6 +192,19 @@ void Key_Options(Game *g)
     g->keys.LEFT[1] = Get_Option("2LEFT=");
 
     g->keys.testkey = Get_Option("testkey=");
+    g->keys.meny = Get_Option("meny=");
+    g->keys.harvestTemp = Get_Option("harvestTemp=");
+    g->keys.inventroy = Get_Option("inventory=");
+
+    g->keys.quickSlot[0] = Get_Option("quickSlot1=");
+    g->keys.quickSlot[1] = Get_Option("quickSlot2=");
+    g->keys.quickSlot[2] = Get_Option("quickSlot3=");
+    g->keys.quickSlot[3] = Get_Option("quickSlot4=");
+    g->keys.quickSlot[4] = Get_Option("quickSlot5=");
+    g->keys.quickSlot[5] = Get_Option("quickSlot6=");
+    g->keys.quickSlot[6] = Get_Option("quickSlot7=");
+    g->keys.quickSlot[7] = Get_Option("quickSlot8=");
+    g->keys.quickSlot[8] = Get_Option("quickSlot9=");
 }
 
 void HandleEvents(Game *g)
@@ -224,6 +237,26 @@ void HandleEvents(Game *g)
             if (g->event.key.keysym.scancode == g->keys.testkey)
             {
                 g->Key_Pressed.testkey = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.inventroy)
+            {
+                g->Key_Pressed.inventroy = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.meny)
+            {
+                g->Key_Pressed.meny = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.harvestTemp)
+            {
+                g->Key_Pressed.harvestTemp = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.harvestTemp)
+            {
+                g->Key_Pressed.harvestTemp = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.harvestTemp)
+            {
+                g->Key_Pressed.harvestTemp = 1;
             }
         }
     }
