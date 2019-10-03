@@ -48,7 +48,7 @@ void ConstructGraphics(Graphics *gfx)
     SDL_FreeSurface(surf);
 
     //PLAYER
-    surf = IMG_Load("include/assets/unpacked/Characters/haley.png");
+    surf = IMG_Load("include/assets/unpacked/Characters/robin.png");
     if (!surf)
     {
         printf("Error creating surface (Leah.png): %s\n", SDL_GetError());
@@ -96,6 +96,19 @@ void ConstructGraphics(Graphics *gfx)
     if (!gfx->textures[SS_FONT])
     {
         printf("Error creating texture (font.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+
+    //Font
+    surf = IMG_Load("include/assets/unpacked/maps/springobjects.png");
+    if (!surf)
+    {
+        printf("Error creating surface (item.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_ITEM] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_ITEM])
+    {
+        printf("Error creating texture (item.png): %s\n", SDL_GetError());
     }
     SDL_FreeSurface(surf);
 }

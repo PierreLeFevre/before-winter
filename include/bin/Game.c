@@ -10,15 +10,15 @@ void ConstructGame(Game *g, int *noExit)
 {
     Entity buildEntity;
     Drawable buildDrawable;
-    SDL_Rect buildSrcrect = {0, 0, 10000, 10000};
-    SDL_Rect buildDestrect = {300, 300, 50, 50};
+    SDL_Rect buildSrcrect = {272, 416, 16, 16};
+    SDL_Rect buildDestrect = {300, 300, 16, 16};
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player);
 
-    ConstructDrawable(&buildDrawable, DT_Other, &g->gfx, SS_TILEMAP, buildSrcrect, buildDestrect, 10000);
+    ConstructDrawable(&buildDrawable, DT_Other, &g->gfx, SS_ITEM, buildSrcrect, buildDestrect, 10000);
     ConstructItem(&g->item, &buildDrawable);
     ConstructEntity(&buildEntity, &buildDrawable);
     ConstructDroppedItem(&g->d_item, &g->item, &buildEntity);

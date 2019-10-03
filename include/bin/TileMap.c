@@ -118,8 +118,8 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     //----------------
     switch(mdc){
         case MUD:
-            tp.drawable_srcrect_x = 16;
-            tp.drawable_srcrect_y = 112;
+            tp.drawable_srcrect_x = 80;
+            tp.drawable_srcrect_y = 400;
             tp.drawable_srcrect_width = 16;
             tp.drawable_srcrect_height = 16;
             break;
@@ -144,8 +144,14 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             tp.drawable_srcrect_height = 96;
             break;
         case WATER_LAKE:
-            tp.drawable_srcrect_x = 336;
-            tp.drawable_srcrect_y = 800;
+            tp.drawable_srcrect_x = 128;
+            tp.drawable_srcrect_y = 208;
+            tp.drawable_srcrect_width = 16;
+            tp.drawable_srcrect_height = 16;
+            break;
+        case WATER_TOP:
+            tp.drawable_srcrect_x = 144;
+            tp.drawable_srcrect_y = 113;
             tp.drawable_srcrect_width = 16;
             tp.drawable_srcrect_height = 16;
             break;
