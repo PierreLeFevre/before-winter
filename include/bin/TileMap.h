@@ -1,5 +1,4 @@
 #include "Tile.h"
-#include "Camera.h"
 
 typedef struct TileMap{
     Graphics* gfx;
@@ -17,24 +16,14 @@ typedef struct TileMap{
 typedef struct TileProperties{
     DrawableType type;
 
-    int drawable_x_offset;
-    int drawable_y_offset;
     int drawable_x_correct;
     int drawable_y_correct;
-    int drawable_width_offset;
-    int drawable_height_offset;
-    
-    int drawable_srcrect_x;
-    int drawable_srcrect_y;
-    int drawable_srcrect_width;
-    int drawable_srcrect_height;
-    
-    int hitbox_x_offset;
-    int hitbox_y_offset;
     int hitbox_x_correct;
     int hitbox_y_correct;
-    int hitbox_width_offset;
-    int hitbox_height_offset;
+
+    SDL_Rect destrect_offset;
+    SDL_Rect srcrect;
+    SDL_Rect hitbox_offset;
 
     int z_index_offset;
 }TileProperties;
@@ -48,6 +37,8 @@ typedef enum MapDataConverter{
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file);
 void DestroyTileMap(TileMap* tm);
+
+void FixTileTransistions(TileMap* tm);
 
 void DrawTileMap(TileMap* tm);
 
