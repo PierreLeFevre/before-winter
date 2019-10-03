@@ -198,22 +198,26 @@ void GuiInventory(Gui* g){
                 Draw(&g->inv);
                 
                 RenderText(g, x + (g->inv.destrect.w /2) - 50, y+25, 0, White, Bold, "Inventory:");
+                int rows = 0;
+                int xOffset;
                 
-                for (int i = 0; i < INVENTORY_SIZE/10; i++)
-                {   
-                    for (int j = 0; j < 10; j++)
+                for (int i = 0; i < INVENTORY_SIZE; i++)
+                { 
+                    if (i%10 == 0)
                     {
-                        //RenderText(g, x+25, (y+50 + 20 * i), 0, White, Regular, g->p->ent.items[i].Name);
-
-                        g->p->ent.items[i].d.destrect.x = x + 50 + 36 * j;
-                        g->p->ent.items[i].d.destrect.y = y + 50 + 36 * i;
-                        g->p->ent.items[i].d.destrect.w = 32;
-                        g->p->ent.items[i].d.destrect.h = 32;
-
-                        Draw(&g->p->ent.items[i].d);
-
+                        rows++;
+                        xOffset = 0;
                     }
+                    //RenderText(g, x+25, (y+50 + 20 * i), 0, White, Regular, g->p->ent.items[i].Name);
 
+                    g->p->ent.items[i].d.destrect.x = x + 50 + 36 * xOffset;
+                    g->p->ent.items[i].d.destrect.y = y + 50 + 36 * rows;
+                    g->p->ent.items[i].d.destrect.w = 32;
+                    g->p->ent.items[i].d.destrect.h = 32;
+
+                    Draw(&g->p->ent.items[i].d);
+
+                    xOffset++;
                 }
                 
             }
