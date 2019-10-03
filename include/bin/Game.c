@@ -10,16 +10,15 @@ void ConstructGame(Game *g, int *noExit)
 {
     Entity buildEntity;
     Drawable buildDrawable;
-    SDL_Rect buildSrcrect = {0,0,10000,10000};
-    SDL_Rect buildDestrect = {300,300,50,50};
-    
+    SDL_Rect buildSrcrect = {0, 0, 10000, 10000};
+    SDL_Rect buildDestrect = {300, 300, 50, 50};
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player);
 
-    ConstructDrawable(&buildDrawable, DT_Other, &g->gfx, SS_TILEMAP,  buildSrcrect, buildDestrect, 10000);
+    ConstructDrawable(&buildDrawable, DT_Other, &g->gfx, SS_TILEMAP, buildSrcrect, buildDestrect, 10000);
     ConstructItem(&g->item, &buildDrawable);
     ConstructEntity(&buildEntity, &buildDrawable);
     ConstructDroppedItem(&g->d_item, &g->item, &buildEntity);
@@ -52,7 +51,8 @@ void UpdateLogic(Game *g)
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
-    if (!g->gui.menuActive){
+    if (!g->gui.menuActive)
+    {
         CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
     }
 
@@ -64,7 +64,8 @@ void UpdateLogic(Game *g)
     if (Keys[SDL_SCANCODE_Q] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
-        if (BuyItem(&g->player.ent, &g->CoreItems[0])){
+        if (BuyItem(&g->player.ent, &g->CoreItems[0]))
+        {
             char buffer[1000];
             sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
             AlertGui(&g->gui, 2, buffer);
@@ -73,7 +74,8 @@ void UpdateLogic(Game *g)
     if (Keys[SDL_SCANCODE_R] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
-        if (BuyItem(&g->player.ent, &g->CoreItems[1])){
+        if (BuyItem(&g->player.ent, &g->CoreItems[1]))
+        {
             char buffer[1000];
             sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
             AlertGui(&g->gui, 2, buffer);
@@ -82,13 +84,13 @@ void UpdateLogic(Game *g)
     if (Keys[SDL_SCANCODE_T] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
-        if (BuyItem(&g->player.ent, &g->CoreItems[2])){
+        if (BuyItem(&g->player.ent, &g->CoreItems[2]))
+        {
             char buffer[1000];
             sprintf(buffer, "Bought item: %s", g->CoreItems[2].Name);
             AlertGui(&g->gui, 2, buffer);
         }
     }
-    
 
     //DISPLAY ITEMS****************************
     if (Keys[SDL_SCANCODE_1])
@@ -145,9 +147,10 @@ void Render(Game *g)
     for(int i = 0;i < g->nPlants;i++){
         AddToRenderList(g, &g->plants[i].TextureMap);
     }
-    
+
     SortRenderList(g);
     RenderList(g);
+
     UpdateGui(&g->gui);
 
 #ifdef DEBUG
@@ -182,27 +185,29 @@ void HandleEvents(Game *g)
 
 void CalculateGoodTiles(Game *g)
 {
+    int tilesOutsideScreen_y = 5;
+    int tilesOutsideScreen_x = 3;
     g->nGoodTiles = 0;
     for (int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++)
     {
         SDL_Rect currTile = g->tileMap.tiles[i].drawables[0].destrect;
         SDL_Rect camera = g->cam.camRectVirtual;
-        if (currTile.x > camera.x + camera.w + TILE_WIDTH * 2)
+        if (currTile.x > camera.x + camera.w + TILE_WIDTH * tilesOutsideScreen_x)
         {
             i += (int)(abs(currTile.x - (g->tileMap.nTiles_x * TILE_WIDTH)) / TILE_WIDTH) - 1;
             continue;
         }
-        if (currTile.x + currTile.w < camera.x - TILE_WIDTH * 2)
+        if (currTile.x + currTile.w < camera.x - TILE_WIDTH * tilesOutsideScreen_x)
         {
             i += (int)(abs((currTile.x + currTile.w) - (camera.x - TILE_WIDTH * 2)) / TILE_WIDTH);
             continue;
         }
-        if (currTile.y + currTile.h < camera.y - TILE_HEIGHT * 2)
+        if (currTile.y + currTile.h < camera.y - TILE_HEIGHT * tilesOutsideScreen_y)
         {
             i += (int)(abs(g->tileMap.nTiles_x * TILE_WIDTH) / TILE_WIDTH);
             continue;
         }
-        if (currTile.y > camera.y + camera.h + TILE_HEIGHT * 2)
+        if (currTile.y > camera.y + camera.h + TILE_HEIGHT * tilesOutsideScreen_y)
         {
             break;
         };
@@ -275,16 +280,21 @@ void EntityDeathEvent(Game *g, Entity *e)
     }
 }
 
-void TryPlacePlant(Game *g, PlantEnum plant){
-    if (g->nPlants >= MAXPLANTS){
+void TryPlacePlant(Game *g, PlantEnum plant)
+{
+    if (g->nPlants >= MAXPLANTS)
+    {
         return;
     }
     for (int i = 0; i < g->nGoodTiles; i++)
     {
-        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0])){
+        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
+        {
             int found = 0;
-            for (int j = 0; j < g->nPlants;j++){
-                if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[j].TextureMap.destrect)){
+            for (int j = 0; j < g->nPlants; j++)
+            {
+                if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[j].TextureMap.destrect))
+                {
                     found++;
                     break;
                 }

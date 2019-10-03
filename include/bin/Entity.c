@@ -5,7 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
-void ConstructEntity(Entity* e, Drawable* d)
+void ConstructEntity(Entity *e, Drawable *d)
 {
     e->d = *d;
     e->x_pos = e->d.destrect.x;
@@ -29,10 +29,19 @@ void MoveEntity(Entity *e)
 
     e->x_axis = min(abs((int)e->x_axis), e->movement_speed) * sign(e->x_axis);
     e->y_axis = min(abs((int)e->y_axis), e->movement_speed) * sign(e->y_axis);
+
+    if ((abs((int)e->x_axis) <= 0.6f))
+    {
+        e->x_axis = 0;
+    }
+    if ((abs((int)e->y_axis) <= 0.6f))
+    {
+        e->y_axis = 0;
+    }
     // if (e->x_axis != 0 && e->y_axis != 0)
     // {
-    //     e->x_axis *= sq2;
-    //     e->y_axis *= sq2;
+    //     e->x_axis = e->x_axis * 0.7f;
+    //     e->y_axis = e->y_axis * 0.71014f;
     // }
     if (e->x_dir != 0 || e->y_dir != 0)
     {
@@ -50,23 +59,14 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
     int pre_colision[2] = {0, 0};
     for (int i = 0; i < max; i++)
     {
-        if (Pre_X_CheckCollision(e->hitbox, GoodTiles[i]->hitboxes[1], e->x_axis))
+        if (Pre_CheckCollision(e->hitbox, GoodTiles[i]->hitboxes[1], 0, 0, e->x_axis, e->x_axis))
         {
             pre_colision[0] = 1;
         }
-        if (Pre_Y_CheckCollision(e->hitbox, GoodTiles[i]->hitboxes[1], e->y_axis))
+        if (Pre_CheckCollision(e->hitbox, GoodTiles[i]->hitboxes[1], e->y_axis, e->y_axis, 0, 0))
         {
             pre_colision[1] = 1;
         }
-    }
-
-    if ((abs((int)e->x_axis) <= 0.6f))
-    {
-        e->x_axis = 0;
-    }
-    if ((abs((int)e->y_axis) <= 0.6f))
-    {
-        e->y_axis = 0;
     }
     if (pre_colision[0] == 0 && pre_colision[1] == 0)
     {
@@ -165,64 +165,65 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
     //     break;
     // }
 }
-void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex){
+void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex)
+{
     ConstructDrawable(&plant->TextureMap, DT_Plant, gfx, SS_PLANT, tile, tile, zIndex);
     SDL_Rect r;
     switch (plantEnum)
     {
-        case ParsnipType:
-            r.x = 0;
-            r.y = 0;
-            r.w = 16;
-            r.h = 32;
+    case ParsnipType:
+        r.x = 0;
+        r.y = 0;
+        r.w = 16;
+        r.h = 32;
 
-            r.y += 10;
-            r.h = 20;
-            CreatePlantType(plant, "Parsnip", r, 6, 5000);
-
-        break;
-
-        case CauliflowerType:
-            r.x = 0;
-            r.y = 32;
-            r.w = 16;
-            r.h = 32;
-
-            r.h -= 16;
-            r.y += 16;
-            CreatePlantType(plant, "Cauliflower", r, 7, 5000);
-        break;
-
-        case GarlicType:
-            r.x = 0;
-            r.y = 64;
-            r.w = 16;
-            r.h = 32;
-
-            r.y += 10;
-            CreatePlantType(plant, "Garlic", r, 6, 1000);
+        r.y += 10;
+        r.h = 20;
+        CreatePlantType(plant, "Parsnip", r, 6, 5000);
 
         break;
 
-        case RhubarbType:
-            r.x = 0;
-            r.y = 96;
-            r.w = 16;
-            r.h = 32;
-            CreatePlantType(plant, "Rhubarb", r, 7, 1000);
+    case CauliflowerType:
+        r.x = 0;
+        r.y = 32;
+        r.w = 16;
+        r.h = 32;
 
-        break;
+        r.h -= 16;
+        r.y += 16;
+        CreatePlantType(plant, "Cauliflower", r, 7, 5000);
+    break;
 
-        case TomatoType:
-            r.x = 0;
-            r.y = 96 + 32;
-            r.w = 16;
-            r.h = 32;
-            CreatePlantType(plant, "Tomato", r, 8, 1000);
-            plant->nPlantStages -= 1;
-            plant->TimeToRegrow = 1000;
-            plant->HasHarvestableBerries = 1;
-        break;
+    case GarlicType:
+        r.x = 0;
+        r.y = 64;
+        r.w = 16;
+        r.h = 32;
+
+        r.y += 10;
+        CreatePlantType(plant, "Garlic", r, 6, 1000);
+
+    break;
+
+    case RhubarbType:
+        r.x = 0;
+        r.y = 96;
+        r.w = 16;
+        r.h = 32;
+        CreatePlantType(plant, "Rhubarb", r, 7, 1000);
+
+    break;
+
+    case TomatoType:
+        r.x = 0;
+        r.y = 96 + 32;
+        r.w = 16;
+        r.h = 32;
+        CreatePlantType(plant, "Tomato", r, 8, 1000);
+        plant->nPlantStages -= 1;
+        plant->TimeToRegrow = 1000;
+        plant->HasHarvestableBerries = 1;
+    break;
 
     default:
         break;
@@ -234,15 +235,18 @@ void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int d
     plant->nToUpdate = 0;
     SDL_Rect r = base;
 
-    for(int i = 0;i < length;i++){
+    for (int i = 0; i < length; i++)
+    {
         r.x += 16;
         plant->plantStages[i].srcrect = r;
         plant->plantStages[i].GrowTick = diffTime * i;
     }
 }
-void UpdatePlant(Plant *plant, Uint32 Tick){
+void UpdatePlant(Plant *plant, Uint32 Tick)
+{
     Uint32 calcTick = Tick - plant->TickPlaced;
-    if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick){
+    if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick)
+    {
         plant->TextureMap.srcrect = plant->plantStages[plant->nToUpdate].srcrect;
         if (plant->HasHarvestableBerries == 0){
             if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick && plant->nPlantStages - 1 >= plant->nToUpdate + 1){
