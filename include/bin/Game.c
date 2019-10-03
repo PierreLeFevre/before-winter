@@ -431,8 +431,7 @@ void TryHarvestPlant(Game *g, Plant *plant)
             plant->TickAtHarvestation = SDL_GetTicks();
             plant->nToUpdate++;
 
-            g->player.ent.items[g->player.ent.n_items].d = plant->GrownItems;
-            strcpy(g->player.ent.items[g->player.ent.n_items].Name, plant->Name);
+            g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
             g->player.ent.n_items++;
         }
         return;
@@ -443,6 +442,8 @@ void TryHarvestPlant(Game *g, Plant *plant)
         {
             //DELETE PLANT
             //PROCC DROPPED ITEMS ON
+            g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
+            g->player.ent.n_items++;
             DeletePlant(g, plant);
         }
     }
