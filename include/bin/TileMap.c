@@ -90,6 +90,18 @@ void DestroyTileMap(TileMap* tm){
     tm->tiles = NULL;
 }
 
+
+void FixTileTransistions(TileMap* tm){
+    for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){
+        if(tm->tiles[i].drawables[1].type == DT_Grass){
+            if(tm->tiles[i+1].drawables[1].type == DT_Dirt){
+                //....
+            }
+        }
+    }
+}
+
+
 TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     TileProperties tp;
      //--- Default ---
@@ -118,8 +130,8 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     //----------------
     switch(mdc){
         case MUD:
-            tp.srcrect.x = 16;
-            tp.srcrect.y = 112;
+            tp.srcrect.x = 80;
+            tp.srcrect.y = 400;
             tp.srcrect.w = 16;
             tp.srcrect.h = 16;
             break;
@@ -144,8 +156,14 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             tp.srcrect.h = 96;
             break;
         case WATER_LAKE:
-            tp.srcrect.x = 336;
-            tp.srcrect.y = 800;
+            tp.srcrect.x = 128;
+            tp.srcrect.y = 208;
+            tp.srcrect.w = 16;
+            tp.srcrect.h = 16;
+            break;
+        case WATER_TOP:
+            tp.srcrect.x = 144;
+            tp.srcrect.y = 113;
             tp.srcrect.w = 16;
             tp.srcrect.h = 16;
             break;

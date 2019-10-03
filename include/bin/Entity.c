@@ -179,7 +179,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         r.y += 10;
         r.h = 20;
-        CreatePlantType(plant, "Parsnip", r, 6, 5000, ParsnipType);
+        CreatePlantType(plant, "Parsnip", r, 6, 5000);
 
         break;
 
@@ -191,17 +191,46 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         r.h -= 16;
         r.y += 16;
-        CreatePlantType(plant, "Cauliflower", r, 7, 5000, CauliflowerType);
+        CreatePlantType(plant, "Cauliflower", r, 7, 5000);
+    break;
 
-        break;
+    case GarlicType:
+        r.x = 0;
+        r.y = 64;
+        r.w = 16;
+        r.h = 32;
+
+        r.y += 10;
+        CreatePlantType(plant, "Garlic", r, 6, 1000);
+
+    break;
+
+    case RhubarbType:
+        r.x = 0;
+        r.y = 96;
+        r.w = 16;
+        r.h = 32;
+        CreatePlantType(plant, "Rhubarb", r, 7, 1000);
+
+    break;
+
+    case TomatoType:
+        r.x = 0;
+        r.y = 96 + 32;
+        r.w = 16;
+        r.h = 32;
+        CreatePlantType(plant, "Tomato", r, 8, 1000);
+        plant->nPlantStages -= 1;
+        plant->TimeToRegrow = 1000;
+        plant->HasHarvestableBerries = 1;
+    break;
 
     default:
         break;
     }
     plant->TickPlaced = TickPlaced;
 }
-void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime, PlantEnum plantType)
-{
+void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime){
     plant->nPlantStages = length - 1;
     plant->nToUpdate = 0;
     SDL_Rect r = base;
@@ -219,9 +248,24 @@ void UpdatePlant(Plant *plant, Uint32 Tick)
     if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick)
     {
         plant->TextureMap.srcrect = plant->plantStages[plant->nToUpdate].srcrect;
-        if (plant->nToUpdate < plant->nPlantStages - 1)
-        {
-            plant->nToUpdate++;
+        if (plant->HasHarvestableBerries == 0){
+            if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick && plant->nPlantStages - 1 >= plant->nToUpdate + 1){
+                plant->nToUpdate++;
+            }
+        }
+        else{
+            if (plant->nPlantStages - 1 >= plant->nToUpdate + 1){
+                if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick){
+                    plant->nToUpdate++;
+                }
+            }
+            else{
+
+            }
+            if (plant->nPlantStages - 1 == plant->nToUpdate){
+                plant->TickSinceLastHarvested = Tick - plant->TickAtHarvestation;
+                //printf("%d\n", plant->TickSinceLastHarvested);
+            }
         }
     }
 }

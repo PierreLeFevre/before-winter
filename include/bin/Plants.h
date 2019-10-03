@@ -1,18 +1,28 @@
 #include "Drawable.h"
 typedef enum PlantEnum{ //16x32
     ParsnipType,
-    CauliflowerType
+    CauliflowerType,
+    GarlicType,
+    RhubarbType,
+    TomatoType
 }PlantEnum;
-typedef struct PlantStges{
+
+typedef struct PlantStge{
     SDL_Rect srcrect;
     char Name[100];
     int GrowTick;
-}PlantStages;
+}PlantStage;
+
 typedef struct Plant{
     char Name[100];
     Drawable TextureMap;
-    PlantStages plantStages[10];
+    PlantStage plantStages[10];
     int nPlantStages;
     Uint32 TickPlaced;
     int nToUpdate;
+
+    int HasHarvestableBerries;
+    int TickSinceLastHarvested;
+    int TickAtHarvestation;
+    int TimeToRegrow;
 }Plant;

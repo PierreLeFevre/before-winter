@@ -67,4 +67,4 @@ void CreateAllStandardItems(Game *g);
 void EntityDeathEvent(Game *g, Entity *e);
 
 void TryPlacePlant(Game *g, PlantEnum plant);
-void TryHarvestPlant(Game *g, Plant plant);
+void TryHarvestPlant(Game *g, Plant *plant);
