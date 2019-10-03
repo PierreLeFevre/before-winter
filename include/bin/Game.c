@@ -209,7 +209,17 @@ void Key_Options(Game *g)
 
 void HandleEvents(Game *g)
 {
-    g->Key_Pressed = (struct Pressed){0};
+    g->Key_Pressed.meny = 0;
+    g->Key_Pressed.inventroy = 0;
+    g->Key_Pressed.quickSlot[0] = 0;
+    g->Key_Pressed.quickSlot[1] = 0;
+    g->Key_Pressed.quickSlot[2] = 0;
+    g->Key_Pressed.quickSlot[3] = 0;
+    g->Key_Pressed.quickSlot[4] = 0;
+    g->Key_Pressed.quickSlot[5] = 0;
+    g->Key_Pressed.quickSlot[6] = 0;
+    g->Key_Pressed.quickSlot[7] = 0;
+    g->Key_Pressed.quickSlot[8] = 0;
     while (SDL_PollEvent(&g->event))
     {
         if (g->event.type == SDL_QUIT)
@@ -285,6 +295,29 @@ void HandleEvents(Game *g)
             if (g->event.key.keysym.scancode == g->keys.quickSlot[8])
             {
                 g->Key_Pressed.quickSlot[8] = 1;
+            }
+            else if (g->event.type == SDL_KEYUP)
+            {
+                if (g->event.key.keysym.scancode == g->keys.UP[0] || g->event.key.keysym.scancode == g->keys.UP[1])
+                {
+                    g->Key_Pressed.UP = 0;
+                }
+                if (g->event.key.keysym.scancode == g->keys.DOWN[0] || g->event.key.keysym.scancode == g->keys.DOWN[1])
+                {
+                    g->Key_Pressed.DOWN = 0;
+                }
+                if (g->event.key.keysym.scancode == g->keys.RIGHT[0] || g->event.key.keysym.scancode == g->keys.RIGHT[1])
+                {
+                    g->Key_Pressed.RIGHT = 0;
+                }
+                if (g->event.key.keysym.scancode == g->keys.LEFT[0] || g->event.key.keysym.scancode == g->keys.LEFT[1])
+                {
+                    g->Key_Pressed.LEFT = 0;
+                }
+                if (g->event.key.keysym.scancode == g->keys.harvestTemp)
+                {
+                    g->Key_Pressed.harvestTemp = 0;
+                }
             }
         }
     }
