@@ -198,7 +198,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         r.h -= 16;
         r.y += 16;
 
-        plant->GrownItems.srcrect.x = 24*16;
+        plant->GrownItems.srcrect.x = 22*16;
         plant->GrownItems.srcrect.y = 7*16;
         plant->GrownItems.srcrect.w = 16;
         plant->GrownItems.srcrect.h = 16;
@@ -245,7 +245,7 @@ void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int d
     plant->nPlantStages = length - 1;
     plant->nToUpdate = 0;
     SDL_Rect r = base;
-
+    strcpy(plant->Name, name);
     for (int i = 0; i < length; i++)
     {
         r.x += 16;
