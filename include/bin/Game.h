@@ -72,3 +72,4 @@ void EntityDeathEvent(Game *g, Entity *e);
 
 void TryPlacePlant(Game *g, PlantEnum plant);
 void TryHarvestPlant(Game *g, Plant *plant);
+void DeletePlant(Game *g,Plant *plant);
