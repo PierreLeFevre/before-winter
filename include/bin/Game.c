@@ -58,7 +58,8 @@ void UpdateLogic(Game *g)
     }
 
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
-    if (Keys[SDL_SCANCODE_SPACE]){
+    if (Keys[SDL_SCANCODE_SPACE])
+    {
         TryPlacePlant(g, TomatoType);
     }
     g->BuyItemCooldown++;
@@ -117,16 +118,20 @@ void UpdateLogic(Game *g)
     }
     //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
-    
-    if (Keys[SDL_SCANCODE_K]){
-        for (int i = 0;i < g->nPlants;i++){
-        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].TextureMap.destrect)){
+
+    if (Keys[SDL_SCANCODE_K])
+    {
+        for (int i = 0; i < g->nPlants; i++)
+        {
+            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].TextureMap.destrect))
+            {
                 TryHarvestPlant(g, &g->plants[i]);
                 break;
             }
-        }        
+        }
     }
-    for(int i = 0; i < g->nPlants; i++){
+    for (int i = 0; i < g->nPlants; i++)
+    {
         UpdatePlant(&g->plants[i], SDL_GetTicks());
     }
     //TEMP
@@ -145,7 +150,8 @@ void Render(Game *g)
     AddToRenderList(g, &g->player.ent.droppableItem.d);
     AddToRenderList(g, &g->d_item.ent.d);
 
-    for(int i = 0;i < g->nPlants;i++){
+    for (int i = 0; i < g->nPlants; i++)
+    {
         AddToRenderList(g, &g->plants[i].TextureMap);
     }
 
@@ -190,8 +196,7 @@ void Key_Options(Game *g)
 
 void HandleEvents(Game *g)
 {
-    g->Key_Pressed.LEFT = 0;
-    g->Key_Pressed.testkey = 0;
+    g->Key_Pressed = (struct Pressed){0};
     while (SDL_PollEvent(&g->event))
     {
         if (g->event.type == SDL_QUIT)
@@ -200,6 +205,18 @@ void HandleEvents(Game *g)
         }
         else if (g->event.type == SDL_KEYDOWN)
         {
+            if (g->event.key.keysym.scancode == g->keys.UP[0] || g->event.key.keysym.scancode == g->keys.UP[1])
+            {
+                g->Key_Pressed.UP = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.DOWN[0] || g->event.key.keysym.scancode == g->keys.DOWN[1])
+            {
+                g->Key_Pressed.DOWN = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.RIGHT[0] || g->event.key.keysym.scancode == g->keys.RIGHT[1])
+            {
+                g->Key_Pressed.RIGHT = 1;
+            }
             if (g->event.key.keysym.scancode == g->keys.LEFT[0] || g->event.key.keysym.scancode == g->keys.LEFT[1])
             {
                 g->Key_Pressed.LEFT = 1;
@@ -328,7 +345,8 @@ void TryPlacePlant(Game *g, PlantEnum plant)
                     break;
                 }
             }
-            if (found == 0){
+            if (found == 0)
+            {
                 CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
                 g->nPlants++;
             }
@@ -336,14 +354,18 @@ void TryPlacePlant(Game *g, PlantEnum plant)
         }
     }
 }
-void TryHarvestPlant(Game *g, Plant *plant){
-    if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested){
+void TryHarvestPlant(Game *g, Plant *plant)
+{
+    if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested)
+    {
         return;
     }
-    for (int i = 0;i < g->nPlants;i++){
-        if (plant->nPlantStages - 1 == plant->nToUpdate){
+    for (int i = 0; i < g->nPlants; i++)
+    {
+        if (plant->nPlantStages - 1 == plant->nToUpdate)
+        {
             plant->TickAtHarvestation = SDL_GetTicks();
             plant->nToUpdate++;
-        }      
+        }
     }
 }
