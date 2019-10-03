@@ -43,7 +43,8 @@ typedef enum MapDataConverter{
     MUD,
     GRASS,
     TREE,
-    WATER_LAKE
+    WATER_LAKE,
+    WATER_TOP
 }MapDataConverter;
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file);
