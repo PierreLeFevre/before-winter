@@ -361,32 +361,28 @@ void EntityDeathEvent(Game *g, Entity *e)
 
 void TryPlacePlant(Game *g, PlantEnum plant)
 {
+    int array;
     if (g->nPlants >= MAXPLANTS)
     {
         return;
     }
-    for (int i = 0; i < g->nGoodTiles; i++)
+    array = Get_Tile_Number(g->player.ent.interaction_hitbox.x, g->player.ent.interaction_hitbox.y);
+    int found = 0;
+    for (int j = 0; j < g->nPlants; j++)
     {
-        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
+        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[j].TextureMap.destrect))
         {
-            int found = 0;
-            for (int j = 0; j < g->nPlants; j++)
-            {
-                if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[j].TextureMap.destrect))
-                {
-                    found++;
-                    break;
-                }
-            }
-            if (found == 0)
-            {
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
-                g->nPlants++;
-            }
+            found++;
             break;
         }
     }
+    if (found == 0)
+    {
+        CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[array]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[array]->drawables[0].z_index + 1);
+        g->nPlants++;
+    }
 }
+
 void TryHarvestPlant(Game *g, Plant *plant)
 {
     if (g->player.ent.n_items == INVENTORY_SIZE)
@@ -395,8 +391,9 @@ void TryHarvestPlant(Game *g, Plant *plant)
     }
     if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested)
     {
-        
-    }else{
+    }
+    else
+    {
         if (plant->nPlantStages - 1 == plant->nToUpdate)
         {
             plant->TickAtHarvestation = SDL_GetTicks();
@@ -408,24 +405,28 @@ void TryHarvestPlant(Game *g, Plant *plant)
         }
         return;
     }
-    if (!plant->HasHarvestableBerries){
-        if (plant->plantStages[plant->nPlantStages].GrowTick <= SDL_GetTicks() - plant->TickPlaced){
+    if (!plant->HasHarvestableBerries)
+    {
+        if (plant->plantStages[plant->nPlantStages].GrowTick <= SDL_GetTicks() - plant->TickPlaced)
+        {
             //DELETE PLANT
             //PROCC DROPPED ITEMS ON
             DeletePlant(g, plant);
-            
         }
     }
 }
-void DeletePlant(Game *g, Plant *plant){
-    for(int i = 0; g->nPlants;i++){
-        if(SDL_HasIntersection(&g->plants[i].TextureMap.destrect, &plant->TextureMap.destrect)){
-            for(int j = i;j < g->nPlants;j++){
-                g->plants[j] = g->plants[j+1];
+void DeletePlant(Game *g, Plant *plant)
+{
+    for (int i = 0; g->nPlants; i++)
+    {
+        if (SDL_HasIntersection(&g->plants[i].TextureMap.destrect, &plant->TextureMap.destrect))
+        {
+            for (int j = i; j < g->nPlants; j++)
+            {
+                g->plants[j] = g->plants[j + 1];
             }
             g->nPlants--;
             break;
         }
     }
-    
 }
