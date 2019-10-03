@@ -8,7 +8,7 @@ double Map(double value, double range_1_min, double range_1_max, double range_2_
 int Cap(int value_in, int cap_to);
 float Dist(float x1, float y1, float x2, float y2);
 
-int Pre_CheckCollision(SDL_Rect A, SDL_Rect B, float x_axis, float y_axis);
+int Pre_CheckCollision(SDL_Rect A, SDL_Rect B, float UP, float DOWN, float RIGHT, float LEFT);
 int Pre_X_CheckCollision(SDL_Rect A, SDL_Rect B, float x_axis);
 int Pre_Y_CheckCollision(SDL_Rect A, SDL_Rect B, float y_axis);
 int sign(int A);

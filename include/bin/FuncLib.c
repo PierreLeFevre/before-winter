@@ -63,24 +63,24 @@ float Dist(float x1, float y1, float x2, float y2)
     return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
 
-int Pre_CheckCollision(SDL_Rect A, SDL_Rect B, float x_axis, float y_axis)
+int Pre_CheckCollision(SDL_Rect A, SDL_Rect B, float UP, float DOWN, float RIGHT, float LEFT)
 {
-    if (A.y + A.h <= B.y - y_axis)
+    if (A.y + A.h + RIGHT <= B.y)
     {
         return 0;
     }
 
-    if (A.y + y_axis >= B.y + B.h)
+    if (A.y - LEFT >= B.y + B.h)
     {
         return 0;
     }
 
-    if (A.x + A.w + x_axis <= B.x)
+    if (A.x + A.w + DOWN <= B.x)
     {
         return 0;
     }
 
-    if (A.x + x_axis >= B.x + B.w)
+    if (A.x + UP >= B.x + B.w)
     {
         return 0;
     }
@@ -264,8 +264,7 @@ char *strcpyMACFRIENDLY(char *s1, const char *s2)
         ;
     return (s1);
 }
-int Get_Tile_Number(int x, int y){
-    x = x / 60;
-    y = y / 60;
-    return x+(y*30);
+int Get_Tile_Number(int x, int y)
+{
+    return (x / 60) + ((y / 60) * 60);
 }
