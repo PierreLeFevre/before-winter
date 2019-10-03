@@ -337,6 +337,9 @@ void TryPlacePlant(Game *g, PlantEnum plant)
     }
 }
 void TryHarvestPlant(Game *g, Plant *plant){
+    if (g->player.ent.n_items == N_ENTITYITEMS){
+        return;
+    }
     if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested){
         return;
     }
