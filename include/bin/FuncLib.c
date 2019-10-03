@@ -243,3 +243,6 @@ int Get_Option(char Option[20])
     fclose(fp);
     return -2;
 }
+
+void saveToFile(){return;}
+void loadFromFile(){return;}

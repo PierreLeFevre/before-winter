@@ -199,9 +199,15 @@ void GuiInventory(Gui* g){
                 
                 RenderText(g, x+25, y+25, 0, White, Bold, "Inventory:");
                 
-                for (int i = 0; i < 10; i++)
-                { 
+                for (int i = 0; i < INVENTORY_SIZE; i++)
+                {
                     RenderText(g, x+25, (y+50 + 20 * i), 0, White, Regular, g->p->ent.items[i].Name);
+                    g->p->ent.items[i].d.destrect.x = x + 200;
+                    g->p->ent.items[i].d.destrect.y = y + 50 + 20 * i;
+                    g->p->ent.items[i].d.destrect.w = 16;
+                    g->p->ent.items[i].d.destrect.h = 16;
+
+                    Draw(&g->p->ent.items[i].d);
                 }
                 
             }
@@ -309,6 +315,17 @@ void GuiMenu(Gui* g){
                         break;
                     }                    
                 }
+                if (Keys[SDL_SCANCODE_RETURN]){
+                    switch (g->menuSelectedIndex)
+                    {
+                    case 2:
+                        saveToFile();
+                        break;
+                    case 3:
+                        loadFromFile();
+                        break;
+                    }
+                }
 
                 g->menuSelectToggler = 0;
             }
@@ -333,6 +350,9 @@ void GuiMenu(Gui* g){
             char playerFriction[100];
             gcvt(g->p->ent.friction, 6, playerFriction);
             RenderText(g, 275, 140, 0, White, Regular, playerFriction);
+
+            RenderText(g, 65, 160, 0, White, Bold, "    Save to file");
+            RenderText(g, 65, 180, 0, White, Bold, "    Load from file");
 
 
             RenderText(g, 65, 200, 0, White, Bold, "~~~ Graphics Options");

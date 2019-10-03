@@ -19,4 +19,7 @@ int Get_Option(char option[20]);
 
 void CharReverse(char *str);
 char *strcpyMACFRIENDLY(char *d, const char *s);
+
+void saveToFile();
+void loadFromFile();
 #endif
