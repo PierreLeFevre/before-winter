@@ -70,7 +70,7 @@ void UpdatePlayerHitbox(Player *player)
 void AnimatePlayer(Player *player)
 {
     player->ent.d.srcrect.w = 16;
-    player->ent.d.srcrect.h = 36;
+    player->ent.d.srcrect.h = 32;
 
     if (player->ent.x_dir != 0 || player->ent.y_dir != 0)
     {

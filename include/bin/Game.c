@@ -10,15 +10,15 @@ void ConstructGame(Game *g, int *noExit)
 {
     Entity buildEntity;
     Drawable buildDrawable;
-    SDL_Rect buildSrcrect = {0, 0, 10000, 10000};
-    SDL_Rect buildDestrect = {300, 300, 50, 50};
+    SDL_Rect buildSrcrect = {272, 416, 16, 16};
+    SDL_Rect buildDestrect = {300, 300, 16, 16};
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player);
 
-    ConstructDrawable(&buildDrawable, DT_Other, &g->gfx, SS_TILEMAP, buildSrcrect, buildDestrect, 10000);
+    ConstructDrawable(&buildDrawable, DT_Other, &g->gfx, SS_ITEM, buildSrcrect, buildDestrect, 10000);
     ConstructItem(&g->item, &buildDrawable);
     ConstructEntity(&buildEntity, &buildDrawable);
     ConstructDroppedItem(&g->d_item, &g->item, &buildEntity);
@@ -58,9 +58,8 @@ void UpdateLogic(Game *g)
     }
 
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
-    if (Keys[SDL_SCANCODE_SPACE])
-    {
-        TryPlacePlant(g, CauliflowerType);
+    if (Keys[SDL_SCANCODE_SPACE]){
+        TryPlacePlant(g, TomatoType);
     }
     g->BuyItemCooldown++;
     if (g->Key_Pressed.testkey == 1 && g->BuyItemCooldown > 50)
@@ -118,17 +117,17 @@ void UpdateLogic(Game *g)
     }
     //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
-
-    for (int i = 0; i < g->nPlants; i++)
-    {
-        UpdatePlant(&g->plants[i], SDL_GetTicks());
-        if (Keys[SDL_SCANCODE_K])
-        {
-            if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].TextureMap.destrect))
-            {
-                TryHarvestPlant(g, g->plants[i]);
+    
+    if (Keys[SDL_SCANCODE_K]){
+        for (int i = 0;i < g->nPlants;i++){
+        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].TextureMap.destrect)){
+                TryHarvestPlant(g, &g->plants[i]);
+                break;
             }
-        }
+        }        
+    }
+    for(int i = 0; i < g->nPlants; i++){
+        UpdatePlant(&g->plants[i], SDL_GetTicks());
     }
     //TEMP
     UpdateDroppedItem(&g->d_item, &g->player);
@@ -146,8 +145,7 @@ void Render(Game *g)
     AddToRenderList(g, &g->player.ent.droppableItem.d);
     AddToRenderList(g, &g->d_item.ent.d);
 
-    for (int i = 0; i < g->nPlants; i++)
-    {
+    for(int i = 0;i < g->nPlants;i++){
         AddToRenderList(g, &g->plants[i].TextureMap);
     }
 
@@ -330,31 +328,22 @@ void TryPlacePlant(Game *g, PlantEnum plant)
                     break;
                 }
             }
-            if (found == 0)
-            {
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, CauliflowerType, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
+            if (found == 0){
+                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
                 g->nPlants++;
             }
             break;
         }
     }
 }
-void TryHarvestPlant(Game *g, const Plant plant)
-{
-    for (int i = 0; i < g->nPlants; i++)
-    {
-        if (SDL_HasIntersection(&g->plants[i].TextureMap.destrect, &plant.TextureMap.destrect))
-        {
-            g->player.ent.items[g->player.ent.n_items].d = plant.TextureMap;
-            g->player.ent.items[g->player.ent.n_items].IsStackable = 1;
-            strcpy(g->player.ent.items[g->player.ent.n_items].Name, plant.Name);
-
-            for (int k = i; k < g->nPlants; k++)
-            {
-                g->plants[k] = g->plants[k + 1];
-            }
-            g->player.ent.n_items++;
-            g->nPlants--;
-        }
+void TryHarvestPlant(Game *g, Plant *plant){
+    if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested){
+        return;
+    }
+    for (int i = 0;i < g->nPlants;i++){
+        if (plant->nPlantStages - 1 == plant->nToUpdate){
+            plant->TickAtHarvestation = SDL_GetTicks();
+            plant->nToUpdate++;
+        }      
     }
 }
