@@ -8,7 +8,6 @@
 
 void ConstructGame(Game *g, int *noExit)
 {
-    printf("get option W= %d", Get_Option("W="));
     Entity buildEntity;
     Drawable buildDrawable;
     SDL_Rect buildSrcrect = {0, 0, 10000, 10000};
