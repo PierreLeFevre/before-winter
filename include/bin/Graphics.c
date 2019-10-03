@@ -99,7 +99,7 @@ void ConstructGraphics(Graphics *gfx)
     }
     SDL_FreeSurface(surf);
 
-    //Font
+    //SPRINGOBJECTS
     surf = IMG_Load("include/assets/unpacked/maps/springobjects.png");
     if (!surf)
     {
