@@ -308,22 +308,13 @@ void TryPlacePlant(Game *g, PlantEnum plant)
     }
 }
 void TryHarvestPlant(Game *g, Plant *plant){
-    // if (!plant->HasHarvestableBerries || plant->TimeToRegrow > plant->TickSinceLastHarvested){
-    //     return;
-    // }
-    // for(int i = 0; i < g->nPlants; i++){
-    //     if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].TextureMap.destrect)){
-    //         if (plant->HasHarvestableBerries){
-    //             printf("%d %d %d %d\n", plant->TickSinceLastHarvested, plant->TimeToRegrow, plant->nPlantStages, plant->nToUpdate);
-    //             if (plant->TickSinceLastHarvested >= plant->TimeToRegrow && plant->nPlantStages - 1 == plant->nToUpdate){
-    //                 plant->TickSinceLastHarvested = 0;
-    //                 plant->TickAtHarvestation = SDL_GetTicks() - plant->TickPlaced;
-    //                 printf("harvested\n");
-    //                 plant->nToUpdate++;
-    //                 //PLANT HARVEST ACTION
-    //             }
-    //         }
-    //     }
-    // }
-    
+    if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested){
+        return;
+    }
+    for (int i = 0;i < g->nPlants;i++){
+        if (plant->nPlantStages - 1 == plant->nToUpdate){
+            plant->TickAtHarvestation = SDL_GetTicks();
+            plant->nToUpdate++;
+        }      
+    }
 }
