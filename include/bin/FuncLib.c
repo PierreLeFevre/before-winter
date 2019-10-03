@@ -65,68 +65,22 @@ float Dist(float x1, float y1, float x2, float y2)
 
 int Pre_CheckCollision(SDL_Rect A, SDL_Rect B, float UP, float DOWN, float RIGHT, float LEFT)
 {
-    if (A.y + A.h + RIGHT <= B.y)
+    if (A.y + A.h + DOWN <= B.y)
     {
         return 0;
     }
 
-    if (A.y - LEFT >= B.y + B.h)
+    if (A.y + UP >= B.y + B.h)
     {
         return 0;
     }
 
-    if (A.x + A.w + DOWN <= B.x)
+    if (A.x + A.w + RIGHT <= B.x)
     {
         return 0;
     }
 
-    if (A.x + UP >= B.x + B.w)
-    {
-        return 0;
-    }
-    return 1;
-}
-int Pre_X_CheckCollision(SDL_Rect A, SDL_Rect B, float x_axis)
-{
-    if (A.y + A.h <= B.y)
-    {
-        return 0;
-    }
-
-    if (A.y >= B.y + B.h)
-    {
-        return 0;
-    }
-
-    if (A.x + A.w + x_axis <= B.x)
-    {
-        return 0;
-    }
-
-    if (A.x + x_axis >= B.x + B.w)
-    {
-        return 0;
-    }
-    return 1;
-}
-int Pre_Y_CheckCollision(SDL_Rect A, SDL_Rect B, float y_axis)
-{
-    if (A.y + A.h + y_axis <= B.y)
-    {
-        return 0;
-    }
-
-    if (A.y + y_axis >= B.y + B.h)
-    {
-        return 0;
-    }
-
-    if (A.x + A.w <= B.x)
-    {
-        return 0;
-    }
-
-    if (A.x >= B.x + B.w)
+    if (A.x + LEFT >= B.x + B.w)
     {
         return 0;
     }
