@@ -55,6 +55,6 @@ void AddItem(Entity *e, Item *i, int index);
 void CreateItem(Item *i, Graphics *gfx, ItemEnums item);
 
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 PlacedTick, int zIndex);
-void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime, PlantEnum plantType);
+void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime);
 void UpdatePlant(Plant *p, Uint32 Tick);
 #endif

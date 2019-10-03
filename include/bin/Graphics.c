@@ -82,7 +82,6 @@ void ConstructGraphics(Graphics *gfx){
     if(!gfx->textures[SS_FONT]){
         printf("Error creating texture (font.png): %s\n", SDL_GetError());
     }
-    
 }
 
 void DrawFilledRectangle(SDL_Renderer *r, const SDL_Rect *rect)
