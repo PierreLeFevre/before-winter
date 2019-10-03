@@ -189,7 +189,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->GrownItems.srcrect.y = 16;
         plant->GrownItems.srcrect.w = 16;
         plant->GrownItems.srcrect.h = 16;
-        CreatePlantType(plant, "Parsnip", r, 6, 5000);
+        CreatePlantType(plant, "Parsnip", r, 6, 1000);
 
         break;
 

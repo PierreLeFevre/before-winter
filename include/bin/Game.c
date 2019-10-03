@@ -60,7 +60,7 @@ void UpdateLogic(Game *g)
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     if (Keys[SDL_SCANCODE_SPACE])
     {
-        TryPlacePlant(g, TomatoType);
+        TryPlacePlant(g, ParsnipType);
     }
     g->BuyItemCooldown++;
     if (g->Key_Pressed.testkey == 1 && g->BuyItemCooldown > 50)
@@ -395,10 +395,8 @@ void TryHarvestPlant(Game *g, Plant *plant)
     }
     if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested)
     {
-        return;
-    }
-    for (int i = 0; i < g->nPlants; i++)
-    {
+        
+    }else{
         if (plant->nPlantStages - 1 == plant->nToUpdate)
         {
             plant->TickAtHarvestation = SDL_GetTicks();
@@ -408,5 +406,26 @@ void TryHarvestPlant(Game *g, Plant *plant)
             strcpy(g->player.ent.items[g->player.ent.n_items].Name, plant->Name);
             g->player.ent.n_items++;
         }
+        return;
     }
+    if (!plant->HasHarvestableBerries){
+        if (plant->plantStages[plant->nPlantStages].GrowTick <= SDL_GetTicks() - plant->TickPlaced){
+            //DELETE PLANT
+            //PROCC DROPPED ITEMS ON
+            DeletePlant(g, plant);
+            
+        }
+    }
+}
+void DeletePlant(Game *g, Plant *plant){
+    for(int i = 0; g->nPlants;i++){
+        if(SDL_HasIntersection(&g->plants[i].TextureMap.destrect, &plant->TextureMap.destrect)){
+            for(int j = i;j < g->nPlants;j++){
+                g->plants[j] = g->plants[j+1];
+            }
+            g->nPlants--;
+            break;
+        }
+    }
+    
 }
