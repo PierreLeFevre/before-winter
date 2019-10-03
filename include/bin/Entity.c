@@ -166,7 +166,8 @@ void CreateItem(Item *i, Graphics *gfx, ItemEnums item)
     // }
 }
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex)
-{
+{   
+    ConstructDrawable(&plant->GrownItems,DT_Plant, gfx, SS_ITEM, tile, tile, zIndex);
     ConstructDrawable(&plant->TextureMap, DT_Plant, gfx, SS_PLANT, tile, tile, zIndex);
     SDL_Rect r;
     switch (plantEnum)
@@ -179,6 +180,11 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         r.y += 10;
         r.h = 20;
+
+        plant->GrownItems.srcrect.x = 0;
+        plant->GrownItems.srcrect.y = 16;
+        plant->GrownItems.srcrect.w = 16;
+        plant->GrownItems.srcrect.h = 16;
         CreatePlantType(plant, "Parsnip", r, 6, 5000);
 
         break;
@@ -191,6 +197,11 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         r.h -= 16;
         r.y += 16;
+
+        plant->GrownItems.srcrect.x = 24*16;
+        plant->GrownItems.srcrect.y = 7*16;
+        plant->GrownItems.srcrect.w = 16;
+        plant->GrownItems.srcrect.h = 16;
         CreatePlantType(plant, "Cauliflower", r, 7, 5000);
     break;
 
