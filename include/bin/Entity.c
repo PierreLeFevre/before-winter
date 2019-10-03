@@ -230,6 +230,10 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         r.y = 96 + 32;
         r.w = 16;
         r.h = 32;
+        plant->GrownItems.srcrect.x = 16*16;
+        plant->GrownItems.srcrect.y = 10*16;
+        plant->GrownItems.srcrect.w = 16;
+        plant->GrownItems.srcrect.h = 16;
         CreatePlantType(plant, "Tomato", r, 8, 1000);
         plant->nPlantStages -= 1;
         plant->TickToRegrow = 2000;
