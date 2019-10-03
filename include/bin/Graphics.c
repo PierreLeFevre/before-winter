@@ -1,12 +1,13 @@
 #include "Graphics.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "FuncLib.h"
 #include "../SDL2/SDL_image.h"
 
 void ConstructGraphics(Graphics *gfx)
 {
-    gfx->wWidth = WINDOW_WIDTH;
-    gfx->wHeight = WINDOW_HEIGHT;
+    gfx->wWidth = Get_Option("WINDOW_WIDTH=");
+    gfx->wHeight = Get_Option("WINDOW_HEIGHT=");
     gfx->wFullscreen = 0;
     gfx->textures = (SDL_Texture **)malloc(sizeof(SDL_Texture *) * 10);
 
@@ -15,7 +16,7 @@ void ConstructGraphics(Graphics *gfx)
         printf("Error initalizing SDL: %s\n", SDL_GetError());
         return;
     }
-    gfx->win = SDL_CreateWindow("Before Winter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+    gfx->win = SDL_CreateWindow("Before Winter", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, gfx->wWidth, gfx->wHeight, 0);
     if (!gfx->win)
     {
         printf("Error creating window: %s\n", SDL_GetError());

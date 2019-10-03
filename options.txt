@@ -1,0 +1,13 @@
+The arrowkeys
+UP= 82
+DOWN= 81
+RIGHT= 79
+LEFT= 80
+The WASD
+W= 26
+A= 4
+S= 22
+D= 7
+The Window
+WINDOW_WIDTH= 1780
+WINDOW_HEIGHT= 750

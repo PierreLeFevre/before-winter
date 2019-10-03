@@ -222,3 +222,24 @@ int Get_Tile_Number(int x, int y)
 {
     return (x / 60) + ((y / 60) * 60);
 }
+int Get_Option(char Option[20])
+{
+    FILE *fp;
+    char String[20];
+    int Value;
+    fp = fopen("options.txt", "r");
+    if (fp == NULL)
+    {
+        return -1;
+    }
+    while (fscanf(fp, "%s %d", String, &Value) != -1)
+    {
+        if (!strcmp(String, Option))
+        {
+            fclose(fp);
+            return Value;
+        }
+    }
+    fclose(fp);
+    return -2;
+}

@@ -29,10 +29,19 @@ void MoveEntity(Entity *e)
 
     e->x_axis = min(abs((int)e->x_axis), e->movement_speed) * sign(e->x_axis);
     e->y_axis = min(abs((int)e->y_axis), e->movement_speed) * sign(e->y_axis);
+
+    if ((abs((int)e->x_axis) <= 0.6f))
+    {
+        e->x_axis = 0;
+    }
+    if ((abs((int)e->y_axis) <= 0.6f))
+    {
+        e->y_axis = 0;
+    }
     // if (e->x_axis != 0 && e->y_axis != 0)
     // {
-    //     e->x_axis *= 0.71014f;
-    //     e->y_axis *= 0.71014f;
+    //     e->x_axis = e->x_axis * 0.7f;
+    //     e->y_axis = e->y_axis * 0.71014f;
     // }
     if (e->x_dir != 0 || e->y_dir != 0)
     {
@@ -58,15 +67,6 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max)
         {
             pre_colision[1] = 1;
         }
-    }
-
-    if ((abs((int)e->x_axis) <= 0.6f))
-    {
-        e->x_axis = 0;
-    }
-    if ((abs((int)e->y_axis) <= 0.6f))
-    {
-        e->y_axis = 0;
     }
     if (pre_colision[0] == 0 && pre_colision[1] == 0)
     {

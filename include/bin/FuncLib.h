@@ -15,6 +15,7 @@ float min(float a, float b);
 float speed_cap(float Value, float Cap);
 char *IntToCharArray(int nr);
 int Get_Tile_Number(int X, int Y);
+int Get_Option(char option[20]);
 
 void CharReverse(char *str);
 char *strcpyMACFRIENDLY(char *d, const char *s);
