@@ -11,7 +11,7 @@ void ConstructGame(Game *g, int *noExit)
     Entity buildEntity;
     Drawable buildDrawable;
     SDL_Rect buildSrcrect = {272, 416, 16, 16};
-    SDL_Rect buildDestrect = {300, 300, 50, 50};
+    SDL_Rect buildDestrect = {300, 300, 16, 16};
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
