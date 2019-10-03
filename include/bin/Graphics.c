@@ -98,6 +98,19 @@ void ConstructGraphics(Graphics *gfx)
         printf("Error creating texture (font.png): %s\n", SDL_GetError());
     }
     SDL_FreeSurface(surf);
+
+    //Font
+    surf = IMG_Load("include/assets/unpacked/maps/springobjects.png");
+    if (!surf)
+    {
+        printf("Error creating surface (item.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_ITEM] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_ITEM])
+    {
+        printf("Error creating texture (item.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
 }
 
 void DrawFilledRectangle(SDL_Renderer *r, const SDL_Rect *rect)
