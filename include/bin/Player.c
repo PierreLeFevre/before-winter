@@ -45,10 +45,8 @@ void UpdatePlayerDirection(Player *player)
 {
     player->ent.x_dir = 0.0f;
     player->ent.y_dir = 0.0f;
-    const Uint8 *Keys = SDL_GetKeyboardState(NULL);
-    SDL_PumpEvents();
-    player->ent.x_dir += (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D]) - (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A]);
-    player->ent.y_dir += (Keys[SDL_SCANCODE_DOWN] || Keys[SDL_SCANCODE_S]) - (Keys[SDL_SCANCODE_UP] || Keys[SDL_SCANCODE_W]);
+    player->ent.x_dir += (EventHandler("1RIGHT=") || EventHandler("2RIGHT=")) - (EventHandler("2LEFT=") || EventHandler("1LEFT="));
+    player->ent.y_dir += (EventHandler("1DOWN=") || EventHandler("2DOWN=")) - (EventHandler("1UP=") || EventHandler("2UP="));
 
     AnimatePlayer(player);
 }

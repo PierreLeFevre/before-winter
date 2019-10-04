@@ -11,20 +11,7 @@ typedef struct Keys
     int harvestTemp;
     int meny;
     int quickSlot[9];
+    int buyitem[2];
+    int action;
 
 } Keys;
-typedef struct Pressed
-{
-    /*movment*/
-    int UP;
-    int DOWN;
-    int RIGHT;
-    int LEFT;
-    /*interaction*/
-    int testkey;
-    int inventroy;
-    int harvestTemp;
-    int meny;
-    int quickSlot[9];
-
-} Pressed;
