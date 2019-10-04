@@ -40,6 +40,8 @@ typedef struct Game
     Plant plants[MAXPLANTS];
     int nPlants;
     Gui gui;
+    Keys keys;
+    Pressed Key_Pressed;
 
     //TEMP
     Item item;
@@ -56,6 +58,7 @@ void UpdateLogic(Game *g);
 void Render(Game *g);
 
 void HandleEvents(Game *g);
+void Key_Options(Game *g);
 
 void CalculateGoodTiles(Game *g);
 
@@ -69,4 +72,4 @@ void EntityDeathEvent(Game *g, Entity *e);
 
 void TryPlacePlant(Game *g, PlantEnum plant);
 void TryHarvestPlant(Game *g, Plant *plant);
-void DeletePlant(Game *g, Plant *plant);
+void DeletePlant(Game *g,Plant *plant);

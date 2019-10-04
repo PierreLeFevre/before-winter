@@ -1,7 +1,6 @@
 #include "./include/bin/Game.h"
 #include <stdio.h>
 #include <stdlib.h>
-
 int main()
 {
     int noExit = 1;

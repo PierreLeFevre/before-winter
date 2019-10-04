@@ -23,6 +23,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructEntity(&buildEntity, &buildDrawable);
     ConstructDroppedItem(&g->d_item, &g->item, &buildEntity);
 
+    Key_Options(g);
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
     g->GoodTiles = (Tile **)malloc(sizeof(Tile *) * 5000);
     g->nPlants = 0;
@@ -55,12 +56,14 @@ void UpdateLogic(Game *g)
     {
         CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
     }
-    if (EventHandler("action="))
+
+    const Uint8 *Keys = SDL_GetKeyboardState(NULL);
+    if (Keys[SDL_SCANCODE_SPACE])
     {
         TryPlacePlant(g, ParsnipType);
     }
     g->BuyItemCooldown++;
-    if (EventHandler("testkey=") && g->BuyItemCooldown > 50)
+    if (g->Key_Pressed.testkey == 1 && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
         if (BuyItem(&g->player.ent, &g->CoreItems[0]))
@@ -70,7 +73,7 @@ void UpdateLogic(Game *g)
             AlertGui(&g->gui, 2, buffer);
         }
     }
-    if (EventHandler("buyitem1=") && g->BuyItemCooldown > 50)
+    if (Keys[SDL_SCANCODE_R] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
         if (BuyItem(&g->player.ent, &g->CoreItems[1]))
@@ -80,7 +83,7 @@ void UpdateLogic(Game *g)
             AlertGui(&g->gui, 2, buffer);
         }
     }
-    if (EventHandler("buyitem2=") && g->BuyItemCooldown > 50)
+    if (Keys[SDL_SCANCODE_T] && g->BuyItemCooldown > 50)
     {
         g->BuyItemCooldown = 0;
         if (BuyItem(&g->player.ent, &g->CoreItems[2]))
@@ -92,21 +95,21 @@ void UpdateLogic(Game *g)
     }
 
     //DISPLAY ITEMS****************************
-    if (EventHandler("quickSlot1="))
+    if (Keys[SDL_SCANCODE_1])
     {
         g->player.ent.items[0].d.destrect.x = g->player.activeItem.d.destrect.x;
         g->player.ent.items[0].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[0];
         g->player.activeItemIndex = 0;
     }
-    if (EventHandler("quickSlot2="))
+    if (Keys[SDL_SCANCODE_2])
     {
         g->player.ent.items[1].d.destrect.x = g->player.activeItem.d.destrect.x;
         g->player.ent.items[1].d.destrect.y = g->player.activeItem.d.destrect.y;
         g->player.activeItem = g->player.ent.items[1];
         g->player.activeItemIndex = 1;
     }
-    if (EventHandler("quickSlot3="))
+    if (Keys[SDL_SCANCODE_3])
     {
         g->player.ent.items[2].d.destrect.x = g->player.activeItem.d.destrect.x;
         g->player.ent.items[2].d.destrect.y = g->player.activeItem.d.destrect.y;
@@ -116,7 +119,7 @@ void UpdateLogic(Game *g)
     //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
 
-    if (EventHandler("harvestTemp="))
+    if (g->Key_Pressed.harvestTemp == 1)
     {
         for (int i = 0; i < g->nPlants; i++)
         {
@@ -176,14 +179,146 @@ void Render(Game *g)
 #endif
 }
 
+void Key_Options(Game *g)
+{
+    g->keys.UP[0] = Get_Option("1UP=");
+    g->keys.DOWN[0] = Get_Option("1DOWN=");
+    g->keys.RIGHT[0] = Get_Option("1RIGHT=");
+    g->keys.LEFT[0] = Get_Option("1LEFT=");
+
+    g->keys.UP[1] = Get_Option("2UP=");
+    g->keys.DOWN[1] = Get_Option("2DOWN=");
+    g->keys.RIGHT[1] = Get_Option("2RIGHT=");
+    g->keys.LEFT[1] = Get_Option("2LEFT=");
+
+    g->keys.testkey = Get_Option("testkey=");
+    g->keys.meny = Get_Option("meny=");
+    g->keys.harvestTemp = Get_Option("harvestTemp=");
+    g->keys.inventroy = Get_Option("inventory=");
+
+    g->keys.quickSlot[0] = Get_Option("quickSlot1=");
+    g->keys.quickSlot[1] = Get_Option("quickSlot2=");
+    g->keys.quickSlot[2] = Get_Option("quickSlot3=");
+    g->keys.quickSlot[3] = Get_Option("quickSlot4=");
+    g->keys.quickSlot[4] = Get_Option("quickSlot5=");
+    g->keys.quickSlot[5] = Get_Option("quickSlot6=");
+    g->keys.quickSlot[6] = Get_Option("quickSlot7=");
+    g->keys.quickSlot[7] = Get_Option("quickSlot8=");
+    g->keys.quickSlot[8] = Get_Option("quickSlot9=");
+}
+
 void HandleEvents(Game *g)
 {
-
+    g->Key_Pressed.meny = 0;
+    g->Key_Pressed.inventroy = 0;
+    g->Key_Pressed.quickSlot[0] = 0;
+    g->Key_Pressed.quickSlot[1] = 0;
+    g->Key_Pressed.quickSlot[2] = 0;
+    g->Key_Pressed.quickSlot[3] = 0;
+    g->Key_Pressed.quickSlot[4] = 0;
+    g->Key_Pressed.quickSlot[5] = 0;
+    g->Key_Pressed.quickSlot[6] = 0;
+    g->Key_Pressed.quickSlot[7] = 0;
+    g->Key_Pressed.quickSlot[8] = 0;
     while (SDL_PollEvent(&g->event))
     {
         if (g->event.type == SDL_QUIT)
         {
             *g->noExit = 0;
+        }
+        else if (g->event.type == SDL_KEYDOWN)
+        {
+            if (g->event.key.keysym.scancode == g->keys.UP[0] || g->event.key.keysym.scancode == g->keys.UP[1])
+            {
+                g->Key_Pressed.UP = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.DOWN[0] || g->event.key.keysym.scancode == g->keys.DOWN[1])
+            {
+                g->Key_Pressed.DOWN = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.RIGHT[0] || g->event.key.keysym.scancode == g->keys.RIGHT[1])
+            {
+                g->Key_Pressed.RIGHT = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.LEFT[0] || g->event.key.keysym.scancode == g->keys.LEFT[1])
+            {
+                g->Key_Pressed.LEFT = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.testkey)
+            {
+                g->Key_Pressed.testkey = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.inventroy)
+            {
+                g->Key_Pressed.inventroy = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.meny)
+            {
+                g->Key_Pressed.meny = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.harvestTemp)
+            {
+                g->Key_Pressed.harvestTemp = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[0])
+            {
+                g->Key_Pressed.quickSlot[0] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[1])
+            {
+                g->Key_Pressed.quickSlot[1] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[2])
+            {
+                g->Key_Pressed.quickSlot[2] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[3])
+            {
+                g->Key_Pressed.quickSlot[3] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[4])
+            {
+                g->Key_Pressed.quickSlot[4] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[5])
+            {
+                g->Key_Pressed.quickSlot[5] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[6])
+            {
+                g->Key_Pressed.quickSlot[6] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[7])
+            {
+                g->Key_Pressed.quickSlot[7] = 1;
+            }
+            if (g->event.key.keysym.scancode == g->keys.quickSlot[8])
+            {
+                g->Key_Pressed.quickSlot[8] = 1;
+            }
+            else if (g->event.type == SDL_KEYUP)
+            {
+                if (g->event.key.keysym.scancode == g->keys.UP[0] || g->event.key.keysym.scancode == g->keys.UP[1])
+                {
+                    g->Key_Pressed.UP = 0;
+                }
+                if (g->event.key.keysym.scancode == g->keys.DOWN[0] || g->event.key.keysym.scancode == g->keys.DOWN[1])
+                {
+                    g->Key_Pressed.DOWN = 0;
+                }
+                if (g->event.key.keysym.scancode == g->keys.RIGHT[0] || g->event.key.keysym.scancode == g->keys.RIGHT[1])
+                {
+                    g->Key_Pressed.RIGHT = 0;
+                }
+                if (g->event.key.keysym.scancode == g->keys.LEFT[0] || g->event.key.keysym.scancode == g->keys.LEFT[1])
+                {
+                    g->Key_Pressed.LEFT = 0;
+                }
+                if (g->event.key.keysym.scancode == g->keys.harvestTemp)
+                {
+                    g->Key_Pressed.harvestTemp = 0;
+                }
+            }
         }
     }
 }
