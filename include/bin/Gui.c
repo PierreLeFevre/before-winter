@@ -181,8 +181,22 @@ void GuiInventory(Gui* g){
     const Uint8 *Keys = SDL_GetKeyboardState(NULL);
     if (g->invToggler > 20)
     {
-        if(g->invActive){
+        for (int i = 0; i < INVENTORY_SIZE; i++){
 
+            for (int j = (i + 1); j < INVENTORY_SIZE; j++){
+                
+                
+                if(g->p->ent.items[i].exists){
+                    if(strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0){
+                        g->p->ent.items[j].exists = 0;
+                        g->p->ent.items[i].amount += 1;
+                    }
+                }
+            }
+        }
+
+        if(g->invActive){
+            
             if (Keys[SDL_SCANCODE_E]){
                 g->invActive = 0;
                 g->invToggler = 0;
@@ -208,15 +222,22 @@ void GuiInventory(Gui* g){
                         rows++;
                         xOffset = 0;
                     }
+                    
                     //RenderText(g, x+25, (y+50 + 20 * i), 0, White, Regular, g->p->ent.items[i].Name);
-
+                    
                     g->p->ent.items[i].d.destrect.x = x + 50 + 36 * xOffset;
                     g->p->ent.items[i].d.destrect.y = y + 50 + 36 * rows;
                     g->p->ent.items[i].d.destrect.w = 32;
                     g->p->ent.items[i].d.destrect.h = 32;
+                    
+                    if(g->p->ent.items[i].exists != 0){
+                        Draw(&g->p->ent.items[i].d);
 
-                    Draw(&g->p->ent.items[i].d);
-
+                        char amount[100];
+                        gcvt(g->p->ent.items[i].amount, 6, amount);
+                        RenderText(g, (x + 50 + 36*xOffset), (y + 50 + 36 * rows), 0, White, Bold, amount);
+                    }
+                    
                     xOffset++;
                 }
                 
@@ -228,6 +249,12 @@ void GuiInventory(Gui* g){
                 g->invActive = 1;
                 g->invToggler = 0;
             }
+        }
+    }
+
+    for (int i = 0; i < INVENTORY_SIZE; i++){
+        if (g->p->ent.items[i].amount != 0){
+            g->p->ent.items[i].amount = 1;
         }
     }
 

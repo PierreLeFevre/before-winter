@@ -22,6 +22,8 @@ typedef struct Item{
     int Cost;
     int SellValue;
     int IsStackable;
+    int amount;
+    int exists;
 }Item;
 
 void ConstructItem(Item* item, Drawable* d);
