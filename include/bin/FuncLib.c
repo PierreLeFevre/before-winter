@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+
 void RemoveCharacterFromArray(char *const buffer, char toRemove, int size)
 {
     // char* bufferP = buffer;
@@ -281,5 +282,24 @@ int EventHandler(char thinboi[20])
     return 0;
 }
 
-void saveToFile() { return; }
+void saveToFile(float x, float y)
+{
+    FILE *ptr_myfile;
+    struct Save
+    {
+        float player_X;
+        float player_Y;
+    };
+    struct Save saver;
+
+    saver.player_X = x;
+    saver.player_Y = y;
+    ptr_myfile = fopen("save.sav", "wb");
+    if (!ptr_myfile)
+    {
+        printf("Unable to open file!");
+    }
+    fwrite(&saver, sizeof(struct Save), 1, ptr_myfile);
+    fclose(ptr_myfile);
+}
 void loadFromFile() { return; }

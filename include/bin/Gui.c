@@ -347,7 +347,7 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 2:
-                        saveToFile();
+                        saveToFile(g->p->ent.x_pos, g->p->ent.y_pos);
                         break;
                     case 3:
                         loadFromFile();
