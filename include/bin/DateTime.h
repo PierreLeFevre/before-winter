@@ -9,7 +9,7 @@ typedef enum SeasonTypes{
 }SeasonTypes;
 typedef struct DateTime{
     Uint32 BaseTick;
-    int days;
+    int day;
     int hour;
     int min;
     int sec;

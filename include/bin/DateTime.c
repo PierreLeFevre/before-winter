@@ -3,7 +3,7 @@ void ConstructTime(DateTime *date){
     date->sec = 0;
     date->min = 0;
     date->hour = 0;
-    date->days = 0;
+    date->day = 0;
 }
 void UpdateTime(Uint32 base, DateTime *date){
     date->BaseTick = base;
@@ -18,10 +18,10 @@ void UpdateTime(Uint32 base, DateTime *date){
     }
     if (date->hour >= 24){
         date->hour = 0;
-        date->days++;
+        date->day++;
     }
-    if (date->days >= 10){
-        date->days = 0;
+    if (date->day >= 10){
+        date->day = 0;
         date->season++;
     }
 }
