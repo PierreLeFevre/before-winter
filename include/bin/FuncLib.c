@@ -221,7 +221,17 @@ char *strcpyMACFRIENDLY(char *s1, const char *s2)
 }
 int Get_Tile_Number(int x, int y)
 {
-    return (x / 16) + ((y / 16) * 60);
+    int sum, yd;
+    y = y / 32;
+    x = x / 32;
+    printf("y=%d\n", y);
+    printf("x=%d\n", x);
+    yd = (y - 1) * 60;
+    printf("yd=%d\n", yd);
+    sum = yd + x;
+    printf("sum=%d\n", sum);
+    return sum;
+    //return (x / 32) + ((y / 32) * 60);
 }
 int Get_Option(char Option[20])
 {

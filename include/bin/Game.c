@@ -55,7 +55,6 @@ void UpdateLogic(Game *g)
         ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
 
     UpdateTime(SDL_GetTicks(), &g->dateTime);
-
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
@@ -304,21 +303,26 @@ void TryPlacePlant(Game *g, PlantEnum plant)
     {
         return;
     }
-
-    printf("Test tile number= %d\n", Get_Tile_Number(g->player.ent.hitbox.x, g->player.ent.hitbox.y));
-    int found = 0;
-    for (int j = 0; j < g->nPlants; j++)
+    for (int i = 0; i < g->nGoodTiles; i++)
     {
-        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[j].TextureMap.destrect))
+        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
         {
-            found++;
+            int found = 0;
+            for (int j = 0; j < g->nPlants; j++)
+            {
+                if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[j].TextureMap.destrect))
+                {
+                    found++;
+                    break;
+                }
+            }
+            if (found == 0)
+            {
+                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
+                g->nPlants++;
+            }
             break;
         }
-    }
-    if (found == 0)
-    {
-        CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
-        g->nPlants++;
     }
 }
 void TryHarvestPlant(Game *g, Plant *plant)
