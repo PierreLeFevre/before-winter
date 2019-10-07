@@ -6,6 +6,7 @@
 #include "Gui.h"
 #include "DroppedItem.h"
 #include "Keys.h"
+#include "DateTime.h"
 
 #define MAXPLANTS 100
 
@@ -45,6 +46,7 @@ typedef struct Game
     Item item;
     DroppedItem d_item;
     //----
+    DateTime dateTime;
 } Game;
 void Input(SDL_Event *e, GameState gs, Game *g);
 void ConstructGame(Game *g, int *noExit);
