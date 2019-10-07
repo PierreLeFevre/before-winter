@@ -29,6 +29,7 @@ void ConstructGame(Game *g, int *noExit)
     g->nPlants = 0;
     g->noExit = noExit;
 }
+
 void DestroyGame(Game *g)
 {
     free(g->RenderList);
@@ -138,6 +139,10 @@ void UpdateLogic(Game *g)
     UpdateDroppedItem(&g->d_item, &g->player);
     //----
     UpdateCamera(&g->cam);
+
+    if(g->dateTime.season == Winter){
+        DestroyGame(g);
+    }
 }
 
 void Render(Game *g)
