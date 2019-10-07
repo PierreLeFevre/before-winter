@@ -27,7 +27,7 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
 
     g->promptToggler = 0;
 
-    g->dT = *dT;
+    g->dT = dT;
 
     SDL_Rect char_srcrect = {0, 0, 10000, 10000};
     SDL_Rect charToPrint_destRect = {0, 0, 0, 0};
@@ -162,7 +162,7 @@ void GuiBar(Gui *g)
     RenderText(g, x + 50, y + 15, 0, White, Bold, "Spring, Day 15");
 
     char hour[100];
-    gcvt(g->dT.min, 6, hour);
+    gcvt(g->dT->min, 6, hour);
     RenderText(g, x + 250, y + 15, 0, White, Bold, hour);
 
     RenderText(g, x + 50, y + 40, 0, Yellow, Bold, "Gold:");

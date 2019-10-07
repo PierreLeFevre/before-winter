@@ -35,7 +35,7 @@ typedef struct Gui{
     Uint32 last;
     Uint32 now;
 
-    DateTime dT;
+    DateTime* dT;
 }Gui;
 
 typedef enum Color{
