@@ -77,7 +77,6 @@ void UpdateGui(Gui *g)
 
 void RenderText(Gui *g, int x, int y, int w, Color c, Format f, char text[])
 {
-
     SDL_Rect destrect = {x, y, 17, 18};
 
     g->charToPrint.destrect = destrect;
@@ -188,10 +187,7 @@ void GuiInventory(Gui *g)
     if (g->invToggler > 20)
     {
         for (int i = 0; i < INVENTORY_SIZE; i++){
-
             for (int j = (i + 1); j < INVENTORY_SIZE; j++){
-                
-                
                 if(g->p->ent.items[i].exists){
                     if(strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0){
                         g->p->ent.items[j].exists = 0;
@@ -202,7 +198,6 @@ void GuiInventory(Gui *g)
         }
         if (g->invActive)
         {
-
             if (EventHandler("inventory="))
             {
                 g->invActive = 0;
