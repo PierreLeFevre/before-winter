@@ -304,7 +304,8 @@ void TryPlacePlant(Game *g, PlantEnum plant)
     {
         return;
     }
-    int i = Get_Tile_Number(g->player.ent.hitbox.x, g->player.ent.hitbox.y);
+
+    printf("Test tile number= %d\n", Get_Tile_Number(g->player.ent.hitbox.x, g->player.ent.hitbox.y));
     int found = 0;
     for (int j = 0; j < g->nPlants; j++)
     {
