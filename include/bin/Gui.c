@@ -163,22 +163,27 @@ void GuiBar(Gui *g)
     switch (g->dT->season)
     {
     case Spring:
-        sprintf(guiDateTime, "%s, Day %d  %d:%d", "Spring", g->dT->day, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Spring, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
         break;
     case Summer:
-        sprintf(guiDateTime, "%s, Day %d  %d:%d", "Summer", g->dT->day, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Summer, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
         break;
     case Fall:
-        sprintf(guiDateTime, "%s, Day %d  %d:%d", "Fall", g->dT->day, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Fall, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
         break;
     case Winter:
-        sprintf(guiDateTime, "%s, Day %d  %d:%d", "Winter", g->dT->day, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Winter, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
         break;
-
     default:
+        sprintf(guiDateTime, "Undefined, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
         break;
     }
+
     RenderText(g, x+50, y+15, 0, White, Bold, guiDateTime);
+
+    if(g->dT->hour >= 22){
+        AlertGui(g, 2, "It will soon be night.");
+    }
 
     RenderText(g, x + 50, y + 40, 0, Yellow, Bold, "Gold:");
     char gold[100];
