@@ -77,6 +77,7 @@ void UpdateGui(Gui *g)
 
 void RenderText(Gui *g, int x, int y, int w, Color c, Format f, char text[])
 {
+
     SDL_Rect destrect = {x, y, 17, 18};
 
     g->charToPrint.destrect = destrect;
@@ -211,8 +212,6 @@ void GuiInventory(Gui *g)
                 int y = g->inv.destrect.y;
                 Draw(&g->inv);
 
-                Draw(&g->inv);
-
                 RenderText(g, x + (g->inv.destrect.w / 2) - 50, y + 25, 0, White, Bold, "Inventory:");
                 int rows = 0;
                 int xOffset;
@@ -224,14 +223,15 @@ void GuiInventory(Gui *g)
                         rows++;
                         xOffset = 0;
                     }
-                    
                     //RenderText(g, x+25, (y+50 + 20 * i), 0, White, Regular, g->p->ent.items[i].Name);
-                    
+
                     g->p->ent.items[i].d.destrect.x = x + 50 + 36 * xOffset;
                     g->p->ent.items[i].d.destrect.y = y + 50 + 36 * rows;
                     g->p->ent.items[i].d.destrect.w = 32;
                     g->p->ent.items[i].d.destrect.h = 32;
-                    
+
+                    printf(" [ %s;%d;%d ] ", g->p->ent.items[i].Name, g->p->ent.items[i].exists, g->p->ent.items[i].amount);
+
                     if(g->p->ent.items[i].exists != 0){
                         Draw(&g->p->ent.items[i].d);
 
@@ -239,7 +239,7 @@ void GuiInventory(Gui *g)
                         gcvt(g->p->ent.items[i].amount, 6, amount);
                         RenderText(g, (x + 50 + 36*xOffset), (y + 50 + 36 * rows), 0, White, Bold, amount);
                     }
-                    
+
                     xOffset++;
                 }
             }
