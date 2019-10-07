@@ -10,6 +10,7 @@ typedef struct Gui{
     Drawable d;
     Drawable menu;
     Drawable inv;
+    Drawable shaders;
 
     Drawable charToPrint;
 

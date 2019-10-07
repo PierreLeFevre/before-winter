@@ -100,7 +100,7 @@ void ConstructGraphics(Graphics *gfx)
     SDL_FreeSurface(surf);
 
     //GUI
-    surf = IMG_Load("include/assets/GUI.png");
+    surf = IMG_Load("include/assets/gui.png");
     if (!surf)
     {
         printf("Error creating surface (GUI.png): %s\n", SDL_GetError());
@@ -125,7 +125,7 @@ void ConstructGraphics(Graphics *gfx)
     }
     SDL_FreeSurface(surf);
 
-    //SPRINGOBJECTS
+    //SPRING OBJECTS
     surf = IMG_Load("include/assets/unpacked/maps/springobjects.png");
     if (!surf)
     {
@@ -135,6 +135,19 @@ void ConstructGraphics(Graphics *gfx)
     if (!gfx->textures[SS_ITEM])
     {
         printf("Error creating texture (item.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);   
+    
+    //SHADERS
+    surf = IMG_Load("include/assets/shaders.png");
+    if (!surf)
+    {
+        printf("Error creating surface (shaders.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_SHADER] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_SHADER])
+    {
+        printf("Error creating texture (shaderss.png): %s\n", SDL_GetError());
     }
     SDL_FreeSurface(surf);
 }

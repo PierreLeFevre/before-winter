@@ -12,6 +12,7 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     g->menu.gfx = gfx;
     g->inv.gfx = gfx;
     g->promptBg.gfx = gfx;
+    g->shaders.gfx = gfx;
 
     g->p = p;
 
@@ -28,6 +29,10 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     g->promptToggler = 0;
 
     g->dT = dT;
+
+    SDL_Rect shader_src = {0, 0, 10000, 10000};
+    SDL_Rect shader_destRect = {0, 0, g->d.gfx->wWidth, g->d.gfx->wHeight};
+    ConstructDrawable(&g->shaders, DT_GUI, g->charToPrint.gfx, SS_SHADER, shader_src, shader_destRect, 20000);
 
     SDL_Rect char_srcrect = {0, 0, 10000, 10000};
     SDL_Rect charToPrint_destRect = {0, 0, 0, 0};
@@ -56,6 +61,54 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
 
 void UpdateGui(Gui *g)
 {
+
+    switch (g->dT->hour)
+    {
+    case 0:
+        g->shaders.srcrect.x = 0;
+        g->shaders.srcrect.y = 0;
+        g->shaders.srcrect.w = 16;
+        g->shaders.srcrect.h = 16;
+        break;
+    case 2:
+        g->shaders.srcrect.y = 16;
+        break;
+    case 4:
+        g->shaders.srcrect.y = 32;
+        break;
+    case 6:
+        g->shaders.srcrect.y = 48;
+        break;
+    case 8:
+        g->shaders.srcrect.x = 0;
+        g->shaders.srcrect.y = 0;
+        g->shaders.srcrect.w = 0;
+        g->shaders.srcrect.h = 0;
+        break;
+    case 16:
+        g->shaders.srcrect.x = 16;
+        g->shaders.srcrect.y = 48;
+        g->shaders.srcrect.w = 16;
+        g->shaders.srcrect.h = 16;
+        break;
+    case 18:
+        g->shaders.srcrect.y = 32;
+        break;
+    case 20:
+        g->shaders.srcrect.y = 16;
+        break;
+    case 22:
+        g->shaders.srcrect.y = 0;
+        break;
+    }
+
+    g->shaders.destrect.x = 0;
+    g->shaders.destrect.y = 0;
+    g->shaders.destrect.w = g->d.gfx->wWidth;
+    g->shaders.destrect.h = g->d.gfx->wHeight;
+
+    Draw(&g->shaders);
+
     //FPS Counter
     g->last = g->now;
 
