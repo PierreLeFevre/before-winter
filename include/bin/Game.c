@@ -51,8 +51,8 @@ void Go(Game *g)
 void UpdateLogic(Game *g)
 {
 
-    if(g->dateTime.day == 0 && g->dateTime.hour == 0 && g->dateTime.min == 0 && g->dateTime.sec == 0)
-    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
+    if (g->dateTime.day == 0 && g->dateTime.hour == 0 && g->dateTime.min == 0 && g->dateTime.sec == 0)
+        ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
 
     UpdateTime(SDL_GetTicks(), &g->dateTime);
 
@@ -144,7 +144,8 @@ void UpdateLogic(Game *g)
     //----
     UpdateCamera(&g->cam);
 
-    if(g->dateTime.season == Winter){
+    if (g->dateTime.season == Winter)
+    {
         DestroyGame(g);
     }
 }
@@ -303,26 +304,21 @@ void TryPlacePlant(Game *g, PlantEnum plant)
     {
         return;
     }
-    for (int i = 0; i < g->nGoodTiles; i++)
+
+    printf("Test tile number= %d\n", Get_Tile_Number(g->player.ent.hitbox.x, g->player.ent.hitbox.y));
+    int found = 0;
+    for (int j = 0; j < g->nPlants; j++)
     {
-        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
+        if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[j].TextureMap.destrect))
         {
-            int found = 0;
-            for (int j = 0; j < g->nPlants; j++)
-            {
-                if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[j].TextureMap.destrect))
-                {
-                    found++;
-                    break;
-                }
-            }
-            if (found == 0)
-            {
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
-                g->nPlants++;
-            }
+            found++;
             break;
         }
+    }
+    if (found == 0)
+    {
+        CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
+        g->nPlants++;
     }
 }
 void TryHarvestPlant(Game *g, Plant *plant)
