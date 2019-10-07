@@ -22,7 +22,11 @@
 //     int action;
 // };
 // struct Key_Events Key_Event;
-
+struct SaveData
+{
+    float player_X;
+    float player_Y;
+};
 void RemoveCharacterFromArray(char *const buffer, char toRemove, int size);
 double Map(double value, double range_1_min, double range_1_max, double range_2_min, double range_2_max);
 int Cap(int value_in, int cap_to);
@@ -41,6 +45,6 @@ int EventHandler(char idea[20]);
 void CharReverse(char *str);
 char *strcpyMACFRIENDLY(char *d, const char *s);
 
-void saveToFile(float x, float y);
-void loadFromFile();
+void saveToFile(float *x, float *y);
+void loadFromFile(float *x, float *y);
 #endif
