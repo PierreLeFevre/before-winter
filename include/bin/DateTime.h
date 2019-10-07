@@ -1,5 +1,5 @@
 #ifndef DATETIME_H
-#define DATETIMEh
+#define DATETIME_H
 #include "../SDL2/SDL.h"
 typedef struct DateTime{
     Uint32 BaseTick;

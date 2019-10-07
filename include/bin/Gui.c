@@ -162,7 +162,7 @@ void GuiBar(Gui *g)
     RenderText(g, x + 50, y + 15, 0, White, Bold, "Spring, Day 15");
 
     char hour[100];
-    gcvt(g->dT.hour, 6, hour);
+    gcvt(g->dT.min, 6, hour);
     RenderText(g, x + 250, y + 15, 0, White, Bold, hour);
 
     RenderText(g, x + 50, y + 40, 0, Yellow, Bold, "Gold:");
