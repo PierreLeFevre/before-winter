@@ -22,6 +22,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructItem(&g->item, &buildDrawable);
     ConstructEntity(&buildEntity, &buildDrawable);
     ConstructDroppedItem(&g->d_item, &g->item, &buildEntity);
+    ConstructTime(&g->dateTime);
 
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
     g->GoodTiles = (Tile **)malloc(sizeof(Tile *) * 5000);
@@ -48,6 +49,8 @@ void Go(Game *g)
 
 void UpdateLogic(Game *g)
 {
+    UpdateTime(SDL_GetTicks(), &g->dateTime);
+
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
