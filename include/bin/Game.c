@@ -138,7 +138,6 @@ void UpdateLogic(Game *g)
     UpdateDroppedItem(&g->d_item, &g->player);
     //----
     UpdateCamera(&g->cam);
-    UpdateTime(SDL_GetTicks(), &g->dateTime);
 }
 
 void Render(Game *g)
