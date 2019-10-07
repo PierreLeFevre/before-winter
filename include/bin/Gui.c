@@ -187,18 +187,9 @@ void GuiInventory(Gui *g)
     //Draw debug window
     if (g->invToggler > 20)
     {
-        for (int i = 0; i < INVENTORY_SIZE; i++){
-            for (int j = (i + 1); j < INVENTORY_SIZE; j++){
-                if(g->p->ent.items[i].exists){
-                    if(strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0){
-                        g->p->ent.items[j].exists = 0;
-                        g->p->ent.items[i].amount += 1;
-                    }
-                }
-            }
-        }
         if (g->invActive)
         {
+
             if (EventHandler("inventory="))
             {
                 g->invActive = 0;
@@ -251,12 +242,6 @@ void GuiInventory(Gui *g)
                 g->invActive = 1;
                 g->invToggler = 0;
             }
-        }
-    }
-
-    for (int i = 0; i < INVENTORY_SIZE; i++){
-        if (g->p->ent.items[i].amount != 0){
-            g->p->ent.items[i].amount = 1;
         }
     }
 
