@@ -34,6 +34,7 @@ typedef struct Gui{
     Uint32 last;
     Uint32 now;
 
+    DateTime dT;
 }Gui;
 
 typedef enum Color{
@@ -52,7 +53,7 @@ typedef enum Format{
     Bold
 }Format;
 
-void ConstructGui(Gui* g, Graphics* gfx, Player* p);
+void ConstructGui(Gui* g, Graphics* gfx, Player* p, DateTime *d);
 void UpdateGui(Gui* g);
 void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]);
 // each char 15 wide.

@@ -4,7 +4,7 @@
 
 #include "Gui.h"
 
-void ConstructGui(Gui *g, Graphics *gfx, Player *p)
+void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
 {
     g->d.gfx = gfx;
     g->charToPrint.gfx = gfx;
@@ -26,6 +26,8 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p)
     g->invToggler = 0;
 
     g->promptToggler = 0;
+
+    g->dT = *dT;
 
     SDL_Rect char_srcrect = {0, 0, 10000, 10000};
     SDL_Rect charToPrint_destRect = {0, 0, 0, 0};
@@ -158,7 +160,10 @@ void GuiBar(Gui *g)
     //Render gui text
 
     RenderText(g, x + 50, y + 15, 0, White, Bold, "Spring, Day 15");
-    RenderText(g, x + 250, y + 15, 0, White, Bold, "Clear $$1716C");
+
+    char hour[100];
+    gcvt(g->dT.hour, 6, hour);
+    RenderText(g, x + 250, y + 15, 0, White, Bold, hour);
 
     RenderText(g, x + 50, y + 40, 0, Yellow, Bold, "Gold:");
     char gold[100];
@@ -192,8 +197,7 @@ void GuiInventory(Gui *g)
             for (int i = 0; i < INVENTORY_SIZE; i++){
 
                 for (int j = (i + 1); j < INVENTORY_SIZE; j++){
-
-
+                    
                     if(g->p->ent.items[i].exists){
                         if(strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0){
                             g->p->ent.items[j].exists = 0;

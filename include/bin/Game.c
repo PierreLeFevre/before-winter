@@ -16,7 +16,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
-    ConstructGui(&g->gui, &g->gfx, &g->player);
+    ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
 
     ConstructDrawable(&buildDrawable, DT_Other, &g->gfx, SS_ITEM, buildSrcrect, buildDestrect, 10000);
     ConstructItem(&g->item, &buildDrawable);
