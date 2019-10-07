@@ -2,12 +2,12 @@
 1DOWN= 81
 1RIGHT= 79
 1LEFT= 80
-The second
+
 2UP= 26
 2DOWN= 22
 2RIGHT= 7
 2LEFT= 4
-interaction keys
+
 testkey= 20
 inventory= 8
 harvestTemp= 14
