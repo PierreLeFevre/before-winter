@@ -158,8 +158,25 @@ void GuiBar(Gui *g)
     Draw(&g->d);
 
     //Render gui text
-
-    RenderText(g, x + 50, y + 15, 0, White, Bold, "summer, Day");
+    char season[7];
+    switch(g->dT->season){
+        case Spring:
+            strcpy(season, "Spring");
+        break;
+        case Summer:
+            strcpy(season, "Summer");
+        break;
+        case Fall:
+            strcpy(season, "Fall");
+        break;
+        case Winter:
+            strcpy(season, "Winter");
+        break;
+    }
+    char comb[10];
+    strcpy(comb, ", Day");
+    strcat(season, comb);
+    RenderText(g, x + 50, y + 15, 0, White, Bold, comb);
 
 
 

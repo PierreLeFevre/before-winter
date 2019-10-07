@@ -4,6 +4,7 @@ void ConstructTime(DateTime *date){
     date->min = 0;
     date->hour = 0;
     date->day = 0;
+    date->season = Spring;
 }
 void UpdateTime(Uint32 base, DateTime *date){
     date->BaseTick = base;
