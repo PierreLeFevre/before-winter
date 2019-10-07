@@ -1,3 +1,5 @@
+#ifndef DATETIME_H
+#define DATETIMEh
 #include "../SDL2/SDL.h"
 typedef struct DateTime{
     Uint32 BaseTick;
@@ -8,3 +10,4 @@ typedef struct DateTime{
 }DateTime;
 void ConstructTime(DateTime *date);
 void UpdateTime(Uint32 base, DateTime *date);
+#endif
