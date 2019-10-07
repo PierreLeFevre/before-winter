@@ -189,6 +189,19 @@ void GuiInventory(Gui *g)
     {
         if (g->invActive)
         {
+            for (int i = 0; i < INVENTORY_SIZE; i++){
+
+                for (int j = (i + 1); j < INVENTORY_SIZE; j++){
+
+
+                    if(g->p->ent.items[i].exists){
+                        if(strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0){
+                            g->p->ent.items[j].exists = 0;
+                            g->p->ent.items[i].amount += 1;
+                        }
+                    }
+                }
+            }
 
             if (EventHandler("inventory="))
             {
@@ -221,8 +234,6 @@ void GuiInventory(Gui *g)
                     g->p->ent.items[i].d.destrect.w = 32;
                     g->p->ent.items[i].d.destrect.h = 32;
 
-                    printf(" [ %s;%d;%d ] ", g->p->ent.items[i].Name, g->p->ent.items[i].exists, g->p->ent.items[i].amount);
-
                     if(g->p->ent.items[i].exists != 0){
                         Draw(&g->p->ent.items[i].d);
 
@@ -242,6 +253,12 @@ void GuiInventory(Gui *g)
                 g->invActive = 1;
                 g->invToggler = 0;
             }
+        }
+    }
+
+    for (int i = 0; i < INVENTORY_SIZE; i++){
+        if (g->p->ent.items[i].amount != 0){
+            g->p->ent.items[i].amount = 1;
         }
     }
 
