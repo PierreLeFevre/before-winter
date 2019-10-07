@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-
+#include <stdio.h>
 #include "Gui.h"
 
 void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
@@ -158,41 +158,27 @@ void GuiBar(Gui *g)
     Draw(&g->d);
 
     //Render gui text
-    char season[7];
-    switch(g->dT->season){
-        case Spring:
-            strcpy(season, "Spring");
+
+    char guiDateTime[100];
+    switch (g->dT->season)
+    {
+    case Spring:
+        sprintf(guiDateTime, "%s, Day %d  %d:%d", "Spring", g->dT->day, g->dT->hour, g->dT->min);
         break;
-        case Summer:
-            strcpy(season, "Summer");
+    case Summer:
+        sprintf(guiDateTime, "%s, Day %d  %d:%d", "Summer", g->dT->day, g->dT->hour, g->dT->min);
         break;
-        case Fall:
-            strcpy(season, "Fall");
+    case Fall:
+        sprintf(guiDateTime, "%s, Day %d  %d:%d", "Fall", g->dT->day, g->dT->hour, g->dT->min);
         break;
-        case Winter:
-            strcpy(season, "Winter");
+    case Winter:
+        sprintf(guiDateTime, "%s, Day %d  %d:%d", "Winter", g->dT->day, g->dT->hour, g->dT->min);
+        break;
+
+    default:
         break;
     }
-    char comb[10];
-    strcpy(comb, ", Day");
-    strcat(season, comb);
-    RenderText(g, x + 50, y + 15, 0, White, Bold, comb);
-
-
-
-    char day[10];
-    gcvt(g->dT->day, 6, day);
-    RenderText(g, x+175, y+15, 0, White, Bold, day);
-
-    char hour[6];
-    gcvt(g->dT->hour, 6, hour);
-    RenderText(g, x + 250, y + 15, 0, White, Bold, hour);
-
-    RenderText(g, x + 280, y + 15, 0, White, Bold, ":");
-
-    char min[6];
-    gcvt(g->dT->min, 6, min);
-    RenderText(g, x + 295, y + 15, 0, White, Bold, min);
+    RenderText(g, x+50, y+15, 0, White, Bold, guiDateTime);
 
     RenderText(g, x + 50, y + 40, 0, Yellow, Bold, "Gold:");
     char gold[100];
