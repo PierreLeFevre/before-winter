@@ -20,4 +20,8 @@ void UpdateTime(Uint32 base, DateTime *date){
         date->hour = 0;
         date->days++;
     }
+    if (date->days >= 10){
+        date->days = 0;
+        date->season++;
+    }
 }
