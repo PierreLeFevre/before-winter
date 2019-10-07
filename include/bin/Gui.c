@@ -59,55 +59,12 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     ConstructDrawable(&g->promptBg, DT_GUI, g->d.gfx, SS_GUI, prompt_srcrect, prompt_destrect, 19994);
 }
 
+
+
 void UpdateGui(Gui *g)
-{
-
-    switch (g->dT->hour)
-    {
-    case 0:
-        g->shaders.srcrect.x = 0;
-        g->shaders.srcrect.y = 0;
-        g->shaders.srcrect.w = 16;
-        g->shaders.srcrect.h = 16;
-        break;
-    case 2:
-        g->shaders.srcrect.y = 16;
-        break;
-    case 4:
-        g->shaders.srcrect.y = 32;
-        break;
-    case 6:
-        g->shaders.srcrect.y = 48;
-        break;
-    case 8:
-        g->shaders.srcrect.x = 0;
-        g->shaders.srcrect.y = 0;
-        g->shaders.srcrect.w = 0;
-        g->shaders.srcrect.h = 0;
-        break;
-    case 16:
-        g->shaders.srcrect.x = 16;
-        g->shaders.srcrect.y = 48;
-        g->shaders.srcrect.w = 16;
-        g->shaders.srcrect.h = 16;
-        break;
-    case 18:
-        g->shaders.srcrect.y = 32;
-        break;
-    case 20:
-        g->shaders.srcrect.y = 16;
-        break;
-    case 22:
-        g->shaders.srcrect.y = 0;
-        break;
-    }
-
-    g->shaders.destrect.x = 0;
-    g->shaders.destrect.y = 0;
-    g->shaders.destrect.w = g->d.gfx->wWidth;
-    g->shaders.destrect.h = g->d.gfx->wHeight;
-
-    Draw(&g->shaders);
+{   
+    //Draw shaders on game to represent lighting at different times of day
+    GuiShaders(g);
 
     //FPS Counter
     g->last = g->now;
@@ -118,7 +75,7 @@ void UpdateGui(Gui *g)
     char strFPS[100];
     gcvt(round(dT), 6, strFPS);
     RenderText(g, 15, g->d.gfx->wHeight - 25, 0, White, Bold, strFPS);
-
+    
     GuiMenu(g);
 
     if (!g->menuActive)
@@ -199,6 +156,56 @@ void MsgBoxShow(Gui *g, char message[201])
 {
     strcpy(g->message, message);
     g->messageActive = 1;
+}
+
+void GuiShaders(Gui *g)
+{
+    switch (g->dT->hour)
+    {
+    case 0:
+        g->shaders.srcrect.x = 0;
+        g->shaders.srcrect.y = 0;
+        g->shaders.srcrect.w = 16;
+        g->shaders.srcrect.h = 16;
+        break;
+    case 2:
+        g->shaders.srcrect.y = 16;
+        break;
+    case 4:
+        g->shaders.srcrect.y = 32;
+        break;
+    case 6:
+        g->shaders.srcrect.y = 48;
+        break;
+    case 8:
+        g->shaders.srcrect.x = 0;
+        g->shaders.srcrect.y = 0;
+        g->shaders.srcrect.w = 0;
+        g->shaders.srcrect.h = 0;
+        break;
+    case 16:
+        g->shaders.srcrect.x = 16;
+        g->shaders.srcrect.y = 48;
+        g->shaders.srcrect.w = 16;
+        g->shaders.srcrect.h = 16;
+        break;
+    case 18:
+        g->shaders.srcrect.y = 32;
+        break;
+    case 20:
+        g->shaders.srcrect.y = 16;
+        break;
+    case 22:
+        g->shaders.srcrect.y = 0;
+        break;
+    }
+
+    g->shaders.destrect.x = 0;
+    g->shaders.destrect.y = 0;
+    g->shaders.destrect.w = g->d.gfx->wWidth;
+    g->shaders.destrect.h = g->d.gfx->wHeight;
+
+    Draw(&g->shaders);
 }
 
 void GuiBar(Gui *g)
