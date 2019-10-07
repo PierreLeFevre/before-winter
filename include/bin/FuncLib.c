@@ -221,7 +221,7 @@ char *strcpyMACFRIENDLY(char *s1, const char *s2)
 }
 int Get_Tile_Number(int x, int y)
 {
-    return (x / 60) + ((y / 60) * 60);
+    return (x / 32) + ((y / 32) * 60);
 }
 int Get_Option(char Option[20])
 {
