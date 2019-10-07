@@ -60,7 +60,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         //Hitbox is the drawn texture
         SDL_Rect hitbox = destrect;
 
-        ////Row 1 = 10, Row 2 = 20....
+        //Row 1 = 10, Row 2 = 20....
         int z_index = (tm->topleft_y + (int)(i / tm->nTiles_x) * TILE_Z_INDEX_MAX);
         
         Drawable drawable;
@@ -159,12 +159,13 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             tp.srcrect.h = 16;
             break;
         case TREE:
-            tp.destrect_offset.h += TILE_HEIGHT * 5;
-            tp.destrect_offset.w += TILE_HEIGHT * 3;
-            tp.destrect_offset.x -= TILE_HEIGHT;
+            tp.destrect_offset.w += TILE_WIDTH * 2;
+            tp.destrect_offset.h += TILE_HEIGHT * 4;
+            tp.destrect_offset.x -= TILE_WIDTH;
 
-            tp.hitbox_offset.x -= TILE_HEIGHT * 5;
-            tp.hitbox_offset.y -= TILE_HEIGHT * 3;
+            tp.hitbox_offset.w -= TILE_WIDTH * 2;
+            tp.hitbox_offset.h -= TILE_HEIGHT * 4;
+            tp.hitbox_offset.x += TILE_WIDTH;
             tp.z_index_offset += 90;
 
             tp.srcrect.x = 48;
@@ -200,8 +201,8 @@ void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* drawable, SD
 
     drawable->destrect.x += tp->drawable_x_correct + tp->destrect_offset.x;
     drawable->destrect.y += tp->drawable_y_correct + tp->destrect_offset.y;
-    drawable->destrect.w += tp->destrect_offset.w + tp->destrect_offset.x;
-    drawable->destrect.h += tp->destrect_offset.h + tp->destrect_offset.y;
+    drawable->destrect.w += tp->destrect_offset.w;
+    drawable->destrect.h += tp->destrect_offset.h;
 
     drawable->srcrect.x = tp->srcrect.x;
     drawable->srcrect.y = tp->srcrect.y;
@@ -211,8 +212,8 @@ void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* drawable, SD
     *hitbox = drawable->destrect;
     hitbox->x += tp->hitbox_x_correct + tp->hitbox_offset.x;
     hitbox->y += tp->hitbox_y_correct + tp->hitbox_offset.y;
-    hitbox->w += tp->hitbox_offset.w + tp->hitbox_offset.x;
-    hitbox->h += tp->hitbox_offset.h + tp->hitbox_offset.y;
+    hitbox->w += tp->hitbox_offset.w;
+    hitbox->h += tp->hitbox_offset.h;
 
     drawable->z_index += tp->z_index_offset + Map(tp->destrect_offset.y, 0, TILE_HEIGHT, 0, TILE_Z_INDEX_MAX); 
 }
