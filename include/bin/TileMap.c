@@ -1,5 +1,6 @@
 #include "TileMap.h"
 #include "FuncLib.h"
+#include "DateTime.h"
 
 #include "../SDL2/SDL_image.h"
 
@@ -8,7 +9,7 @@
 #include <math.h>
 #include <string.h>
 
-void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file){
+void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file, DateTime* dT){
     tm->gfx = gfx;
     tm->tiles = (Tile*) malloc(sizeof(Tile) * nTiles_x * nTiles_y);
     tm->nTiles_x = nTiles_x;
@@ -63,7 +64,23 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         int z_index = (tm->topleft_y + (int)(i / tm->nTiles_x) * TILE_Z_INDEX_MAX);
         
         Drawable drawable;
-        ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP, srcrect, destrect, z_index);
+
+        switch (dT->season)
+        {
+        case Spring:
+            ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP_SPRING, srcrect, destrect, z_index);
+            break;
+        case Summer:
+            ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP_SUMMER, srcrect, destrect, z_index);
+            break;
+        case Fall:
+            ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP_FALL, srcrect, destrect, z_index);
+            break;
+        default:
+            ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP_SPRING, srcrect, destrect, z_index);
+            break;
+        }
+
         // ----------------------------------
         
         TileProperties tp = GetTilePropertiesData(*mapData - '0');

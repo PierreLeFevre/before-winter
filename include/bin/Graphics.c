@@ -34,16 +34,42 @@ void ConstructGraphics(Graphics *gfx)
     }
 
     SDL_Surface *surf;
-    //TILEMAP
+    //TILEMAP SPRING
     surf = IMG_Load("include/assets/unpacked/maps/spring_outdoorsTileSheet.png");
     if (!surf)
     {
         printf("Error creating surface (spring_outdoorsTileSheet.png): %s\n", SDL_GetError());
     }
-    gfx->textures[SS_TILEMAP] = SDL_CreateTextureFromSurface(gfx->rend, surf);
-    if (!gfx->textures[SS_TILEMAP])
+    gfx->textures[SS_TILEMAP_SPRING] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_TILEMAP_SPRING])
     {
         printf("Error creating texture (spring_outdoorsTileSheet.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+
+    //TILEMAP SUMMER
+    surf = IMG_Load("include/assets/unpacked/maps/summer_outdoorsTileSheet.png");
+    if (!surf)
+    {
+        printf("Error creating surface (summer_outdoorsTileSheet.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_TILEMAP_SUMMER] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_TILEMAP_SUMMER])
+    {
+        printf("Error creating texture (summer_outdoorsTileSheet.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+
+    //TILEMAP FALL
+    surf = IMG_Load("include/assets/unpacked/maps/fall_outdoorsTileSheet.png");
+    if (!surf)
+    {
+        printf("Error creating surface (fall_outdoorsTileSheet.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_TILEMAP_FALL] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_TILEMAP_FALL])
+    {
+        printf("Error creating texture (fall_outdoorsTileSheet.png): %s\n", SDL_GetError());
     }
     SDL_FreeSurface(surf);
 

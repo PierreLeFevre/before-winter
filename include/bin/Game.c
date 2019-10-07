@@ -13,7 +13,7 @@ void ConstructGame(Game *g, int *noExit)
     SDL_Rect buildSrcrect = {272, 416, 16, 16};
     SDL_Rect buildDestrect = {300, 300, 16, 16};
     ConstructGraphics(&g->gfx);
-    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
+    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
@@ -50,6 +50,10 @@ void Go(Game *g)
 
 void UpdateLogic(Game *g)
 {
+
+    if(g->dateTime.day == 0 && g->dateTime.hour == 0 && g->dateTime.min == 0 && g->dateTime.sec == 0)
+    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
+
     UpdateTime(SDL_GetTicks(), &g->dateTime);
 
     CalculateGoodTiles(g);

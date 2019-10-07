@@ -1,4 +1,5 @@
 #include "Tile.h"
+#include "DateTime.h"
 
 typedef struct TileMap{
     Graphics* gfx;
@@ -36,7 +37,7 @@ typedef enum MapDataConverter{
     WATER_TOP
 }MapDataConverter;
 
-void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file);
+void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file, DateTime* dT);
 void DestroyTileMap(TileMap* tm);
 
 void FixTileTransistions(TileMap* tm);
