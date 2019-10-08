@@ -301,6 +301,7 @@ void loadFromFile(char saveFileName[20 + 1], float *x, float *y)
     if (!loadFile)
     {
         printf("loading file failed\n");
+        return;
     }
     fread(&saver, sizeof(struct SaveData), 1, loadFile);
     fclose(loadFile);
