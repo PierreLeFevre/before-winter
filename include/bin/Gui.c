@@ -59,8 +59,6 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     ConstructDrawable(&g->promptBg, DT_GUI, g->d.gfx, SS_GUI, prompt_srcrect, prompt_destrect, 19994);
 }
 
-
-
 void UpdateGui(Gui *g)
 {   
     //Draw shaders on game to represent lighting at different times of day
