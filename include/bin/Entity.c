@@ -14,6 +14,7 @@ void ConstructEntity(Entity *e, Drawable *d)
     e->interaction_hitbox_offset = 25;
     e->deadTrigger = SDL_FALSE;
 
+    e->items = (Item*)malloc(sizeof(Item) * INVENTORY_SIZE);
     for(int i = 0; i < INVENTORY_SIZE; i++){
         e->items[i].d.gfx = e->d.gfx;
     }

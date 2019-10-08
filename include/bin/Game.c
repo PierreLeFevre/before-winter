@@ -51,11 +51,10 @@ void Go(Game *g)
 void UpdateLogic(Game *g)
 {
 
-    if(g->dateTime.day == 0 && g->dateTime.hour == 0 && g->dateTime.min == 0 && g->dateTime.sec == 0)
-    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
+    if (g->dateTime.day == 0 && g->dateTime.hour == 0 && g->dateTime.min == 0 && g->dateTime.sec == 0)
+        ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
 
     UpdateTime(SDL_GetTicks(), &g->dateTime);
-
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
@@ -144,7 +143,8 @@ void UpdateLogic(Game *g)
     //----
     UpdateCamera(&g->cam);
 
-    if(g->dateTime.season == Winter){
+    if (g->dateTime.season == Winter)
+    {
         DestroyGame(g);
     }
 }

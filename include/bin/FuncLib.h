@@ -22,7 +22,11 @@
 //     int action;
 // };
 // struct Key_Events Key_Event;
-
+struct SaveData
+{
+    float player_X;
+    float player_Y;
+};
 void RemoveCharacterFromArray(char *const buffer, char toRemove, int size);
 double Map(double value, double range_1_min, double range_1_max, double range_2_min, double range_2_max);
 int Cap(int value_in, int cap_to);
@@ -34,7 +38,6 @@ float signf(float A);
 float min(float a, float b);
 float speed_cap(float Value, float Cap);
 char *IntToCharArray(int nr);
-int Get_Tile_Number(int X, int Y);
 int Get_Option(char option[20]);
 //void Key_Options();
 int EventHandler(char idea[20]);
@@ -42,6 +45,6 @@ int EventHandler(char idea[20]);
 void CharReverse(char *str);
 char *strcpyMACFRIENDLY(char *d, const char *s);
 
-void saveToFile(float x, float y);
-void loadFromFile();
+void saveToFile(char saveFileName[20 + 1], float *x, float *y);
+void loadFromFile(char saveFileName[20 + 1], float *x, float *y);
 #endif
