@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 //#define DEBUG
+//#define HarvestDebug
 
 void ConstructGame(Game *g, int *noExit)
 {
@@ -357,10 +358,12 @@ void TryHarvestPlant(Game *g, Plant *plant)
         {
             //DELETE PLANT
             //PROCC DROPPED ITEMS ON
+            #ifdef HarvestDebug
             Entity e;
             ConstructEntity(&e, &plant->GrownItems.d);
             ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
             g->nDroppedItems++;
+            #endif
             DeletePlant(g, plant);
         }
     }
