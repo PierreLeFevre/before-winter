@@ -8,22 +8,16 @@
 
 void ConstructGame(Game *g, int *noExit)
 {
-    Entity buildEntity;
-    Drawable buildDrawable;
-    SDL_Rect buildSrcrect = {272, 416, 16, 16};
-    SDL_Rect buildDestrect = {300, 300, 16, 16};
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
 
-    ConstructDrawable(&buildDrawable, DT_Other, &g->gfx, SS_ITEM, buildSrcrect, buildDestrect, 10000);
-    ConstructItem(&g->item, &buildDrawable);
-    ConstructEntity(&buildEntity, &buildDrawable);
-    ConstructDroppedItem(&g->d_item, &g->item, &buildEntity);
     ConstructTime(&g->dateTime);
 
+    g->nDroppedItems = 0;
+    g->droppedItems = (DroppedItem **)malloc(sizeof(DroppedItem *) * 5000);
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
     g->GoodTiles = (Tile **)malloc(sizeof(Tile *) * 5000);
     g->nPlants = 0;
@@ -36,6 +30,8 @@ void DestroyGame(Game *g)
     g->RenderList = NULL;
     free(g->GoodTiles);
     g->GoodTiles = NULL;
+    free(g->droppedItems);
+    g->droppedItems = NULL;
     DestroyTileMap(&g->tileMap);
     DestroyGraphics(&g->gfx);
 }
@@ -138,9 +134,16 @@ void UpdateLogic(Game *g)
     {
         UpdatePlant(&g->plants[i], SDL_GetTicks());
     }
-    //TEMP
-    UpdateDroppedItem(&g->d_item, &g->player);
-    //----
+    for (int i = 0; i < g->nDroppedItems; i++){
+        if (g->droppedItems[i]->exists == 0){
+            g->droppedItems[i] = g->droppedItems[i + 1];
+            g->nDroppedItems--;
+        }
+        else{
+            UpdateDroppedItem(g->droppedItems[i], &g->player);
+        }
+    }
+
     UpdateCamera(&g->cam);
 
     if (g->dateTime.season == Winter)
@@ -157,8 +160,10 @@ void Render(Game *g)
 
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
-    AddToRenderList(g, &g->d_item.ent.d);
 
+    for (int i = 0; i < g->nDroppedItems; i++){
+        AddToRenderList(g, &g->droppedItems[i]->ent->d);
+    }
     for (int i = 0; i < g->nPlants; i++)
     {
         AddToRenderList(g, &g->plants[i].TextureMap);
@@ -352,10 +357,10 @@ void TryHarvestPlant(Game *g, Plant *plant)
         {
             //DELETE PLANT
             //PROCC DROPPED ITEMS ON
-            g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
-            g->player.ent.items[g->player.ent.n_items].exists = 1;
-            g->player.ent.items[g->player.ent.n_items].amount = 1;
-            g->player.ent.n_items++;
+            Entity e;
+            ConstructEntity(&e, &plant->GrownItems.d);
+            ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
+            g->nDroppedItems++;
             DeletePlant(g, plant);
         }
     }

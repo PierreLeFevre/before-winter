@@ -5,9 +5,10 @@
 
 typedef struct DroppedItem{
     Item* item;
-    Entity ent;
+    Entity *ent;
     float x_desired;
     float y_desired;
+    int exists;
 }DroppedItem;
 
 void ConstructDroppedItem(DroppedItem* d_item, Item* item, Entity* ent);
