@@ -59,10 +59,8 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     ConstructDrawable(&g->promptBg, DT_GUI, g->d.gfx, SS_GUI, prompt_srcrect, prompt_destrect, 19994);
 }
 
-
-
 void UpdateGui(Gui *g)
-{   
+{
     //Draw shaders on game to represent lighting at different times of day
     GuiShaders(g);
 
@@ -75,7 +73,7 @@ void UpdateGui(Gui *g)
     char strFPS[100];
     gcvt(round(dT), 6, strFPS);
     RenderText(g, 15, g->d.gfx->wHeight - 25, 0, White, Bold, strFPS);
-    
+
     GuiMenu(g);
 
     if (!g->menuActive)
@@ -239,9 +237,10 @@ void GuiBar(Gui *g)
         break;
     }
 
-    RenderText(g, x+50, y+15, 0, White, Bold, guiDateTime);
+    RenderText(g, x + 50, y + 15, 0, White, Bold, guiDateTime);
 
-    if(g->dT->hour >= 22){
+    if (g->dT->hour >= 22)
+    {
         AlertGui(g, 2, "It will soon be night.");
     }
 
@@ -274,12 +273,16 @@ void GuiInventory(Gui *g)
     {
         if (g->invActive)
         {
-            for (int i = 0; i < INVENTORY_SIZE; i++){
+            for (int i = 0; i < INVENTORY_SIZE; i++)
+            {
 
-                for (int j = (i + 1); j < INVENTORY_SIZE; j++){
-                    
-                    if(g->p->ent.items[i].exists){
-                        if(strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0){
+                for (int j = (i + 1); j < INVENTORY_SIZE; j++)
+                {
+
+                    if (g->p->ent.items[i].exists)
+                    {
+                        if (strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0)
+                        {
                             g->p->ent.items[j].exists = 0;
                             g->p->ent.items[i].amount += 1;
                         }
@@ -318,12 +321,13 @@ void GuiInventory(Gui *g)
                     g->p->ent.items[i].d.destrect.w = 32;
                     g->p->ent.items[i].d.destrect.h = 32;
 
-                    if(g->p->ent.items[i].exists != 0){
+                    if (g->p->ent.items[i].exists != 0)
+                    {
                         Draw(&g->p->ent.items[i].d);
 
                         char amount[100];
                         gcvt(g->p->ent.items[i].amount, 6, amount);
-                        RenderText(g, (x + 50 + 36*xOffset), (y + 50 + 36 * rows), 0, White, Bold, amount);
+                        RenderText(g, (x + 50 + 36 * xOffset), (y + 50 + 36 * rows), 0, White, Bold, amount);
                     }
 
                     xOffset++;
@@ -340,8 +344,10 @@ void GuiInventory(Gui *g)
         }
     }
 
-    for (int i = 0; i < INVENTORY_SIZE; i++){
-        if (g->p->ent.items[i].amount != 0){
+    for (int i = 0; i < INVENTORY_SIZE; i++)
+    {
+        if (g->p->ent.items[i].amount != 0)
+        {
             g->p->ent.items[i].amount = 1;
         }
     }
@@ -454,10 +460,10 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 2:
-                        saveToFile(g->p->ent.x_pos, g->p->ent.y_pos);
+                        saveToFile("Saves/save1.sav", &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
                     case 3:
-                        loadFromFile();
+                        loadFromFile("Saves/save1.sav", &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
                     }
                 }

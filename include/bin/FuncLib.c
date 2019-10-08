@@ -278,24 +278,33 @@ int EventHandler(char thinboi[20])
     return 0;
 }
 
-void saveToFile(float x, float y)
+void saveToFile(char saveFileName[20 + 1], float *x, float *y)
 {
-    FILE *ptr_myfile;
-    struct Save
-    {
-        float player_X;
-        float player_Y;
-    };
-    struct Save saver;
+    FILE *saveFile;
+    struct SaveData saver;
 
-    saver.player_X = x;
-    saver.player_Y = y;
-    ptr_myfile = fopen("save.sav", "wb");
-    if (!ptr_myfile)
+    saver.player_X = *x;
+    saver.player_Y = *y;
+    saveFile = fopen(saveFileName, "wb");
+    if (!saveFile)
     {
-        printf("Unable to open file!");
+        printf("Save file failed\n");
     }
-    fwrite(&saver, sizeof(struct Save), 1, ptr_myfile);
-    fclose(ptr_myfile);
+    fwrite(&saver, sizeof(struct SaveData), 1, saveFile);
+    fclose(saveFile);
 }
-void loadFromFile() { return; }
+void loadFromFile(char saveFileName[20 + 1], float *x, float *y)
+{
+    FILE *loadFile;
+    struct SaveData saver;
+    loadFile = fopen(saveFileName, "rb");
+    if (!loadFile)
+    {
+        printf("FuncLib.c Error:%s\n", strerror(errno));
+        return;
+    }
+    fread(&saver, sizeof(struct SaveData), 1, loadFile);
+    fclose(loadFile);
+    *x = saver.player_X;
+    *y = saver.player_Y;
+}
