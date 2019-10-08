@@ -300,7 +300,7 @@ void loadFromFile(char saveFileName[20 + 1], float *x, float *y)
     loadFile = fopen(saveFileName, "rb");
     if (!loadFile)
     {
-        printf("loading file failed\n");
+        printf("FuncLib.c Error:%s\n", strerror(errno));
         return;
     }
     fread(&saver, sizeof(struct SaveData), 1, loadFile);
