@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 void RemoveCharacterFromArray(char *const buffer, char toRemove, int size)
 {
