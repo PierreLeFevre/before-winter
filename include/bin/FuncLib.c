@@ -278,14 +278,14 @@ int EventHandler(char thinboi[20])
     return 0;
 }
 
-void saveToFile(float *x, float *y)
+void saveToFile(char saveFileName[20 + 1], float *x, float *y)
 {
     FILE *saveFile;
     struct SaveData saver;
 
     saver.player_X = *x;
     saver.player_Y = *y;
-    saveFile = fopen("save.sav", "wb");
+    saveFile = fopen(saveFileName, "wb");
     if (!saveFile)
     {
         printf("Save file failed\n");
@@ -293,11 +293,11 @@ void saveToFile(float *x, float *y)
     fwrite(&saver, sizeof(struct SaveData), 1, saveFile);
     fclose(saveFile);
 }
-void loadFromFile(float *x, float *y)
+void loadFromFile(char saveFileName[20 + 1], float *x, float *y)
 {
     FILE *loadFile;
     struct SaveData saver;
-    loadFile = fopen("save.sav", "rb");
+    loadFile = fopen(saveFileName, "rb");
     if (!loadFile)
     {
         printf("loading file failed\n");

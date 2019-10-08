@@ -460,10 +460,10 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 2:
-                        saveToFile(&g->p->ent.x_pos, &g->p->ent.y_pos);
+                        saveToFile("Saves/save1.sav", &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
                     case 3:
-                        loadFromFile(&g->p->ent.x_pos, &g->p->ent.y_pos);
+                        loadFromFile("Saves/save1.sav", &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
                     }
                 }

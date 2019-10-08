@@ -45,6 +45,6 @@ int EventHandler(char idea[20]);
 void CharReverse(char *str);
 char *strcpyMACFRIENDLY(char *d, const char *s);
 
-void saveToFile(float *x, float *y);
-void loadFromFile(float *x, float *y);
+void saveToFile(char saveFileName[20 + 1], float *x, float *y);
+void loadFromFile(char saveFileName[20 + 1], float *x, float *y);
 #endif
