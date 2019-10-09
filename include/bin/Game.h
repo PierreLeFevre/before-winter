@@ -9,7 +9,7 @@
 #include "DateTime.h"
 
 #define MAXPLANTS 100
-
+#define MAXDROPS 2
 typedef enum GameState
 {
     Startmenu,
@@ -43,8 +43,8 @@ typedef struct Game
     Gui gui;
 
     //TEMP
-    Item item;
-    DroppedItem d_item;
+    int nDroppedItems;
+    DroppedItem **droppedItems;
     //----
     DateTime dateTime;
 } Game;

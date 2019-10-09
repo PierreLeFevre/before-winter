@@ -5,7 +5,7 @@
 #include "Plants.h"
 #include "Tile.h"
 
-#define INVENTORY_SIZE 1000
+#define INVENTORY_SIZE 97
 typedef struct Entity
 {
     Drawable d;
@@ -33,7 +33,7 @@ typedef struct Entity
 
     int Gold;
 
-    Item* items;
+    Item items[INVENTORY_SIZE];
     int n_items;
 
     Item droppableItem;

@@ -14,6 +14,7 @@
         <a href="#welcome">welcome</a>
         <a href="#item">item</a>
         <a href="#gui">gui</a>
+        <a href="#Eventhandeling">Eventhandeling</a>
 
         </div>
         <div class="content-wrapper">
@@ -93,6 +94,15 @@
                 
                 
             </section>
+			
+			<section id="Eventhandeling">
+                <a href="#Eventhandeling"><h1>#Eventhandeling</h1></a>
+                <p>reads the events on your keyboard</p>
+                <p>creating a new event key first find the scancode for your key example 26 it's W.<br>Then give it a name that no other key has example UP1<br> last you need to add = so the finished new line looks like this "UP1= 26" in options.txt  </p>
+                <p>eventhandler(["the event name"]) example eventhandler("UP1=")</p>
+				<p></p>
+				<p>the return value is 0 for false(the key was not pressed)<br>1 for true(the key was pressed)</p>
+            </section> 
             
         </div>
     </div>
