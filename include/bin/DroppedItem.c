@@ -42,10 +42,9 @@ void UpdateDroppedItem(DroppedItem* d_item, Player* player){
         //Pick up item
         if (player->ent.n_items < INVENTORY_SIZE){
             d_item->exists = 0;
-            Item i = *d_item->item;
-            i.exists = 1;
-            i.amount = 1;
-            player->ent.items[player->ent.n_items] = i;
+            player->ent.items[player->ent.n_items] = *d_item->item;
+            player->ent.items[player->ent.n_items].exists = 1;
+            player->ent.items[player->ent.n_items].amount = 1;
             player->ent.n_items++;
         }
     }
