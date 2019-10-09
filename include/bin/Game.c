@@ -10,13 +10,11 @@
 void ConstructGame(Game *g, int *noExit)
 {
     ConstructGraphics(&g->gfx);
-    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
+    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
-    CreateAllStandardItems(g);
-    ConstructTime(&g->dateTime);
-
+    ConstructTime(&g->dateTime, &g->tileMap);
     g->nDroppedItems = 0;
     g->droppedItems = (DroppedItem **)malloc(sizeof(DroppedItem *) * 5000);
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
@@ -47,9 +45,6 @@ void Go(Game *g)
 
 void UpdateLogic(Game *g)
 {
-    if (g->dateTime.day == 0 && g->dateTime.hour == 0 && g->dateTime.min == 0 && g->dateTime.sec == 0)
-        ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
-
     UpdateTime(SDL_GetTicks(), &g->dateTime);
     CalculateGoodTiles(g);
     HandleEvents(g);
@@ -262,6 +257,13 @@ void AddTileMapToRenderList(Game *g)
         {
             AddToRenderList(g, &g->GoodTiles[i]->drawables[j]);
         }
+        for (int j = 0; j < 1; j++)
+        {
+            if(g->GoodTiles[i]->overlays_used[j])
+            {
+                AddToRenderList(g, &g->GoodTiles[i]->overlays[j]);
+            }
+        }
     }
 }
 void RenderList(Game *g)
@@ -273,18 +275,7 @@ void RenderList(Game *g)
 }
 void SortRenderList(Game *g)
 {
-    for (int i = 0; i < g->nToRender - 1; ++i)
-    {
-        for (int j = 0; j < g->nToRender - 1 - i; ++j)
-        {
-            if (g->RenderList[j]->z_index > g->RenderList[j + 1]->z_index)
-            {
-                Drawable *temp = g->RenderList[j + 1];
-                g->RenderList[j + 1] = g->RenderList[j];
-                g->RenderList[j] = temp;
-            }
-        }
-    }
+    DrawableMergeSort(g->RenderList, 0, g->nToRender - 1);
 }
 void CreateAllStandardItems(Game *g)
 {
@@ -399,4 +390,81 @@ void DeletePlant(Game *g, Plant *plant)
             break;
         }
     }
+}
+
+
+void DrawableMerge(Drawable* DrawablesCurrentSort[], int l, int m, int r)
+{
+		int i, j, k;		// left_index, right_index and merged_index
+		int n1 = m - l + 1; // N elements in left sub-array
+		int n2 = r - m;		// N elements in right sub-array
+
+		// create temp sub-arrays for left and right side
+		Drawable** DrawablesToSort_L;
+        DrawablesToSort_L = (Drawable**)malloc(sizeof(Drawable*) * n1);
+        Drawable** DrawablesToSort_R;
+        DrawablesToSort_R = (Drawable**)malloc(sizeof(Drawable*) * n2);
+
+		// copy data to temp vectors currSort_L and currSort_R
+		for (i = 0; i < n1; i++){
+			DrawablesToSort_L[i] = DrawablesCurrentSort[l + i];
+        }
+
+		for (j = 0; j < n2; j++){
+			DrawablesToSort_R[j] = DrawablesCurrentSort[m + 1 + j];
+        }
+
+		// merge the temp temp sub-arrays back into DrawablesCurrentSort
+        // indicies to start with
+		i = 0; j = 0; k = l; 
+		while (i < n1 && j < n2)
+		{
+			if (DrawablesToSort_L[i]->z_index <= DrawablesToSort_R[j]->z_index)
+			{
+				DrawablesCurrentSort[k] = DrawablesToSort_L[i];
+				i++;
+			}
+			else
+			{
+				DrawablesCurrentSort[k] = DrawablesToSort_R[j];
+				j++;
+			}
+			k++;
+		}
+
+		// copy the left-over elements of DrawablesToSort_L, should there be any...
+		while (i < n1)
+		{
+			DrawablesCurrentSort[k] = DrawablesToSort_L[i];
+			i++;
+			k++;
+		}
+
+		// copy the left-over elements of DrawablesToSort_R, should there be any...
+		while (j < n2)
+		{
+			DrawablesCurrentSort[k] = DrawablesToSort_R[j];
+			j++;
+			k++;
+		}
+        free(DrawablesToSort_L);
+        free(DrawablesToSort_R);
+}
+
+void DrawableMergeSort(Drawable* DrawablesCurrentSort[], int l, int r)
+{
+	//  l = first index      r = last index
+	// "If size of DrawablesCurrentSort is two or larger"
+    // "If not, algorithm is at the bottom of the merge-chain
+    if (l < r)
+	{
+        //m = middle
+		int m = l + (r - l) / 2;
+
+		// Sort first and second halves, recursively
+		DrawableMergeSort(DrawablesCurrentSort, l, m);
+		DrawableMergeSort(DrawablesCurrentSort, m + 1, r);
+
+		DrawableMerge(DrawablesCurrentSort, l, m, r);	
+	}
 }

@@ -1,6 +1,7 @@
 #ifndef DATETIME_H
 #define DATETIME_H
 #include "../SDL2/SDL.h"
+#include "TileMap.h"
 typedef enum SeasonTypes{
     Spring,
     Summer,
@@ -13,8 +14,10 @@ typedef struct DateTime{
     int hour;
     int min;
     int sec;
+
+    TileMap* tilemap;
     SeasonTypes season;
 }DateTime;
-void ConstructTime(DateTime *date);
+void ConstructTime(DateTime *date, TileMap* tilemap);
 void UpdateTime(Uint32 base, DateTime *date);
 #endif

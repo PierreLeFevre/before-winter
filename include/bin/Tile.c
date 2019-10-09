@@ -1,6 +1,9 @@
 #include "Tile.h"
 void ConstructTile(Tile* tile){
     tile->currentSpriteAmmount = 0;
+    for(int i = 0; i < tile_overlay_enumsize; i++){
+        tile->overlays_used[i] = 0;
+    }
 }
 
 void TileAddSprite(Tile* tile, Drawable drawable, SDL_Rect hitbox, int z_index){

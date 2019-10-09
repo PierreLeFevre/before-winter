@@ -72,3 +72,7 @@ void EntityDeathEvent(Game *g, Entity *e);
 void TryPlacePlant(Game *g, PlantEnum plant);
 void TryHarvestPlant(Game *g, Plant *plant);
 void DeletePlant(Game *g, Plant *plant);
+
+
+void DrawableMerge(Drawable* DrawablesCurrentSort[], int l, int m, int r);
+void DrawableMergeSort(Drawable* DrawablesCurrentSort[], int l, int r);
