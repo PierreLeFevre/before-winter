@@ -1,8 +1,9 @@
 #include "Camera.h"
 #include <stdio.h>
 
-void ConstructCamera(Camera* cam, Graphics* gfx, SDL_Rect* follow){
+void ConstructCamera(Camera* cam, Graphics* gfx, SDL_Rect* follow, TileMap* tilemap){
     cam->gfx = gfx;
+    cam->tilemap = tilemap;
     cam->camRect.x = 0;
     cam->camRect.y = 0;
     cam->camRect.w = gfx->wWidth;
@@ -28,6 +29,12 @@ void UpdateCamera(Camera* cam){
     }
     if(cam->camRectVirtual.y < 0){
         cam->camRectVirtual.y = 0;
+    }
+    if(cam->camRectVirtual.x + cam->camRectVirtual.w > cam->tilemap->nTiles_x * TILE_WIDTH){
+        cam->camRectVirtual.x = cam->tilemap->nTiles_x * TILE_WIDTH - cam->camRectVirtual.w;
+    }
+    if(cam->camRectVirtual.y + cam->camRectVirtual.h > cam->tilemap->nTiles_y * TILE_HEIGHT){
+        cam->camRectVirtual.y = cam->tilemap->nTiles_y * TILE_HEIGHT - cam->camRectVirtual.h;
     }
 }
 

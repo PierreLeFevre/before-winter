@@ -12,7 +12,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
-    ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
+    ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect, &g->tileMap);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
     ConstructTime(&g->dateTime, &g->tileMap);
     g->nDroppedItems = 0;
