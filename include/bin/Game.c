@@ -55,7 +55,7 @@ void UpdateLogic(Game *g)
     }
     if (EventHandler("action="))
     {
-        TryPlacePlant(g, ParsnipType);
+        TryPlacePlant(g, TomatoType);
     }
     g->BuyItemCooldown++;
     if (EventHandler("testkey=") && g->BuyItemCooldown > 50)
@@ -334,20 +334,13 @@ void TryHarvestPlant(Game *g, Plant *plant)
     {
         return;
     }
-    if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested)
-    {
-    }
-    else
-    {
-        if (plant->nPlantStages - 1 == plant->nToUpdate)
-        {
+    if (plant->HasHarvestableBerries && plant->nToUpdate == plant->nPlantStages - 2){ //to make index easier
+        if (g->player.ent.n_items < INVENTORY_SIZE){
             plant->TickAtHarvestation = SDL_GetTicks();
             plant->nToUpdate++;
-
             g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
             g->player.ent.n_items++;
         }
-        return;
     }
     if (!plant->HasHarvestableBerries)
     {
