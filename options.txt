@@ -8,14 +8,11 @@
 2RIGHT= 7
 2LEFT= 4
 
-testkey= 20
 inventory= 8
 harvestTemp= 14
 meny= 41
 action= 44
 Select= 40
-buyitem1= 21
-buyitem2= 23
 quickSlot1= 30
 quickSlot2= 31
 quickSlot3= 32
@@ -25,6 +22,7 @@ quickSlot6= 35
 quickSlot7= 36
 quickSlot8= 37
 quickSlot9= 38
+quickSlot0= 39
 The Window
 WINDOW_WIDTH= 1280
 WINDOW_HEIGHT= 750
