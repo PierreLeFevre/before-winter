@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 //#define DEBUG
-#define HarvestDebug
+//#define HarvestDebug
 
 void ConstructGame(Game *g, int *noExit)
 {
