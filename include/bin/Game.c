@@ -255,7 +255,7 @@ void AddTileMapToRenderList(Game *g)
         {
             AddToRenderList(g, &g->GoodTiles[i]->drawables[j]);
         }
-        for (int j = 0; j < 1; j++)
+        for (int j = 0; j < tile_overlay_enumsize; j++)
         {
             if(g->GoodTiles[i]->overlays_used[j])
             {
