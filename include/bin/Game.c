@@ -367,9 +367,9 @@ void TryHarvestPlant(Game *g, Plant *plant)
                 ConstructEntity(&e, &plant->GrownItems.d);
                 ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
                 g->nDroppedItems++;
+                DeletePlant(g, plant);
             }
-            #endif
-            DeletePlant(g, plant);
+            #endif   
         }
     }
 }
