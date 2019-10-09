@@ -8,7 +8,7 @@ void ConstructTime(DateTime *date){
 }
 void UpdateTime(Uint32 base, DateTime *date){
     date->BaseTick = base;
-    date->sec += date->BaseTick % 6000;
+    date->sec += date->BaseTick % 2;
 
     if (date->sec >= 60){
         date->sec = 0;
