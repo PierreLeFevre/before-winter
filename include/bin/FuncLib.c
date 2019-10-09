@@ -289,7 +289,7 @@ void saveToFile(char saveFileName[20 + 1], float *x, float *y)
     saveFile = fopen(saveFileName, "wb");
     if (!saveFile)
     {
-        printf("Save file failed\n");
+        printf("FuncLib.c saveFunction Error:%s\n", strerror(errno));
     }
     fwrite(&saver, sizeof(struct SaveData), 1, saveFile);
     fclose(saveFile);
@@ -301,7 +301,7 @@ void loadFromFile(char saveFileName[20 + 1], float *x, float *y)
     loadFile = fopen(saveFileName, "rb");
     if (!loadFile)
     {
-        printf("FuncLib.c Error:%s\n", strerror(errno));
+        printf("FuncLib.c loadFunction Error:%s\n", strerror(errno));
         return;
     }
     fread(&saver, sizeof(struct SaveData), 1, loadFile);

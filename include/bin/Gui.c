@@ -376,7 +376,7 @@ void GuiMenu(Gui *g)
             if (g->menuSelectToggler >= 5)
             {
                 if (EventHandler("1DOWN="))
-                {   
+                {
                     switch (g->menuSelectedIndex)
                     {
                     case 13:
@@ -385,7 +385,7 @@ void GuiMenu(Gui *g)
                     case 8:
                         g->menuSelectedIndex += 3;
                         break;
-                    
+
                     default:
                         g->menuSelectedIndex += 1;
                         break;
@@ -402,7 +402,7 @@ void GuiMenu(Gui *g)
                     case 11:
                         g->menuSelectedIndex -= 3;
                         break;
-                    
+
                     default:
                         g->menuSelectedIndex -= 1;
                         break;
@@ -414,7 +414,8 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 0:
-                        if (g->saveSlot > 1){
+                        if (g->saveSlot > 1)
+                        {
                             g->saveSlot -= 1;
                         }
                         break;
@@ -441,7 +442,8 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 0:
-                        if (g->saveSlot < 5){
+                        if (g->saveSlot < 5)
+                        {
                             g->saveSlot += 1;
                         }
                         break;
@@ -465,7 +467,7 @@ void GuiMenu(Gui *g)
                 }
                 if (EventHandler("Select="))
                 {
-                    char saveFilePath[100];
+                    char saveFilePath[21];
                     sprintf(saveFilePath, "Saves/save%d.sav", g->saveSlot);
                     switch (g->menuSelectedIndex)
                     {
@@ -481,9 +483,12 @@ void GuiMenu(Gui *g)
                         loadFromFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
                     case 13:
-                        if(g->d.gfx->wFullscreen){
+                        if (g->d.gfx->wFullscreen)
+                        {
                             g->d.gfx->wFullscreen = 0;
-                        }else{
+                        }
+                        else
+                        {
                             g->d.gfx->wFullscreen = 1;
                         }
                         break;
@@ -495,12 +500,14 @@ void GuiMenu(Gui *g)
 
             Draw(&g->menu);
 
-            RenderText(g, 5, 118 + g->menuSelectedIndex*18, 0, White, Bold, ">");
-            if ((g->menuSelectedIndex >= 1 && g->menuSelectedIndex <= 4) || g->menuSelectedIndex == 13){
-                RenderText(g, 205, 118 + g->menuSelectedIndex*18, 0, White, Bold, "[Enter]");
+            RenderText(g, 5, 118 + g->menuSelectedIndex * 18, 0, White, Bold, ">");
+            if ((g->menuSelectedIndex >= 1 && g->menuSelectedIndex <= 4) || g->menuSelectedIndex == 13)
+            {
+                RenderText(g, 205, 118 + g->menuSelectedIndex * 18, 0, White, Bold, "[Enter]");
             }
-            else{
-                RenderText(g, 215, 118 + g->menuSelectedIndex*18, 0, White, Bold, "[<][>]");
+            else
+            {
+                RenderText(g, 215, 118 + g->menuSelectedIndex * 18, 0, White, Bold, "[<][>]");
             }
 
             RenderText(g, 30, 40, 0, White, Bold, "~~~~~~~~ MENU ~~~~~~~~");
@@ -517,9 +524,12 @@ void GuiMenu(Gui *g)
             sprintf(graphicsOptions, "~~~ Window Options\nWidth: [%d]\nHeight: [%d]", g->d.gfx->wWidth, g->d.gfx->wHeight);
             RenderText(g, 20, 298, 0, White, Bold, graphicsOptions);
 
-            if(!g->d.gfx->wFullscreen){
+            if (!g->d.gfx->wFullscreen)
+            {
                 RenderText(g, 20, 352, 0, White, Bold, "Fullscreen mode");
-            }else{
+            }
+            else
+            {
                 RenderText(g, 20, 352, 0, White, Bold, "Windowed mode");
             }
         }
