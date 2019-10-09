@@ -76,11 +76,12 @@ void UpdateGui(Gui *g)
     gcvt(round(dT), 6, strFPS);
     RenderText(g, 15, g->d.gfx->wHeight - 25, 0, White, Bold, strFPS);
 
-    GuiMenu(g);
+    GuiShop(g);
     GuiBar(g);
     GuiInventory(g);
     GuiPrompt(g);
     GuiMsgBox(g);
+    GuiMenu(g);
 
     SDL_SetWindowFullscreen(g->d.gfx->win, g->d.gfx->wFullscreen);
 }
@@ -526,7 +527,6 @@ void GuiMenu(Gui *g)
         {
             if (EventHandler("meny="))
             {
-                g->menuSelectedIndex = 0;
                 g->menuSelectToggler = 0;
                 g->menuActive = 1;
                 g->menuToggler = 0;
@@ -535,6 +535,10 @@ void GuiMenu(Gui *g)
     }
 
     g->menuToggler += 1;
+}
+
+void GuiShop(Gui *g){
+
 }
 
 void GuiMsgBox(Gui *g)

@@ -69,6 +69,7 @@ void GuiShaders(Gui *g);
 void GuiBar(Gui* g);
 void GuiInventory(Gui* g);
 void GuiMenu(Gui* g);
+void GuiShop(Gui *g);
 void GuiPrompt(Gui* g);
 void GuiMsgBox(Gui* g);
 void AlertGui(Gui* g, int timer, char promptText[20]);
