@@ -23,6 +23,8 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     g->menuSelectedIndex = 0;
     g->menuSelectToggler = 0;
 
+    g->saveSlot = 1;
+
     g->invActive = 0;
     g->invToggler = 0;
 
@@ -42,8 +44,8 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     SDL_Rect gui_destrect = {80, 512, 440, 88};
     ConstructDrawable(&g->d, DT_GUI, g->d.gfx, SS_GUI, gui_srcrect, gui_destrect, 19999);
 
-    SDL_Rect menu_srcrect = {26, 106, 350, 350};
-    SDL_Rect menu_destrect = {-25, -25, 650, 650};
+    SDL_Rect menu_srcrect = {100, 106, 50, 350};
+    SDL_Rect menu_destrect = {-25, -25, 300, 300};
     ConstructDrawable(&g->menu, DT_GUI, g->d.gfx, SS_GUI, menu_srcrect, menu_destrect, 19998);
 
     SDL_Rect msgBox_srcrect = {0, 80, 400, 400};
@@ -74,15 +76,14 @@ void UpdateGui(Gui *g)
     gcvt(round(dT), 6, strFPS);
     RenderText(g, 15, g->d.gfx->wHeight - 25, 0, White, Bold, strFPS);
 
+    GuiShop(g);
+    GuiBar(g);
+    GuiInventory(g);
+    GuiPrompt(g);
+    GuiMsgBox(g);
     GuiMenu(g);
 
-    if (!g->menuActive)
-    {
-        GuiBar(g);
-        GuiInventory(g);
-        GuiPrompt(g);
-        GuiMsgBox(g);
-    }
+    SDL_SetWindowFullscreen(g->d.gfx->win, g->d.gfx->wFullscreen);
 }
 
 void RenderText(Gui *g, int x, int y, int w, Color c, Format f, char text[])
@@ -357,8 +358,6 @@ void GuiInventory(Gui *g)
 
 void GuiMenu(Gui *g)
 {
-    g->menu.destrect.w = g->d.gfx->wWidth + 50;
-    int x = g->d.destrect.w / 2;
     g->menu.destrect.h = g->d.gfx->wHeight + 50;
     //int y = g->d.destrect.h/2;
 
@@ -376,32 +375,37 @@ void GuiMenu(Gui *g)
             }
             if (g->menuSelectToggler >= 5)
             {
-
                 if (EventHandler("1DOWN="))
                 {
-                    if (g->menuSelectedIndex != 3)
+                    switch (g->menuSelectedIndex)
                     {
+                    case 13:
+                        break;
+                    case 4:
+                    case 9:
+                        g->menuSelectedIndex += 3;
+                        break;
 
-                        if (g->menuSelectedIndex < 8)
-                            g->menuSelectedIndex += 1;
-                    }
-                    else
-                    {
-                        g->menuSelectedIndex += 2;
+                    default:
+                        g->menuSelectedIndex += 1;
+                        break;
                     }
                 }
 
                 if (EventHandler("1UP="))
                 {
-                    if (g->menuSelectedIndex != 5)
+                    switch (g->menuSelectedIndex)
                     {
+                    case 0:
+                        break;
+                    case 7:
+                    case 12:
+                        g->menuSelectedIndex -= 3;
+                        break;
 
-                        if (g->menuSelectedIndex > 0)
-                            g->menuSelectedIndex -= 1;
-                    }
-                    else
-                    {
-                        g->menuSelectedIndex -= 2;
+                    default:
+                        g->menuSelectedIndex -= 1;
+                        break;
                     }
                 }
 
@@ -410,21 +414,27 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 0:
-                        g->p->ent.movement_speed -= 5;
+                        if (g->saveSlot > 1)
+                        {
+                            g->saveSlot -= 1;
+                        }
                         break;
-                    case 1:
+                    case 7:
+                        g->p->ent.movement_speed -= 1;
+                        break;
+                    case 8:
                         g->p->ent.friction -= .1;
                         break;
-                    case 5:
+                    case 9:
+                        g->dT->timeScale += 1;
+                        break;
+                    case 12:
                         g->d.gfx->wWidth -= 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
                         break;
-                    case 6:
+                    case 13:
                         g->d.gfx->wHeight -= 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
-                        break;
-                    case 7:
-                        g->d.gfx->wFullscreen = 0;
                         break;
                     default:
                         break;
@@ -435,21 +445,27 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 0:
-                        g->p->ent.movement_speed += 5;
+                        if (g->saveSlot < 5)
+                        {
+                            g->saveSlot += 1;
+                        }
                         break;
-                    case 1:
+                    case 7:
+                        g->p->ent.movement_speed += 1;
+                        break;
+                    case 8:
                         g->p->ent.friction += .1;
                         break;
-                    case 5:
+                    case 9:
+                        g->dT->timeScale += 1;
+                        break;
+                    case 12:
                         g->d.gfx->wWidth += 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
                         break;
-                    case 6:
+                    case 13:
                         g->d.gfx->wHeight += 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
-                        break;
-                    case 7:
-                        g->d.gfx->wFullscreen = 1;
                         break;
                     default:
                         break;
@@ -457,13 +473,30 @@ void GuiMenu(Gui *g)
                 }
                 if (EventHandler("Select="))
                 {
+                    char saveFilePath[21];
+                    sprintf(saveFilePath, "Saves/save%d.sav", g->saveSlot);
                     switch (g->menuSelectedIndex)
                     {
+                    case 1:
+                        break;
                     case 2:
-                        saveToFile("Saves/save1.sav", &g->p->ent.x_pos, &g->p->ent.y_pos);
+                        saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
                     case 3:
-                        loadFromFile("Saves/save1.sav", &g->p->ent.x_pos, &g->p->ent.y_pos);
+                        saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
+                        break;
+                    case 4:
+                        loadFromFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
+                        break;
+                    case 14:
+                        if (g->d.gfx->wFullscreen)
+                        {
+                            g->d.gfx->wFullscreen = 0;
+                        }
+                        else
+                        {
+                            g->d.gfx->wFullscreen = 1;
+                        }
                         break;
                     }
                 }
@@ -473,70 +506,43 @@ void GuiMenu(Gui *g)
 
             Draw(&g->menu);
 
-            SDL_Rect selectRect = {100, 120 + g->menuSelectedIndex * 20, 300, 20};
-            SDL_SetRenderDrawColor(g->d.gfx->rend, 255, 255, 255, 1);
-            SDL_RenderDrawRect(g->d.gfx->rend, &selectRect);
-
-            RenderText(g, x - 90, 40, 0, White, Bold, "~~~ MENU ~~~");
-
-            RenderText(g, 65, 100, 0, White, Bold, "~~~ Game Options");
-
-            RenderText(g, 65, 120, 0, White, Bold, "    Player Speed");
-            char playerSpeed[100];
-            gcvt(g->p->ent.movement_speed, 6, playerSpeed);
-            RenderText(g, 275, 120, 0, White, Regular, playerSpeed);
-
-            RenderText(g, 65, 140, 0, White, Bold, "    Player Friction");
-            char playerFriction[100];
-            gcvt(g->p->ent.friction, 6, playerFriction);
-            RenderText(g, 275, 140, 0, White, Regular, playerFriction);
-
-            RenderText(g, 65, 160, 0, White, Bold, "    Save to file");
-            RenderText(g, 65, 180, 0, White, Bold, "    Load from file");
-
-            RenderText(g, 65, 200, 0, White, Bold, "~~~ Graphics Options");
-            RenderText(g, 65, 220, 0, White, Bold, "    Window width");
-            char wWidth[100];
-            gcvt(g->d.gfx->wWidth, 6, wWidth);
-            RenderText(g, 275, 220, 0, White, Regular, wWidth);
-
-            RenderText(g, 65, 240, 0, White, Bold, "    Window height");
-            char wHeight[100];
-            gcvt(g->d.gfx->wHeight, 6, wHeight);
-            RenderText(g, 275, 240, 0, White, Regular, wHeight);
-
-            RenderText(g, 65, 260, 0, White, Bold, "    Fullscreen");
-
-            if (g->d.gfx->wFullscreen)
+            RenderText(g, 5, 118 + g->menuSelectedIndex * 18, 0, White, Bold, ">");
+            if ((g->menuSelectedIndex >= 1 && g->menuSelectedIndex <= 4) || g->menuSelectedIndex == 13)
             {
-                SDL_SetWindowFullscreen(g->d.gfx->win, 1);
-                RenderText(g, 275, 260, 0, White, Regular, "ON");
+                RenderText(g, 205, 118 + g->menuSelectedIndex * 18, 0, White, Bold, "[Enter]");
             }
             else
             {
-                SDL_SetWindowFullscreen(g->d.gfx->win, 0);
-                RenderText(g, 275, 260, 0, White, Regular, "OFF");
+                RenderText(g, 215, 118 + g->menuSelectedIndex * 18, 0, White, Bold, "[<][>]");
             }
 
-            RenderText(g, 65, 300, 0, White, Bold, "~~~ Debug Info");
+            RenderText(g, 30, 40, 0, White, Bold, "~~~~~~~~ MENU ~~~~~~~~");
 
-            RenderText(g, 125, 340, 0, White, Bold, "X:          Y:");
+            char saveGame[100];
+            sprintf(saveGame, "~~~ Game\nSlot: [%d]\nQuit\nSave & Quit\nSave\nLoad", g->saveSlot);
+            RenderText(g, 20, 100, 0, White, Bold, saveGame);
 
-            char xPos[100];
-            gcvt(g->p->ent.d.destrect.x, 6, xPos);
-            RenderText(g, 170, 340, 0, White, Regular, xPos);
+            char playerOptions[100];
+            sprintf(playerOptions, "~~~ Player Options\nSpeed: [%.f]\nFriction: [%.1f]\nTimescale: [%d]", g->p->ent.movement_speed, g->p->ent.friction, g->dT->timeScale);
+            RenderText(g, 20, 226, 0, White, Bold, playerOptions);
 
-            char yPos[100];
-            gcvt(g->p->ent.d.destrect.y, 6, yPos);
-            RenderText(g, 275, 340, 0, White, Regular, yPos);
+            char graphicsOptions[100];
+            sprintf(graphicsOptions, "~~~ Window Options\nWidth: [%d]\nHeight: [%d]", g->d.gfx->wWidth, g->d.gfx->wHeight);
+            RenderText(g, 20, 316, 0, White, Bold, graphicsOptions);
 
-            RenderText(g, 190, 560, 0, White, Bold, "[L/-] [UP/DOWN] [R/+]");
+            if (!g->d.gfx->wFullscreen)
+            {
+                RenderText(g, 20, 370, 0, White, Bold, "Fullscreen mode");
+            }
+            else
+            {
+                RenderText(g, 20, 370, 0, White, Bold, "Windowed mode");
+            }
         }
         else
         {
             if (EventHandler("meny="))
             {
-                g->menuSelectedIndex = 0;
                 g->menuSelectToggler = 0;
                 g->menuActive = 1;
                 g->menuToggler = 0;
@@ -545,6 +551,10 @@ void GuiMenu(Gui *g)
     }
 
     g->menuToggler += 1;
+}
+
+void GuiShop(Gui *g){
+
 }
 
 void GuiMsgBox(Gui *g)

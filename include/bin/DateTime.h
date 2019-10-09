@@ -14,7 +14,8 @@ typedef struct DateTime{
     int hour;
     int min;
     int sec;
-
+    int timeScale;
+    
     TileMap* tilemap;
     SeasonTypes season;
 }DateTime;

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 //#define DEBUG
-#define HarvestDebug
+//#define HarvestDebug
 
 void ConstructGame(Game *g, int *noExit)
 {
@@ -14,9 +14,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
-
     ConstructTime(&g->dateTime, &g->tileMap);
-
     g->nDroppedItems = 0;
     g->droppedItems = (DroppedItem **)malloc(sizeof(DroppedItem *) * 5000);
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
@@ -57,7 +55,7 @@ void UpdateLogic(Game *g)
     }
     if (EventHandler("action="))
     {
-        TryPlacePlant(g, ParsnipType);
+        TryPlacePlant(g, TomatoType);
     }
     g->BuyItemCooldown++;
     if (EventHandler("testkey=") && g->BuyItemCooldown > 50)
@@ -131,6 +129,7 @@ void UpdateLogic(Game *g)
     {
         UpdatePlant(&g->plants[i], SDL_GetTicks());
     }
+    #ifdef HarvestDebug
     for (int i = 0; i < g->nDroppedItems; i++){
         if (g->droppedItems[i]->exists == 0){
             g->droppedItems[i] = g->droppedItems[i + 1];
@@ -140,7 +139,7 @@ void UpdateLogic(Game *g)
             UpdateDroppedItem(g->droppedItems[i], &g->player);
         }
     }
-
+    #endif
     UpdateCamera(&g->cam);
 
     if (g->dateTime.season == Winter)
@@ -157,10 +156,13 @@ void Render(Game *g)
 
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
-
+    
+    #ifdef HarvestDebug
     for (int i = 0; i < g->nDroppedItems; i++){
         AddToRenderList(g, &g->droppedItems[i]->ent->d);
     }
+    #endif
+
     for (int i = 0; i < g->nPlants; i++)
     {
         AddToRenderList(g, &g->plants[i].TextureMap);
@@ -332,20 +334,13 @@ void TryHarvestPlant(Game *g, Plant *plant)
     {
         return;
     }
-    if (!plant->HasHarvestableBerries || plant->TickToRegrow > plant->TickSinceLastHarvested)
-    {
-    }
-    else
-    {
-        if (plant->nPlantStages - 1 == plant->nToUpdate)
-        {
+    if (plant->HasHarvestableBerries && plant->nToUpdate == plant->nPlantStages - 2){ //to make index easier
+        if (g->player.ent.n_items < INVENTORY_SIZE){
             plant->TickAtHarvestation = SDL_GetTicks();
             plant->nToUpdate++;
-
             g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
             g->player.ent.n_items++;
         }
-        return;
     }
     if (!plant->HasHarvestableBerries)
     {
@@ -354,14 +349,25 @@ void TryHarvestPlant(Game *g, Plant *plant)
             //DELETE PLANT
             //PROCC DROPPED ITEMS ON
             #ifdef HarvestDebug
-            if (g->nDroppedItems == 0){
+            // if (g->nDroppedItems == 0){
                 Entity e;
                 ConstructEntity(&e, &plant->GrownItems.d);
                 ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
                 g->nDroppedItems++;
                 DeletePlant(g, plant);
+            // }
+            #endif
+
+            #ifndef HarvestDebug
+            #define HarvestDebug
+            if (g->player.ent.n_items < INVENTORY_SIZE){
+                plant->GrownItems.exists = 1;
+                plant->GrownItems.amount = 1;
+                g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
+                g->player.ent.n_items++;
+                DeletePlant(g, plant);
             }
-            #endif   
+            #endif
         }
     }
 }
