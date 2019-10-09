@@ -26,4 +26,6 @@ typedef struct Drawable{
 void ConstructDrawable(Drawable* d, DrawableType type, Graphics* gfx, SpriteSheet spritesheet, SDL_Rect srcrect, SDL_Rect destrect, int z_index);
 void Draw(Drawable* d);
 
+void DrawableChangeSpriteSheet(Drawable *d, SpriteSheet spritesheet);
+
 #endif

@@ -98,8 +98,16 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         TileAddSprite(&t, drawable, hitbox, z_index);
         tm->tiles[i] = t;
 
+        //Initiate every Drawable in overlays-array
+        for(int j = 0; j < tile_overlay_enumsize; j++){
+            Drawable overlay;
+            ConstructDrawable(&overlay, DT_Other, tm->gfx, SS_NONE, srcrect, destrect, t.drawables[0].z_index + 1);
+            t.overlays[j] = overlay;
+        }
+
         mapData++;
     }
+    FixTileTransistions(tm);
 }
 
 void DestroyTileMap(TileMap* tm){
@@ -109,10 +117,10 @@ void DestroyTileMap(TileMap* tm){
 
 
 void FixTileTransistions(TileMap* tm){
-    for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){
-        if(tm->tiles[i].drawables[1].type == DT_Grass){
-            if(tm->tiles[i+1].drawables[1].type == DT_Dirt){
-                //....
+    for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){   
+        if(tm->tiles[i].drawables[0].type == DT_Dirt){
+            if(tm->tiles[i-1].drawables[0].type == DT_Grass){
+                DrawableChangeSpriteSheet(&tm->tiles[i].overlays[tile_overlay_left], SS_TILEMAP_SPRING);
             }
         }
     }
@@ -146,13 +154,15 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     tp.z_index_offset = 0;
     //----------------
     switch(mdc){
-        case MUD:
+        case DIRT:
+            tp.type = DT_Dirt;
             tp.srcrect.x = 80;
             tp.srcrect.y = 400;
             tp.srcrect.w = 16;
             tp.srcrect.h = 16;
             break;
         case GRASS:
+            tp.type = DT_Grass;
             tp.srcrect.x = 0;
             tp.srcrect.y = 112;
             tp.srcrect.w = 16;

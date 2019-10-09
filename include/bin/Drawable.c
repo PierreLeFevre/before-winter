@@ -16,3 +16,8 @@ void ConstructDrawable(Drawable* d, DrawableType type, Graphics* gfx, SpriteShee
 void Draw(Drawable* d){
     SDL_RenderCopy(d->gfx->rend, d->tex, &d->srcrect, &d->destrect);
 }
+
+void DrawableChangeSpriteSheet(Drawable *d, SpriteSheet spritesheet){
+    d->spritesheet = spritesheet;
+    d->tex = d->gfx->textures[spritesheet];
+}

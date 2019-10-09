@@ -30,7 +30,7 @@ typedef struct TileProperties{
 }TileProperties;
 
 typedef enum MapDataConverter{
-    MUD,
+    DIRT,
     GRASS,
     TREE,
     WATER_LAKE,
