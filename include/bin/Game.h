@@ -7,6 +7,7 @@
 #include "DroppedItem.h"
 #include "Keys.h"
 #include "DateTime.h"
+#include "QuickSlot.h"
 
 #define MAXPLANTS 100
 #define MAXDROPS 2
@@ -36,7 +37,6 @@ typedef struct Game
     int n_animals;
 
     Item CoreItems[100];
-    int BuyItemCooldown;
 
     Plant plants[MAXPLANTS];
     int nPlants;
@@ -73,6 +73,5 @@ void TryPlacePlant(Game *g, PlantEnum plant);
 void TryHarvestPlant(Game *g, Plant *plant);
 void DeletePlant(Game *g, Plant *plant);
 
-
-void DrawableMerge(Drawable* DrawablesCurrentSort[], int l, int m, int r);
-void DrawableMergeSort(Drawable* DrawablesCurrentSort[], int l, int r);
+void DrawableMerge(Drawable *DrawablesCurrentSort[], int l, int m, int r);
+void DrawableMergeSort(Drawable *DrawablesCurrentSort[], int l, int r);

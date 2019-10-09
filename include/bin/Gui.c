@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "Gui.h"
+#include <errno.h>
 
 void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
 {
@@ -553,8 +554,8 @@ void GuiMenu(Gui *g)
     g->menuToggler += 1;
 }
 
-void GuiShop(Gui *g){
-
+void GuiShop(Gui *g)
+{
 }
 
 void GuiMsgBox(Gui *g)
@@ -625,4 +626,8 @@ void AlertGui(Gui *g, int timer, char promptText[100])
     strcpy(g->promptText, promptText);
     g->promptToggler = 60 * timer;
     g->promptInit = g->promptToggler;
+    if (errno != 0)
+    {
+        printf("Gui.c AlertGui %s", strerror(errno));
+    }
 }
