@@ -5,12 +5,13 @@ void ConstructTime(DateTime *date, TileMap* tilemap){
     date->hour = 8;
     date->day = 0;
     
+    date->timeScale = 2;
     date->season = Spring;
     date->tilemap = tilemap;
 }
 void UpdateTime(Uint32 base, DateTime *date){
     date->BaseTick = base;
-    date->sec += date->BaseTick % 2;
+    date->sec += date->BaseTick % date->timeScale;
 
     if (date->sec >= 60){
         date->sec = 0;

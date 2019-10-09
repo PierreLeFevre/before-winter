@@ -382,7 +382,7 @@ void GuiMenu(Gui *g)
                     case 13:
                         break;
                     case 4:
-                    case 8:
+                    case 9:
                         g->menuSelectedIndex += 3;
                         break;
 
@@ -399,7 +399,7 @@ void GuiMenu(Gui *g)
                     case 0:
                         break;
                     case 7:
-                    case 11:
+                    case 12:
                         g->menuSelectedIndex -= 3;
                         break;
 
@@ -425,11 +425,14 @@ void GuiMenu(Gui *g)
                     case 8:
                         g->p->ent.friction -= .1;
                         break;
-                    case 11:
+                    case 9:
+                        g->dT->timeScale += 1;
+                        break;
+                    case 12:
                         g->d.gfx->wWidth -= 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
                         break;
-                    case 12:
+                    case 13:
                         g->d.gfx->wHeight -= 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
                         break;
@@ -453,11 +456,14 @@ void GuiMenu(Gui *g)
                     case 8:
                         g->p->ent.friction += .1;
                         break;
-                    case 11:
+                    case 9:
+                        g->dT->timeScale += 1;
+                        break;
+                    case 12:
                         g->d.gfx->wWidth += 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
                         break;
-                    case 12:
+                    case 13:
                         g->d.gfx->wHeight += 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
                         break;
@@ -482,7 +488,7 @@ void GuiMenu(Gui *g)
                     case 4:
                         loadFromFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
-                    case 13:
+                    case 14:
                         if (g->d.gfx->wFullscreen)
                         {
                             g->d.gfx->wFullscreen = 0;
@@ -517,20 +523,20 @@ void GuiMenu(Gui *g)
             RenderText(g, 20, 100, 0, White, Bold, saveGame);
 
             char playerOptions[100];
-            sprintf(playerOptions, "~~~ Player Options\nSpeed: [%.f]\nFriction: [%.1f]", g->p->ent.movement_speed, g->p->ent.friction);
+            sprintf(playerOptions, "~~~ Player Options\nSpeed: [%.f]\nFriction: [%.1f]\nTimescale: [%d]", g->p->ent.movement_speed, g->p->ent.friction, g->dT->timeScale);
             RenderText(g, 20, 226, 0, White, Bold, playerOptions);
 
             char graphicsOptions[100];
             sprintf(graphicsOptions, "~~~ Window Options\nWidth: [%d]\nHeight: [%d]", g->d.gfx->wWidth, g->d.gfx->wHeight);
-            RenderText(g, 20, 298, 0, White, Bold, graphicsOptions);
+            RenderText(g, 20, 316, 0, White, Bold, graphicsOptions);
 
             if (!g->d.gfx->wFullscreen)
             {
-                RenderText(g, 20, 352, 0, White, Bold, "Fullscreen mode");
+                RenderText(g, 20, 370, 0, White, Bold, "Fullscreen mode");
             }
             else
             {
-                RenderText(g, 20, 352, 0, White, Bold, "Windowed mode");
+                RenderText(g, 20, 370, 0, White, Bold, "Windowed mode");
             }
         }
         else
