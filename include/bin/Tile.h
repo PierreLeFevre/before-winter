@@ -16,6 +16,7 @@ typedef enum TileEdges{
 
 typedef struct Tile{
     Drawable overlays[tile_overlay_enumsize];
+    int overlays_used[tile_overlay_enumsize];
 
     Drawable drawables[3];
     SDL_Rect hitboxes[3];

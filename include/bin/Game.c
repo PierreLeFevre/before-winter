@@ -10,12 +10,12 @@
 void ConstructGame(Game *g, int *noExit)
 {
     ConstructGraphics(&g->gfx);
-    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
+    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
 
-    ConstructTime(&g->dateTime);
+    ConstructTime(&g->dateTime, &g->tileMap);
 
     g->nDroppedItems = 0;
     g->droppedItems = (DroppedItem **)malloc(sizeof(DroppedItem *) * 5000);
@@ -48,8 +48,8 @@ void Go(Game *g)
 void UpdateLogic(Game *g)
 {
 
-    if (g->dateTime.day == 0 && g->dateTime.hour == 0 && g->dateTime.min == 0 && g->dateTime.sec == 0)
-        ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
+    // if (g->dateTime.day == 0 && g->dateTime.hour == 0 && g->dateTime.min == 0 && g->dateTime.sec == 0)
+    //     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
 
     UpdateTime(SDL_GetTicks(), &g->dateTime);
     CalculateGoodTiles(g);
@@ -261,7 +261,7 @@ void AddTileMapToRenderList(Game *g)
         }
         for (int j = 0; j < 1; j++)
         {
-            if(g->GoodTiles[i]->overlays[j].spritesheet != SS_NONE)
+            if(g->GoodTiles[i]->overlays_used[j])
             {
                 AddToRenderList(g, &g->GoodTiles[i]->overlays[j]);
             }
