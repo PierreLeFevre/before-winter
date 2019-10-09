@@ -147,12 +147,14 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     //----------------
     switch(mdc){
         case MUD:
+            tp.type = DT_Dirt;
             tp.srcrect.x = 80;
             tp.srcrect.y = 400;
             tp.srcrect.w = 16;
             tp.srcrect.h = 16;
             break;
         case GRASS:
+            tp.type = DT_Grass;
             tp.srcrect.x = 0;
             tp.srcrect.y = 112;
             tp.srcrect.w = 16;

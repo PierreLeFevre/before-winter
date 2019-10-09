@@ -313,6 +313,9 @@ void TryPlacePlant(Game *g, PlantEnum plant)
     {
         if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
         {
+            if (g->GoodTiles[i]->drawables[0].type != DT_Dirt){
+                return;
+            }
             int found = 0;
             for (int j = 0; j < g->nPlants; j++)
             {
