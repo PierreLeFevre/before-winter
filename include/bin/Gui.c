@@ -81,6 +81,8 @@ void UpdateGui(Gui *g)
     GuiInventory(g);
     GuiPrompt(g);
     GuiMsgBox(g);
+
+    SDL_SetWindowFullscreen(g->d.gfx->win, g->d.gfx->wFullscreen);
 }
 
 void RenderText(Gui *g, int x, int y, int w, Color c, Format f, char text[])
@@ -429,9 +431,6 @@ void GuiMenu(Gui *g)
                         g->d.gfx->wHeight -= 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
                         break;
-                    case 13:
-                        g->d.gfx->wFullscreen = 0;
-                        break;
                     default:
                         break;
                     }
@@ -459,9 +458,6 @@ void GuiMenu(Gui *g)
                         g->d.gfx->wHeight += 10;
                         SDL_SetWindowSize(g->d.gfx->win, g->d.gfx->wWidth, g->d.gfx->wHeight);
                         break;
-                    case 13:
-                        g->d.gfx->wFullscreen = 1;
-                        break;
                     default:
                         break;
                     }
@@ -483,6 +479,13 @@ void GuiMenu(Gui *g)
                     case 4:
                         loadFromFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
+                    case 13:
+                        if(g->d.gfx->wFullscreen){
+                            g->d.gfx->wFullscreen = 0;
+                        }else{
+                            g->d.gfx->wFullscreen = 1;
+                        }
+                        break;
                     }
                 }
 
@@ -492,7 +495,7 @@ void GuiMenu(Gui *g)
             Draw(&g->menu);
 
             RenderText(g, 5, 118 + g->menuSelectedIndex*18, 0, White, Bold, ">");
-            if (g->menuSelectedIndex >= 1 && g->menuSelectedIndex <= 4){
+            if ((g->menuSelectedIndex >= 1 && g->menuSelectedIndex <= 4) || g->menuSelectedIndex == 13){
                 RenderText(g, 205, 118 + g->menuSelectedIndex*18, 0, White, Bold, "[Enter]");
             }
             else{
@@ -510,8 +513,14 @@ void GuiMenu(Gui *g)
             RenderText(g, 20, 226, 0, White, Bold, playerOptions);
 
             char graphicsOptions[100];
-            sprintf(graphicsOptions, "~~~ Window Options\nWidth: [%d]\nHeight: [%d]\nFullscreen: [%d]", g->d.gfx->wWidth, g->d.gfx->wHeight, g->d.gfx->wFullscreen);
+            sprintf(graphicsOptions, "~~~ Window Options\nWidth: [%d]\nHeight: [%d]", g->d.gfx->wWidth, g->d.gfx->wHeight);
             RenderText(g, 20, 298, 0, White, Bold, graphicsOptions);
+
+            if(!g->d.gfx->wFullscreen){
+                RenderText(g, 20, 352, 0, White, Bold, "Fullscreen mode");
+            }else{
+                RenderText(g, 20, 352, 0, White, Bold, "Windowed mode");
+            }
         }
         else
         {
