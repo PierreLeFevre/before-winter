@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 //#define DEBUG
-#define HarvestDebug
+//#define HarvestDebug
 
 void ConstructGame(Game *g, int *noExit)
 {
@@ -14,7 +14,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
-
+    CreateAllStandardItems(g);
     ConstructTime(&g->dateTime);
 
     g->nDroppedItems = 0;
@@ -47,7 +47,6 @@ void Go(Game *g)
 
 void UpdateLogic(Game *g)
 {
-
     if (g->dateTime.day == 0 && g->dateTime.hour == 0 && g->dateTime.min == 0 && g->dateTime.sec == 0)
         ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt", &g->dateTime);
 
@@ -135,6 +134,7 @@ void UpdateLogic(Game *g)
     {
         UpdatePlant(&g->plants[i], SDL_GetTicks());
     }
+    #ifdef HarvestDebug
     for (int i = 0; i < g->nDroppedItems; i++){
         if (g->droppedItems[i]->exists == 0){
             g->droppedItems[i] = g->droppedItems[i + 1];
@@ -144,7 +144,7 @@ void UpdateLogic(Game *g)
             UpdateDroppedItem(g->droppedItems[i], &g->player);
         }
     }
-
+    #endif
     UpdateCamera(&g->cam);
 
     if (g->dateTime.season == Winter)
@@ -161,10 +161,13 @@ void Render(Game *g)
 
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
-
+    
+    #ifdef HarvestDebug
     for (int i = 0; i < g->nDroppedItems; i++){
         AddToRenderList(g, &g->droppedItems[i]->ent->d);
     }
+    #endif
+
     for (int i = 0; i < g->nPlants; i++)
     {
         AddToRenderList(g, &g->plants[i].TextureMap);
@@ -362,14 +365,23 @@ void TryHarvestPlant(Game *g, Plant *plant)
             //DELETE PLANT
             //PROCC DROPPED ITEMS ON
             #ifdef HarvestDebug
-            if (g->nDroppedItems == 0){
+            // if (g->nDroppedItems == 0){
                 Entity e;
                 ConstructEntity(&e, &plant->GrownItems.d);
                 ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
                 g->nDroppedItems++;
                 DeletePlant(g, plant);
+            // }
+            #endif
+
+            #ifndef HarvestDebug
+            #define HarvestDebug
+            if (g->player.ent.n_items < INVENTORY_SIZE){
+                g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
+                g->player.ent.n_items++;
+                DeletePlant(g, plant);
             }
-            #endif   
+            #endif
         }
     }
 }
