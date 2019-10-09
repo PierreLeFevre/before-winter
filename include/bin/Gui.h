@@ -22,6 +22,7 @@ typedef struct Gui{
     int menuToggler;
     int menuSelectedIndex;
     int menuSelectToggler;
+    int saveSlot;
 
     int invActive;
     int invToggler;

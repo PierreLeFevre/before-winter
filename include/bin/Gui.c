@@ -23,6 +23,8 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     g->menuSelectedIndex = 0;
     g->menuSelectToggler = 0;
 
+    g->saveSlot = 1;
+
     g->invActive = 0;
     g->invToggler = 0;
 
@@ -408,8 +410,13 @@ void GuiMenu(Gui *g)
                 {
                     switch (g->menuSelectedIndex)
                     {
+                    case 0:
+                        if (g->saveSlot > 1){
+                            g->saveSlot -= 1;
+                        }
+                        break;
                     case 7:
-                        g->p->ent.movement_speed -= 5;
+                        g->p->ent.movement_speed -= 1;
                         break;
                     case 8:
                         g->p->ent.friction -= .1;
@@ -433,8 +440,13 @@ void GuiMenu(Gui *g)
                 {
                     switch (g->menuSelectedIndex)
                     {
+                    case 0:
+                        if (g->saveSlot < 5){
+                            g->saveSlot += 1;
+                        }
+                        break;
                     case 7:
-                        g->p->ent.movement_speed += 5;
+                        g->p->ent.movement_speed += 1;
                         break;
                     case 8:
                         g->p->ent.friction += .1;
@@ -456,18 +468,20 @@ void GuiMenu(Gui *g)
                 }
                 if (EventHandler("Select="))
                 {
+                    char saveFilePath[100];
+                    sprintf(saveFilePath, "Saves/save%d.sav", g->saveSlot);
                     switch (g->menuSelectedIndex)
                     {
                     case 1:
                         break;
                     case 2:
-                        saveToFile("Saves/save1.sav", &g->p->ent.x_pos, &g->p->ent.y_pos);
+                        saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
                     case 3:
-                        saveToFile("Saves/save1.sav", &g->p->ent.x_pos, &g->p->ent.y_pos);
+                        saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
                     case 4:
-                        loadFromFile("Saves/save1.sav", &g->p->ent.x_pos, &g->p->ent.y_pos);
+                        loadFromFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
                         break;
                     }
                 }
@@ -488,11 +502,11 @@ void GuiMenu(Gui *g)
             RenderText(g, 30, 40, 0, White, Bold, "~~~~~~~~ MENU ~~~~~~~~");
 
             char saveGame[100];
-            sprintf(saveGame, "~~~ Game\nSlot: [%d]\nQuit\nSave & Quit\nSave\nLoad", 1);
+            sprintf(saveGame, "~~~ Game\nSlot: [%d]\nQuit\nSave & Quit\nSave\nLoad", g->saveSlot);
             RenderText(g, 20, 100, 0, White, Bold, saveGame);
 
             char playerOptions[100];
-            sprintf(playerOptions, "~~~ Player Options\nSpeed: [%.f]\nFriction: [%.f]", g->p->ent.movement_speed, g->p->ent.friction);
+            sprintf(playerOptions, "~~~ Player Options\nSpeed: [%.f]\nFriction: [%.1f]", g->p->ent.movement_speed, g->p->ent.friction);
             RenderText(g, 20, 226, 0, White, Bold, playerOptions);
 
             char graphicsOptions[100];
