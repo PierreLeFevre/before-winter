@@ -6,12 +6,14 @@
 void ConstructDroppedItem(DroppedItem* d_item, Item* item, Entity* ent){
     d_item->item = item;
     d_item->ent = ent;
+    d_item->ent = ent;
     d_item->x_desired = d_item->ent->x_pos;
     d_item->y_desired = d_item->ent->y_pos;    
     d_item->ent->movement_speed = 3.0f;
     d_item->ent->x_dir = 0.0f;
     d_item->ent->y_dir = 0.0f;
     d_item->exists = 1;
+    
 }
 
 void UpdateDroppedItem(DroppedItem* d_item, Player* player){

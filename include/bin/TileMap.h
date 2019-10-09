@@ -1,5 +1,7 @@
+#ifndef TILEMAP_H
+#define TILEMAP_H
+
 #include "Tile.h"
-#include "DateTime.h"
 
 typedef struct TileMap{
     Graphics* gfx;
@@ -12,6 +14,8 @@ typedef struct TileMap{
     int tile_height;
     int topleft_x;
     int topleft_y;
+
+    int nTiles_used;
 }TileMap;
 
 typedef struct TileProperties{
@@ -30,20 +34,25 @@ typedef struct TileProperties{
 }TileProperties;
 
 typedef enum MapDataConverter{
-    MUD,
+    DIRT,
     GRASS,
     TREE,
     WATER_LAKE,
     WATER_TOP
 }MapDataConverter;
 
-void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file, DateTime* dT);
+void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file);
 void DestroyTileMap(TileMap* tm);
 
 void FixTileTransistions(TileMap* tm);
 
 void DrawTileMap(TileMap* tm);
 
+void TileMapChangeSpriteSheet(TileMap* tm, SpriteSheet spritesheet);
+
 TileProperties GetTilePropertiesData(const MapDataConverter mdc);
 
 void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* drawable, SDL_Rect* hitbox);
+
+
+#endif

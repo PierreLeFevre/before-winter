@@ -21,7 +21,8 @@ typedef enum SpriteSheet
     SS_PLANT,
     SS_ITEM,
     SS_FONT,
-    SS_SHADER
+    SS_SHADER,
+    SS_NONE
 } SpriteSheet;
 
 typedef struct Graphics

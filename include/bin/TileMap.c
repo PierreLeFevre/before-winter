@@ -9,7 +9,9 @@
 #include <math.h>
 #include <string.h>
 
-void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file, DateTime* dT){
+void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file){
+    
+    
     tm->gfx = gfx;
     tm->tiles = (Tile*) malloc(sizeof(Tile) * nTiles_x * nTiles_y);
     tm->nTiles_x = nTiles_x;
@@ -17,6 +19,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
     tm->topleft_x = topleft_x;
     tm->topleft_y = topleft_y;
     tm->map_file = map_file;
+    tm->nTiles_used = 0;
     
 	FILE* fileIO = fopen(map_file, "rb");
 	fseek(fileIO, 0L, SEEK_END);
@@ -64,42 +67,38 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         int z_index = (tm->topleft_y + (int)(i / tm->nTiles_x) * TILE_Z_INDEX_MAX);
         
         Drawable drawable;
-
-        switch (dT->season)
-        {
-        case Spring:
-            ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP_SPRING, srcrect, destrect, z_index);
-            break;
-        case Summer:
-            ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP_SUMMER, srcrect, destrect, z_index);
-            break;
-        case Fall:
-            ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP_FALL, srcrect, destrect, z_index);
-            break;
-        default:
-            ConstructDrawable(&drawable, DT_Other, tm->gfx, SS_TILEMAP_SPRING, srcrect, destrect, z_index);
-            break;
-        }
+        SpriteSheet season_sprite = SS_TILEMAP_SPRING;
+        ConstructDrawable(&drawable, DT_Other, tm->gfx, season_sprite, srcrect, destrect, z_index);
 
         // ----------------------------------
         
         TileProperties tp = GetTilePropertiesData(*mapData - '0');
         ApplyTileProperties(tm, &tp, &drawable, &hitbox);
+        DrawableChangeSpriteSheet(&drawable, season_sprite);
 
         Tile t;
         //"If new Tile"
         if(*(mapData - 1) == ','){
             ConstructTile(&t);
             tm->tiles[i] = t;
+            tm->nTiles_used++;
         }
         else{
             t = tm->tiles[i];
+            
+            //Initiate every Drawable in overlays-array
+            for(int j = 0; j < tile_overlay_enumsize; j++){
+                Drawable overlay;
+                ConstructDrawable(&overlay, DT_Other, tm->gfx, season_sprite, srcrect, destrect, t.drawables[0].z_index + 1);
+                t.overlays[j] = overlay;
+            }
         }
         TileAddSprite(&t, drawable, hitbox, z_index);
         tm->tiles[i] = t;
-
+        
         mapData++;
     }
+    FixTileTransistions(tm);
 }
 
 void DestroyTileMap(TileMap* tm){
@@ -109,11 +108,22 @@ void DestroyTileMap(TileMap* tm){
 
 
 void FixTileTransistions(TileMap* tm){
-    for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){
-        if(tm->tiles[i].drawables[1].type == DT_Grass){
-            if(tm->tiles[i+1].drawables[1].type == DT_Dirt){
-                //....
+    for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){   
+        if(tm->tiles[i].drawables[0].type == DT_Dirt){
+            if(tm->tiles[i-1].drawables[0].type == DT_Grass){
+                tm->tiles[i].overlays_used[tile_overlay_left] = 1;
             }
+        }
+    }
+}
+
+void TileMapChangeSpriteSheet(TileMap* tm, SpriteSheet spritesheet){
+    for(int i = 0; i < tm->nTiles_used; i++){
+        for(int j = 0; j < tm->tiles[i].currentSpriteAmmount; j++){
+            DrawableChangeSpriteSheet(&tm->tiles[i].drawables[j], spritesheet);
+        }
+        for(int j = 0; j < tile_overlay_enumsize; j++){
+            DrawableChangeSpriteSheet(&tm->tiles[i].overlays[j], spritesheet);
         }
     }
 }
@@ -146,7 +156,7 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
     tp.z_index_offset = 0;
     //----------------
     switch(mdc){
-        case MUD:
+        case DIRT:
             tp.type = DT_Dirt;
             tp.srcrect.x = 80;
             tp.srcrect.y = 400;
