@@ -368,6 +368,8 @@ void TryHarvestPlant(Game *g, Plant *plant)
             #ifndef HarvestDebug
             #define HarvestDebug
             if (g->player.ent.n_items < INVENTORY_SIZE){
+                plant->GrownItems.exists = 1;
+                plant->GrownItems.amount = 1;
                 g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
                 g->player.ent.n_items++;
                 DeletePlant(g, plant);
