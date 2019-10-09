@@ -3,7 +3,7 @@ void ConstructTime(DateTime *date, TileMap* tilemap){
     date->sec = 0;
     date->min = 0;
     date->hour = 8;
-    date->day = 0;
+    date->day = 1;
     
     date->timeScale = 2;
     date->season = Spring;
