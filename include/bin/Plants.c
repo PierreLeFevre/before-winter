@@ -44,6 +44,11 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->GrownItems.d.srcrect.y = 7*16;
         plant->GrownItems.d.srcrect.w = 16;
         plant->GrownItems.d.srcrect.h = 16;
+
+        plant->SeedItems.d.srcrect.x = 18 * 16;
+        plant->SeedItems.d.srcrect.y = 19 * 16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
         CreatePlantType(plant, "Cauliflower", r, 7, 5000);
     break;
 
@@ -56,10 +61,15 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         r.y += 10;
 
         //22, 1
-        plant->GrownItems.d.srcrect.x = 20*16;
-        plant->GrownItems.d.srcrect.y = 0*16;
+        plant->GrownItems.d.srcrect.x = 8*16;
+        plant->GrownItems.d.srcrect.y = 10*16;
         plant->GrownItems.d.srcrect.w = 16;
         plant->GrownItems.d.srcrect.h = 16;
+
+        plant->SeedItems.d.srcrect.x = 15*16;
+        plant->SeedItems.d.srcrect.y = 16*16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
         CreatePlantType(plant, "Garlic", r, 6, 1000);
 
     break;
@@ -69,9 +79,37 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         r.y = 96;
         r.w = 16;
         r.h = 32;
-        CreatePlantType(plant, "Rhubarb", r, 7, 1000);
 
+        plant->GrownItems.d.srcrect.x = 12*16;
+        plant->GrownItems.d.srcrect.y = 10*16;
+        plant->GrownItems.d.srcrect.w = 16;
+        plant->GrownItems.d.srcrect.h = 16;
+
+        plant->SeedItems.d.srcrect.x = 22 * 16;
+        plant->SeedItems.d.srcrect.y = 19 * 16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
+        CreatePlantType(plant, "Rhubarb", r, 7, 1000);
     break;
+
+    case WheatType:
+        r.x = 7 * 16;
+        r.y = 5 * 32;
+        r.w = 16;
+        r.h = 32;
+
+        plant->GrownItems.d.srcrect.x = 22*16;
+        plant->GrownItems.d.srcrect.y = 10*16;
+        plant->GrownItems.d.srcrect.w = 16;
+        plant->GrownItems.d.srcrect.h = 16;
+
+        plant->SeedItems.d.srcrect.x = 3 * 16;
+        plant->SeedItems.d.srcrect.y = 20 * 16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
+        CreatePlantType(plant, "Wheat", r, 7, 1000);
+
+        break;
 
     case TomatoType:
         r.x = 0;
@@ -83,10 +121,56 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->GrownItems.d.srcrect.w = 16;
         plant->GrownItems.d.srcrect.h = 16;
 
+        plant->SeedItems.d.srcrect.x = 0 * 16;
+        plant->SeedItems.d.srcrect.y = 20 * 16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
         CreatePlantType(plant, "Tomato", r, 8, 1000);
         plant->TickToRegrow = 2000;
         plant->HasHarvestableBerries = 1;
     break;
+
+    case CoffeBeanType://20 0
+        r.x = 0;
+        r.y = 20 * 32;
+        r.w = 16;
+        r.h = 32;
+        plant->GrownItems.d.srcrect.x = 1*16;
+        plant->GrownItems.d.srcrect.y = 18*16;
+        plant->GrownItems.d.srcrect.w = 16;
+        plant->GrownItems.d.srcrect.h = 16;
+
+        plant->SeedItems.d.srcrect.x = 1*16;
+        plant->SeedItems.d.srcrect.y = 18*16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
+        CreatePlantType(plant, "Coffe Bean", r, 8, 1000);
+        plant->TickToRegrow = 2000;
+        plant->HasHarvestableBerries = 1;
+
+        break;
+    case StrawberryType://18 0
+        r.x = 0;
+        r.y = 18 * 32;
+        r.w = 16;
+        r.h = 32;
+
+        r.y += 10;
+        r.h -= 10;
+        plant->GrownItems.d.srcrect.x = 16*16;
+        plant->GrownItems.d.srcrect.y = 16*16;
+        plant->GrownItems.d.srcrect.w = 16;
+        plant->GrownItems.d.srcrect.h = 16;
+
+        plant->SeedItems.d.srcrect.x = 16*16;
+        plant->SeedItems.d.srcrect.y = 20*16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
+        CreatePlantType(plant, "Strawberry", r, 8, 1000);
+        plant->TickToRegrow = 2000;
+        plant->HasHarvestableBerries = 1;
+
+        break;
 
     default:
         break;

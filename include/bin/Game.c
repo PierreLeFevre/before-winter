@@ -267,24 +267,75 @@ void CreatePlantsToPlayer(Game *g){
     strcpy(g->player.ent.items[0].Name, "Parsnip Seed");
 
     CreatePlant(&p, &g->gfx, TomatoType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
-    g->player.ent.items[1] = p.GrownItems;
+    g->player.ent.items[1] = p.SeedItems;
     g->player.ent.items[1].amount = 2;
     g->player.ent.items[1].exists = 1;
     strcpy(g->player.ent.items[1].Name, "Tomato Seed");
 
     CreatePlant(&p, &g->gfx, CauliflowerType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
-    g->player.ent.items[2] = p.GrownItems;
+    g->player.ent.items[2] = p.SeedItems;
     g->player.ent.items[2].amount = 2;
     g->player.ent.items[2].exists = 1;
     strcpy(g->player.ent.items[2].Name, "Cauliflower Seed");
 
     CreatePlant(&p, &g->gfx, GarlicType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
-    g->player.ent.items[3] = p.GrownItems;
+    g->player.ent.items[3] = p.SeedItems;
     g->player.ent.items[3].amount = 2;
     g->player.ent.items[3].exists = 1;
     strcpy(g->player.ent.items[3].Name, "Garlic Seed");
 
-    g->player.ent.n_items = 4;
+    CreatePlant(&p, &g->gfx, RhubarbType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[4] = p.SeedItems;
+    g->player.ent.items[4].amount = 2;
+    g->player.ent.items[4].exists = 1;
+    strcpy(g->player.ent.items[4].Name, "Rhubarb Seed");
+
+    CreatePlant(&p, &g->gfx, WheatType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[5] = p.SeedItems;
+    g->player.ent.items[5].amount = 2;
+    g->player.ent.items[5].exists = 1;
+    strcpy(g->player.ent.items[5].Name, "Wheat Seed");
+
+    CreatePlant(&p, &g->gfx, CoffeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[6] = p.SeedItems;
+    g->player.ent.items[6].amount = 2;
+    g->player.ent.items[6].exists = 1;
+    strcpy(g->player.ent.items[6].Name, "Coffe Bean Seed");
+
+    CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[7] = p.SeedItems;
+    g->player.ent.items[7].amount = 2;
+    g->player.ent.items[7].exists = 1;
+    strcpy(g->player.ent.items[7].Name, "Strawberry Seed");
+
+    g->player.ent.n_items = 8;
+}
+PlantEnum ItemToPlant(Item *i){
+    if (strstr(i->Name, "Parsnip") != NULL){
+        return ParsnipType;
+    }
+    if (strstr(i->Name, "Cauliflower") != NULL){
+        return CauliflowerType;
+    }
+    if (strstr(i->Name, "Tomato") != NULL){
+        return TomatoType;
+    }
+    if (strstr(i->Name, "Garlic") != NULL){
+        return GarlicType;
+    }
+    if (strstr(i->Name, "Rhubarb") != NULL){
+        return RhubarbType;
+    }
+    if (strstr(i->Name, "Wheat") != NULL){
+        return WheatType;
+    }
+    if (strstr(i->Name, "Coffe Bean") != NULL){
+        return CoffeBeanType;
+    }
+    if (strstr(i->Name, "Strawberry") != NULL){
+        return StrawberryType;
+    }
+    return 100;
 }
 //TMP
 int TryPlacePlant(Game *g, PlantEnum plant)
@@ -468,22 +519,4 @@ void DrawableMergeSort(Drawable *DrawablesCurrentSort[], int l, int r)
 void ChangeActiveItem(Player *player, int index){
     player->activeItem = player->ent.items[index];
     player->activeItemIndex = index;
-}
-PlantEnum ItemToPlant(Item *i){
-    if (strstr(i->Name, "Parsnip") != NULL){
-        return ParsnipType;
-    }
-    if (strstr(i->Name, "Cauliflower") != NULL){
-        return CauliflowerType;
-    }
-    if (strstr(i->Name, "Tomato") != NULL){
-        return TomatoType;
-    }
-    if (strstr(i->Name, "Garlic") != NULL){
-        return GarlicType;
-    }
-    if (strstr(i->Name, "Rhubarb") != NULL){
-        return GarlicType;
-    }
-    return 100;
 }
