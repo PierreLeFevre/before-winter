@@ -17,6 +17,8 @@ typedef struct TileMap{
 
     int nTiles_used;
 
+    int flowersOnGrassIntensity;
+
     SDL_Rect player_home_rect;
 }TileMap;
 
@@ -55,7 +57,7 @@ void DrawTileMap(TileMap* tm);
 
 void TileMapChangeSpriteSheet(TileMap* tm, SpriteSheet spritesheet);
 
-TileProperties GetTilePropertiesData(const MapDataConverter mdc);
+TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc);
 
 void ApplyTileProperties(TileMap* tm, TileProperties* tp, Drawable* drawable, SDL_Rect* hitbox);
 

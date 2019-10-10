@@ -27,8 +27,11 @@ void UpdateTime(Uint32 base, DateTime *date){
     }
     if (date->day > 10){
         date->day = 1;
-        date->season++;
-        
+        if((SpriteSheet)date->season == (SpriteSheet)Winter){
+            date->season = (SpriteSheet)Spring;
+        }else{
+            date->season++;
+        }
         SpriteSheet spritesheet;
         switch (date->season)
         {
