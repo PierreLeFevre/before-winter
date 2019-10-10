@@ -16,6 +16,7 @@ typedef enum SpriteSheet
     SS_TILEMAP_SPRING,
     SS_TILEMAP_SUMMER,
     SS_TILEMAP_FALL,
+    SS_TILEMAP_WINTER,
     SS_PLAYER,
     SS_GUI,
     SS_PLANT,

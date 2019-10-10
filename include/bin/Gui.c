@@ -424,7 +424,7 @@ void GuiMenu(Gui *g)
                         g->p->ent.friction -= .1;
                         break;
                     case 9:
-                        g->dT->timeScale += 1;
+                        g->dT->timeScale -= 10;
                         break;
                     case 12:
                         g->d.gfx->wWidth -= 10;
@@ -455,7 +455,7 @@ void GuiMenu(Gui *g)
                         g->p->ent.friction += .1;
                         break;
                     case 9:
-                        g->dT->timeScale += 1;
+                        g->dT->timeScale += 10;
                         break;
                     case 12:
                         g->d.gfx->wWidth += 10;

@@ -73,6 +73,19 @@ void ConstructGraphics(Graphics *gfx)
     }
     SDL_FreeSurface(surf);
 
+    //TILEMAP WINTER
+    surf = IMG_Load("include/assets/unpacked/maps/winter_outdoorsTileSheet.png");
+    if (!surf)
+    {
+        printf("Error creating surface (winter_outdoorsTileSheet.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_TILEMAP_WINTER] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_TILEMAP_WINTER])
+    {
+        printf("Error creating texture (winter_outdoorsTileSheet.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+
     //PLAYER
     surf = IMG_Load("include/assets/unpacked/Characters/robin.png");
     if (!surf)
