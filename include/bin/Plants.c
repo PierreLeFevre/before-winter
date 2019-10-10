@@ -178,11 +178,17 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
     plant->TickPlaced = TickPlaced;
 }
 void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime){
+    //TMP
+    plant->GrownItems.SellValue = 20;
+    plant->SeedItems.Cost = 1;
+    //TMP
     plant->nPlantStages = length - 1;
     plant->nToUpdate = 0;
     SDL_Rect r = base;
     strcpy(plant->Name, name);
     strcpy(plant->GrownItems.Name, name);
+    strcpy(plant->SeedItems.Name, name);
+    strcat(plant->SeedItems.Name, " Seed");
     for (int i = 0; i < length; i++)
     {
         r.x += 16;
