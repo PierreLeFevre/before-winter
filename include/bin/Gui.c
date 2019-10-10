@@ -232,7 +232,7 @@ void GuiBar(Gui *g)
 
     RenderText(g, x + 50, y + 15, 0, White, Bold, guiDateTime);
 
-    if (g->dT->hour >= 22)
+    if (g->dT->hour >= 22 && g->dT->hour < 23)
     {
         AlertGui(g, 2, "It will soon be night.");
     }
@@ -606,7 +606,7 @@ void GuiShop(Gui *g){
                     {
                     case 0:
                         g->dT->hour = 23;
-                        g->dT->min = 40;
+                        g->dT->min = 59;
                         break;
                     case 1:
                         g->shopPage = 1;
