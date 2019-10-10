@@ -98,7 +98,9 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
             t = tm->tiles[i];      
         }
         TileAddSprite(&t, drawable, hitbox, z_index);
-        //Initiate every Drawable in overlays-array
+        //Initiate every Drawable in every overlays-array
+
+        // GRASS -> DIRT
         for(int j = 0; j < tile_overlay_enumsize; j++){
             Drawable overlay;
             SDL_Rect overlay_srcrect = srcrect;
@@ -196,11 +198,88 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     break;  
             }
             ConstructDrawable(&overlay, DT_Other, tm->gfx, season_sprite, overlay_srcrect, overlay_destrect, t.drawables[0].z_index + overlay_offset);
-            t.overlays[j] = overlay;
+            t.overlays[tile_overlay_grass_to_dirt][j] = overlay;
+        }
+        
+        // ANYTHING -> WATER
+        for(int j = 0; j < tile_overlay_enumsize; j++){
+            Drawable overlay;
+            SDL_Rect overlay_srcrect = srcrect;
+            SDL_Rect overlay_destrect = destrect;
+            int overlay_offset = 0;
+            switch(j){
+                case tile_overlay_left:
+                    overlay_offset = 1;
+                    overlay_srcrect.x = 128;
+                    overlay_srcrect.y = 128;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+
+                case tile_overlay_top_left:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 128;
+                    overlay_srcrect.y = 112;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+
+                case tile_overlay_top:
+                    overlay_offset = 1;
+                    overlay_srcrect.x = 144;
+                    overlay_srcrect.y = 112;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+
+                case tile_overlay_top_right:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 160;
+                    overlay_srcrect.y = 112;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+                    
+                case tile_overlay_right:
+                    overlay_offset = 1;
+                    overlay_srcrect.x = 160;
+                    overlay_srcrect.y = 128;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+
+                case tile_overlay_bottom_right:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 160;
+                    overlay_srcrect.y = 144;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+                    
+                case tile_overlay_bottom:
+                    overlay_offset = 1;
+                    overlay_srcrect.x = 144;
+                    overlay_srcrect.y = 144;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+
+                case tile_overlay_bottom_left:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 128;
+                    overlay_srcrect.y = 144;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+                default:
+                    break;  
+            }
+            ConstructDrawable(&overlay, DT_Other, tm->gfx, season_sprite, overlay_srcrect, overlay_destrect, t.drawables[0].z_index + overlay_offset);
+            t.overlays[tile_overlay_anything_to_water][j] = overlay;
         }
         tm->tiles[i] = t;
     }
-    FixTileTransistions(tm);
+    FixTileTransitions(tm);
 }
 
 void DestroyTileMap(TileMap* tm){
@@ -208,22 +287,106 @@ void DestroyTileMap(TileMap* tm){
     tm->tiles = NULL;
 }
 
-void FixTileTransistions(TileMap* tm){
+void FixTileTransitions(TileMap* tm){
     Tile* ts = tm->tiles;
-    for(int i = 0; i < tm->nTiles_x * tm->nTiles_y ; i++){  
+    for(int i = 0; i < tm->nTiles_x * tm->nTiles_y ; i++){ 
+        // --------- GRASS -> DIRT ------------
         if(ts[i].drawables[0].type == DT_Dirt){
             // ---- SIDES ----
-            ts[i - 1].drawables[0].type             == DT_Grass ? ts[i].overlays_used[tile_overlay_left]    = 1 : 0;
+            // left
+            if(i > 0)
+            ts[i - 1].drawables[0].type == DT_Grass 
+            ? 
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_left] = 1 : 0;
+
+            // top
             if(i > tm->nTiles_x)
-            ts[i - tm->nTiles_x].drawables[0].type  == DT_Grass ? ts[i].overlays_used[tile_overlay_top]     = 1 : 0;
-            ts[i + 1].drawables[0].type             == DT_Grass ? ts[i].overlays_used[tile_overlay_right]   = 1 : 0;
-            if(i < (tm->nTiles_x * tm->nTiles_y) - (tm->nTiles_x))
-            ts[i + tm->nTiles_y].drawables[0].type  == DT_Grass ? ts[i].overlays_used[tile_overlay_bottom]  = 1 : 0;
+            ts[i - tm->nTiles_x].drawables[0].type == DT_Grass 
+            ? 
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top] = 1 : 0;
+
+            // right
+            if(i < tm->nTiles_used )
+            ts[i + 1].drawables[0].type == DT_Grass 
+            ? 
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_right] = 1 : 0;
+
+            // bottom
+            if(i < tm->nTiles_used - tm->nTiles_x)
+            ts[i + tm->nTiles_x].drawables[0].type  == DT_Grass 
+            ? 
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom] = 1 : 0;
+
             // ---- CORNERS ----
-            ts[i].overlays_used[tile_overlay_left]      && ts[i].overlays_used[tile_overlay_top]    ? ts[i].overlays_used[tile_overlay_top_left]        = 1 : 0;
-            ts[i].overlays_used[tile_overlay_top]       && ts[i].overlays_used[tile_overlay_right]  ? ts[i].overlays_used[tile_overlay_top_right]       = 1 : 0;
-            ts[i].overlays_used[tile_overlay_right]     && ts[i].overlays_used[tile_overlay_bottom] ? ts[i].overlays_used[tile_overlay_bottom_right]    = 1 : 0;
-            ts[i].overlays_used[tile_overlay_bottom]    && ts[i].overlays_used[tile_overlay_left]   ? ts[i].overlays_used[tile_overlay_bottom_left]     = 1 : 0;
+            // top-left
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_left] && ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top] 
+            ? 
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top_left] = 1 : 0;
+
+            // top-right
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top] && ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_right]  
+            ? 
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top_right] = 1 : 0;
+
+            // bottom-right
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_right] && ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom] 
+            ?
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom_right] = 1 : 0;
+
+            // bottom-left
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom] && ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_left] 
+            ? 
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom_left]  = 1 : 0;
+        }
+        
+        // --------- WATER -> ANYTHING ------------
+        if(ts[i].drawables[0].type == DT_Water){
+            // ---- SIDES ----
+            // left
+            if(i % tm->nTiles_x != 0)
+            ts[i - 1].drawables[0].type != DT_Water 
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_left] = 1 : 0;
+
+            // top
+            if(i > tm->nTiles_x)
+            ts[i - tm->nTiles_x].drawables[0].type != DT_Water  
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top] = 1 : 0;
+
+            // right
+            if(((i % tm->nTiles_x) - tm->nTiles_x) != 0 && i < tm->nTiles_used)
+            ts[i + 1].drawables[0].type != DT_Water  
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_right] = 1 : 0;
+
+            // bottom
+            if(i < tm->nTiles_used)
+            ts[i + tm->nTiles_x].drawables[0].type != DT_Water  
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom] = 1 : 0;
+
+
+            // ---- CORNERS ----
+            // top-left
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_left] && ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top] 
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top_left] = 1 : 0;
+            
+            // top-right
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top] && ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_right] 
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top_right] = 1 : 0;
+
+            // bottom-right
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_right] && ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom] 
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom_right] = 1 : 0;
+
+            // bottom-left
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom] && ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_left] 
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom_left] = 1 : 0;
         }
     }
 }
@@ -233,8 +396,10 @@ void TileMapChangeSpriteSheet(TileMap* tm, SpriteSheet spritesheet){
         for(int j = 0; j < tm->tiles[i].currentSpriteAmmount; j++){
             DrawableChangeSpriteSheet(&tm->tiles[i].drawables[j], spritesheet);
         }
-        for(int j = 0; j < tile_overlay_enumsize; j++){
-            DrawableChangeSpriteSheet(&tm->tiles[i].overlays[j], spritesheet);
+        for(int j = 0; j < tile_overlay_types_enumsize; j++){
+            for(int k = 0; k < tile_overlay_enumsize; k++){
+                DrawableChangeSpriteSheet(&tm->tiles[i].overlays[j][k], spritesheet);
+            }
         }
     }
 }
@@ -309,14 +474,9 @@ TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
             tp.srcrect.h = 96;
             break;
         case WATER_LAKE:
+            tp.type = DT_Water;
             tp.srcrect.x = 128;
             tp.srcrect.y = 208;
-            tp.srcrect.w = 16;
-            tp.srcrect.h = 16;
-            break;
-        case WATER_TOP:
-            tp.srcrect.x = 144;
-            tp.srcrect.y = 113;
             tp.srcrect.w = 16;
             tp.srcrect.h = 16;
             break;
@@ -340,12 +500,23 @@ TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
             tp.destrect_offset.y -= TILE_WIDTH * 5;
             tp.destrect_offset.w += TILE_HEIGHT * 4;
             break;
+        case PIER:
+            tp.type = DT_Pier;
+            tp.z_index_offset = 1;
+            tp.srcrect.x = 176;
+            tp.srcrect.y = 1040;
+            tp.srcrect.w = 80;
+            tp.srcrect.h = 63;
+            tp.destrect_offset.w += TILE_WIDTH * 4;
+            tp.destrect_offset.h += TILE_WIDTH * 3;
+            break;
         case TRANSPARENT:
             tp.type = DT_Transparent;
             tp.srcrect.x = 0;
             tp.srcrect.y = 0;
             tp.srcrect.w = 1;
             tp.srcrect.h = 1;
+            break;
         default:
             break;
     }

@@ -7,12 +7,14 @@ typedef enum DrawableType{
     DT_Player,
     DT_Player_Home,
     DT_GUI,
-    DT_Other,
     DT_Plant,
     DT_Item,
     DT_Grass,
     DT_Dirt,
-    DT_Transparent
+    DT_Water,
+    DT_Pier,
+    DT_Transparent,
+    DT_Other,
 }DrawableType;
 
 typedef struct Drawable{
