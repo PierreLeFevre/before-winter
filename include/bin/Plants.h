@@ -34,3 +34,4 @@ typedef struct Plant{
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 PlacedTick, int zIndex);
 void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime);
 void UpdatePlant(Plant *plant, Uint32 Tick);
+Item SeedToItem(Graphics *gfx, PlantEnum plant, int nr);

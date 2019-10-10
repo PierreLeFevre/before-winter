@@ -261,7 +261,7 @@ void CreatePlantsToPlayer(Game *g){
     SDL_Rect rect = {0, 0, TILE_WIDTH, TILE_HEIGHT};
     Plant p;
     CreatePlant(&p, &g->gfx, ParsnipType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
-    g->player.ent.items[0] = p.GrownItems;
+    g->player.ent.items[0] = p.SeedItems;
     g->player.ent.items[0].amount = 2;
     g->player.ent.items[0].exists = 1;
     strcpy(g->player.ent.items[0].Name, "Parsnip Seed");

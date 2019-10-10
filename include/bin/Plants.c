@@ -23,7 +23,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->GrownItems.d.srcrect.w = 16;
         plant->GrownItems.d.srcrect.h = 16;
 
-        plant->SeedItems.d.srcrect.x = 17 * 16;
+        plant->SeedItems.d.srcrect.x = 16 * 16;
         plant->SeedItems.d.srcrect.y = 19 * 16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
@@ -129,4 +129,11 @@ void UpdatePlant(Plant *plant, Uint32 Tick)
             }
         }
     }
+}
+Item SeedToItem(Graphics *gfx, PlantEnum plant, int amount){
+    Plant p;
+    SDL_Rect rect={0, 0, 32, 32};
+    CreatePlant(&p, gfx, plant, rect, SDL_GetTicks(), 1000);
+    p.SeedItems.amount = amount;
+    return p.SeedItems;
 }
