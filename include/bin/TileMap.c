@@ -301,6 +301,26 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             tp.srcrect.w = 16;
             tp.srcrect.h = 16;
             break;
+        case PLAYER_HOME:
+            tp.type = DT_Player_Home;
+            tp.z_index_offset += 5;
+            tp.srcrect.x = 64;
+            tp.srcrect.y = 512;
+            tp.srcrect.w = 80;
+            tp.srcrect.h = 80;
+            tp.destrect_offset.w += TILE_WIDTH * 4;
+            tp.destrect_offset.h += TILE_HEIGHT * 4;
+            break;
+        case PLAYER_HOME_ROOF:
+            tp.type = DT_Player_Home;
+            tp.z_index_offset += 5000;
+            tp.srcrect.x = 240;
+            tp.srcrect.y = 736;
+            tp.srcrect.w = 80;
+            tp.srcrect.h = 16;
+            tp.destrect_offset.y -= TILE_WIDTH * 5;
+            tp.destrect_offset.w += TILE_HEIGHT * 4;
+            break;
 
         default:
             break;
