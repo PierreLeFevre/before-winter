@@ -130,7 +130,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->HasHarvestableBerries = 1;
     break;
 
-    case CoffeBeanType://20 0
+    case CoffeeBeanType://20 0
         r.x = 0;
         r.y = 20 * 32;
         r.w = 16;
