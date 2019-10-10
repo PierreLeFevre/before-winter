@@ -66,8 +66,8 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->GrownItems.d.srcrect.w = 16;
         plant->GrownItems.d.srcrect.h = 16;
 
-        plant->SeedItems.d.srcrect.x = 15*16;
-        plant->SeedItems.d.srcrect.y = 16*16;
+        plant->SeedItems.d.srcrect.x = 20 * 16;
+        plant->SeedItems.d.srcrect.y = 19 * 16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
         CreatePlantType(plant, "Garlic", r, 6, 1000);
@@ -130,7 +130,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->HasHarvestableBerries = 1;
     break;
 
-    case CoffeBeanType://20 0
+    case CoffeeBeanType://20 0
         r.x = 0;
         r.y = 20 * 32;
         r.w = 16;
@@ -144,7 +144,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 18*16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
-        CreatePlantType(plant, "Coffe Bean", r, 8, 1000);
+        CreatePlantType(plant, "Coffee Bean", r, 8, 1000);
         plant->TickToRegrow = 2000;
         plant->HasHarvestableBerries = 1;
 
