@@ -104,11 +104,6 @@ void UpdateLogic(Game *g)
     }
 #endif
     UpdateCamera(&g->cam);
-
-    if (g->dateTime.season == Winter)
-    {
-        DestroyGame(g);
-    }
 }
 
 void Render(Game *g)
@@ -170,23 +165,24 @@ void HandleEvents(Game *g)
 
 void CalculateGoodTiles(Game *g)
 {
+    //int tilesOutsideScreen_x = 5;
     int tilesOutsideScreen_y = 5;
-    int tilesOutsideScreen_x = 3;
     g->nGoodTiles = 0;
     for (int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++)
     {
         SDL_Rect currTile = g->tileMap.tiles[i].drawables[0].destrect;
         SDL_Rect camera = g->cam.camRectVirtual;
-        if (currTile.x > camera.x + camera.w + TILE_WIDTH * tilesOutsideScreen_x)
-        {
-            i += (int)(abs(currTile.x - (g->tileMap.nTiles_x * TILE_WIDTH)) / TILE_WIDTH) - 1;
-            continue;
-        }
-        if (currTile.x + currTile.w < camera.x - TILE_WIDTH * tilesOutsideScreen_x)
-        {
-            i += (int)(abs((currTile.x + currTile.w) - (camera.x - TILE_WIDTH * 2)) / TILE_WIDTH);
-            continue;
-        }
+        // NOT WORKING
+        // if (currTile.x > camera.x + camera.w + TILE_WIDTH * tilesOutsideScreen_x)
+        // {
+        //     i += (int)(abs(currTile.x - (g->tileMap.nTiles_x * TILE_WIDTH)) / TILE_WIDTH) - 1;
+        //     continue;
+        // }
+        // if (currTile.x + currTile.w < camera.x - TILE_WIDTH * tilesOutsideScreen_x)
+        // {
+        //     i += (int)(abs((currTile.x + currTile.w) - (camera.x - TILE_WIDTH * 2)) / TILE_WIDTH);
+        //     continue;
+        // }
         if (currTile.y + currTile.h < camera.y - TILE_HEIGHT * tilesOutsideScreen_y)
         {
             i += (int)(abs(g->tileMap.nTiles_x * TILE_WIDTH) / TILE_WIDTH);
@@ -316,7 +312,7 @@ int TryPlacePlant(Game *g, PlantEnum plant)
             }
             if (found == 0)
             {
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 1);
+                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 2);
                 g->nPlants++;
                 return 1;
             }
