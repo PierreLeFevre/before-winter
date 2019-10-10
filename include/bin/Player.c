@@ -29,17 +29,17 @@ void UpdatePlayer(Player *player)
     UpdatePlayerDirection(player);
     UpdateEntity(&player->ent);
 
-    UpdateItemPreview(player, &player->activeItem);
+    UpdateItemPreview(player);
     UpdatePlayerHitbox(player);
 }
 
-void UpdateItemPreview(Player *player, Item *i)
+void UpdateItemPreview(Player *player)
 {
-    player->activeItem.d = i->d;
+    player->activeItem = player->ent.items[player->activeItemIndex];
+    player->activeItem.d.destrect.x = player->ent.d.destrect.x;
+    player->activeItem.d.destrect.y = player->ent.d.destrect.y;
     player->activeItem.d.z_index = player->ent.d.z_index;
-
-    player->activeItem.d.destrect.x = player->ent.d.destrect.x + 15;
-    player->activeItem.d.destrect.y = player->ent.d.destrect.y - 35;
+    player->activeItem.d.destrect.y -= 35;
 }
 void UpdatePlayerDirection(Player *player)
 {
