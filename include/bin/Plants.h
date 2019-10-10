@@ -19,6 +19,7 @@ typedef struct Plant{
     char Name[100];
     Drawable TextureMap;
     Item GrownItems;
+    Item SeedItems;
     PlantStage plantStages[10];
     int nPlantStages;
     Uint32 TickPlaced;

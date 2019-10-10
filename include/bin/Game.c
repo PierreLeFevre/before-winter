@@ -262,25 +262,25 @@ void CreatePlantsToPlayer(Game *g){
     Plant p;
     CreatePlant(&p, &g->gfx, ParsnipType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[0] = p.GrownItems;
-    g->player.ent.items[0].amount = 1;
+    g->player.ent.items[0].amount = 2;
     g->player.ent.items[0].exists = 1;
     strcpy(g->player.ent.items[0].Name, "Parsnip Seed");
 
     CreatePlant(&p, &g->gfx, TomatoType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[1] = p.GrownItems;
-    g->player.ent.items[1].amount = 1;
+    g->player.ent.items[1].amount = 2;
     g->player.ent.items[1].exists = 1;
     strcpy(g->player.ent.items[1].Name, "Tomato Seed");
 
     CreatePlant(&p, &g->gfx, CauliflowerType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[2] = p.GrownItems;
-    g->player.ent.items[2].amount = 1;
+    g->player.ent.items[2].amount = 2;
     g->player.ent.items[2].exists = 1;
     strcpy(g->player.ent.items[2].Name, "Cauliflower Seed");
 
     CreatePlant(&p, &g->gfx, GarlicType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[3] = p.GrownItems;
-    g->player.ent.items[3].amount = 1;
+    g->player.ent.items[3].amount = 2;
     g->player.ent.items[3].exists = 1;
     strcpy(g->player.ent.items[3].Name, "Garlic Seed");
 
@@ -332,6 +332,8 @@ void TryHarvestPlant(Game *g, Plant *plant)
     { //to make index easier
         if (g->player.ent.n_items < INVENTORY_SIZE)
         {
+            plant->GrownItems.exists = 1;
+            plant->GrownItems.amount = 1;
             plant->TickAtHarvestation = SDL_GetTicks();
             plant->nToUpdate++;
             g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;

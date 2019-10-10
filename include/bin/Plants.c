@@ -1,8 +1,10 @@
 #include "Plants.h"
 #include <stdio.h>
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex)
-{   
+{
+
     ConstructDrawable(&plant->GrownItems.d,DT_Plant, gfx, SS_ITEM, tile, tile, zIndex);
+    ConstructDrawable(&plant->SeedItems.d,DT_Plant, gfx, SS_ITEM, tile, tile, zIndex);
     ConstructDrawable(&plant->TextureMap, DT_Plant, gfx, SS_PLANT, tile, tile, zIndex);
     SDL_Rect r;
     switch (plantEnum)
@@ -20,6 +22,11 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->GrownItems.d.srcrect.y = 16;
         plant->GrownItems.d.srcrect.w = 16;
         plant->GrownItems.d.srcrect.h = 16;
+
+        plant->SeedItems.d.srcrect.x = 17 * 16;
+        plant->SeedItems.d.srcrect.y = 19 * 16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
         CreatePlantType(plant, "Parsnip", r, 6, 1000);
 
         break;
