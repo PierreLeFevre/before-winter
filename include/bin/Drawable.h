@@ -11,7 +11,8 @@ typedef enum DrawableType{
     DT_Plant,
     DT_Item,
     DT_Grass,
-    DT_Dirt
+    DT_Dirt,
+    DT_Transparent
 }DrawableType;
 
 typedef struct Drawable{

@@ -22,6 +22,7 @@ typedef enum SpriteSheet
     SS_ITEM,
     SS_FONT,
     SS_SHADER,
+    SS_TRANSPARENT,
     SS_NONE
 } SpriteSheet;
 

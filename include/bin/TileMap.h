@@ -16,6 +16,8 @@ typedef struct TileMap{
     int topleft_y;
 
     int nTiles_used;
+
+    SDL_Rect player_home_rect;
 }TileMap;
 
 typedef struct TileProperties{
@@ -40,7 +42,8 @@ typedef enum MapDataConverter{
     WATER_LAKE,
     WATER_TOP,
     PLAYER_HOME,
-    PLAYER_HOME_ROOF
+    PLAYER_HOME_ROOF,
+    TRANSPARENT = 9
 }MapDataConverter;
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file);
