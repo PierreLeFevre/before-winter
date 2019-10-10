@@ -49,10 +49,12 @@ void UpdateLogic(Game *g)
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
-    if (!g->gui.menuActive)
+    if (!(g->gui.menuActive || g->gui.shopActive))
     {
         CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
     }
+    
+    
     if (EventHandler("action="))
     {
         TryPlacePlant(g, TomatoType);

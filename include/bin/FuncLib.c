@@ -134,72 +134,6 @@ float speed_cap(float value, float cap)
     }
     return value;
 }
-
-char *IntToCharArray(int number)
-{
-    int isNegative = 0;
-
-    if (number < 0)
-    {
-        isNegative = 1;
-        number *= -1;
-    }
-
-    int n = log10(number) + 1;
-    int k;
-    char *array = malloc(n * sizeof(char));
-    //char *array = calloc(n, sizeof(char));
-    for (k = 0; k < n; ++k, number /= 10)
-    {
-        array[k] = number % 10;
-    }
-    if (isNegative)
-    {
-        array[k] = '-';
-    }
-
-    for (int i = 0; i < k; i++)
-    {
-        switch (array[i])
-        {
-        case 0:
-            array[i] = 48;
-            break;
-        case 1:
-            array[i] = 49;
-            break;
-        case 2:
-            array[i] = 50;
-            break;
-        case 3:
-            array[i] = 51;
-            break;
-        case 4:
-            array[i] = 52;
-            break;
-        case 5:
-            array[i] = 53;
-            break;
-        case 6:
-            array[i] = 54;
-            break;
-        case 7:
-            array[i] = 55;
-            break;
-        case 8:
-            array[i] = 56;
-            break;
-        case 9:
-            array[i] = 57;
-            break;
-        default:
-            break;
-        }
-    }
-    array[k + 1] = '\0';
-    CharReverse(array);
-    return array;
-}
 void CharReverse(char *str)
 {
     int i;
@@ -212,13 +146,6 @@ void CharReverse(char *str)
         str[i] = str[j];
         str[j] = a;
     }
-}
-char *strcpyMACFRIENDLY(char *s1, const char *s2)
-{
-    char *s = s1;
-    while ((*s++ = *s2++) != 0)
-        ;
-    return (s1);
 }
 int Get_Option(char Option[20])
 {

@@ -10,6 +10,7 @@
 
 testkey= 20
 inventory= 8
+shop= 9
 harvestTemp= 14
 meny= 41
 action= 44

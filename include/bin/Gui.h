@@ -11,6 +11,7 @@ typedef struct Gui{
     Drawable menu;
     Drawable inv;
     Drawable shaders;
+    Drawable shopBg;
 
     Drawable charToPrint;
 
@@ -23,6 +24,13 @@ typedef struct Gui{
     int menuSelectedIndex;
     int menuSelectToggler;
     int saveSlot;
+
+    int shopActive;
+    int shoptoggler;
+    int shopPage;
+    int shopSelectedIndex;
+    int shopSelectToggler;
+    int shopOrder[100];
 
     int invActive;
     int invToggler;

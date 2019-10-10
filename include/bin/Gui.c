@@ -13,6 +13,7 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     g->inv.gfx = gfx;
     g->promptBg.gfx = gfx;
     g->shaders.gfx = gfx;
+    g->shopBg.gfx = gfx;
 
     g->p = p;
 
@@ -25,8 +26,17 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
 
     g->saveSlot = 1;
 
+    g->shopActive = 0;
+    g->shoptoggler = 0;
+    g->shopPage = 0;
+    g->shopSelectedIndex = 0;
+    g->shopSelectToggler = 0;
     g->invActive = 0;
     g->invToggler = 0;
+
+    for(int i = 0; i < 100; i++){
+        g->shopOrder[i] = 0;
+    }
 
     g->promptToggler = 0;
 
@@ -51,6 +61,10 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     SDL_Rect msgBox_srcrect = {0, 80, 400, 400};
     SDL_Rect messageBox_destrect = {75, 50, 450, 450};
     ConstructDrawable(&g->messageBox, DT_GUI, g->d.gfx, SS_GUI, msgBox_srcrect, messageBox_destrect, 19997);
+
+    SDL_Rect shop_srcrect = {100, 106, 50, 350};
+    SDL_Rect shop_destrect = {-25, -25, 300, 300};
+    ConstructDrawable(&g->shopBg, DT_GUI, g->d.gfx, SS_GUI, shop_srcrect, shop_destrect, 19996);
 
     SDL_Rect inv_srcrect = {0, 80, 400, 400};
     SDL_Rect inv_destrect = {75, 50, 440, 440};
@@ -159,44 +173,24 @@ void MsgBoxShow(Gui *g, char message[201])
 
 void GuiShaders(Gui *g)
 {
-    switch (g->dT->hour)
-    {
-    case 0:
-        g->shaders.srcrect.x = 0;
-        g->shaders.srcrect.y = 0;
-        g->shaders.srcrect.w = 16;
-        g->shaders.srcrect.h = 16;
-        break;
-    case 2:
-        g->shaders.srcrect.y = 16;
-        break;
-    case 4:
-        g->shaders.srcrect.y = 32;
-        break;
-    case 6:
-        g->shaders.srcrect.y = 48;
-        break;
-    case 8:
-        g->shaders.srcrect.x = 0;
-        g->shaders.srcrect.y = 0;
-        g->shaders.srcrect.w = 0;
-        g->shaders.srcrect.h = 0;
-        break;
-    case 16:
+    if(g->dT->hour > 16){
         g->shaders.srcrect.x = 16;
         g->shaders.srcrect.y = 48;
         g->shaders.srcrect.w = 16;
         g->shaders.srcrect.h = 16;
-        break;
-    case 18:
-        g->shaders.srcrect.y = 32;
-        break;
-    case 20:
-        g->shaders.srcrect.y = 16;
-        break;
-    case 22:
-        g->shaders.srcrect.y = 0;
-        break;
+        if(g->dT->hour > 18){
+            g->shaders.srcrect.y = 32;
+        }
+        if(g->dT->hour > 20){
+            g->shaders.srcrect.y = 16;
+        }
+        if(g->dT->hour > 22){
+            g->shaders.srcrect.y = 0;
+        }
+    }
+    else{
+        g->shaders.srcrect.w = 0;
+        g->shaders.srcrect.h = 0;
     }
 
     g->shaders.destrect.x = 0;
@@ -222,19 +216,16 @@ void GuiBar(Gui *g)
     switch (g->dT->season)
     {
     case Spring:
-        sprintf(guiDateTime, "Spring, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Spring, Day %d  %d:%d", g->dT->day+1, g->dT->hour, g->dT->min);
         break;
     case Summer:
-        sprintf(guiDateTime, "Summer, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Summer, Day %d  %d:%d", g->dT->day+1, g->dT->hour, g->dT->min);
         break;
     case Fall:
-        sprintf(guiDateTime, "Fall, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Fall, Day %d  %d:%d", g->dT->day+1, g->dT->hour, g->dT->min);
         break;
     case Winter:
-        sprintf(guiDateTime, "Winter, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
-        break;
-    default:
-        sprintf(guiDateTime, "Undefined, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Winter, Day %d  %d:%d", g->dT->day+1, g->dT->hour, g->dT->min);
         break;
     }
 
@@ -554,6 +545,145 @@ void GuiMenu(Gui *g)
 }
 
 void GuiShop(Gui *g){
+    g->shopBg.destrect.h = g->d.gfx->wHeight + 50;
+
+
+    if(g->shoptoggler > 20){
+        if(g->shopActive){
+            Draw(&g->shopBg);
+            
+            if(EventHandler("shop=")){
+                g->shopActive = 0;
+                g->shoptoggler = 0;
+                g->shopSelectToggler = 0;
+            }
+
+            if (EventHandler("1UP=") && g->shopSelectToggler > 20){
+                switch (g->shopSelectedIndex)
+                {
+                case 0:
+                    break;
+                default:
+                    g->shopSelectedIndex -= 1;
+                    break;
+                }
+                g->shopSelectToggler = 0;
+            }
+
+            if (EventHandler("1DOWN=") && g->shopSelectToggler > 20){
+                switch (g->shopSelectedIndex)
+                {
+                case 1: 
+                    break;
+                default:
+                    g->shopSelectedIndex += 1;
+                    break;
+                }
+                g->shopSelectToggler = 0;
+            }
+
+            g->shopSelectToggler += 1;
+
+
+            RenderText(g, 5, 140 + g->shopSelectedIndex * 18, 0, White, Bold, ">");
+
+
+            switch (g->shopPage)
+            {
+            case 0:
+                //MAIN HOME PAGE ----- PAGE 0
+                RenderText(g, 20, 100, 0, White, Bold, "Welcome home!");
+
+                //Options
+
+                RenderText(g, 20, 140, 0, White, Bold, "Go to sleep");
+                RenderText(g, 20, 158, 0, White, Bold, "Go to the store");
+
+                //
+                if (EventHandler("Select=") && g->shopSelectToggler > 20){ 
+                    switch (g->shopSelectedIndex)
+                    {
+                    case 0:
+                        g->dT->hour = 23;
+                        g->dT->min = 40;
+                        break;
+                    case 1:
+                        g->shopPage = 1;
+                    }
+                    g->shopSelectedIndex = 0;
+                    g->shopSelectToggler = 0;
+                }
+
+                RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
+                break;
+            
+            case 1:
+                //SHOP HOME PAGE ----- PAGE 1
+                RenderText(g, 20, 100, 0, White, Bold, "Welcome to the store!");
+
+                //Options
+                RenderText(g, 20, 140, 0, White, Bold, "Buy seeds");
+                RenderText(g, 20, 160, 0, White, Bold, "Sell plants");
+
+                //
+                if (EventHandler("Select=") && g->shopSelectToggler > 20){ 
+                    switch (g->shopSelectedIndex)
+                    {
+                    case 0:
+                        g->shopPage = 2;
+                        break;
+                    case 1:
+                        g->shopPage = 3;
+                    }
+                    g->shopSelectedIndex = 0;
+                    g->shopSelectToggler = 0;
+                }
+
+                RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
+                break;
+            case 2:
+                //BUY SEEDS PAGE ----- PAGE 3
+                RenderText(g, 20, 100, 0, White, Bold, "Please place your order.");
+
+                //Options
+                char shopOrderString[100];
+                sprintf(shopOrderString, "Parsnip seeds [%d]\nTomato seeds [%d]\nPlace order", g->shopOrder[0], g->shopOrder[1]);
+                RenderText(g, 20, 140, 0, White, Bold, shopOrderString);
+
+                if (EventHandler("1LEFT=") && g->shopSelectToggler > 20){
+                    g->shopOrder[g->shopSelectedIndex]-=1;
+                    g->shopSelectToggler = 0;
+                }
+
+                if (EventHandler("1RIGHT=") && g->shopSelectToggler > 20){
+                    g->shopOrder[g->shopSelectedIndex]+=1;
+                    g->shopSelectToggler = 0;
+                }
+
+
+                if (g->shopSelectedIndex > 3){
+                    RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
+                }else{
+                    RenderText(g, 215, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[<][>]");
+                }
+                
+                break;
+            }
+            
+            g->shopSelectToggler += 1;
+
+        }
+        else
+        {
+            if(EventHandler("shop=")){
+                g->shopActive = 1;
+                g->shopPage = 0;
+                g->shoptoggler = 0;
+            }
+        }
+    }
+
+    g->shoptoggler += 1;
 
 }
 
