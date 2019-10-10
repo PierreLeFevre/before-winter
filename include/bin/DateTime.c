@@ -41,6 +41,9 @@ void UpdateTime(Uint32 base, DateTime *date){
         case Fall:
             spritesheet = (SpriteSheet)Fall;
             break;
+        case Winter:
+            spritesheet = (SpriteSheet)Winter;
+            break;
         default:
             spritesheet = (SpriteSheet)Spring;
             break;

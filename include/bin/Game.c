@@ -91,11 +91,6 @@ void UpdateLogic(Game *g)
     }
 #endif
     UpdateCamera(&g->cam);
-
-    if (g->dateTime.season == Winter)
-    {
-        DestroyGame(g);
-    }
 }
 
 void Render(Game *g)

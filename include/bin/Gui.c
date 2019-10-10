@@ -238,7 +238,7 @@ void GuiBar(Gui *g)
 
     RenderText(g, x + 50, y + 15, 0, White, Bold, guiDateTime);
 
-    if (g->dT->hour >= 22)
+    if (g->dT->hour >= 22 && g->dT->hour < 23)
     {
         AlertGui(g, 2, "It will soon be night.");
     }
@@ -424,7 +424,7 @@ void GuiMenu(Gui *g)
                         g->p->ent.friction -= .1;
                         break;
                     case 9:
-                        g->dT->timeScale += 1;
+                        g->dT->timeScale -= 10;
                         break;
                     case 12:
                         g->d.gfx->wWidth -= 10;
@@ -455,7 +455,7 @@ void GuiMenu(Gui *g)
                         g->p->ent.friction += .1;
                         break;
                     case 9:
-                        g->dT->timeScale += 1;
+                        g->dT->timeScale += 10;
                         break;
                     case 12:
                         g->d.gfx->wWidth += 10;
@@ -616,7 +616,7 @@ void GuiShop(Gui *g)
                     {
                     case 0:
                         g->dT->hour = 23;
-                        g->dT->min = 40;
+                        g->dT->min = 59;
                         break;
                     case 1:
                         g->shopPage = 1;
