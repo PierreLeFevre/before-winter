@@ -272,17 +272,21 @@ void GuiInventory(Gui *g)
     {
         if (g->invActive)
         {
-            for (int i = 0; i < INVENTORY_SIZE; i++)
-            {
+            for (int i = 0; i < INVENTORY_SIZE-1; i++)  
+                for (int j = 0; j < INVENTORY_SIZE-i-1; j++)
+                    if (g->p->ent.items[j].amount < g->p->ent.items[j+1].amount){
+                        Item temp = g->p->ent.items[j];
+                        g->p->ent.items[j] = g->p->ent.items[j+1];
+                        g->p->ent.items[j+1] = temp;
+                    }
 
-                for (int j = (i + 1); j < INVENTORY_SIZE; j++)
-                {
-
-                    if (g->p->ent.items[i].exists)
-                    {
+            for (int i = 0; i < INVENTORY_SIZE; i++){
+                for (int j = (i + 1); j < INVENTORY_SIZE; j++){
+                    if (g->p->ent.items[i].exists){
                         if (strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0)
                         {
                             g->p->ent.items[j].exists = 0;
+                            strcpy(g->p->ent.items[j].Name, "");
                             g->p->ent.items[i].amount += 1;
                         }
                     }
@@ -340,14 +344,6 @@ void GuiInventory(Gui *g)
                 g->invActive = 1;
                 g->invToggler = 0;
             }
-        }
-    }
-
-    for (int i = 0; i < INVENTORY_SIZE; i++)
-    {
-        if (g->p->ent.items[i].amount != 0)
-        {
-            g->p->ent.items[i].amount = 1;
         }
     }
 
