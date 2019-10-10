@@ -12,7 +12,7 @@ void ConstructGame(Game *g, int *noExit)
     ConstructGraphics(&g->gfx);
     ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.txt");
     ConstructPlayer(&g->player, &g->gfx);
-    ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect);
+    ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect, &g->tileMap);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
     ConstructTime(&g->dateTime, &g->tileMap);
     g->nDroppedItems = 0;
@@ -59,60 +59,8 @@ void UpdateLogic(Game *g)
     {
         TryPlacePlant(g, TomatoType);
     }
-    g->BuyItemCooldown++;
-    if (EventHandler("testkey=") && g->BuyItemCooldown > 50)
-    {
-        g->BuyItemCooldown = 0;
-        if (BuyItem(&g->player.ent, &g->CoreItems[0]))
-        {
-            char buffer[1000];
-            sprintf(buffer, "Bought item: %s", g->CoreItems[0].Name);
-            AlertGui(&g->gui, 2, buffer);
-        }
-    }
-    if (EventHandler("buyitem1=") && g->BuyItemCooldown > 50)
-    {
-        g->BuyItemCooldown = 0;
-        if (BuyItem(&g->player.ent, &g->CoreItems[1]))
-        {
-            char buffer[1000];
-            sprintf(buffer, "Bought item: %s", g->CoreItems[1].Name);
-            AlertGui(&g->gui, 2, buffer);
-        }
-    }
-    if (EventHandler("buyitem2=") && g->BuyItemCooldown > 50)
-    {
-        g->BuyItemCooldown = 0;
-        if (BuyItem(&g->player.ent, &g->CoreItems[2]))
-        {
-            char buffer[1000];
-            sprintf(buffer, "Bought item: %s", g->CoreItems[2].Name);
-            AlertGui(&g->gui, 2, buffer);
-        }
-    }
-
     //DISPLAY ITEMS****************************
-    if (EventHandler("quickSlot1="))
-    {
-        g->player.ent.items[0].d.destrect.x = g->player.activeItem.d.destrect.x;
-        g->player.ent.items[0].d.destrect.y = g->player.activeItem.d.destrect.y;
-        g->player.activeItem = g->player.ent.items[0];
-        g->player.activeItemIndex = 0;
-    }
-    if (EventHandler("quickSlot2="))
-    {
-        g->player.ent.items[1].d.destrect.x = g->player.activeItem.d.destrect.x;
-        g->player.ent.items[1].d.destrect.y = g->player.activeItem.d.destrect.y;
-        g->player.activeItem = g->player.ent.items[1];
-        g->player.activeItemIndex = 1;
-    }
-    if (EventHandler("quickSlot3="))
-    {
-        g->player.ent.items[2].d.destrect.x = g->player.activeItem.d.destrect.x;
-        g->player.ent.items[2].d.destrect.y = g->player.activeItem.d.destrect.y;
-        g->player.activeItem = g->player.ent.items[2];
-        g->player.activeItemIndex = 2;
-    }
+    QuickSlotHandeling(&g->player);
     //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
 
@@ -131,17 +79,20 @@ void UpdateLogic(Game *g)
     {
         UpdatePlant(&g->plants[i], SDL_GetTicks());
     }
-    #ifdef HarvestDebug
-    for (int i = 0; i < g->nDroppedItems; i++){
-        if (g->droppedItems[i]->exists == 0){
+#ifdef HarvestDebug
+    for (int i = 0; i < g->nDroppedItems; i++)
+    {
+        if (g->droppedItems[i]->exists == 0)
+        {
             g->droppedItems[i] = g->droppedItems[i + 1];
             g->nDroppedItems--;
         }
-        else{
+        else
+        {
             UpdateDroppedItem(g->droppedItems[i], &g->player);
         }
     }
-    #endif
+#endif
     UpdateCamera(&g->cam);
 
     if (g->dateTime.season == Winter)
@@ -158,12 +109,13 @@ void Render(Game *g)
 
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
-    
-    #ifdef HarvestDebug
-    for (int i = 0; i < g->nDroppedItems; i++){
+
+#ifdef HarvestDebug
+    for (int i = 0; i < g->nDroppedItems; i++)
+    {
         AddToRenderList(g, &g->droppedItems[i]->ent->d);
     }
-    #endif
+#endif
 
     for (int i = 0; i < g->nPlants; i++)
     {
@@ -259,9 +211,9 @@ void AddTileMapToRenderList(Game *g)
         {
             AddToRenderList(g, &g->GoodTiles[i]->drawables[j]);
         }
-        for (int j = 0; j < 1; j++)
+        for (int j = 0; j < tile_overlay_enumsize; j++)
         {
-            if(g->GoodTiles[i]->overlays_used[j])
+            if (g->GoodTiles[i]->overlays_used[j])
             {
                 AddToRenderList(g, &g->GoodTiles[i]->overlays[j]);
             }
@@ -281,10 +233,10 @@ void SortRenderList(Game *g)
 }
 void CreateAllStandardItems(Game *g)
 {
-    CreateItem(&g->CoreItems[0], &g->gfx, IronPickaxeEnum);
     CreateItem(&g->CoreItems[1], &g->gfx, IronAxeEnum);
-    CreateItem(&g->CoreItems[2], &g->gfx, IronSwordEnum);
-    CreateItem(&g->CoreItems[3], &g->gfx, DiamondEnum);
+    // CreateItem(&g->CoreItems[0], &g->gfx, IronPickaxeEnum);
+    // CreateItem(&g->CoreItems[2], &g->gfx, IronSwordEnum);
+    // CreateItem(&g->CoreItems[3], &g->gfx, DiamondEnum);
 }
 void EntityDeathEvent(Game *g, Entity *e)
 {
@@ -309,7 +261,8 @@ void TryPlacePlant(Game *g, PlantEnum plant)
     {
         if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->GoodTiles[i]->hitboxes[0]))
         {
-            if (g->GoodTiles[i]->drawables[0].type != DT_Dirt){
+            if (g->GoodTiles[i]->drawables[0].type != DT_Dirt)
+            {
                 return;
             }
             int found = 0;
@@ -336,8 +289,10 @@ void TryHarvestPlant(Game *g, Plant *plant)
     {
         return;
     }
-    if (plant->HasHarvestableBerries && plant->nToUpdate == plant->nPlantStages - 2){ //to make index easier
-        if (g->player.ent.n_items < INVENTORY_SIZE){
+    if (plant->HasHarvestableBerries && plant->nToUpdate == plant->nPlantStages - 2)
+    { //to make index easier
+        if (g->player.ent.n_items < INVENTORY_SIZE)
+        {
             plant->TickAtHarvestation = SDL_GetTicks();
             plant->nToUpdate++;
             g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
@@ -348,28 +303,29 @@ void TryHarvestPlant(Game *g, Plant *plant)
     {
         if (plant->plantStages[plant->nPlantStages].GrowTick <= SDL_GetTicks() - plant->TickPlaced)
         {
-            //DELETE PLANT
-            //PROCC DROPPED ITEMS ON
-            #ifdef HarvestDebug
+//DELETE PLANT
+//PROCC DROPPED ITEMS ON
+#ifdef HarvestDebug
             // if (g->nDroppedItems == 0){
-                Entity e;
-                ConstructEntity(&e, &plant->GrownItems.d);
-                ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
-                g->nDroppedItems++;
-                DeletePlant(g, plant);
-            // }
-            #endif
+            Entity e;
+            ConstructEntity(&e, &plant->GrownItems.d);
+            ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
+            g->nDroppedItems++;
+            DeletePlant(g, plant);
+// }
+#endif
 
-            #ifndef HarvestDebug
-            #define HarvestDebug
-            if (g->player.ent.n_items < INVENTORY_SIZE){
+#ifndef HarvestDebug
+#define HarvestDebug
+            if (g->player.ent.n_items < INVENTORY_SIZE)
+            {
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
                 g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
                 g->player.ent.n_items++;
                 DeletePlant(g, plant);
             }
-            #endif
+#endif
         }
     }
 }
@@ -389,79 +345,82 @@ void DeletePlant(Game *g, Plant *plant)
     }
 }
 
-
-void DrawableMerge(Drawable* DrawablesCurrentSort[], int l, int m, int r)
+void DrawableMerge(Drawable *DrawablesCurrentSort[], int l, int m, int r)
 {
-		int i, j, k;		// left_index, right_index and merged_index
-		int n1 = m - l + 1; // N elements in left sub-array
-		int n2 = r - m;		// N elements in right sub-array
+    int i, j, k;        // left_index, right_index and merged_index
+    int n1 = m - l + 1; // N elements in left sub-array
+    int n2 = r - m;     // N elements in right sub-array
 
-		// create temp sub-arrays for left and right side
-		Drawable** DrawablesToSort_L;
-        DrawablesToSort_L = (Drawable**)malloc(sizeof(Drawable*) * n1);
-        Drawable** DrawablesToSort_R;
-        DrawablesToSort_R = (Drawable**)malloc(sizeof(Drawable*) * n2);
+    // create temp sub-arrays for left and right side
+    Drawable **DrawablesToSort_L;
+    DrawablesToSort_L = (Drawable **)malloc(sizeof(Drawable *) * n1);
+    Drawable **DrawablesToSort_R;
+    DrawablesToSort_R = (Drawable **)malloc(sizeof(Drawable *) * n2);
 
-		// copy data to temp vectors currSort_L and currSort_R
-		for (i = 0; i < n1; i++){
-			DrawablesToSort_L[i] = DrawablesCurrentSort[l + i];
+    // copy data to temp vectors currSort_L and currSort_R
+    for (i = 0; i < n1; i++)
+    {
+        DrawablesToSort_L[i] = DrawablesCurrentSort[l + i];
+    }
+
+    for (j = 0; j < n2; j++)
+    {
+        DrawablesToSort_R[j] = DrawablesCurrentSort[m + 1 + j];
+    }
+
+    // merge the temp temp sub-arrays back into DrawablesCurrentSort
+    // indicies to start with
+    i = 0;
+    j = 0;
+    k = l;
+    while (i < n1 && j < n2)
+    {
+        if (DrawablesToSort_L[i]->z_index <= DrawablesToSort_R[j]->z_index)
+        {
+            DrawablesCurrentSort[k] = DrawablesToSort_L[i];
+            i++;
         }
-
-		for (j = 0; j < n2; j++){
-			DrawablesToSort_R[j] = DrawablesCurrentSort[m + 1 + j];
+        else
+        {
+            DrawablesCurrentSort[k] = DrawablesToSort_R[j];
+            j++;
         }
+        k++;
+    }
 
-		// merge the temp temp sub-arrays back into DrawablesCurrentSort
-        // indicies to start with
-		i = 0; j = 0; k = l; 
-		while (i < n1 && j < n2)
-		{
-			if (DrawablesToSort_L[i]->z_index <= DrawablesToSort_R[j]->z_index)
-			{
-				DrawablesCurrentSort[k] = DrawablesToSort_L[i];
-				i++;
-			}
-			else
-			{
-				DrawablesCurrentSort[k] = DrawablesToSort_R[j];
-				j++;
-			}
-			k++;
-		}
+    // copy the left-over elements of DrawablesToSort_L, should there be any...
+    while (i < n1)
+    {
+        DrawablesCurrentSort[k] = DrawablesToSort_L[i];
+        i++;
+        k++;
+    }
 
-		// copy the left-over elements of DrawablesToSort_L, should there be any...
-		while (i < n1)
-		{
-			DrawablesCurrentSort[k] = DrawablesToSort_L[i];
-			i++;
-			k++;
-		}
-
-		// copy the left-over elements of DrawablesToSort_R, should there be any...
-		while (j < n2)
-		{
-			DrawablesCurrentSort[k] = DrawablesToSort_R[j];
-			j++;
-			k++;
-		}
-        free(DrawablesToSort_L);
-        free(DrawablesToSort_R);
+    // copy the left-over elements of DrawablesToSort_R, should there be any...
+    while (j < n2)
+    {
+        DrawablesCurrentSort[k] = DrawablesToSort_R[j];
+        j++;
+        k++;
+    }
+    free(DrawablesToSort_L);
+    free(DrawablesToSort_R);
 }
 
-void DrawableMergeSort(Drawable* DrawablesCurrentSort[], int l, int r)
+void DrawableMergeSort(Drawable *DrawablesCurrentSort[], int l, int r)
 {
-	//  l = first index      r = last index
-	// "If size of DrawablesCurrentSort is two or larger"
+    //  l = first index      r = last index
+    // "If size of DrawablesCurrentSort is two or larger"
     // "If not, algorithm is at the bottom of the merge-chain
     if (l < r)
-	{
+    {
         //m = middle
-		int m = l + (r - l) / 2;
+        int m = l + (r - l) / 2;
 
-		// Sort first and second halves, recursively
-		DrawableMergeSort(DrawablesCurrentSort, l, m);
-		DrawableMergeSort(DrawablesCurrentSort, m + 1, r);
+        // Sort first and second halves, recursively
+        DrawableMergeSort(DrawablesCurrentSort, l, m);
+        DrawableMergeSort(DrawablesCurrentSort, m + 1, r);
 
-		DrawableMerge(DrawablesCurrentSort, l, m, r);	
-	}
+        DrawableMerge(DrawablesCurrentSort, l, m, r);
+    }
 }

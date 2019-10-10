@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "Gui.h"
+#include <errno.h>
 
 void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
 {
@@ -216,16 +217,16 @@ void GuiBar(Gui *g)
     switch (g->dT->season)
     {
     case Spring:
-        sprintf(guiDateTime, "Spring, Day %d  %d:%d", g->dT->day+1, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Spring, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
         break;
     case Summer:
-        sprintf(guiDateTime, "Summer, Day %d  %d:%d", g->dT->day+1, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Summer, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
         break;
     case Fall:
-        sprintf(guiDateTime, "Fall, Day %d  %d:%d", g->dT->day+1, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Fall, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
         break;
     case Winter:
-        sprintf(guiDateTime, "Winter, Day %d  %d:%d", g->dT->day+1, g->dT->hour, g->dT->min);
+        sprintf(guiDateTime, "Winter, Day %d  %d:%d", g->dT->day, g->dT->hour, g->dT->min);
         break;
     }
 
@@ -755,4 +756,8 @@ void AlertGui(Gui *g, int timer, char promptText[100])
     strcpy(g->promptText, promptText);
     g->promptToggler = 60 * timer;
     g->promptInit = g->promptToggler;
+    if (errno != 0)
+    {
+        printf("Gui.c AlertGui %s", strerror(errno));
+    }
 }

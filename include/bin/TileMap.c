@@ -76,6 +76,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         ApplyTileProperties(tm, &tp, &drawable, &hitbox);
         DrawableChangeSpriteSheet(&drawable, season_sprite);
 
+
         Tile t;
         //"If new Tile"
         if(*(mapData - 1) == ','){
@@ -84,15 +85,110 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
             tm->nTiles_used++;
         }
         else{
-            t = tm->tiles[i];
-            
-            //Initiate every Drawable in overlays-array
-            for(int j = 0; j < tile_overlay_enumsize; j++){
-                Drawable overlay;
-                ConstructDrawable(&overlay, DT_Other, tm->gfx, season_sprite, srcrect, destrect, t.drawables[0].z_index + 1);
-                t.overlays[j] = overlay;
-            }
+            t = tm->tiles[i];      
         }
+        //Initiate every Drawable in overlays-array
+        for(int j = 0; j < tile_overlay_enumsize; j++){
+            Drawable overlay;
+            SDL_Rect overlay_srcrect = srcrect;
+            SDL_Rect overlay_destrect = destrect;
+            int overlay_offset = 0;
+            switch(j){
+                case tile_overlay_left:
+                    overlay_offset = 1;
+                    overlay_srcrect.x = 66;
+                    overlay_srcrect.y = 433;
+                    overlay_srcrect.w = 6;
+                    overlay_srcrect.h = 16;
+                    overlay_destrect.x -= 7;
+                    overlay_destrect.w = 12;
+                    break;
+
+                case tile_overlay_top_left:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 69;
+                    overlay_srcrect.y = 421;
+                    overlay_srcrect.w = 12;
+                    overlay_srcrect.h = 12;
+                    overlay_destrect.x -= 7;
+                    overlay_destrect.y -= 7;
+                    overlay_destrect.w = 26;
+                    overlay_destrect.h = 26;
+                    break;
+
+                case tile_overlay_top:
+                    overlay_offset = 1;
+                    overlay_srcrect.x = 144;
+                    overlay_srcrect.y = 410;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 6;
+                    overlay_destrect.y -= 7;
+                    overlay_destrect.h = 12;
+                    break;
+
+                case tile_overlay_top_right:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 113;
+                    overlay_srcrect.y = 422;
+                    overlay_srcrect.w = 12;
+                    overlay_srcrect.h = 12;
+                    overlay_destrect.y -= 7;
+                    overlay_destrect.x += 11;
+                    overlay_destrect.w = 28;
+                    overlay_destrect.h = 26;
+                    break;
+                    
+                case tile_overlay_right:
+                    overlay_offset = 1;
+                    overlay_srcrect.x = 119;
+                    overlay_srcrect.y = 433;
+                    overlay_srcrect.w = 6;
+                    overlay_srcrect.h = 16;
+                    overlay_destrect.x += 27;
+                    overlay_destrect.w = 12;
+                    break;
+
+                case tile_overlay_bottom_right:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 113;
+                    overlay_srcrect.y = 450;
+                    overlay_srcrect.w = 12;
+                    overlay_srcrect.h = 12;
+                    overlay_destrect.x += 21;
+                    overlay_destrect.y += 21;
+                    overlay_destrect.w = 18;
+                    overlay_destrect.h = 17;
+                    break;
+                    
+                case tile_overlay_bottom:
+                    overlay_offset = 1;
+                    overlay_srcrect.x = 146;
+                    overlay_srcrect.y = 436;
+                    overlay_srcrect.w = 14;
+                    overlay_srcrect.h = 6;
+                    overlay_destrect.y += 25;
+                    overlay_destrect.h = 12;
+                    break;
+
+                case tile_overlay_bottom_left:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 66;
+                    overlay_srcrect.y = 447;
+                    overlay_srcrect.w = 12;
+                    overlay_srcrect.h = 12;
+                    overlay_destrect.x -= 7;
+                    overlay_destrect.y += 17;
+                    overlay_destrect.w = 22;
+                    overlay_destrect.h = 22;
+                    break;
+                default:
+                    break;  
+            }
+            ConstructDrawable(&overlay, DT_Other, tm->gfx, season_sprite, overlay_srcrect, overlay_destrect, t.drawables[0].z_index + overlay_offset);
+            t.overlays[j] = overlay;
+        }
+
+
         TileAddSprite(&t, drawable, hitbox, z_index);
         tm->tiles[i] = t;
         
@@ -108,11 +204,19 @@ void DestroyTileMap(TileMap* tm){
 
 
 void FixTileTransistions(TileMap* tm){
+    Tile* ts = tm->tiles;
     for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){   
-        if(tm->tiles[i].drawables[0].type == DT_Dirt){
-            if(tm->tiles[i-1].drawables[0].type == DT_Grass){
-                tm->tiles[i].overlays_used[tile_overlay_left] = 1;
-            }
+        if(ts[i].drawables[0].type == DT_Dirt){
+            // ---- SIDES ----
+            ts[i - 1].drawables[0].type             == DT_Grass ? ts[i].overlays_used[tile_overlay_left]    = 1 : 0;
+            ts[i - tm->nTiles_x].drawables[0].type  == DT_Grass ? ts[i].overlays_used[tile_overlay_top]     = 1 : 0;
+            ts[i + 1].drawables[0].type             == DT_Grass ? ts[i].overlays_used[tile_overlay_right]   = 1 : 0;
+            ts[i + tm->nTiles_y].drawables[0].type  == DT_Grass ? ts[i].overlays_used[tile_overlay_bottom]  = 1 : 0;
+            // ---- CORNERS ----
+            ts[i].overlays_used[tile_overlay_left]      && ts[i].overlays_used[tile_overlay_top]    ? ts[i].overlays_used[tile_overlay_top_left]        = 1 : 0;
+            ts[i].overlays_used[tile_overlay_top]       && ts[i].overlays_used[tile_overlay_right]  ? ts[i].overlays_used[tile_overlay_top_right]       = 1 : 0;
+            ts[i].overlays_used[tile_overlay_right]     && ts[i].overlays_used[tile_overlay_bottom] ? ts[i].overlays_used[tile_overlay_bottom_right]    = 1 : 0;
+            ts[i].overlays_used[tile_overlay_bottom]    && ts[i].overlays_used[tile_overlay_left]   ? ts[i].overlays_used[tile_overlay_bottom_left]     = 1 : 0;
         }
     }
 }
