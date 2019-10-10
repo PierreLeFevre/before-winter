@@ -1,3 +1,5 @@
+#ifndef PLANTS_H
+#define PLANTS_H
 #include "Drawable.h"
 #include "Item.h"
 #include <string.h>
@@ -35,3 +37,4 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime);
 void UpdatePlant(Plant *plant, Uint32 Tick);
 Item SeedToItem(Graphics *gfx, PlantEnum plant, int nr);
+#endif
