@@ -685,7 +685,6 @@ void GuiShop(Gui *g)
                 if (EventHandler("Select=") && g->shopSelectToggler > 20 && g->shopSelectedIndex == 5)
                 {
                     for(int i = 0; i < 5; i++){
-                        printf("[%d]: %d\n", i, g->shopOrder[i]);
                         if(g->shopOrder[i]){
                             g->p->ent.items[g->p->ent.n_items] = SeedToItem(g->d.gfx, i, g->shopOrder[i]);
                             g->p->ent.n_items++;
