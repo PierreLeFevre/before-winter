@@ -58,20 +58,29 @@ void UpdateLogic(Game *g)
     }
     if (EventHandler("action="))
     {
+        int planterror = 0;
         if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL){
             if (g->player.ent.items[g->player.activeItemIndex].amount > 0){
-            PlantEnum p = ItemToPlant(&g->player.activeItem);
-            if (TryPlacePlant(g, p)){
-                g->player.ent.items[g->player.activeItemIndex].amount--;
-                if (g->player.ent.items[g->player.activeItemIndex].amount == 0){
-                    g->player.ent.items[g->player.activeItemIndex].exists = 0;
-                    for(int i = g->player.activeItemIndex; i < g->player.ent.n_items; i++){ //REMOVE ITEM WHEN NONE LEFT
-                        g->player.ent.items[i] = g->player.ent.items[i + 1];
-                    }
-                    g->player.ent.n_items--;
+                PlantEnum p = ItemToPlant(&g->player.activeItem);
+                if (p == StrawberryType && g->dateTime.season != Summer){//Strawberries only in summer
+                    planterror = 1;
                 }
-            }
-        }
+                if (!planterror){
+                    if (TryPlacePlant(g, p)){
+                        g->player.ent.items[g->player.activeItemIndex].amount--;
+                        if (g->player.ent.items[g->player.activeItemIndex].amount == 0){
+                            g->player.ent.items[g->player.activeItemIndex].exists = 0;
+                            for(int i = g->player.activeItemIndex; i < g->player.ent.n_items; i++){ //REMOVE ITEM WHEN NONE LEFT
+                                g->player.ent.items[i] = g->player.ent.items[i + 1];
+                            }
+                            g->player.ent.n_items--;
+                        }
+                    }
+                }
+                else{
+                    AlertGui(&g->gui, 2, "Cannot plant right now");
+                }
+            }   
         }
     }
     EntityDeathEvent(g, &g->player.ent);
