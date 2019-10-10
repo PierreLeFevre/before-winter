@@ -144,7 +144,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 18*16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
-        CreatePlantType(plant, "Coffe Bean", r, 8, 1000);
+        CreatePlantType(plant, "Coffee Bean", r, 8, 1000);
         plant->TickToRegrow = 2000;
         plant->HasHarvestableBerries = 1;
 

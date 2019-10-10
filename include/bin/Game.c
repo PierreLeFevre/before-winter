@@ -298,11 +298,11 @@ void CreatePlantsToPlayer(Game *g){
     g->player.ent.items[5].exists = 1;
     strcpy(g->player.ent.items[5].Name, "Wheat Seed");
 
-    CreatePlant(&p, &g->gfx, CoffeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    CreatePlant(&p, &g->gfx, CoffeeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[6] = p.SeedItems;
     g->player.ent.items[6].amount = 2;
     g->player.ent.items[6].exists = 1;
-    strcpy(g->player.ent.items[6].Name, "Coffe Bean Seed");
+    strcpy(g->player.ent.items[6].Name, "Coffee Bean Seed");
 
     CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[7] = p.SeedItems;
@@ -331,8 +331,8 @@ PlantEnum ItemToPlant(Item *i){
     if (strstr(i->Name, "Wheat") != NULL){
         return WheatType;
     }
-    if (strstr(i->Name, "Coffe Bean") != NULL){
-        return CoffeBeanType;
+    if (strstr(i->Name, "Coffee Bean") != NULL){
+        return CoffeeBeanType;
     }
     if (strstr(i->Name, "Strawberry") != NULL){
         return StrawberryType;
