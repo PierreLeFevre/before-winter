@@ -210,12 +210,14 @@ void DestroyTileMap(TileMap* tm){
 
 void FixTileTransistions(TileMap* tm){
     Tile* ts = tm->tiles;
-    for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){  
+    for(int i = 0; i < tm->nTiles_x * tm->nTiles_y ; i++){  
         if(ts[i].drawables[0].type == DT_Dirt){
             // ---- SIDES ----
             ts[i - 1].drawables[0].type             == DT_Grass ? ts[i].overlays_used[tile_overlay_left]    = 1 : 0;
+            if(i > tm->nTiles_x)
             ts[i - tm->nTiles_x].drawables[0].type  == DT_Grass ? ts[i].overlays_used[tile_overlay_top]     = 1 : 0;
             ts[i + 1].drawables[0].type             == DT_Grass ? ts[i].overlays_used[tile_overlay_right]   = 1 : 0;
+            if(i < (tm->nTiles_x * tm->nTiles_y) - (tm->nTiles_x))
             ts[i + tm->nTiles_y].drawables[0].type  == DT_Grass ? ts[i].overlays_used[tile_overlay_bottom]  = 1 : 0;
             // ---- CORNERS ----
             ts[i].overlays_used[tile_overlay_left]      && ts[i].overlays_used[tile_overlay_top]    ? ts[i].overlays_used[tile_overlay_top_left]        = 1 : 0;
