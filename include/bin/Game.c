@@ -58,7 +58,8 @@ void UpdateLogic(Game *g)
     }
     if (EventHandler("action="))
     {
-        if (g->player.ent.items[g->player.activeItemIndex].amount > 0){
+        if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL){
+            if (g->player.ent.items[g->player.activeItemIndex].amount > 0){
             PlantEnum p = ItemToPlant(&g->player.activeItem);
             if (TryPlacePlant(g, p)){
                 g->player.ent.items[g->player.activeItemIndex].amount--;
@@ -70,6 +71,7 @@ void UpdateLogic(Game *g)
                     g->player.ent.n_items--;
                 }
             }
+        }
         }
     }
     EntityDeathEvent(g, &g->player.ent);
