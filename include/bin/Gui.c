@@ -35,7 +35,8 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     g->invActive = 0;
     g->invToggler = 0;
 
-    for(int i = 0; i < 100; i++){
+    for (int i = 0; i < 100; i++)
+    {
         g->shopOrder[i] = 0;
     }
 
@@ -174,22 +175,27 @@ void MsgBoxShow(Gui *g, char message[201])
 
 void GuiShaders(Gui *g)
 {
-    if(g->dT->hour > 16){
+    if (g->dT->hour > 16)
+    {
         g->shaders.srcrect.x = 16;
         g->shaders.srcrect.y = 48;
         g->shaders.srcrect.w = 16;
         g->shaders.srcrect.h = 16;
-        if(g->dT->hour > 18){
+        if (g->dT->hour > 18)
+        {
             g->shaders.srcrect.y = 32;
         }
-        if(g->dT->hour > 20){
+        if (g->dT->hour > 20)
+        {
             g->shaders.srcrect.y = 16;
         }
-        if(g->dT->hour > 22){
+        if (g->dT->hour > 22)
+        {
             g->shaders.srcrect.y = 0;
         }
     }
-    else{
+    else
+    {
         g->shaders.srcrect.w = 0;
         g->shaders.srcrect.h = 0;
     }
@@ -545,21 +551,25 @@ void GuiMenu(Gui *g)
     g->menuToggler += 1;
 }
 
-void GuiShop(Gui *g){
+void GuiShop(Gui *g)
+{
     g->shopBg.destrect.h = g->d.gfx->wHeight + 50;
 
-
-    if(g->shoptoggler > 20){
-        if(g->shopActive){
+    if (g->shoptoggler > 20)
+    {
+        if (g->shopActive)
+        {
             Draw(&g->shopBg);
-            
-            if(EventHandler("shop=")){
+
+            if (EventHandler("shop="))
+            {
                 g->shopActive = 0;
                 g->shoptoggler = 0;
                 g->shopSelectToggler = 0;
             }
 
-            if (EventHandler("1UP=") && g->shopSelectToggler > 20){
+            if (EventHandler("1UP=") && g->shopSelectToggler > 20)
+            {
                 switch (g->shopSelectedIndex)
                 {
                 case 0:
@@ -571,10 +581,11 @@ void GuiShop(Gui *g){
                 g->shopSelectToggler = 0;
             }
 
-            if (EventHandler("1DOWN=") && g->shopSelectToggler > 20){
+            if (EventHandler("1DOWN=") && g->shopSelectToggler > 20)
+            {
                 switch (g->shopSelectedIndex)
                 {
-                case 1: 
+                case 1:
                     break;
                 default:
                     g->shopSelectedIndex += 1;
@@ -585,9 +596,7 @@ void GuiShop(Gui *g){
 
             g->shopSelectToggler += 1;
 
-
             RenderText(g, 5, 140 + g->shopSelectedIndex * 18, 0, White, Bold, ">");
-
 
             switch (g->shopPage)
             {
@@ -601,7 +610,8 @@ void GuiShop(Gui *g){
                 RenderText(g, 20, 158, 0, White, Bold, "Go to the store");
 
                 //
-                if (EventHandler("Select=") && g->shopSelectToggler > 20){ 
+                if (EventHandler("Select=") && g->shopSelectToggler > 20)
+                {
                     switch (g->shopSelectedIndex)
                     {
                     case 0:
@@ -617,7 +627,7 @@ void GuiShop(Gui *g){
 
                 RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
                 break;
-            
+
             case 1:
                 //SHOP HOME PAGE ----- PAGE 1
                 RenderText(g, 20, 100, 0, White, Bold, "Welcome to the store!");
@@ -627,7 +637,8 @@ void GuiShop(Gui *g){
                 RenderText(g, 20, 160, 0, White, Bold, "Sell plants");
 
                 //
-                if (EventHandler("Select=") && g->shopSelectToggler > 20){ 
+                if (EventHandler("Select=") && g->shopSelectToggler > 20)
+                {
                     switch (g->shopSelectedIndex)
                     {
                     case 0:
@@ -651,32 +662,36 @@ void GuiShop(Gui *g){
                 sprintf(shopOrderString, "Parsnip seeds [%d]\nTomato seeds [%d]\nPlace order", g->shopOrder[0], g->shopOrder[1]);
                 RenderText(g, 20, 140, 0, White, Bold, shopOrderString);
 
-                if (EventHandler("1LEFT=") && g->shopSelectToggler > 20){
-                    g->shopOrder[g->shopSelectedIndex]-=1;
+                if (EventHandler("1LEFT=") && g->shopSelectToggler > 20)
+                {
+                    g->shopOrder[g->shopSelectedIndex] -= 1;
                     g->shopSelectToggler = 0;
                 }
 
-                if (EventHandler("1RIGHT=") && g->shopSelectToggler > 20){
-                    g->shopOrder[g->shopSelectedIndex]+=1;
+                if (EventHandler("1RIGHT=") && g->shopSelectToggler > 20)
+                {
+                    g->shopOrder[g->shopSelectedIndex] += 1;
                     g->shopSelectToggler = 0;
                 }
 
-
-                if (g->shopSelectedIndex > 3){
+                if (g->shopSelectedIndex > 3)
+                {
                     RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
-                }else{
+                }
+                else
+                {
                     RenderText(g, 215, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[<][>]");
                 }
-                
+
                 break;
             }
-            
-            g->shopSelectToggler += 1;
 
+            g->shopSelectToggler += 1;
         }
         else
         {
-            if(EventHandler("shop=")){
+            if (EventHandler("shop="))
+            {
                 g->shopActive = 1;
                 g->shopPage = 0;
                 g->shoptoggler = 0;
@@ -685,7 +700,6 @@ void GuiShop(Gui *g){
     }
 
     g->shoptoggler += 1;
-
 }
 
 void GuiMsgBox(Gui *g)
@@ -753,11 +767,12 @@ void GuiPrompt(Gui *g)
 
 void AlertGui(Gui *g, int timer, char promptText[100])
 {
+    errno = 0;
     strcpy(g->promptText, promptText);
     g->promptToggler = 60 * timer;
     g->promptInit = g->promptToggler;
     if (errno != 0)
     {
-        printf("Gui.c AlertGui %s", strerror(errno));
+        printf("Gui.c AlertGui %s\n", strerror(errno));
     }
 }
