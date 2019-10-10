@@ -160,7 +160,20 @@ void ConstructGraphics(Graphics *gfx)
     gfx->textures[SS_SHADER] = SDL_CreateTextureFromSurface(gfx->rend, surf);
     if (!gfx->textures[SS_SHADER])
     {
-        printf("Error creating texture (shaderss.png): %s\n", SDL_GetError());
+        printf("Error creating texture (shaders.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+
+    //TRANSPARENT
+    surf = IMG_Load("include/assets/LIGHTW_TRANSPARENCY.png");
+    if (!surf)
+    {
+        printf("Error creating surface (LIGHTW_TRANSPARENCY.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_TRANSPARENT] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_TRANSPARENT])
+    {
+        printf("Error creating texture (LIGHTW_TRANSPARENCY.png): %s\n", SDL_GetError());
     }
     SDL_FreeSurface(surf);
 }

@@ -1,4 +1,5 @@
 #include "Plants.h"
+#include <stdio.h>
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 TickPlaced, int zIndex)
 {   
     ConstructDrawable(&plant->GrownItems.d,DT_Plant, gfx, SS_ITEM, tile, tile, zIndex);
@@ -46,6 +47,12 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         r.h = 32;
 
         r.y += 10;
+
+        //22, 1
+        plant->GrownItems.d.srcrect.x = 20*16;
+        plant->GrownItems.d.srcrect.y = 0*16;
+        plant->GrownItems.d.srcrect.w = 16;
+        plant->GrownItems.d.srcrect.h = 16;
         CreatePlantType(plant, "Garlic", r, 6, 1000);
 
     break;
@@ -80,8 +87,6 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
     plant->TickPlaced = TickPlaced;
 }
 void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime){
-    plant->GrownItems.exists = 1;
-    plant->GrownItems.amount = 1;
     plant->nPlantStages = length - 1;
     plant->nToUpdate = 0;
     SDL_Rect r = base;

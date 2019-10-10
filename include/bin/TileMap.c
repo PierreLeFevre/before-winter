@@ -1,6 +1,5 @@
 #include "TileMap.h"
 #include "FuncLib.h"
-#include "DateTime.h"
 
 #include "../SDL2/SDL_image.h"
 
@@ -321,7 +320,12 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             tp.destrect_offset.y -= TILE_WIDTH * 5;
             tp.destrect_offset.w += TILE_HEIGHT * 4;
             break;
-
+        case TRANSPARENT:
+            tp.type = DT_Transparent;
+            tp.srcrect.x = 0;
+            tp.srcrect.y = 0;
+            tp.srcrect.w = 1;
+            tp.srcrect.h = 1;
         default:
             break;
     }
