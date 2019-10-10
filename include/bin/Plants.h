@@ -10,7 +10,7 @@ typedef enum PlantEnum{ //16x32
     RhubarbType,
     TomatoType,
     WheatType,
-    CoffeBeanType,
+    CoffeeBeanType,
     StrawberryType
 }PlantEnum;
 

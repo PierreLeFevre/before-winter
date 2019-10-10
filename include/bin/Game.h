@@ -8,6 +8,7 @@
 #include "Keys.h"
 #include "DateTime.h"
 #include "QuickSlot.h"
+#include "Plants.h"
 
 #define MAXPLANTS 100
 #define MAXDROPS 2
