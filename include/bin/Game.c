@@ -59,9 +59,6 @@ void UpdateLogic(Game *g)
     {
         TryPlacePlant(g, TomatoType);
     }
-    //DISPLAY ITEMS****************************
-    QuickSlotHandeling(&g->player);
-    //DISPLAY ITEMS****************************
     EntityDeathEvent(g, &g->player.ent);
 
     if (EventHandler("harvestTemp="))

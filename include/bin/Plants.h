@@ -1,4 +1,6 @@
 #include "Drawable.h"
+#include "Item.h"
+#include <string.h>
 typedef enum PlantEnum{ //16x32
     ParsnipType,
     CauliflowerType,
@@ -27,3 +29,7 @@ typedef struct Plant{
     int TickAtHarvestation;
     int TickToRegrow;
 }Plant;
+
+void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 PlacedTick, int zIndex);
+void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime);
+void UpdatePlant(Plant *plant, Uint32 Tick);
