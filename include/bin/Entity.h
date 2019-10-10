@@ -5,7 +5,7 @@
 #include "Plants.h"
 #include "Tile.h"
 
-#define INVENTORY_SIZE 383
+#define INVENTORY_SIZE 97
 typedef struct Entity
 {
     Drawable d;
