@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <time.h>
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file){
     tm->gfx = gfx;
@@ -17,6 +18,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
     tm->topleft_y = topleft_y;
     tm->map_file = map_file;
     tm->nTiles_used = 0;
+    tm->flowersOnGrassIntensity = 2;
     
 	FILE* fileIO = fopen(map_file, "rb");
 	fseek(fileIO, 0L, SEEK_END);
@@ -80,14 +82,14 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
 
         // ----------------------------------
         
-        TileProperties tp = GetTilePropertiesData(mapDataInt);
+        TileProperties tp = GetTilePropertiesData(tm, mapDataInt);
         ApplyTileProperties(tm, &tp, &drawable, &hitbox);
         DrawableChangeSpriteSheet(&drawable, season_sprite);
 
 
         Tile t;
         //"If new Tile"
-        if(*(mapData - iterations) == ';' || *(mapData - iterations) == '\n'){
+        if(*(mapData - (iterations + 1)) == ';' || *(mapData - (iterations + 1)) == '\n'){
             ConstructTile(&t);
             tm->tiles[i] = t;
             tm->nTiles_used++;
@@ -236,7 +238,7 @@ void TileMapChangeSpriteSheet(TileMap* tm, SpriteSheet spritesheet){
 }
 
 
-TileProperties GetTilePropertiesData(const MapDataConverter mdc){
+TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
     TileProperties tp;
      //--- Default ---
     tp.type = DT_Other;
@@ -271,9 +273,21 @@ TileProperties GetTilePropertiesData(const MapDataConverter mdc){
             tp.srcrect.h = 16;
             break;
         case GRASS:
-            tp.type = DT_Grass;
-            tp.srcrect.x = 0;
-            tp.srcrect.y = 112;
+            tp.type = DT_Grass; 
+            int randomNum = rand() % (2000 / tm->flowersOnGrassIntensity);
+            if(randomNum >= 0 &&  randomNum < 20){
+                tp.srcrect.x = 0;
+                tp.srcrect.y = 96;
+            }else if(randomNum >= 20 &&  randomNum < 22){
+                tp.srcrect.x = 16;
+                tp.srcrect.y = 96;
+            }else if(randomNum >= 40 &&  randomNum < 42){
+                tp.srcrect.x = 32;
+                tp.srcrect.y = 96;
+            }else{
+                tp.srcrect.x = 0;
+                tp.srcrect.y = 112;
+            }
             tp.srcrect.w = 16;
             tp.srcrect.h = 16;
             break;
