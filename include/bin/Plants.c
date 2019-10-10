@@ -219,5 +219,6 @@ Item SeedToItem(Graphics *gfx, PlantEnum plant, int amount){
     SDL_Rect rect={0, 0, 32, 32};
     CreatePlant(&p, gfx, plant, rect, SDL_GetTicks(), 1000);
     p.SeedItems.amount = amount;
+    p.SeedItems.exists = 1;
     return p.SeedItems;
 }
