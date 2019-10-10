@@ -67,11 +67,11 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     ConstructDrawable(&g->messageBox, DT_GUI, g->d.gfx, SS_GUI, msgBox_srcrect, messageBox_destrect, 19997);
 
     SDL_Rect shop_srcrect = {100, 106, 50, 350};
-    SDL_Rect shop_destrect = {-25, -25, 300, 300};
+    SDL_Rect shop_destrect = {-25, -25, 425, 300};
     ConstructDrawable(&g->shopBg, DT_GUI, g->d.gfx, SS_GUI, shop_srcrect, shop_destrect, 19996);
 
-    SDL_Rect inv_srcrect = {0, 80, 400, 400};
-    SDL_Rect inv_destrect = {75, 50, 440, 440};
+    SDL_Rect inv_srcrect = {100, 106, 50, 350};
+    SDL_Rect inv_destrect = {-25, 0, 425, 300};
     ConstructDrawable(&g->inv, DT_GUI, g->d.gfx, SS_GUI, inv_srcrect, inv_destrect, 19995);
 
     SDL_Rect prompt_srcrect = {0, 480, 400, 80};
@@ -276,7 +276,8 @@ void SortInventory(Gui *g){
                 {
                     g->p->ent.items[j].exists = 0;
                     strcpy(g->p->ent.items[j].Name, "");
-                    g->p->ent.items[i].amount += 1;
+                    g->p->ent.items[i].amount += g->p->ent.items[j].amount;
+                    g->p->ent.items[j].amount = 0;
                 }
             }
         }
@@ -306,27 +307,20 @@ void GuiInventory(Gui *g)
             }
             else
             {
-                g->inv.destrect.x = g->inv.gfx->wWidth / 2 - g->inv.destrect.w / 2;
+                g->inv.destrect.x = g->inv.gfx->wWidth - 400;
                 int x = g->inv.destrect.x;
-                g->inv.destrect.y = g->inv.gfx->wHeight / 2 - g->inv.destrect.h / 2;
-                int y = g->inv.destrect.y;
+                g->inv.destrect.h = g->inv.gfx->wHeight;
                 Draw(&g->inv);
 
-                RenderText(g, x + (g->inv.destrect.w / 2) - 50, y + 25, 0, White, Bold, "Inventory:");
+                RenderText(g, x + (g->inv.destrect.w / 2) - 50, 25, 0, White, Bold, "Inventory:");
                 int rows = 0;
-                int xOffset;
 
                 for (int i = 0; i < g->p->ent.n_items; i++)
                 {
-                    if (i % 10 == 0)
-                    {
-                        rows++;
-                        xOffset = 0;
-                    }
                     //RenderText(g, x+25, (y+50 + 20 * i), 0, White, Regular, g->p->ent.items[i].Name);
 
-                    g->p->ent.items[i].d.destrect.x = x + 50 + 36 * xOffset;
-                    g->p->ent.items[i].d.destrect.y = y + 50 + 36 * rows;
+                    g->p->ent.items[i].d.destrect.x = x + 32;
+                    g->p->ent.items[i].d.destrect.y = 50 + 36 * rows;
                     g->p->ent.items[i].d.destrect.w = 32;
                     g->p->ent.items[i].d.destrect.h = 32;
 
@@ -334,12 +328,12 @@ void GuiInventory(Gui *g)
                     {
                         Draw(&g->p->ent.items[i].d);
 
-                        char amount[100];
-                        gcvt(g->p->ent.items[i].amount, 6, amount);
-                        RenderText(g, (x + 50 + 36 * xOffset), (y + 50 + 36 * rows), 0, White, Bold, amount);
+                        char inventoryText[200];
+                        sprintf(inventoryText, "[%d] %s", g->p->ent.items[i].amount, g->p->ent.items[i].Name);
+                        RenderText(g, x + 96, 50 + 9 + 36 * rows, 0, White, Bold, inventoryText);
                     }
 
-                    xOffset++;
+                    rows++;
                 }
             }
         }
@@ -622,7 +616,7 @@ void GuiShop(Gui *g)
                     g->shopSelectToggler = 0;
                 }
 
-                RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
+                RenderText(g, 330, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
                 break;
 
             case 1:
@@ -649,45 +643,48 @@ void GuiShop(Gui *g)
                     g->shopSelectToggler = 0;
                 }
 
-                RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
+                RenderText(g, 330, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
                 break;
             case 2:
-                g->shopMaxIndex = 5;
+                g->shopMaxIndex = 8;
                 //BUY SEEDS PAGE ----- PAGE 3
                 RenderText(g, 20, 100, 0, White, Bold, "Please place your order.");
 
                 //Options
                 char shopOrderString[200];
-                sprintf(shopOrderString, "Parsnip seeds [%d]\nCauliflwr seeds [%d]\nGarlic seeds [%d]\nRhubarb seeds [%d]\nTomato seeds [%d]\nPlace order", g->shopOrder[0], g->shopOrder[1], g->shopOrder[2], g->shopOrder[3], g->shopOrder[4]);
+                sprintf(shopOrderString, "Parsnip seeds [%d]\nCauliflwr seeds [%d]\nGarlic seeds [%d]\nRhubarb seeds [%d]\nTomato seeds [%d]\nWheat seeds[%d]\nCoffee beans [%d]\nStrawberry seeds [%d]\nPlace order", g->shopOrder[0], g->shopOrder[1], g->shopOrder[2], g->shopOrder[3], g->shopOrder[4], g->shopOrder[5], g->shopOrder[6], g->shopOrder[7]);
                 RenderText(g, 20, 140, 0, White, Bold, shopOrderString);
 
                 if (EventHandler("1LEFT=") && g->shopSelectToggler > 20)
                 {
-                    g->shopOrder[g->shopSelectedIndex] -= 1;
+                    if(g->shopOrder[g->shopSelectedIndex] >= 6)
+                    g->shopOrder[g->shopSelectedIndex] -= 6;
                     g->shopSelectToggler = 0;
                 }
 
                 if (EventHandler("1RIGHT=") && g->shopSelectToggler > 20)
-                {
-                    g->shopOrder[g->shopSelectedIndex] += 1;
+                {   
+                    if(g->shopOrder[g->shopSelectedIndex] <= 30)
+                    g->shopOrder[g->shopSelectedIndex] += 6;
                     g->shopSelectToggler = 0;
                 }
 
-                if (g->shopSelectedIndex > 4)
+                if (g->shopSelectedIndex > 7)
                 {
-                    RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
+                    RenderText(g, 330, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
                 }
                 else
                 {
-                    RenderText(g, 215, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[<][>]");
+                    RenderText(g, 340, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[<][>]");
                 }
 
-                if (EventHandler("Select=") && g->shopSelectToggler > 20 && g->shopSelectedIndex == 5)
+                if (EventHandler("Select=") && g->shopSelectToggler > 20 && g->shopSelectedIndex == 8)
                 {
-                    for(int i = 0; i < 5; i++){
+                    for(int i = 0; i < 8; i++){
                         if(g->shopOrder[i]){
                             g->p->ent.items[g->p->ent.n_items] = SeedToItem(g->d.gfx, i, g->shopOrder[i]);
                             g->p->ent.n_items++;
+                            SortInventory(g);
                         }
                     }
                     g->shopSelectToggler = 0;
