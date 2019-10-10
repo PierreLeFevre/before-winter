@@ -9,8 +9,6 @@
 #include <string.h>
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file){
-    
-    
     tm->gfx = gfx;
     tm->tiles = (Tile*) malloc(sizeof(Tile) * nTiles_x * nTiles_y);
     tm->nTiles_x = nTiles_x;
@@ -28,21 +26,32 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
 	fread(mapData, 1, numbytes, fileIO);
     mapData[numbytes] = 0;
     RemoveCharacterFromArray(mapData, '\r', numbytes);
-    RemoveCharacterFromArray(mapData, '\n', numbytes);
     RemoveCharacterFromArray(mapData, ' ', numbytes);
     fclose(fileIO);
 
     for(int i = 0; i < tm->nTiles_x * tm->nTiles_y;){
-        //Beginning of new Tile
-        if(*mapData == ','){
+        if(*mapData == '*'){
+            break;
+        }
+        else if(*mapData == ';' || *mapData == '\n'){
             mapData++;
             i++;
             continue;
         }
-        // '*' is terminator
-        if(*mapData == '*'){
-            break;
+        else if(*mapData == ','){
+            mapData++;
+            continue;
         }
+
+        char mapDataExtract[10];
+        for(int j = 0; j < 10; j++) {mapDataExtract[j] = 0;}
+        int iterations = 0;
+        for(;*mapData != ',' && *mapData != '*' && *mapData != ';' && *mapData != '\n'; mapData++, iterations++){
+            mapDataExtract[iterations] = *mapData;
+        }
+        
+        char** ptr = NULL;
+        int mapDataInt = strtol(mapDataExtract, ptr, 10);
 
         // ----------------------------------
         // ----- DEFAULT TILEPROPERTIES -----
@@ -71,14 +80,14 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
 
         // ----------------------------------
         
-        TileProperties tp = GetTilePropertiesData(*mapData - '0');
+        TileProperties tp = GetTilePropertiesData(mapDataInt);
         ApplyTileProperties(tm, &tp, &drawable, &hitbox);
         DrawableChangeSpriteSheet(&drawable, season_sprite);
 
 
         Tile t;
         //"If new Tile"
-        if(*(mapData - 1) == ','){
+        if(*(mapData - iterations) == ';' || *(mapData - iterations) == '\n'){
             ConstructTile(&t);
             tm->tiles[i] = t;
             tm->nTiles_used++;
@@ -86,6 +95,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         else{
             t = tm->tiles[i];      
         }
+        TileAddSprite(&t, drawable, hitbox, z_index);
         //Initiate every Drawable in overlays-array
         for(int j = 0; j < tile_overlay_enumsize; j++){
             Drawable overlay;
@@ -186,12 +196,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
             ConstructDrawable(&overlay, DT_Other, tm->gfx, season_sprite, overlay_srcrect, overlay_destrect, t.drawables[0].z_index + overlay_offset);
             t.overlays[j] = overlay;
         }
-
-
-        TileAddSprite(&t, drawable, hitbox, z_index);
         tm->tiles[i] = t;
-        
-        mapData++;
     }
     FixTileTransistions(tm);
 }
@@ -201,10 +206,9 @@ void DestroyTileMap(TileMap* tm){
     tm->tiles = NULL;
 }
 
-
 void FixTileTransistions(TileMap* tm){
     Tile* ts = tm->tiles;
-    for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){   
+    for(int i = tm->nTiles_x + 1; i < tm->nTiles_x * tm->nTiles_y - (tm->nTiles_x + 1); i++){  
         if(ts[i].drawables[0].type == DT_Dirt){
             // ---- SIDES ----
             ts[i - 1].drawables[0].type             == DT_Grass ? ts[i].overlays_used[tile_overlay_left]    = 1 : 0;
