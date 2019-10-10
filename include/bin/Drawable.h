@@ -5,6 +5,7 @@
 
 typedef enum DrawableType{
     DT_Player,
+    DT_Player_Home,
     DT_GUI,
     DT_Other,
     DT_Plant,
