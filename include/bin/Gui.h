@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "FuncLib.h"
 #include "DateTime.h"
+#include "Plants.h"
 
 typedef struct Gui{
     Drawable d;
@@ -29,6 +30,7 @@ typedef struct Gui{
     int shoptoggler;
     int shopPage;
     int shopSelectedIndex;
+    int shopMaxIndex;
     int shopSelectToggler;
     int shopOrder[100];
 
@@ -66,6 +68,7 @@ typedef enum Format{
 
 void ConstructGui(Gui* g, Graphics* gfx, Player* p, DateTime *d);
 void UpdateGui(Gui* g);
+void SortInventory(Gui *g);
 void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]);
 // each char 15 wide.
 

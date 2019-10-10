@@ -1,3 +1,5 @@
+#ifndef PLANTS_H
+#define PLANTS_H
 #include "Drawable.h"
 #include "Item.h"
 #include <string.h>
@@ -6,7 +8,10 @@ typedef enum PlantEnum{ //16x32
     CauliflowerType,
     GarlicType,
     RhubarbType,
-    TomatoType
+    TomatoType,
+    WheatType,
+    CoffeBeanType,
+    StrawberryType
 }PlantEnum;
 
 typedef struct PlantStge{
@@ -19,6 +24,7 @@ typedef struct Plant{
     char Name[100];
     Drawable TextureMap;
     Item GrownItems;
+    Item SeedItems;
     PlantStage plantStages[10];
     int nPlantStages;
     Uint32 TickPlaced;
@@ -33,3 +39,5 @@ typedef struct Plant{
 void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile, Uint32 PlacedTick, int zIndex);
 void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime);
 void UpdatePlant(Plant *plant, Uint32 Tick);
+Item SeedToItem(Graphics *gfx, PlantEnum plant, int nr);
+#endif

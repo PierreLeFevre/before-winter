@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "Gui.h"
+
 #include <errno.h>
 
 void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
@@ -30,6 +31,7 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     g->shopActive = 0;
     g->shoptoggler = 0;
     g->shopPage = 0;
+    g->shopMaxIndex = 1;
     g->shopSelectedIndex = 0;
     g->shopSelectToggler = 0;
     g->invActive = 0;
@@ -94,6 +96,7 @@ void UpdateGui(Gui *g)
 
     GuiShop(g);
     GuiBar(g);
+    SortInventory(g);
     GuiInventory(g);
     GuiPrompt(g);
     GuiMsgBox(g);
@@ -265,6 +268,29 @@ void GuiBar(Gui *g)
     RenderText(g, x + 150, y + 65, 0, White, Regular, g->p->activeItem.Name);
 }
 
+void SortInventory(Gui *g){
+    for (int i = 0; i < INVENTORY_SIZE; i++){
+        for (int j = (i + 1); j < INVENTORY_SIZE; j++){
+            if (g->p->ent.items[i].exists){
+                if (strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0)
+                {
+                    g->p->ent.items[j].exists = 0;
+                    strcpy(g->p->ent.items[j].Name, "");
+                    g->p->ent.items[i].amount += 1;
+                }
+            }
+        }
+    }
+
+    g->p->ent.n_items = 0;
+    for (int i = 0; i < INVENTORY_SIZE; i++){
+        if(!g->p->ent.items[i].exists){
+            break;
+        }
+        g->p->ent.n_items += 1;
+    }
+}
+
 void GuiInventory(Gui *g)
 {
     //Draw debug window
@@ -272,22 +298,6 @@ void GuiInventory(Gui *g)
     {
         if (g->invActive)
         {
-            for (int i = 0; i < INVENTORY_SIZE; i++)
-            {
-
-                for (int j = (i + 1); j < INVENTORY_SIZE; j++)
-                {
-
-                    if (g->p->ent.items[i].exists)
-                    {
-                        if (strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0)
-                        {
-                            g->p->ent.items[j].exists = 0;
-                            g->p->ent.items[i].amount += 1;
-                        }
-                    }
-                }
-            }
 
             if (EventHandler("inventory="))
             {
@@ -306,7 +316,7 @@ void GuiInventory(Gui *g)
                 int rows = 0;
                 int xOffset;
 
-                for (int i = 0; i < INVENTORY_SIZE; i++)
+                for (int i = 0; i < g->p->ent.n_items; i++)
                 {
                     if (i % 10 == 0)
                     {
@@ -340,14 +350,6 @@ void GuiInventory(Gui *g)
                 g->invActive = 1;
                 g->invToggler = 0;
             }
-        }
-    }
-
-    for (int i = 0; i < INVENTORY_SIZE; i++)
-    {
-        if (g->p->ent.items[i].amount != 0)
-        {
-            g->p->ent.items[i].amount = 1;
         }
     }
 
@@ -583,13 +585,8 @@ void GuiShop(Gui *g)
 
             if (EventHandler("1DOWN=") && g->shopSelectToggler > 20)
             {
-                switch (g->shopSelectedIndex)
-                {
-                case 1:
-                    break;
-                default:
+                if(g->shopSelectedIndex != g->shopMaxIndex){
                     g->shopSelectedIndex += 1;
-                    break;
                 }
                 g->shopSelectToggler = 0;
             }
@@ -601,11 +598,11 @@ void GuiShop(Gui *g)
             switch (g->shopPage)
             {
             case 0:
+                g->shopMaxIndex = 1;
                 //MAIN HOME PAGE ----- PAGE 0
                 RenderText(g, 20, 100, 0, White, Bold, "Welcome home!");
 
                 //Options
-
                 RenderText(g, 20, 140, 0, White, Bold, "Go to sleep");
                 RenderText(g, 20, 158, 0, White, Bold, "Go to the store");
 
@@ -629,6 +626,7 @@ void GuiShop(Gui *g)
                 break;
 
             case 1:
+                g->shopMaxIndex = 1;
                 //SHOP HOME PAGE ----- PAGE 1
                 RenderText(g, 20, 100, 0, White, Bold, "Welcome to the store!");
 
@@ -654,12 +652,13 @@ void GuiShop(Gui *g)
                 RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
                 break;
             case 2:
+                g->shopMaxIndex = 5;
                 //BUY SEEDS PAGE ----- PAGE 3
                 RenderText(g, 20, 100, 0, White, Bold, "Please place your order.");
 
                 //Options
-                char shopOrderString[100];
-                sprintf(shopOrderString, "Parsnip seeds [%d]\nTomato seeds [%d]\nPlace order", g->shopOrder[0], g->shopOrder[1]);
+                char shopOrderString[200];
+                sprintf(shopOrderString, "Parsnip seeds [%d]\nCauliflwr seeds [%d]\nGarlic seeds [%d]\nRhubarb seeds [%d]\nTomato seeds [%d]\nPlace order", g->shopOrder[0], g->shopOrder[1], g->shopOrder[2], g->shopOrder[3], g->shopOrder[4]);
                 RenderText(g, 20, 140, 0, White, Bold, shopOrderString);
 
                 if (EventHandler("1LEFT=") && g->shopSelectToggler > 20)
@@ -674,13 +673,24 @@ void GuiShop(Gui *g)
                     g->shopSelectToggler = 0;
                 }
 
-                if (g->shopSelectedIndex > 3)
+                if (g->shopSelectedIndex > 4)
                 {
                     RenderText(g, 205, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[Enter]");
                 }
                 else
                 {
                     RenderText(g, 215, 140 + g->shopSelectedIndex * 18, 0, White, Bold, "[<][>]");
+                }
+
+                if (EventHandler("Select=") && g->shopSelectToggler > 20 && g->shopSelectedIndex == 5)
+                {
+                    for(int i = 0; i < 5; i++){
+                        if(g->shopOrder[i]){
+                            g->p->ent.items[g->p->ent.n_items] = SeedToItem(g->d.gfx, i, g->shopOrder[i]);
+                            g->p->ent.n_items++;
+                        }
+                    }
+                    g->shopSelectToggler = 0;
                 }
 
                 break;

@@ -15,6 +15,9 @@ void ConstructGame(Game *g, int *noExit)
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect, &g->tileMap);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
     ConstructTime(&g->dateTime, &g->tileMap);
+
+    CreatePlantsToPlayer(g);
+
     g->nDroppedItems = 0;
     g->droppedItems = (DroppedItem **)malloc(sizeof(DroppedItem *) * 5000);
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
@@ -53,11 +56,21 @@ void UpdateLogic(Game *g)
     {
         CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
     }
-    
-    
     if (EventHandler("action="))
     {
-        TryPlacePlant(g, TomatoType);
+        if (g->player.ent.items[g->player.activeItemIndex].amount > 0){
+            PlantEnum p = ItemToPlant(&g->player.activeItem);
+            if (TryPlacePlant(g, p)){
+                g->player.ent.items[g->player.activeItemIndex].amount--;
+                if (g->player.ent.items[g->player.activeItemIndex].amount == 0){
+                    g->player.ent.items[g->player.activeItemIndex].exists = 0;
+                    for(int i = g->player.activeItemIndex; i < g->player.ent.n_items; i++){ //REMOVE ITEM WHEN NONE LEFT
+                        g->player.ent.items[i] = g->player.ent.items[i + 1];
+                    }
+                    g->player.ent.n_items--;
+                }
+            }
+        }
     }
     EntityDeathEvent(g, &g->player.ent);
 
@@ -243,12 +256,93 @@ void EntityDeathEvent(Game *g, Entity *e)
         e->droppableItem.d.destrect.y = e->d.destrect.y;
     }
 }
+// TMP
+void CreatePlantsToPlayer(Game *g){
+    SDL_Rect rect = {0, 0, TILE_WIDTH, TILE_HEIGHT};
+    Plant p;
+    CreatePlant(&p, &g->gfx, ParsnipType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[0] = p.SeedItems;
+    g->player.ent.items[0].amount = 2;
+    g->player.ent.items[0].exists = 1;
+    strcpy(g->player.ent.items[0].Name, "Parsnip Seed");
 
-void TryPlacePlant(Game *g, PlantEnum plant)
+    CreatePlant(&p, &g->gfx, TomatoType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[1] = p.SeedItems;
+    g->player.ent.items[1].amount = 2;
+    g->player.ent.items[1].exists = 1;
+    strcpy(g->player.ent.items[1].Name, "Tomato Seed");
+
+    CreatePlant(&p, &g->gfx, CauliflowerType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[2] = p.SeedItems;
+    g->player.ent.items[2].amount = 2;
+    g->player.ent.items[2].exists = 1;
+    strcpy(g->player.ent.items[2].Name, "Cauliflower Seed");
+
+    CreatePlant(&p, &g->gfx, GarlicType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[3] = p.SeedItems;
+    g->player.ent.items[3].amount = 2;
+    g->player.ent.items[3].exists = 1;
+    strcpy(g->player.ent.items[3].Name, "Garlic Seed");
+
+    CreatePlant(&p, &g->gfx, RhubarbType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[4] = p.SeedItems;
+    g->player.ent.items[4].amount = 2;
+    g->player.ent.items[4].exists = 1;
+    strcpy(g->player.ent.items[4].Name, "Rhubarb Seed");
+
+    CreatePlant(&p, &g->gfx, WheatType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[5] = p.SeedItems;
+    g->player.ent.items[5].amount = 2;
+    g->player.ent.items[5].exists = 1;
+    strcpy(g->player.ent.items[5].Name, "Wheat Seed");
+
+    CreatePlant(&p, &g->gfx, CoffeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[6] = p.SeedItems;
+    g->player.ent.items[6].amount = 2;
+    g->player.ent.items[6].exists = 1;
+    strcpy(g->player.ent.items[6].Name, "Coffe Bean Seed");
+
+    CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[7] = p.SeedItems;
+    g->player.ent.items[7].amount = 2;
+    g->player.ent.items[7].exists = 1;
+    strcpy(g->player.ent.items[7].Name, "Strawberry Seed");
+
+    g->player.ent.n_items = 8;
+}
+PlantEnum ItemToPlant(Item *i){
+    if (strstr(i->Name, "Parsnip") != NULL){
+        return ParsnipType;
+    }
+    if (strstr(i->Name, "Cauliflower") != NULL){
+        return CauliflowerType;
+    }
+    if (strstr(i->Name, "Tomato") != NULL){
+        return TomatoType;
+    }
+    if (strstr(i->Name, "Garlic") != NULL){
+        return GarlicType;
+    }
+    if (strstr(i->Name, "Rhubarb") != NULL){
+        return RhubarbType;
+    }
+    if (strstr(i->Name, "Wheat") != NULL){
+        return WheatType;
+    }
+    if (strstr(i->Name, "Coffe Bean") != NULL){
+        return CoffeBeanType;
+    }
+    if (strstr(i->Name, "Strawberry") != NULL){
+        return StrawberryType;
+    }
+    return 100;
+}
+//TMP
+int TryPlacePlant(Game *g, PlantEnum plant)
 {
     if (g->nPlants >= MAXPLANTS)
     {
-        return;
+        return 0;
     }
     for (int i = 0; i < g->nGoodTiles; i++)
     {
@@ -256,7 +350,7 @@ void TryPlacePlant(Game *g, PlantEnum plant)
         {
             if (g->GoodTiles[i]->drawables[0].type != DT_Dirt)
             {
-                return;
+                return 0;
             }
             int found = 0;
             for (int j = 0; j < g->nPlants; j++)
@@ -271,10 +365,13 @@ void TryPlacePlant(Game *g, PlantEnum plant)
             {
                 CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 2);
                 g->nPlants++;
+                return 1;
             }
+            
             break;
         }
     }
+    return 0;
 }
 void TryHarvestPlant(Game *g, Plant *plant)
 {
@@ -286,6 +383,8 @@ void TryHarvestPlant(Game *g, Plant *plant)
     { //to make index easier
         if (g->player.ent.n_items < INVENTORY_SIZE)
         {
+            plant->GrownItems.exists = 1;
+            plant->GrownItems.amount = 1;
             plant->TickAtHarvestation = SDL_GetTicks();
             plant->nToUpdate++;
             g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
@@ -416,4 +515,8 @@ void DrawableMergeSort(Drawable *DrawablesCurrentSort[], int l, int r)
 
         DrawableMerge(DrawablesCurrentSort, l, m, r);
     }
+}
+void ChangeActiveItem(Player *player, int index){
+    player->activeItem = player->ent.items[index];
+    player->activeItemIndex = index;
 }

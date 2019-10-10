@@ -46,7 +46,7 @@ void UpdateDroppedItem(DroppedItem* d_item, Player* player){
             d_item->exists = 0;
             player->ent.items[player->ent.n_items] = *d_item->item;
             player->ent.items[player->ent.n_items].exists = 1;
-            player->ent.items[player->ent.n_items].amount = 1;
+            //player->ent.items[player->ent.n_items].amount = 1;
             player->ent.n_items++;
         }
     }
