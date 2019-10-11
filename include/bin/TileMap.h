@@ -38,15 +38,16 @@ typedef struct TileProperties{
 }TileProperties;
 
 typedef enum MapDataConverter{
-    DIRT,
-    GRASS,
-    TREE,
-    WATER_LAKE,
-    ROCKS,
-    PLAYER_HOME,
-    PLAYER_HOME_ROOF,
-    PIER,
-    TRANSPARENT = 9
+    TRANSPARENT = 0,
+    DIRT=1,
+    SAND=3,
+    GRASS=5,
+    TREE=11,
+    WATER=15,
+    PLAYER_HOME=51,
+    PLAYER_HOME_ROOF=52,
+    PIER=55,
+    PIER_EXTENSION=56
 }MapDataConverter;
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file);

@@ -81,7 +81,6 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
         ConstructDrawable(&drawable, DT_Other, tm->gfx, season_sprite, srcrect, destrect, z_index);
 
         // ----------------------------------
-        
         TileProperties tp = GetTilePropertiesData(tm, mapDataInt);
         ApplyTileProperties(tm, &tp, &drawable, &hitbox);
         DrawableChangeSpriteSheet(&drawable, season_sprite);
@@ -108,7 +107,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
             int overlay_offset = 0;
             switch(j){
                 case tile_overlay_left:
-                    overlay_offset = 1;
+                    overlay_offset = 3;
                     overlay_srcrect.x = 66;
                     overlay_srcrect.y = 433;
                     overlay_srcrect.w = 6;
@@ -117,20 +116,18 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     overlay_destrect.w = 12;
                     break;
 
-                case tile_overlay_top_left:
-                    overlay_offset = 2;
-                    overlay_srcrect.x = 69;
-                    overlay_srcrect.y = 421;
-                    overlay_srcrect.w = 12;
-                    overlay_srcrect.h = 12;
-                    overlay_destrect.x -= 7;
-                    overlay_destrect.y -= 7;
-                    overlay_destrect.w = 26;
-                    overlay_destrect.h = 26;
+                case tile_overlay_top_left_inner:
+                    overlay_offset = 4;
+                    overlay_srcrect.x = 68;
+                    overlay_srcrect.y = 420;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 20;
+                    overlay_destrect.y -= 6;
+                    overlay_destrect.h += 6;
                     break;
 
                 case tile_overlay_top:
-                    overlay_offset = 1;
+                    overlay_offset = 3;
                     overlay_srcrect.x = 144;
                     overlay_srcrect.y = 410;
                     overlay_srcrect.w = 16;
@@ -139,20 +136,19 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     overlay_destrect.h = 12;
                     break;
 
-                case tile_overlay_top_right:
-                    overlay_offset = 2;
-                    overlay_srcrect.x = 113;
-                    overlay_srcrect.y = 422;
-                    overlay_srcrect.w = 12;
-                    overlay_srcrect.h = 12;
+                case tile_overlay_top_right_inner:
+                    overlay_offset = 4;
+                    overlay_srcrect.x = 112;
+                    overlay_srcrect.y = 420;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    overlay_destrect.x += 12;
                     overlay_destrect.y -= 7;
-                    overlay_destrect.x += 11;
-                    overlay_destrect.w = 28;
-                    overlay_destrect.h = 26;
+                    overlay_destrect.h = 39;
                     break;
                     
                 case tile_overlay_right:
-                    overlay_offset = 1;
+                    overlay_offset = 3;
                     overlay_srcrect.x = 119;
                     overlay_srcrect.y = 433;
                     overlay_srcrect.w = 6;
@@ -161,8 +157,8 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     overlay_destrect.w = 12;
                     break;
 
-                case tile_overlay_bottom_right:
-                    overlay_offset = 2;
+                case tile_overlay_bottom_right_inner:
+                    overlay_offset = 4;
                     overlay_srcrect.x = 113;
                     overlay_srcrect.y = 450;
                     overlay_srcrect.w = 12;
@@ -174,7 +170,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     break;
                     
                 case tile_overlay_bottom:
-                    overlay_offset = 1;
+                    overlay_offset = 3;
                     overlay_srcrect.x = 146;
                     overlay_srcrect.y = 436;
                     overlay_srcrect.w = 14;
@@ -183,8 +179,8 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     overlay_destrect.h = 12;
                     break;
 
-                case tile_overlay_bottom_left:
-                    overlay_offset = 2;
+                case tile_overlay_bottom_left_inner:
+                    overlay_offset = 4;
                     overlay_srcrect.x = 66;
                     overlay_srcrect.y = 447;
                     overlay_srcrect.w = 12;
@@ -216,10 +212,18 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     overlay_srcrect.h = 16;
                     break;
 
-                case tile_overlay_top_left:
+                case tile_overlay_top_left_inner:
                     overlay_offset = 2;
                     overlay_srcrect.x = 128;
                     overlay_srcrect.y = 112;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+
+                case tile_overlay_top_left_outer:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 128;
+                    overlay_srcrect.y = 176;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -232,10 +236,18 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     overlay_srcrect.h = 16;
                     break;
 
-                case tile_overlay_top_right:
+                case tile_overlay_top_right_inner:
                     overlay_offset = 2;
                     overlay_srcrect.x = 160;
                     overlay_srcrect.y = 112;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+
+                case tile_overlay_top_right_outer:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 144;
+                    overlay_srcrect.y = 176;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -248,10 +260,18 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     overlay_srcrect.h = 16;
                     break;
 
-                case tile_overlay_bottom_right:
+                case tile_overlay_bottom_right_inner:
                     overlay_offset = 2;
                     overlay_srcrect.x = 160;
                     overlay_srcrect.y = 144;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+
+                case tile_overlay_bottom_right_outer:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 144;
+                    overlay_srcrect.y = 192;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -264,10 +284,18 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                     overlay_srcrect.h = 16;
                     break;
 
-                case tile_overlay_bottom_left:
+                case tile_overlay_bottom_left_inner:
                     overlay_offset = 2;
                     overlay_srcrect.x = 128;
                     overlay_srcrect.y = 144;
+                    overlay_srcrect.w = 16;
+                    overlay_srcrect.h = 16;
+                    break;
+
+                case tile_overlay_bottom_left_outer:
+                    overlay_offset = 2;
+                    overlay_srcrect.x = 128;
+                    overlay_srcrect.y = 192;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -291,10 +319,11 @@ void FixTileTransitions(TileMap* tm){
     Tile* ts = tm->tiles;
     for(int i = 0; i < tm->nTiles_x * tm->nTiles_y ; i++){ 
         // --------- GRASS -> DIRT ------------
-        if(ts[i].drawables[0].type == DT_Dirt){
+        if(ts[i].drawables[0].type == DT_Dirt || (ts[i].drawables[0].type == DT_Water)){
             // ---- SIDES ----
             // left
-            if(i > 0)
+            
+            if(i % tm->nTiles_x != 0)
             ts[i - 1].drawables[0].type == DT_Grass 
             ? 
             ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_left] = 1 : 0;
@@ -321,26 +350,51 @@ void FixTileTransitions(TileMap* tm){
             // top-left
             ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_left] && ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top] 
             ? 
-            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top_left] = 1 : 0;
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top_left_inner] = 1 : 0;
 
             // top-right
             ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top] && ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_right]  
             ? 
-            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top_right] = 1 : 0;
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_top_right_inner] = 1 : 0;
 
             // bottom-right
             ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_right] && ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom] 
             ?
-            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom_right] = 1 : 0;
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom_right_inner] = 1 : 0;
 
             // bottom-left
             ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom] && ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_left] 
             ? 
-            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom_left]  = 1 : 0;
+            ts[i].overlays_used[tile_overlay_grass_to_dirt][tile_overlay_bottom_left_inner]  = 1 : 0;
         }
         
         // --------- WATER -> ANYTHING ------------
         if(ts[i].drawables[0].type == DT_Water){
+            //outside corners
+            int top_left_not_water = 0;
+            int top_right_not_water = 0;
+            int bottom_right_not_water = 0;
+            int bottom_left_not_water = 0;
+            if(i > tm->nTiles_x && i % tm->nTiles_x != 0)
+            ts[i - tm->nTiles_x - 1].drawables[0].type != DT_Water  
+            ?
+            top_left_not_water = 1 : 0;
+
+            if(i > tm->nTiles_x && i % tm->nTiles_x != 0)
+            ts[i - tm->nTiles_x + 1].drawables[0].type != DT_Water  
+            ? 
+            top_right_not_water = 1 : 0;
+
+            if(i < tm->nTiles_used - tm->nTiles_x && i % tm->nTiles_x != 0)
+            ts[i + tm->nTiles_x + 1].drawables[0].type != DT_Water  
+            ? 
+            bottom_right_not_water = 1 : 0;
+
+            if(i < tm->nTiles_used - tm->nTiles_x && i % tm->nTiles_x != 1)
+            ts[i + tm->nTiles_x - 1].drawables[0].type != DT_Water  
+            ? 
+            bottom_left_not_water = 1 : 0;
+
             // ---- SIDES ----
             // left
             if(i % tm->nTiles_x != 0)
@@ -369,24 +423,57 @@ void FixTileTransitions(TileMap* tm){
 
             // ---- CORNERS ----
             // top-left
-            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_left] && ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top] 
+            // - inner
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_left] && 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top] 
             ? 
-            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top_left] = 1 : 0;
-            
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top_left_inner] = 1 : 0;
+            // - outer
+            top_left_not_water && 
+            !ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_left] && 
+            !ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top] 
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top_left_outer] = 1 : 0;
+
             // top-right
-            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top] && ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_right] 
+            // - inner
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top] && 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_right] 
             ? 
-            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top_right] = 1 : 0;
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top_right_inner] = 1 : 0;
+            // - outer
+            top_right_not_water && 
+            !ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top] && 
+            !ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_right]
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_top_right_outer] = 1 : 0;
 
             // bottom-right
-            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_right] && ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom] 
+            // - inner
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_right] && 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom] 
             ? 
-            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom_right] = 1 : 0;
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom_right_inner] = 1 : 0;
+            // - outer
+            bottom_right_not_water && 
+            !ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_right] && 
+            !ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom]
+            ? 
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom_right_outer] = 1 : 0;
 
             // bottom-left
-            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom] && ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_left] 
+            // - inner
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom] 
+            && ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_left] 
             ? 
-            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom_left] = 1 : 0;
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom_left_inner] = 1 : 0;
+            // - outer
+            bottom_left_not_water && 
+            !ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom] && 
+            !ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_left]
+            ?
+            ts[i].overlays_used[tile_overlay_anything_to_water][tile_overlay_bottom_left_outer] = 1 : 0;
+
         }
     }
 }
@@ -458,6 +545,13 @@ TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
             tp.srcrect.w = 16;
             tp.srcrect.h = 16;
             break;
+        case SAND:
+            tp.type = DT_Sand;
+            tp.srcrect.x = 128;
+            tp.srcrect.y = 272;
+            tp.srcrect.w = 16;
+            tp.srcrect.h = 16;
+            break;
         case TREE:
             tp.destrect_offset.w += TILE_WIDTH * 2;
             tp.destrect_offset.h += TILE_HEIGHT * 4;
@@ -473,8 +567,9 @@ TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
             tp.srcrect.w = 48;
             tp.srcrect.h = 96;
             break;
-        case WATER_LAKE:
+        case WATER:
             tp.type = DT_Water;
+            tp.z_index_offset -= 500;
             tp.srcrect.x = 128;
             tp.srcrect.y = 208;
             tp.srcrect.w = 16;
@@ -502,13 +597,23 @@ TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
             break;
         case PIER:
             tp.type = DT_Pier;
-            tp.z_index_offset = 1;
+            tp.z_index_offset = -300;
             tp.srcrect.x = 176;
             tp.srcrect.y = 1040;
             tp.srcrect.w = 80;
-            tp.srcrect.h = 63;
+            tp.srcrect.h = 64;
             tp.destrect_offset.w += TILE_WIDTH * 4;
-            tp.destrect_offset.h += TILE_WIDTH * 3;
+            tp.destrect_offset.h += TILE_HEIGHT * 3;
+            break;
+        case PIER_EXTENSION:
+            tp.type = DT_Pier;
+            tp.z_index_offset = -300;
+            tp.srcrect.x = 176;
+            tp.srcrect.y = 1072;
+            tp.srcrect.w = 80;
+            tp.srcrect.h = 32;
+            tp.destrect_offset.w += TILE_WIDTH * 4;
+            tp.destrect_offset.h += TILE_HEIGHT * 2;
             break;
         case TRANSPARENT:
             tp.type = DT_Transparent;

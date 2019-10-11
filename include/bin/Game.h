@@ -37,8 +37,6 @@ typedef struct Game
     Animal animals[100];
     int n_animals;
 
-    Item CoreItems[100];
-
     Plant plants[MAXPLANTS];
     int nPlants;
     Gui gui;
@@ -67,8 +65,6 @@ void AddTileMapToRenderList(Game *g);
 void RenderList(Game *g);
 void SortRenderList(Game *g);
 
-void CreateAllStandardItems(Game *g);
-void EntityDeathEvent(Game *g, Entity *e);
 
 // TMP
 void CreatePlantsToPlayer(Game *g);
