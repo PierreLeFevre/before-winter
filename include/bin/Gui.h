@@ -38,6 +38,10 @@ typedef struct Gui
 
     int invActive;
     int invToggler;
+    int invSelectedIndex;
+    int invSelectToggler;
+    int invHighlightedIndex;
+    int invMovingState;
 
     Drawable promptBg;
     char promptText[100];

@@ -53,7 +53,7 @@ void UpdateLogic(Game *g)
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
-    if (!(g->gui.menuActive || g->gui.shopActive))
+    if (!(g->gui.menuActive || (g->gui.shopActive || g->gui.invActive)))
     {
         CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
     }
