@@ -48,6 +48,7 @@ void Go(Game *g)
 
 void UpdateLogic(Game *g)
 {
+    QuickSlotHandeling(&g->player);
     UpdateTime(SDL_GetTicks(), &g->dateTime);
     CalculateGoodTiles(g);
     HandleEvents(g);
