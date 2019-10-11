@@ -99,12 +99,18 @@ void UpdateGui(Gui *g)
     gcvt(round(dT), 6, strFPS);
     RenderText(g, 15, g->d.gfx->wHeight - 25, 0, White, Bold, strFPS);
 
-    GuiShop(g);
     GuiBar(g);
     SortInventory(g);
-    GuiInventory(g);
     GuiPrompt(g);
     GuiMsgBox(g);
+
+    if(!g->invActive && !g->menuActive)
+    GuiShop(g);
+    
+    if(!g->shopActive && !g->menuActive)
+    GuiInventory(g);
+    
+    if(!g->invActive && !g->shopActive)
     GuiMenu(g);
 
     SDL_SetWindowFullscreen(g->d.gfx->win, g->d.gfx->wFullscreen);
