@@ -168,34 +168,6 @@ int Get_Option(char Option[20])
     fclose(fp);
     return -2;
 }
-// void Key_Options()
-// {
-//     Key_Event.UP[0] = Get_Option("1UP=");
-//     Key_Event.DOWN[0] = Get_Option("1DOWN=");
-//     Key_Event.RIGHT[0] = Get_Option("1RIGHT=");
-//     Key_Event.LEFT[0] = Get_Option("1LEFT=");
-
-//     Key_Event.UP[1] = Get_Option("2UP=");
-//     Key_Event.DOWN[1] = Get_Option("2DOWN=");
-//     Key_Event.RIGHT[1] = Get_Option("2RIGHT=");
-//     Key_Event.LEFT[1] = Get_Option("2LEFT=");
-
-//     Key_Event.testkey = Get_Option("testkey=");
-//     Key_Event.meny = Get_Option("meny=");
-//     Key_Event.harvestTemp = Get_Option("harvestTemp=");
-//     Key_Event.inventroy = Get_Option("inventory=");
-//     Key_Event.action = Get_Option("action=");
-
-//     Key_Event.quickSlot[0] = Get_Option("quickSlot1=");
-//     Key_Event.quickSlot[1] = Get_Option("quickSlot2=");
-//     Key_Event.quickSlot[2] = Get_Option("quickSlot3=");
-//     Key_Event.quickSlot[3] = Get_Option("quickSlot4=");
-//     Key_Event.quickSlot[4] = Get_Option("quickSlot5=");
-//     Key_Event.quickSlot[5] = Get_Option("quickSlot6=");
-//     Key_Event.quickSlot[6] = Get_Option("quickSlot7=");
-//     Key_Event.quickSlot[7] = Get_Option("quickSlot8=");
-//     Key_Event.quickSlot[8] = Get_Option("quickSlot9=");
-// }
 int EventHandler(char thinboi[20])
 {
     const Uint8 *state = SDL_GetKeyboardState(NULL);
@@ -204,35 +176,4 @@ int EventHandler(char thinboi[20])
         return 1;
     }
     return 0;
-}
-
-void saveToFile(char saveFileName[20 + 1], float *x, float *y)
-{
-    FILE *saveFile;
-    struct SaveData saver;
-
-    saver.player_X = *x;
-    saver.player_Y = *y;
-    saveFile = fopen(saveFileName, "wb");
-    if (!saveFile)
-    {
-        printf("FuncLib.c saveFunction Error:%s\n", strerror(errno));
-    }
-    fwrite(&saver, sizeof(struct SaveData), 1, saveFile);
-    fclose(saveFile);
-}
-void loadFromFile(char saveFileName[20 + 1], float *x, float *y)
-{
-    FILE *loadFile;
-    struct SaveData saver;
-    loadFile = fopen(saveFileName, "rb");
-    if (!loadFile)
-    {
-        printf("FuncLib.c loadFunction Error:%s\n", strerror(errno));
-        return;
-    }
-    fread(&saver, sizeof(struct SaveData), 1, loadFile);
-    fclose(loadFile);
-    *x = saver.player_X;
-    *y = saver.player_Y;
 }
