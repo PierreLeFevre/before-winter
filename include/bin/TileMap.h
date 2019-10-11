@@ -42,16 +42,17 @@ typedef enum MapDataConverter{
     GRASS,
     TREE,
     WATER_LAKE,
-    WATER_TOP,
+    ROCKS,
     PLAYER_HOME,
     PLAYER_HOME_ROOF,
+    PIER,
     TRANSPARENT = 9
 }MapDataConverter;
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file);
 void DestroyTileMap(TileMap* tm);
 
-void FixTileTransistions(TileMap* tm);
+void FixTileTransitions(TileMap* tm);
 
 void DrawTileMap(TileMap* tm);
 

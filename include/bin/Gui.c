@@ -682,7 +682,7 @@ void GuiShop(Gui *g)
                 {
                     for(int i = 0; i < 8; i++){
                         if(g->shopOrder[i]){
-                            g->p->ent.Gold -= g->p->ent.items[i].Cost;
+                            g->p->ent.Gold -= g->p->ent.items[i].Cost * g->shopOrder[i];
                             g->p->ent.items[g->p->ent.n_items] = SeedToItem(g->d.gfx, i, g->shopOrder[i]);
                             g->p->ent.n_items++;
                             SortInventory(g);

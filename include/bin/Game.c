@@ -231,11 +231,13 @@ void AddTileMapToRenderList(Game *g)
         {
             AddToRenderList(g, &g->GoodTiles[i]->drawables[j]);
         }
-        for (int j = 0; j < tile_overlay_enumsize; j++)
-        {
-            if (g->GoodTiles[i]->overlays_used[j])
+        for(int j = 0; j < tile_overlay_types_enumsize; j++){
+            for (int k = 0; k < tile_overlay_enumsize; k++)
             {
-                AddToRenderList(g, &g->GoodTiles[i]->overlays[j]);
+                if (g->GoodTiles[i]->overlays_used[j][k])
+                {
+                    AddToRenderList(g, &g->GoodTiles[i]->overlays[j][k]);
+                }
             }
         }
     }
