@@ -51,8 +51,6 @@ void CheckEntityCollision(Entity *e, Tile *GoodTiles[], int max);
 int BuyItem(Entity *e, Item *i);
 void SellItem(Entity *e, Item *i);
 
-void AddItem(Entity *e, Item *i, int index);
-void CreateItem(Item *i, Graphics *gfx, ItemEnums item);
 
 void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime);
 void UpdatePlant(Plant *p, Uint32 Tick);

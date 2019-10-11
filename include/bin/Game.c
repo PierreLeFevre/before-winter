@@ -60,7 +60,7 @@ void UpdateLogic(Game *g)
     if (EventHandler("action="))
     {
         int planterror = 0;
-        if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL){
+        if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL || !strcmp(g->player.ent.items[g->player.activeItemIndex].Name, "Coffee Bean")){
             if (g->player.ent.items[g->player.activeItemIndex].amount > 0){
                 PlantEnum p = ItemToPlant(&g->player.activeItem);
                 if (p == StrawberryType && g->dateTime.season != Summer){//Strawberries only in summer
@@ -87,7 +87,6 @@ void UpdateLogic(Game *g)
             }   
         }
     }
-    EntityDeathEvent(g, &g->player.ent);
 
     if (EventHandler("harvestTemp="))
     {
@@ -254,26 +253,6 @@ void SortRenderList(Game *g)
 {
     DrawableMergeSort(g->RenderList, 0, g->nToRender - 1);
 }
-void CreateAllStandardItems(Game *g)
-{
-    CreateItem(&g->CoreItems[1], &g->gfx, IronAxeEnum);
-    // CreateItem(&g->CoreItems[0], &g->gfx, IronPickaxeEnum);
-    // CreateItem(&g->CoreItems[2], &g->gfx, IronSwordEnum);
-    // CreateItem(&g->CoreItems[3], &g->gfx, DiamondEnum);
-}
-void EntityDeathEvent(Game *g, Entity *e)
-{
-    if (e->health <= 0 && e->deadTrigger == SDL_FALSE)
-    {
-        e->deadTrigger = SDL_TRUE;
-        //***********DEATH***************
-        e->droppableItem = g->CoreItems[3];
-        e->droppableItem.d.z_index = e->d.z_index;
-        e->droppableItem.d.destrect.x = e->d.destrect.x;
-        e->droppableItem.d.destrect.y = e->d.destrect.y;
-    }
-}
-// TMP
 void CreatePlantsToPlayer(Game *g){
     SDL_Rect rect = {0, 0, TILE_WIDTH, TILE_HEIGHT};
     Plant p;
@@ -323,7 +302,7 @@ void CreatePlantsToPlayer(Game *g){
     g->player.ent.items[7] = p.SeedItems;
     g->player.ent.items[7].amount = 2;
     g->player.ent.items[7].exists = 1;
-    strcpy(g->player.ent.items[7].Name, "Coffee Bean Seed");
+    strcpy(g->player.ent.items[7].Name, "Coffee Bean");
 
     CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[8] = p.SeedItems;
