@@ -1,10 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-typedef struct ExitData
+typedef struct
 {
     int exitInitialized;
 } ExitData;
+#define INIT_EXITDATA(X) ExitData X = {.exitInitialized = 0}
 
 struct SaveData
 {
