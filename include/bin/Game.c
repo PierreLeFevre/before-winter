@@ -60,45 +60,34 @@ void UpdateLogic(Game *g)
     if (EventHandler("action="))
     {
         int planterror = 0;
-        if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL)
-        {
-            if (g->player.ent.items[g->player.activeItemIndex].amount > 0)
-            {
+        if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL){
+            if (g->player.ent.items[g->player.activeItemIndex].amount > 0){
                 PlantEnum p = ItemToPlant(&g->player.activeItem);
-                if (p == StrawberryType && g->dateTime.season != Summer)
-                { //Strawberries only in summer
+                if (p == StrawberryType && g->dateTime.season != Summer){//Strawberries only in summer
                     planterror = 1;
                 }
-                if (p == CornType && g->dateTime.season != Spring)
-                { //Corn only in spring
+                if (p == CornType && g->dateTime.season != Spring){//Corn only in spring
                     planterror = 1;
                 }
-                if (!planterror)
-                {
-                    if (TryPlacePlant(g, p))
-                    {
+                if (!planterror){
+                    if (TryPlacePlant(g, p)){
                         g->player.ent.items[g->player.activeItemIndex].amount--;
-                        if (g->player.ent.items[g->player.activeItemIndex].amount == 0)
-                        {
+                        if (g->player.ent.items[g->player.activeItemIndex].amount == 0){
                             g->player.ent.items[g->player.activeItemIndex].exists = 0;
-                            for (int i = g->player.activeItemIndex; i < g->player.ent.n_items; i++)
-                            { //REMOVE ITEM WHEN NONE LEFT
+                            for(int i = g->player.activeItemIndex; i < g->player.ent.n_items; i++){ //REMOVE ITEM WHEN NONE LEFT
                                 g->player.ent.items[i] = g->player.ent.items[i + 1];
                             }
                             g->player.ent.n_items--;
                         }
                     }
                 }
-                else
-                {
+                else{
                     AlertGui(&g->gui, 2, "Cannot plant right now");
                 }
-            }
+            }   
         }
     }
     EntityDeathEvent(g, &g->player.ent);
-
-    QuickSlotHandeling(&g->player);
 
     if (EventHandler("harvestTemp="))
     {
@@ -243,8 +232,7 @@ void AddTileMapToRenderList(Game *g)
         {
             AddToRenderList(g, &g->GoodTiles[i]->drawables[j]);
         }
-        for (int j = 0; j < tile_overlay_types_enumsize; j++)
-        {
+        for(int j = 0; j < tile_overlay_types_enumsize; j++){
             for (int k = 0; k < tile_overlay_enumsize; k++)
             {
                 if (g->GoodTiles[i]->overlays_used[j][k])
@@ -286,8 +274,7 @@ void EntityDeathEvent(Game *g, Entity *e)
     }
 }
 // TMP
-void CreatePlantsToPlayer(Game *g)
-{
+void CreatePlantsToPlayer(Game *g){
     SDL_Rect rect = {0, 0, TILE_WIDTH, TILE_HEIGHT};
     Plant p;
     CreatePlant(&p, &g->gfx, ParsnipType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
@@ -346,42 +333,32 @@ void CreatePlantsToPlayer(Game *g)
 
     g->player.ent.n_items = 9;
 }
-PlantEnum ItemToPlant(Item *i)
-{
-    if (strstr(i->Name, "Parsnip") != NULL)
-    {
+PlantEnum ItemToPlant(Item *i){
+    if (strstr(i->Name, "Parsnip") != NULL){
         return ParsnipType;
     }
-    if (strstr(i->Name, "Cauliflower") != NULL)
-    {
+    if (strstr(i->Name, "Cauliflower") != NULL){
         return CauliflowerType;
     }
-    if (strstr(i->Name, "Tomato") != NULL)
-    {
+    if (strstr(i->Name, "Tomato") != NULL){
         return TomatoType;
     }
-    if (strstr(i->Name, "Garlic") != NULL)
-    {
+    if (strstr(i->Name, "Garlic") != NULL){
         return GarlicType;
     }
-    if (strstr(i->Name, "Rhubarb") != NULL)
-    {
+    if (strstr(i->Name, "Rhubarb") != NULL){
         return RhubarbType;
     }
-    if (strstr(i->Name, "Wheat") != NULL)
-    {
+    if (strstr(i->Name, "Wheat") != NULL){
         return WheatType;
     }
-    if (strstr(i->Name, "Corn") != NULL)
-    {
+    if (strstr(i->Name, "Corn") != NULL){
         return CornType;
     }
-    if (strstr(i->Name, "Coffee Bean") != NULL)
-    {
+    if (strstr(i->Name, "Coffee Bean") != NULL){
         return CoffeeBeanType;
     }
-    if (strstr(i->Name, "Strawberry") != NULL)
-    {
+    if (strstr(i->Name, "Strawberry") != NULL){
         return StrawberryType;
     }
     return 100;
@@ -416,7 +393,7 @@ int TryPlacePlant(Game *g, PlantEnum plant)
                 g->nPlants++;
                 return 1;
             }
-
+            
             break;
         }
     }
@@ -565,8 +542,7 @@ void DrawableMergeSort(Drawable *DrawablesCurrentSort[], int l, int r)
         DrawableMerge(DrawablesCurrentSort, l, m, r);
     }
 }
-void ChangeActiveItem(Player *player, int index)
-{
+void ChangeActiveItem(Player *player, int index){
     player->activeItem = player->ent.items[index];
     player->activeItemIndex = index;
 }
