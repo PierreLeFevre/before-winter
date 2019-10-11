@@ -10,6 +10,7 @@ typedef enum DrawableType{
     DT_Plant,
     DT_Item,
     DT_Grass,
+    DT_Sand,
     DT_Dirt,
     DT_Water,
     DT_Pier,

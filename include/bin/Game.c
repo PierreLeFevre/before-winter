@@ -10,7 +10,7 @@
 void ConstructGame(Game *g, int *noExit)
 {
     ConstructGraphics(&g->gfx);
-    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.csv");
+    ConstructTileMap(&g->tileMap, &g->gfx, 60, 100, 0, 0, "./TileMap.csv");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect, &g->tileMap);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
@@ -228,7 +228,7 @@ void AddTileMapToRenderList(Game *g)
         {
             AddToRenderList(g, &g->GoodTiles[i]->drawables[j]);
         }
-        for(int j = 0; j < tile_overlay_types_enumsize; j++){
+        for(int j = tile_overlay_types_enumsize - 1; j >= 0; j--){
             for (int k = 0; k < tile_overlay_enumsize; k++)
             {
                 if (g->GoodTiles[i]->overlays_used[j][k])
