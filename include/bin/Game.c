@@ -39,7 +39,7 @@ void DestroyGame(Game *g)
 }
 
 void Go(Game *g)
-{
+{   
     BeginFrame(&g->gfx);
     UpdateLogic(g);
     Render(g);
@@ -177,7 +177,7 @@ void HandleEvents(Game *g)
 
     while (SDL_PollEvent(&g->event))
     {
-        if (g->event.type == SDL_QUIT || g->gui.exitdata.exitInitialized)
+        if (g->event.type == SDL_QUIT /*|| g->gui.exitdata.exitInitialized*/)
         {
             *g->noExit = 0;
         }

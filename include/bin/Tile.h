@@ -4,13 +4,17 @@
 
 typedef enum TileEdges{
     tile_overlay_left,
-    tile_overlay_top_left,
+    tile_overlay_top_left_inner,
+    tile_overlay_top_left_outer,
     tile_overlay_top,
-    tile_overlay_top_right,
+    tile_overlay_top_right_inner,
+    tile_overlay_top_right_outer,
     tile_overlay_right,
-    tile_overlay_bottom_right,
+    tile_overlay_bottom_right_inner,
+    tile_overlay_bottom_right_outer,
     tile_overlay_bottom,
-    tile_overlay_bottom_left,
+    tile_overlay_bottom_left_inner,
+    tile_overlay_bottom_left_outer,
     tile_overlay_enumsize
 }TileEdges;
 
