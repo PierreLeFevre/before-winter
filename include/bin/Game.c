@@ -177,7 +177,7 @@ void HandleEvents(Game *g)
 
     while (SDL_PollEvent(&g->event))
     {
-        if (g->event.type == SDL_QUIT || g->gui.extidata.exitInitialized)
+        if (g->event.type == SDL_QUIT || g->gui.exitdata.exitInitialized)
         {
             *g->noExit = 0;
         }

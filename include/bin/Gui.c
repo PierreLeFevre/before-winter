@@ -305,7 +305,6 @@ void GuiInventory(Gui *g)
     {
         if (g->invActive)
         {
-
             if (EventHandler("inventory="))
             {
                 g->invActive = 0;
@@ -478,11 +477,11 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 1:
-                        g->extidata.exitInitialized = SDL_TRUE;
+                        g->exitdata.exitInitialized = SDL_TRUE;
                         break;
                     case 2:
                         saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
-                        g->extidata.exitInitialized = SDL_TRUE;
+                        g->exitdata.exitInitialized = SDL_TRUE;
                         break;
                     case 3:
                         saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);

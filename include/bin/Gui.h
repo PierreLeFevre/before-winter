@@ -44,7 +44,7 @@ typedef struct Gui
     int promptToggler;
     int promptInit;
 
-    ExitData extidata;
+    ExitData exitdata;
 
     Player *p;
 
