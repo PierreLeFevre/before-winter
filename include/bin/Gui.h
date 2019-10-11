@@ -6,8 +6,10 @@
 #include "FuncLib.h"
 #include "DateTime.h"
 #include "Plants.h"
+#include "saveLoadExit.h"
 
-typedef struct Gui{
+typedef struct Gui
+{
     Drawable d;
     Drawable menu;
     Drawable inv;
@@ -41,48 +43,52 @@ typedef struct Gui{
     char promptText[100];
     int promptToggler;
     int promptInit;
-    
-    Player* p;
+
+    ExitData exitdata;
+
+    Player *p;
 
     Uint32 last;
     Uint32 now;
 
-    DateTime* dT;
-}Gui;
+    DateTime *dT;
+} Gui;
 
-typedef enum Color{
-    Black,  // 0
-    White,  // 1
-    Red,    // 2
-    Green,  // 3
-    Yellow, // 4
-    Blue,   // 5
-    Magenta,// 6
-    Cyan    // 7
-}Color;
+typedef enum Color
+{
+    Black,   // 0
+    White,   // 1
+    Red,     // 2
+    Green,   // 3
+    Yellow,  // 4
+    Blue,    // 5
+    Magenta, // 6
+    Cyan     // 7
+} Color;
 
-typedef enum Format{
+typedef enum Format
+{
     Regular,
     Bold
-}Format;
+} Format;
 
-void ConstructGui(Gui* g, Graphics* gfx, Player* p, DateTime *d);
-void UpdateGui(Gui* g);
+void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *d);
+void UpdateGui(Gui *g);
 void SortInventory(Gui *g);
-void RenderText(Gui* g, int x, int y, int w, Color c, Format f, char text[]);
+void RenderText(Gui *g, int x, int y, int w, Color c, Format f, char text[]);
 // each char 15 wide.
 
-void MsgBoxShow(Gui* g, char message[201]);
-void MsgBoxHide(Gui* g);
+void MsgBoxShow(Gui *g, char message[201]);
+void MsgBoxHide(Gui *g);
 
 void GuiShaders(Gui *g);
 
-void GuiBar(Gui* g);
-void GuiInventory(Gui* g);
-void GuiMenu(Gui* g);
+void GuiBar(Gui *g);
+void GuiInventory(Gui *g);
+void GuiMenu(Gui *g);
 void GuiShop(Gui *g);
-void GuiPrompt(Gui* g);
-void GuiMsgBox(Gui* g);
-void AlertGui(Gui* g, int timer, char promptText[20]);
+void GuiPrompt(Gui *g);
+void GuiMsgBox(Gui *g);
+void AlertGui(Gui *g, int timer, char promptText[20]);
 
 #endif

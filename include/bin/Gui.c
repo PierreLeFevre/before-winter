@@ -268,10 +268,14 @@ void GuiBar(Gui *g)
     RenderText(g, x + 150, y + 65, 0, White, Regular, g->p->activeItem.Name);
 }
 
-void SortInventory(Gui *g){
-    for (int i = 0; i < INVENTORY_SIZE; i++){
-        for (int j = (i + 1); j < INVENTORY_SIZE; j++){
-            if (g->p->ent.items[i].exists){
+void SortInventory(Gui *g)
+{
+    for (int i = 0; i < INVENTORY_SIZE; i++)
+    {
+        for (int j = (i + 1); j < INVENTORY_SIZE; j++)
+        {
+            if (g->p->ent.items[i].exists)
+            {
                 if (strcmp(g->p->ent.items[i].Name, g->p->ent.items[j].Name) == 0)
                 {
                     g->p->ent.items[j].exists = 0;
@@ -284,8 +288,10 @@ void SortInventory(Gui *g){
     }
 
     g->p->ent.n_items = 0;
-    for (int i = 0; i < INVENTORY_SIZE; i++){
-        if(!g->p->ent.items[i].exists){
+    for (int i = 0; i < INVENTORY_SIZE; i++)
+    {
+        if (!g->p->ent.items[i].exists)
+        {
             break;
         }
         g->p->ent.n_items += 1;
@@ -299,7 +305,6 @@ void GuiInventory(Gui *g)
     {
         if (g->invActive)
         {
-
             if (EventHandler("inventory="))
             {
                 g->invActive = 0;
@@ -472,9 +477,11 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 1:
+                        g->exitdata.exitInitialized = SDL_TRUE;
                         break;
                     case 2:
                         saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
+                        g->exitdata.exitInitialized = SDL_TRUE;
                         break;
                     case 3:
                         saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
@@ -579,7 +586,8 @@ void GuiShop(Gui *g)
 
             if (EventHandler("1DOWN=") && g->shopSelectToggler > 20)
             {
-                if(g->shopSelectedIndex != g->shopMaxIndex){
+                if (g->shopSelectedIndex != g->shopMaxIndex)
+                {
                     g->shopSelectedIndex += 1;
                 }
                 g->shopSelectToggler = 0;
@@ -657,15 +665,15 @@ void GuiShop(Gui *g)
 
                 if (EventHandler("1LEFT=") && g->shopSelectToggler > 20)
                 {
-                    if(g->shopOrder[g->shopSelectedIndex] >= 6)
-                    g->shopOrder[g->shopSelectedIndex] -= 6;
+                    if (g->shopOrder[g->shopSelectedIndex] >= 6)
+                        g->shopOrder[g->shopSelectedIndex] -= 6;
                     g->shopSelectToggler = 0;
                 }
 
                 if (EventHandler("1RIGHT=") && g->shopSelectToggler > 20)
-                {   
-                    if(g->shopOrder[g->shopSelectedIndex] <= 30)
-                    g->shopOrder[g->shopSelectedIndex] += 6;
+                {
+                    if (g->shopOrder[g->shopSelectedIndex] <= 30)
+                        g->shopOrder[g->shopSelectedIndex] += 6;
                     g->shopSelectToggler = 0;
                 }
 
@@ -680,9 +688,11 @@ void GuiShop(Gui *g)
 
                 if (EventHandler("Select=") && g->shopSelectToggler > 20 && g->shopSelectedIndex == 8)
                 {
-                    for(int i = 0; i < 8; i++){
-                        if(g->shopOrder[i]){
-                            g->p->ent.Gold -= g->p->ent.items[i].Cost;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        if (g->shopOrder[i])
+                        {
+                            g->p->ent.Gold -= g->p->ent.items[i].Cost * g->shopOrder[i];
                             g->p->ent.items[g->p->ent.n_items] = SeedToItem(g->d.gfx, i, g->shopOrder[i]);
                             g->p->ent.n_items++;
                             SortInventory(g);
