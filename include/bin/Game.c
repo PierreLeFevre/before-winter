@@ -65,6 +65,9 @@ void UpdateLogic(Game *g)
                 if (p == StrawberryType && g->dateTime.season != Summer){//Strawberries only in summer
                     planterror = 1;
                 }
+                if (p == CornType && g->dateTime.season != Spring){//Corn only in spring
+                    planterror = 1;
+                }
                 if (!planterror){
                     if (TryPlacePlant(g, p)){
                         g->player.ent.items[g->player.activeItemIndex].amount--;
@@ -307,19 +310,25 @@ void CreatePlantsToPlayer(Game *g){
     g->player.ent.items[5].exists = 1;
     strcpy(g->player.ent.items[5].Name, "Wheat Seed");
 
-    CreatePlant(&p, &g->gfx, CoffeeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    CreatePlant(&p, &g->gfx, CornType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[6] = p.SeedItems;
     g->player.ent.items[6].amount = 2;
     g->player.ent.items[6].exists = 1;
-    strcpy(g->player.ent.items[6].Name, "Coffee Bean Seed");
+    strcpy(g->player.ent.items[6].Name, "Corn Seed");
 
-    CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    CreatePlant(&p, &g->gfx, CoffeeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[7] = p.SeedItems;
     g->player.ent.items[7].amount = 2;
     g->player.ent.items[7].exists = 1;
-    strcpy(g->player.ent.items[7].Name, "Strawberry Seed");
+    strcpy(g->player.ent.items[7].Name, "Coffee Bean Seed");
 
-    g->player.ent.n_items = 8;
+    CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[8] = p.SeedItems;
+    g->player.ent.items[8].amount = 2;
+    g->player.ent.items[8].exists = 1;
+    strcpy(g->player.ent.items[8].Name, "Strawberry Seed");
+
+    g->player.ent.n_items = 9;
 }
 PlantEnum ItemToPlant(Item *i){
     if (strstr(i->Name, "Parsnip") != NULL){
@@ -339,6 +348,9 @@ PlantEnum ItemToPlant(Item *i){
     }
     if (strstr(i->Name, "Wheat") != NULL){
         return WheatType;
+    }
+    if (strstr(i->Name, "Corn") != NULL){
+        return CornType;
     }
     if (strstr(i->Name, "Coffee Bean") != NULL){
         return CoffeeBeanType;

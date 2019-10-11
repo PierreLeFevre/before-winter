@@ -11,7 +11,8 @@ typedef enum PlantEnum{ //16x32
     TomatoType,
     WheatType,
     CoffeeBeanType,
-    StrawberryType
+    StrawberryType,
+    CornType
 }PlantEnum;
 
 typedef struct PlantStge{

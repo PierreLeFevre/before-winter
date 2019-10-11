@@ -27,6 +27,9 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 19 * 16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
+
+        plant->TextureMap.destrect.y -= 15;
+        plant->TextureMap.destrect.h += 15;
         CreatePlantType(plant, "Parsnip", r, 6, 1000);
 
         break;
@@ -89,6 +92,9 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 19 * 16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
+
+        plant->TextureMap.destrect.y -= 15;
+        plant->TextureMap.destrect.h += 15;
         CreatePlantType(plant, "Rhubarb", r, 7, 1000);
     break;
 
@@ -109,6 +115,29 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.h = 16;
         CreatePlantType(plant, "Wheat", r, 7, 1000);
 
+        break;
+
+    case CornType:
+        r.x = 8 * 16;
+        r.y = 7 * 32;
+        r.w = 16;
+        r.h = 32;
+
+        plant->GrownItems.d.srcrect.x = 6*16;
+        plant->GrownItems.d.srcrect.y = 11*16;
+        plant->GrownItems.d.srcrect.w = 16;
+        plant->GrownItems.d.srcrect.h = 16;
+
+        plant->SeedItems.d.srcrect.x = 7 * 16;
+        plant->SeedItems.d.srcrect.y = 20 * 16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
+
+        plant->TextureMap.destrect.y -= 15;
+        plant->TextureMap.destrect.h += 10;
+        CreatePlantType(plant, "Corn", r, 8, 1000);
+        plant->TickToRegrow = 2000;
+        plant->HasHarvestableBerries = 1;
         break;
 
     case TomatoType:
@@ -144,6 +173,9 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 18*16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
+
+        plant->TextureMap.destrect.y -= 15;
+        plant->TextureMap.destrect.h += 15;
         CreatePlantType(plant, "Coffee Bean", r, 8, 1000);
         plant->TickToRegrow = 2000;
         plant->HasHarvestableBerries = 1;
@@ -166,6 +198,9 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 20*16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
+
+        plant->TextureMap.destrect.y -= 15;
+        plant->TextureMap.destrect.h += 15;
         CreatePlantType(plant, "Strawberry", r, 8, 1000);
         plant->TickToRegrow = 2000;
         plant->HasHarvestableBerries = 1;
