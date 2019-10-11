@@ -34,8 +34,13 @@ void ConstructGui(Gui *g, Graphics *gfx, Player *p, DateTime *dT)
     g->shopMaxIndex = 1;
     g->shopSelectedIndex = 0;
     g->shopSelectToggler = 0;
+
     g->invActive = 0;
     g->invToggler = 0;
+    g->invSelectedIndex = 0;
+    g->invSelectToggler = 0;
+    g->invHighlightedIndex = 0;
+    g->invMovingState = 0;
 
     for (int i = 0; i < 100; i++)
     {
@@ -305,6 +310,7 @@ void GuiInventory(Gui *g)
     {
         if (g->invActive)
         {
+            g->invSelectToggler++;
 
             if (EventHandler("inventory="))
             {
@@ -335,12 +341,51 @@ void GuiInventory(Gui *g)
                         Draw(&g->p->ent.items[i].d);
 
                         char inventoryText[200];
-                        sprintf(inventoryText, "[%d] %s", g->p->ent.items[i].amount, g->p->ent.items[i].Name);
-                        RenderText(g, x + 96, 50 + 9 + 36 * rows, 0, White, Bold, inventoryText);
+                        sprintf(inventoryText, "%d: [%d] %s", i+1, g->p->ent.items[i].amount, g->p->ent.items[i].Name);
+                        if(g->invMovingState){
+                            if(i == g->invHighlightedIndex){
+                                RenderText(g, x + 80, 50 + 9 + 36 * rows, 0, Cyan, Bold, inventoryText);
+                            }else{
+                                RenderText(g, x + 80, 50 + 9 + 36 * rows, 0, White, Regular, inventoryText);
+                            }
+                        }else{
+                            RenderText(g, x + 80, 50 + 9 + 36 * rows, 0, White, Bold, inventoryText);
+                        }
                     }
 
                     rows++;
                 }
+
+                if (g->invSelectToggler >= 5)
+                {
+                    if (EventHandler("1DOWN="))
+                    {
+                        if(g->invSelectedIndex < g->p->ent.n_items -1)
+                        g->invSelectedIndex++;
+                        g->invSelectToggler = 0;
+                    }
+                    if (EventHandler("1UP="))
+                    {
+                        if (g->invSelectedIndex >= 1)
+                        g->invSelectedIndex--;
+                        g->invSelectToggler = 0;
+                    }
+                    if (EventHandler("Select=")){
+                        if(g->invMovingState){
+                            Item temp = g->p->ent.items[g->invSelectedIndex];
+                            g->p->ent.items[g->invSelectedIndex] = g->p->ent.items[g->invHighlightedIndex];
+                            g->p->ent.items[g->invHighlightedIndex] = temp;
+                            g->invMovingState = 0;
+                        }else{
+                            g->invHighlightedIndex = g->invSelectedIndex;
+                            g->invMovingState = 1;
+                        }
+                        g->invSelectToggler = 0;
+                    }
+                }
+
+                RenderText(g, x+5, 50 + 9 + 36 * g->invSelectedIndex, 0, White, Bold, ">");
+                RenderText(g, g->d.gfx->wWidth - 70, 50 + 9 + 36 * g->invSelectedIndex, 0, White, Bold, "[Enter]");
             }
         }
         else
@@ -478,11 +523,11 @@ void GuiMenu(Gui *g)
                     switch (g->menuSelectedIndex)
                     {
                     case 1:
-                        g->extidata.exitInitialized = SDL_TRUE;
+                        g->exitdata.exitInitialized = SDL_TRUE;
                         break;
                     case 2:
                         saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
-                        g->extidata.exitInitialized = SDL_TRUE;
+                        g->exitdata.exitInitialized = SDL_TRUE;
                         break;
                     case 3:
                         saveToFile(saveFilePath, &g->p->ent.x_pos, &g->p->ent.y_pos);
