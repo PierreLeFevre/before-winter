@@ -10,7 +10,7 @@
 void ConstructGame(Game *g, int *noExit)
 {
     ConstructGraphics(&g->gfx);
-    ConstructTileMap(&g->tileMap, &g->gfx, 60, 100, 0, 0, "./TileMap.csv");
+    ConstructTileMap(&g->tileMap, &g->gfx, 60, 60, 0, 0, "./TileMap.csv");
     ConstructPlayer(&g->player, &g->gfx);
     ConstructCamera(&g->cam, &g->gfx, &g->player.ent.d.destrect, &g->tileMap);
     ConstructGui(&g->gui, &g->gfx, &g->player, &g->dateTime);
@@ -39,7 +39,7 @@ void DestroyGame(Game *g)
 }
 
 void Go(Game *g)
-{
+{   
     BeginFrame(&g->gfx);
     UpdateLogic(g);
     Render(g);
@@ -177,7 +177,7 @@ void HandleEvents(Game *g)
 
     while (SDL_PollEvent(&g->event))
     {
-        if (g->event.type == SDL_QUIT || g->gui.exitdata.exitInitialized)
+        if (g->event.type == SDL_QUIT /*|| g->gui.exitdata.exitInitialized*/)
         {
             *g->noExit = 0;
         }
