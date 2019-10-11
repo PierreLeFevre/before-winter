@@ -108,7 +108,7 @@ void UpdateLogic(Game *g)
     }
     for (int i = 0; i < g->nPlants; i++)
     {
-        UpdatePlant(&g->plants[i], SDL_GetTicks());
+        UpdatePlant(&g->plants[i], g->dateTime.season * 10 + g->dateTime.day);
     }
 #ifdef HarvestDebug
     for (int i = 0; i < g->nDroppedItems; i++)
@@ -386,7 +386,7 @@ int TryPlacePlant(Game *g, PlantEnum plant)
             }
             if (found == 0)
             {
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 2);
+                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, g->dateTime.season * 10 + g->dateTime.day, g->GoodTiles[i]->drawables[0].z_index + 2);
                 g->nPlants++;
                 return 1;
             }
@@ -408,7 +408,7 @@ void TryHarvestPlant(Game *g, Plant *plant)
         {
             plant->GrownItems.exists = 1;
             plant->GrownItems.amount = 1;
-            plant->TickAtHarvestation = SDL_GetTicks();
+            plant->TickAtHarvestation = g->dateTime.season * 10 + g->dateTime.day;
             plant->nToUpdate++;
             g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
             g->player.ent.n_items++;
@@ -416,7 +416,7 @@ void TryHarvestPlant(Game *g, Plant *plant)
     }
     if (!plant->HasHarvestableBerries)
     {
-        if (plant->plantStages[plant->nPlantStages].GrowTick <= SDL_GetTicks() - plant->TickPlaced)
+        if (plant->plantStages[plant->nPlantStages].GrowTick <= (g->dateTime.season * 10 + g->dateTime.day) - plant->TickPlaced)
         {
 //DELETE PLANT
 //PROCC DROPPED ITEMS ON
