@@ -14,21 +14,21 @@ void QuickSlotHandeling(Player *player)
         player->ent.items[1].d.destrect.x = player->activeItem.d.destrect.x;
         player->ent.items[1].d.destrect.y = player->activeItem.d.destrect.y;
         player->activeItem = player->ent.items[1];
-        player->activeItemIndex = 0;
+        player->activeItemIndex = 1;
     }
     if (EventHandler("quickSlot2="))
     {
         player->ent.items[2].d.destrect.x = player->activeItem.d.destrect.x;
         player->ent.items[2].d.destrect.y = player->activeItem.d.destrect.y;
         player->activeItem = player->ent.items[2];
-        player->activeItemIndex = 1;
+        player->activeItemIndex = 2;
     }
     if (EventHandler("quickSlot3="))
     {
         player->ent.items[3].d.destrect.x = player->activeItem.d.destrect.x;
         player->ent.items[3].d.destrect.y = player->activeItem.d.destrect.y;
         player->activeItem = player->ent.items[3];
-        player->activeItemIndex = 1;
+        player->activeItemIndex = 3;
     }
     if (EventHandler("quickSlot4="))
     {
