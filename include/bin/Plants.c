@@ -30,7 +30,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         plant->TextureMap.destrect.y -= 15;
         plant->TextureMap.destrect.h += 15;
-        CreatePlantType(plant, "Parsnip", r, 6, 1);
+        CreatePlantType(plant, "Parsnip", r, 6, 60 * 60);
 
         break;
 
@@ -176,8 +176,8 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         plant->TextureMap.destrect.y -= 15;
         plant->TextureMap.destrect.h += 15;
-        CreatePlantType(plant, "Coffee Bean", r, 8, 1);
-        plant->TickToRegrow = 1;
+        CreatePlantType(plant, "Coffee Bean", r, 8, 60 * 60);
+        plant->TickToRegrow = 60 * 60;
         plant->HasHarvestableBerries = 1;
 
         break;
@@ -245,7 +245,6 @@ void UpdatePlant(Plant *plant, Uint32 Tick)
         else{
             if (plant->plantStages[plant->nPlantStages].GrowTick >= Tick - plant->TickPlaced && plant->nToUpdate + 1 <= plant->nPlantStages - 2){ //initial growth
                 plant->nToUpdate++;
-                printf("%d", plant->nToUpdate);
             }
             if (plant->nPlantStages - 1 == plant->nToUpdate){//no berries
                 plant->TickSinceLastHarvested = Tick - plant->TickAtHarvestation;
