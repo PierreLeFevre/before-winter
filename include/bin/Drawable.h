@@ -14,6 +14,7 @@ typedef enum DrawableType{
     DT_Dirt,
     DT_Water,
     DT_Pier,
+    DT_Plank_Bridge,
     DT_Transparent,
     DT_Other,
 }DrawableType;
