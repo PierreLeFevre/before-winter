@@ -207,7 +207,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                 case tile_overlay_left:
                     overlay_offset = 1;
                     overlay_srcrect.x = 128;
-                    overlay_srcrect.y = 128;
+                    overlay_srcrect.y = 464;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -215,15 +215,15 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                 case tile_overlay_top_left_inner:
                     overlay_offset = 2;
                     overlay_srcrect.x = 128;
-                    overlay_srcrect.y = 112;
+                    overlay_srcrect.y = 448;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
 
                 case tile_overlay_top_left_outer:
                     overlay_offset = 2;
-                    overlay_srcrect.x = 128;
-                    overlay_srcrect.y = 176;
+                    overlay_srcrect.x = 48;
+                    overlay_srcrect.y = 384;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -231,7 +231,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                 case tile_overlay_top:
                     overlay_offset = 1;
                     overlay_srcrect.x = 144;
-                    overlay_srcrect.y = 112;
+                    overlay_srcrect.y = 448;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -239,15 +239,15 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                 case tile_overlay_top_right_inner:
                     overlay_offset = 2;
                     overlay_srcrect.x = 160;
-                    overlay_srcrect.y = 112;
+                    overlay_srcrect.y = 448;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
 
                 case tile_overlay_top_right_outer:
                     overlay_offset = 2;
-                    overlay_srcrect.x = 144;
-                    overlay_srcrect.y = 176;
+                    overlay_srcrect.x = 64;
+                    overlay_srcrect.y = 384;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -255,7 +255,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                 case tile_overlay_right:
                     overlay_offset = 1;
                     overlay_srcrect.x = 160;
-                    overlay_srcrect.y = 128;
+                    overlay_srcrect.y = 464;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -263,7 +263,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                 case tile_overlay_bottom_right_inner:
                     overlay_offset = 2;
                     overlay_srcrect.x = 160;
-                    overlay_srcrect.y = 144;
+                    overlay_srcrect.y = 480;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -279,7 +279,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                 case tile_overlay_bottom:
                     overlay_offset = 1;
                     overlay_srcrect.x = 144;
-                    overlay_srcrect.y = 144;
+                    overlay_srcrect.y = 480;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -287,7 +287,7 @@ void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int 
                 case tile_overlay_bottom_left_inner:
                     overlay_offset = 2;
                     overlay_srcrect.x = 128;
-                    overlay_srcrect.y = 144;
+                    overlay_srcrect.y = 480;
                     overlay_srcrect.w = 16;
                     overlay_srcrect.h = 16;
                     break;
@@ -614,6 +614,17 @@ TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
             tp.srcrect.h = 32;
             tp.destrect_offset.w += TILE_WIDTH * 4;
             tp.destrect_offset.h += TILE_HEIGHT * 2;
+            break;
+        case PLANK_BRIDGE:
+            tp.type = DT_Pier;
+            tp.z_index_offset = 2;
+            tp.srcrect.x = 64;
+            tp.srcrect.y = 496;
+            tp.srcrect.w = 64;
+            tp.srcrect.h = 16;
+            tp.destrect_offset.w += TILE_WIDTH * 3;
+            tp.hitbox_offset.w -= TILE_WIDTH * 4;
+            tp.hitbox_offset.h -= TILE_WIDTH;
             break;
         case TRANSPARENT:
             tp.type = DT_Transparent;

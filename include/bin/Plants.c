@@ -30,7 +30,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         plant->TextureMap.destrect.y -= 15;
         plant->TextureMap.destrect.h += 15;
-        CreatePlantType(plant, "Parsnip", r, 6, 1000);
+        CreatePlantType(plant, "Parsnip", r, 6, 60 * 60);
 
         break;
 
@@ -52,7 +52,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 19 * 16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
-        CreatePlantType(plant, "Cauliflower", r, 7, 5000);
+        CreatePlantType(plant, "Cauliflower", r, 7, 60 * 60);
     break;
 
     case GarlicType:
@@ -73,7 +73,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 19 * 16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
-        CreatePlantType(plant, "Garlic", r, 6, 1000);
+        CreatePlantType(plant, "Garlic", r, 6, 60 * 60);
 
     break;
 
@@ -95,7 +95,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         plant->TextureMap.destrect.y -= 15;
         plant->TextureMap.destrect.h += 15;
-        CreatePlantType(plant, "Rhubarb", r, 7, 1000);
+        CreatePlantType(plant, "Rhubarb", r, 7, 60 * 60);
     break;
 
     case WheatType:
@@ -113,7 +113,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 20 * 16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
-        CreatePlantType(plant, "Wheat", r, 7, 1000);
+        CreatePlantType(plant, "Wheat", r, 7, 60 * 60);
 
         break;
 
@@ -135,8 +135,8 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         plant->TextureMap.destrect.y -= 15;
         plant->TextureMap.destrect.h += 10;
-        CreatePlantType(plant, "Corn", r, 8, 1000);
-        plant->TickToRegrow = 2000;
+        CreatePlantType(plant, "Corn", r, 8, 60 * 60);
+        plant->TickToRegrow = 60 * 60;
         plant->HasHarvestableBerries = 1;
         break;
 
@@ -154,8 +154,8 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         plant->SeedItems.d.srcrect.y = 20 * 16;
         plant->SeedItems.d.srcrect.w = 16;
         plant->SeedItems.d.srcrect.h = 16;
-        CreatePlantType(plant, "Tomato", r, 8, 1000);
-        plant->TickToRegrow = 2000;
+        CreatePlantType(plant, "Tomato", r, 8, 60 * 60);
+        plant->TickToRegrow = 60 * 60;
         plant->HasHarvestableBerries = 1;
     break;
 
@@ -176,8 +176,8 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         plant->TextureMap.destrect.y -= 15;
         plant->TextureMap.destrect.h += 15;
-        CreatePlantType(plant, "Coffee Bean", r, 8, 1000);
-        plant->TickToRegrow = 2000;
+        CreatePlantType(plant, "Coffee Bean", r, 8, 60 * 60);
+        plant->TickToRegrow = 60 * 60;
         plant->HasHarvestableBerries = 1;
 
         break;
@@ -201,8 +201,8 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
 
         plant->TextureMap.destrect.y -= 15;
         plant->TextureMap.destrect.h += 15;
-        CreatePlantType(plant, "Strawberry", r, 8, 1000);
-        plant->TickToRegrow = 2000;
+        CreatePlantType(plant, "Strawberry", r, 8, 60 * 60);
+        plant->TickToRegrow = 60 * 60;
         plant->HasHarvestableBerries = 1;
 
         break;
@@ -210,6 +210,7 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
     default:
         break;
     }
+    plant->TickSinceLastHarvested = plant->TickToRegrow;
     plant->TickPlaced = TickPlaced;
 }
 void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int diffTime){
@@ -233,27 +234,30 @@ void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int d
 }
 void UpdatePlant(Plant *plant, Uint32 Tick)
 {
+    
+    plant->TickSinceLastHarvested = Tick - plant->TickAtHarvestation;
     Uint32 calcTick = Tick - plant->TickPlaced;
+
     if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick)
     {
-        plant->TextureMap.srcrect = plant->plantStages[plant->nToUpdate].srcrect;
-        if (plant->HasHarvestableBerries == 0){
-            if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick && plant->nPlantStages - 1 >= plant->nToUpdate + 1){
+        
+        if (!plant->HasHarvestableBerries){
+            if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick - plant->TickPlaced && plant->nPlantStages - 1 >= plant->nToUpdate){
                 plant->nToUpdate++;
             }
         }
         else{
-            if (plant->plantStages[plant->nPlantStages].GrowTick > Tick - plant->TickPlaced && plant->nToUpdate < plant->nPlantStages - 2){ //initial growth
+            if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick - plant->TickPlaced && plant->nPlantStages - 2 >= plant->nToUpdate){ //initial growth
                 plant->nToUpdate++;
-            }
-            if (plant->nPlantStages - 1== plant->nToUpdate){//no berries
-                plant->TickSinceLastHarvested = Tick - plant->TickAtHarvestation;
-                if (plant->TickToRegrow <= plant->TickSinceLastHarvested){
-                    plant->nToUpdate--;
-                }
             }
         }
     }
+    if (plant->HasHarvestableBerries){
+        if (plant->nPlantStages == plant->nToUpdate && plant->TickSinceLastHarvested >= plant->TickToRegrow){
+            plant->nToUpdate--;
+        }
+    }
+    plant->TextureMap.srcrect = plant->plantStages[plant->nToUpdate - 1].srcrect;
 }
 Item SeedToItem(Graphics *gfx, PlantEnum plant, int amount){
     Plant p;

@@ -166,7 +166,7 @@ void UpdateLogic(Game *g)
     }
     for (int i = 0; i < g->nPlants; i++)
     {
-        UpdatePlant(&g->plants[i], SDL_GetTicks());
+        UpdatePlant(&g->plants[i], g->dateTime.BaseTick);
     }
 #ifdef HarvestDebug
     for (int i = 0; i < g->nDroppedItems; i++)
@@ -456,7 +456,7 @@ int TryPlacePlant(Game *g, PlantEnum plant)
             }
             if (found == 0)
             {
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, SDL_GetTicks(), g->GoodTiles[i]->drawables[0].z_index + 2);
+                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, g->dateTime.BaseTick, g->GoodTiles[i]->drawables[0].z_index + 4);
                 g->nPlants++;
                 return 1;
             }
@@ -472,47 +472,30 @@ void TryHarvestPlant(Game *g, Plant *plant)
     {
         return;
     }
-    if (plant->HasHarvestableBerries && plant->nToUpdate == plant->nPlantStages - 2)
+    if (plant->HasHarvestableBerries && plant->nPlantStages - 1 == plant->nToUpdate)
     { //to make index easier
-        if (g->player.ent.n_items < INVENTORY_SIZE)
-        {
-            plant->GrownItems.exists = 1;
-            plant->GrownItems.amount = 1;
-            plant->TickAtHarvestation = SDL_GetTicks();
-            plant->nToUpdate++;
-            g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
-            g->player.ent.n_items++;
+        if (plant->nToUpdate == plant->nPlantStages - 1 && plant->HasHarvestableBerries && plant->TickToRegrow <= plant->TickSinceLastHarvested){
+            if (g->player.ent.n_items < INVENTORY_SIZE){
+                plant->GrownItems.exists = 1;
+                plant->GrownItems.amount = 1;
+                plant->TickAtHarvestation = g->dateTime.BaseTick;
+                plant->nToUpdate++;
+                g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
+                g->player.ent.n_items++;
+            }
         }
     }
-    if (!plant->HasHarvestableBerries)
-    {
-        if (plant->plantStages[plant->nPlantStages].GrowTick <= SDL_GetTicks() - plant->TickPlaced)
-        {
-//DELETE PLANT
-//PROCC DROPPED ITEMS ON
-#ifdef HarvestDebug
-            // if (g->nDroppedItems == 0){
-            Entity e;
-            ConstructEntity(&e, &plant->GrownItems.d);
-            ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
-            g->nDroppedItems++;
-            DeletePlant(g, plant);
-// }
-#endif
-
-#ifndef HarvestDebug
-#define HarvestDebug
-            if (g->player.ent.n_items < INVENTORY_SIZE)
-            {
+    if (!plant->HasHarvestableBerries){
+        if (plant->nToUpdate == plant->nPlantStages){
+            if (g->player.ent.n_items < INVENTORY_SIZE){
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
                 g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
                 g->player.ent.n_items++;
                 DeletePlant(g, plant);
             }
-#endif
         }
-    }
+    } 
 }
 void DeletePlant(Game *g, Plant *plant)
 {

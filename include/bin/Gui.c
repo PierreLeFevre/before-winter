@@ -430,13 +430,15 @@ void GuiMenu(Gui *g)
                 {
                     switch (g->menuSelectedIndex)
                     {
-                    case 13:
+                    case 16:
                         break;
                     case 4:
                     case 9:
                         g->menuSelectedIndex += 3;
                         break;
-
+                    case 14:
+                        g->menuSelectedIndex += 2;
+                        break;
                     default:
                         g->menuSelectedIndex += 1;
                         break;
@@ -449,11 +451,14 @@ void GuiMenu(Gui *g)
                     {
                     case 0:
                         break;
+                    case 3:
                     case 7:
-                    case 12:
                         g->menuSelectedIndex -= 3;
                         break;
 
+                    case 16:
+                        g->menuSelectedIndex -= 2;
+                        break;
                     default:
                         g->menuSelectedIndex -= 1;
                         break;
@@ -551,6 +556,9 @@ void GuiMenu(Gui *g)
                             g->d.gfx->wFullscreen = 1;
                         }
                         break;
+                    case 16:
+                        //// SAVE OPTIONS
+                        break;
                     }
                 }
 
@@ -560,7 +568,7 @@ void GuiMenu(Gui *g)
             Draw(&g->menu);
 
             RenderText(g, 5, 118 + g->menuSelectedIndex * 18, 0, White, Bold, ">");
-            if ((g->menuSelectedIndex >= 1 && g->menuSelectedIndex <= 4) || g->menuSelectedIndex == 13)
+            if ((g->menuSelectedIndex >= 1 && g->menuSelectedIndex <= 4) || g->menuSelectedIndex > 13)
             {
                 RenderText(g, 205, 118 + g->menuSelectedIndex * 18, 0, White, Bold, "[Enter]");
             }
@@ -591,6 +599,8 @@ void GuiMenu(Gui *g)
             {
                 RenderText(g, 20, 370, 0, White, Bold, "Windowed mode");
             }
+
+            RenderText(g, 20, 406, 0, White, Bold, "Save options");
         }
         else
         {
