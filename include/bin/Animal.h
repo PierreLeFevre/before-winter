@@ -36,6 +36,6 @@ void UpdateAnimal(Animal *animal);
 void Traget();
 
 void GenerateDesiredPosition(Animal *a);
-void FollowPos(int X, int Y);
+void FollowPos();
 void UpdateAnimalAnimation(Animal *animal);
 void AnimalUpdateHitbox(Animal *animal);

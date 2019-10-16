@@ -77,7 +77,6 @@ void UpdateAnimal(Animal *animal)
     if (animal->T < 10000)
     {
         animal->T++;
-        animal->animalmood = Follow;
         switch (animal->animalmood)
         {
         case Panic:
@@ -111,7 +110,6 @@ void UpdateAnimal(Animal *animal)
             {
                 animal->ent.y_dir = 0;
             }
-            //(animal->ent.hitbox.x - animal->ent.hitbox.w / 2) < animal->Follow_x ? animal->ent.x_dir = 1 : animal->ent.x_dir = 0;
             break;
         case Chilling:
             break;
@@ -119,7 +117,7 @@ void UpdateAnimal(Animal *animal)
             animal->ent.x_dir = 0;
             animal->ent.y_dir = 0;
             break;
-        case Testing:
+        case Testing: // animal[0] copy player movement for animation testing
             animal->ent.x_dir = animal->playerdirX;
             animal->ent.y_dir = animal->playerdirY;
             break;

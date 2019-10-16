@@ -60,10 +60,30 @@ void UpdateLogic(Game *g)
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
+    //A
+    //B
+    //C
+    //D
+    //E
+    //F
+    //G
     if (g->n_animals != 0)
     {
         for (int i = 0; i < g->n_animals; i++)
         {
+            if (g->animals[i].animaltype == DOGE)
+            {
+                for (int j = 0; j <= g->nPlants; j++)
+                {
+                    if (g->plants[j].nPlantStages - 1 == g->plants[j].nToUpdate)
+                    {
+                        if (Dist(g->animals[i].ent.x_pos, g->animals[i].ent.y_pos, g->plants[j].TextureMap.destrect.x, g->plants[j].TextureMap.destrect.y) < 5 * 32)
+                        {
+                            g->animals[i].animalmood = Follow;
+                        }
+                    }
+                }
+            }
             UpdateAnimal(&g->animals[i]);
         }
     }
@@ -474,8 +494,10 @@ void TryHarvestPlant(Game *g, Plant *plant)
     }
     if (plant->HasHarvestableBerries && plant->nPlantStages - 1 == plant->nToUpdate)
     { //to make index easier
-        if (plant->nToUpdate == plant->nPlantStages - 1 && plant->HasHarvestableBerries && plant->TickToRegrow <= plant->TickSinceLastHarvested){
-            if (g->player.ent.n_items < INVENTORY_SIZE){
+        if (plant->nToUpdate == plant->nPlantStages - 1 && plant->HasHarvestableBerries && plant->TickToRegrow <= plant->TickSinceLastHarvested)
+        {
+            if (g->player.ent.n_items < INVENTORY_SIZE)
+            {
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
                 plant->TickAtHarvestation = g->dateTime.BaseTick;
@@ -485,9 +507,12 @@ void TryHarvestPlant(Game *g, Plant *plant)
             }
         }
     }
-    if (!plant->HasHarvestableBerries){
-        if (plant->nToUpdate == plant->nPlantStages){
-            if (g->player.ent.n_items < INVENTORY_SIZE){
+    if (!plant->HasHarvestableBerries)
+    {
+        if (plant->nToUpdate == plant->nPlantStages)
+        {
+            if (g->player.ent.n_items < INVENTORY_SIZE)
+            {
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
                 g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
@@ -495,7 +520,7 @@ void TryHarvestPlant(Game *g, Plant *plant)
                 DeletePlant(g, plant);
             }
         }
-    } 
+    }
 }
 void DeletePlant(Game *g, Plant *plant)
 {
