@@ -60,21 +60,14 @@ void UpdateLogic(Game *g)
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
-    //A
-    //B
-    //C
-    //D
-    //E
-    //F
-    //G
-    if (g->n_animals != 0)
+
+    for (int i = 0; i < g->n_animals; i++)
     {
-        for (int i = 0; i < g->n_animals; i++)
+        if (g->animals[i].animaltype == DOGE)
         {
-            if (g->animals[i].animaltype == DOGE)
+            for (int j = 0; j <= g->nPlants; j++)
             {
-                for (int j = 0; j <= g->nPlants; j++)
-                {
+                if (!g->plants[j].HasHarvestableBerries){
                     if (g->plants[j].nPlantStages - 1 == g->plants[j].nToUpdate)
                     {
                         if (Dist(g->animals[i].ent.x_pos, g->animals[i].ent.y_pos, g->plants[j].TextureMap.destrect.x, g->plants[j].TextureMap.destrect.y) < 5 * 32)
@@ -83,9 +76,18 @@ void UpdateLogic(Game *g)
                         }
                     }
                 }
+                else{
+                    if (g->plants[j].nPlantStages - 2 == g->plants[j].nToUpdate)
+                    {
+                        if (Dist(g->animals[i].ent.x_pos, g->animals[i].ent.y_pos, g->plants[j].TextureMap.destrect.x, g->plants[j].TextureMap.destrect.y) < 5 * 32)
+                        {
+                            g->animals[i].animalmood = Follow;
+                        }
+                    }
+                }
             }
-            UpdateAnimal(&g->animals[i]);
         }
+        UpdateAnimal(&g->animals[i]);
     }
     if (!(g->gui.menuActive || (g->gui.shopActive || g->gui.invActive)))
     {
