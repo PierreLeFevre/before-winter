@@ -36,6 +36,9 @@ typedef struct Game
     Player player;
     Animal animals[100];
     int n_animals;
+    int circel;
+    //temp
+    int cooldown;
 
     Plant plants[MAXPLANTS];
     int nPlants;
@@ -64,7 +67,6 @@ void AddToRenderList(Game *g, Drawable *d);
 void AddTileMapToRenderList(Game *g);
 void RenderList(Game *g);
 void SortRenderList(Game *g);
-
 
 // TMP
 void CreatePlantsToPlayer(Game *g);

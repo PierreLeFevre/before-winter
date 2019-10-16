@@ -118,6 +118,18 @@ float signf(float A)
         return 1.0f;
     }
 }
+int signFI(float A)
+{
+    if (A < 0)
+    {
+        return -1;
+    }
+    else
+    {
+        return 1;
+    }
+    return 0;
+}
 float min(float a, float b)
 {
     if (a < b)

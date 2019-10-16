@@ -18,6 +18,13 @@ void ConstructGame(Game *g, int *noExit)
 
     CreatePlantsToPlayer(g);
 
+    //animal temp
+    //ConstructAnimal(&g->animals[0], &g->gfx, DOGE, 15, 12);
+
+    g->n_animals = 0;
+    //for testing
+    g->circel = 1;
+    //---
     g->nDroppedItems = 0;
     g->droppedItems = (DroppedItem **)malloc(sizeof(DroppedItem *) * 5000);
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
@@ -39,7 +46,7 @@ void DestroyGame(Game *g)
 }
 
 void Go(Game *g)
-{   
+{
     BeginFrame(&g->gfx);
     UpdateLogic(g);
     Render(g);
@@ -53,15 +60,66 @@ void UpdateLogic(Game *g)
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
+    if (g->n_animals != 0)
+    {
+        for (int i = 0; i < g->n_animals; i++)
+        {
+            UpdateAnimal(&g->animals[i]);
+        }
+    }
     if (!(g->gui.menuActive || (g->gui.shopActive || g->gui.invActive)))
     {
         CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
+        if (g->n_animals != 0)
+        {
+            for (int i = 0; i < g->n_animals; i++)
+            {
+                CheckEntityCollision(&g->animals[i].ent, g->GoodTiles, g->nGoodTiles);
+            }
+        }
     }
+    //Temp
+    g->animals[0].Follow_x = g->player.ent.hitbox.x - g->player.ent.hitbox.w / 2;
+    g->animals[0].Follow_y = g->player.ent.hitbox.y - g->player.ent.hitbox.h / 2;
+
+    g->animals[0].playerdirX = g->player.ent.x_dir;
+    g->animals[0].playerdirY = g->player.ent.y_dir;
+    g->cooldown++;
+    if (EventHandler("SpawnAnimal="))
+    {
+        if (g->cooldown >= 200)
+        {
+            switch (g->circel)
+            {
+            case 1:
+                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, DOGE, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+                g->circel = 2;
+                break;
+            case 2:
+                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Cow, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+                g->circel = 3;
+                break;
+            case 3:
+                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Pig, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+                g->circel = 4;
+                break;
+            case 4:
+                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Chicken, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+                g->circel = 1;
+                break;
+            }
+            g->n_animals++;
+            g->cooldown = 0;
+        }
+    }
+    //Temp
     if (EventHandler("action="))
     {
         int planterror = 0;
-        if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL || !strcmp(g->player.ent.items[g->player.activeItemIndex].Name, "Coffee Bean")){
-            if (g->player.ent.items[g->player.activeItemIndex].amount > 0){
+        if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL || !strcmp(g->player.ent.items[g->player.activeItemIndex].Name, "Coffee Bean"))
+        {
+            if (g->player.ent.items[g->player.activeItemIndex].amount > 0)
+            {
                 PlantEnum p = ItemToPlant(&g->player.activeItem);
                 if (p == StrawberryType && g->dateTime.season != Summer)
                 { //Strawberries only in summer
@@ -135,7 +193,13 @@ void Render(Game *g)
 
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
-
+    if (g->n_animals != 0)
+    {
+        for (int i = 0; i < g->n_animals; i++)
+        {
+            AddToRenderList(g, &g->animals[i].ent.d);
+        }
+    }
 #ifdef HarvestDebug
     for (int i = 0; i < g->nDroppedItems; i++)
     {
@@ -169,6 +233,11 @@ void Render(Game *g)
         treeHitbox.y -= g->cam.camRectVirtual.y;
         SDL_RenderDrawRect(g->gfx.rend, &treeHitbox);
     }
+    SDL_Rect animalhitbox = g->animals[0].ent.hitbox;
+    animalhitbox.x -= g->cam.camRectVirtual.x;
+    animalhitbox.y -= g->cam.camRectVirtual.y;
+    SDL_RenderDrawRect(g->gfx.rend, &animalhitbox);
+
 #endif
 }
 
@@ -261,7 +330,8 @@ void SortRenderList(Game *g)
 {
     DrawableMergeSort(g->RenderList, 0, g->nToRender - 1);
 }
-void CreatePlantsToPlayer(Game *g){
+void CreatePlantsToPlayer(Game *g)
+{
     SDL_Rect rect = {0, 0, TILE_WIDTH, TILE_HEIGHT};
     Plant p;
     CreatePlant(&p, &g->gfx, ParsnipType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);

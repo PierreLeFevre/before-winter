@@ -1,11 +1,41 @@
 #include "Entity.h"
 
-typedef struct Animal{
-    Entity ent;
-}Animal;
+typedef enum AnimalType
+{
+    DOGE,
+    Cow,
+    Pig,
+    Chicken,
+} AnimalType;
+typedef enum AnimalMood
+{
+    Panic,
+    Follow,
+    Chilling,
+    Sheeping,
+    Testing,
+} AnimalMood;
 
-void ConstructAnimal(Animal *animal, Entity* ent);
+typedef struct Animal
+{
+    Entity ent;
+    AnimalType animaltype;
+    AnimalMood animalmood;
+    int T;
+    int Follow_x, Follow_y;
+    int animationstate;
+
+    //Temp
+    int playerdirX;
+    int playerdirY;
+} Animal;
+
+void ConstructAnimal(Animal *animal, Graphics *gfx, AnimalType animaltype, int x, int y);
 
 void UpdateAnimal(Animal *animal);
+void Traget();
 
-void GenerateDesiredPosition(Animal* a);
+void GenerateDesiredPosition(Animal *a);
+void FollowPos(int X, int Y);
+void UpdateAnimalAnimation(Animal *animal);
+void AnimalUpdateHitbox(Animal *animal);

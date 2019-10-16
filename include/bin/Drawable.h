@@ -15,6 +15,7 @@ typedef enum DrawableType{
     DT_Water,
     DT_Pier,
     DT_Transparent,
+    DT_Animal,
     DT_Other,
 }DrawableType;
 

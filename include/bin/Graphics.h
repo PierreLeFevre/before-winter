@@ -24,7 +24,11 @@ typedef enum SpriteSheet
     SS_FONT,
     SS_SHADER,
     SS_TRANSPARENT,
-    SS_NONE
+    SS_NONE,
+    SS_Doge,
+    SS_Cow,
+    SS_Chiken,
+    SS_Pig
 } SpriteSheet;
 
 typedef struct Graphics
