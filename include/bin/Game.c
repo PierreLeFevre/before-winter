@@ -404,9 +404,8 @@ void TryHarvestPlant(Game *g, Plant *plant)
     }
     if (plant->HasHarvestableBerries && plant->nPlantStages - 2 == plant->nToUpdate)
     { //to make index easier
-        if (plant->plantStages[plant->nPlantStages - 2].GrowTick <= (g->dateTime.BaseTick) - plant->TickPlaced){
-            if (g->player.ent.n_items < INVENTORY_SIZE)
-            {
+        if (plant->nToUpdate == plant->nPlantStages - 2 && plant->HasHarvestableBerries && plant->TickToRegrow <= plant->TickSinceLastHarvested){
+            if (g->player.ent.n_items < INVENTORY_SIZE){
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
                 plant->TickAtHarvestation = g->dateTime.BaseTick;
@@ -416,36 +415,17 @@ void TryHarvestPlant(Game *g, Plant *plant)
             }
         }
     }
-    if (!plant->HasHarvestableBerries)
-    {
-        
-        if (plant->plantStages[plant->nPlantStages - 1].GrowTick <= (g->dateTime.BaseTick) - plant->TickPlaced)
-        {
-//DELETE PLANT
-//PROCC DROPPED ITEMS ON
-#ifdef HarvestDebug
-            // if (g->nDroppedItems == 0){
-            Entity e;
-            ConstructEntity(&e, &plant->GrownItems.d);
-            ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
-            g->nDroppedItems++;
-            DeletePlant(g, plant);
-// }
-#endif
-
-#ifndef HarvestDebug
-#define HarvestDebug
-            if (g->player.ent.n_items < INVENTORY_SIZE)
-            {
+    if (!plant->HasHarvestableBerries){
+        if (plant->nToUpdate == plant->nPlantStages - 1){
+            if (g->player.ent.n_items < INVENTORY_SIZE){
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
                 g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
                 g->player.ent.n_items++;
                 DeletePlant(g, plant);
             }
-#endif
         }
-    }
+    } 
 }
 void DeletePlant(Game *g, Plant *plant)
 {
