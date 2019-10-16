@@ -386,7 +386,7 @@ int TryPlacePlant(Game *g, PlantEnum plant)
             }
             if (found == 0)
             {
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, g->dateTime.BaseTick, g->GoodTiles[i]->drawables[0].z_index + 2);
+                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, g->dateTime.BaseTick, g->GoodTiles[i]->drawables[0].z_index + 4);
                 g->nPlants++;
                 return 1;
             }
