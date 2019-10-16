@@ -402,9 +402,9 @@ void TryHarvestPlant(Game *g, Plant *plant)
     {
         return;
     }
-    if (plant->HasHarvestableBerries && plant->nPlantStages - 2 == plant->nToUpdate)
+    if (plant->HasHarvestableBerries && plant->nPlantStages - 1 == plant->nToUpdate)
     { //to make index easier
-        if (plant->nToUpdate == plant->nPlantStages - 2 && plant->HasHarvestableBerries && plant->TickToRegrow <= plant->TickSinceLastHarvested){
+        if (plant->nToUpdate == plant->nPlantStages - 1 && plant->HasHarvestableBerries && plant->TickToRegrow <= plant->TickSinceLastHarvested){
             if (g->player.ent.n_items < INVENTORY_SIZE){
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
@@ -416,7 +416,7 @@ void TryHarvestPlant(Game *g, Plant *plant)
         }
     }
     if (!plant->HasHarvestableBerries){
-        if (plant->nToUpdate == plant->nPlantStages - 1){
+        if (plant->nToUpdate == plant->nPlantStages){
             if (g->player.ent.n_items < INVENTORY_SIZE){
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;

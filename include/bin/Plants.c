@@ -234,27 +234,30 @@ void CreatePlantType(Plant *plant, char name[], SDL_Rect base, int length, int d
 }
 void UpdatePlant(Plant *plant, Uint32 Tick)
 {
-    plant->TextureMap.srcrect = plant->plantStages[plant->nToUpdate].srcrect;
+    
     plant->TickSinceLastHarvested = Tick - plant->TickAtHarvestation;
     Uint32 calcTick = Tick - plant->TickPlaced;
+
     if (plant->plantStages[plant->nToUpdate].GrowTick <= calcTick)
     {
-        if (plant->HasHarvestableBerries == 0){
-            if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick && plant->nPlantStages - 2 >= plant->nToUpdate){
+        
+        if (!plant->HasHarvestableBerries){
+            if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick - plant->TickPlaced && plant->nPlantStages - 1 >= plant->nToUpdate){
                 plant->nToUpdate++;
             }
         }
         else{
-            if (plant->plantStages[plant->nPlantStages].GrowTick >= Tick - plant->TickPlaced && plant->nToUpdate <= plant->nPlantStages - 3){ //initial growth
+            if (plant->plantStages[plant->nToUpdate].GrowTick <= Tick - plant->TickPlaced && plant->nPlantStages - 2 >= plant->nToUpdate){ //initial growth
                 plant->nToUpdate++;
             }
         }
     }
     if (plant->HasHarvestableBerries){
-        if (plant->nPlantStages - 1 == plant->nToUpdate && plant->TickSinceLastHarvested >= plant->TickToRegrow){
+        if (plant->nPlantStages == plant->nToUpdate && plant->TickSinceLastHarvested >= plant->TickToRegrow){
             plant->nToUpdate--;
         }
     }
+    plant->TextureMap.srcrect = plant->plantStages[plant->nToUpdate - 1].srcrect;
 }
 Item SeedToItem(Graphics *gfx, PlantEnum plant, int amount){
     Plant p;
