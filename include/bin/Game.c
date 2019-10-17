@@ -65,6 +65,7 @@ void UpdateLogic(Game *g)
     {
         if (g->animals[i].animaltype == DOGE)
         {
+            if(g->animals[i].Priority == 0){
             for (int j = 0; j <= g->nPlants; j++)
             {
                 if (!g->plants[j].HasHarvestableBerries)
@@ -78,26 +79,44 @@ void UpdateLogic(Game *g)
                             g->animals[i].Follow_y = g->plants[j].TextureMap.destrect.y;
                             if (SDL_HasIntersection(&g->animals[i].ent.hitbox, &g->plants[j].TextureMap.destrect))
                             {
-                                DeletePlant(g, &g->plants[j]);
+                                g->animals[i].ent.n_items = 0;
+                                TryHarvestPlant(g, &g->animals[i].ent, &g->plants[j]);
+                                g->animals[i].Priority = 1;
                             }
                         }
+                    }else{
+                            g->animals[i].animalmood = Follow;
+                            g->animals[i].Follow_x = g->player.ent.hitbox.x;
+                            g->animals[i].Follow_y = g->player.ent.hitbox.y;
                     }
                 }
                 else
                 {
-                    if (g->plants[j].nPlantStages - 1 == g->plants[j].nToUpdate)
+                    if (g->plants[j].nPlantStages - 1 == g->plants[j].nToUpdate && (Dist(g->animals[i].ent.x_pos, g->animals[i].ent.y_pos, g->plants[j].TextureMap.destrect.x, g->plants[j].TextureMap.destrect.y) < 5 * 32))
                     {
-                        if (Dist(g->animals[i].ent.x_pos, g->animals[i].ent.y_pos, g->plants[j].TextureMap.destrect.x, g->plants[j].TextureMap.destrect.y) < 5 * 32)
-                        {
                             g->animals[i].animalmood = Follow;
                             g->animals[i].Follow_x = g->plants[j].TextureMap.destrect.x;
                             g->animals[i].Follow_y = g->plants[j].TextureMap.destrect.y;
                             if (SDL_HasIntersection(&g->animals[i].ent.hitbox, &g->plants[j].TextureMap.destrect))
                             {
-                                DeletePlant(g, &g->plants[j]);
+                                g->animals[i].ent.n_items = 0;
+                                TryHarvestPlant(g, &g->animals[i].ent, &g->plants[j]);
+                                g->animals[i].Priority = 1;
                             }
-                        }
+                    }else{
+                            g->animals[i].animalmood = Follow;
+                            g->animals[i].Follow_x = g->player.ent.hitbox.x;
+                            g->animals[i].Follow_y = g->player.ent.hitbox.y;
                     }
+                }
+            }
+            }else{
+                g->animals[i].animalmood = Follow;
+                g->animals[i].Follow_x = g->player.ent.hitbox.x;
+                g->animals[i].Follow_y = g->player.ent.hitbox.y;
+                if(SDL_HasIntersection(&g->player.ent.hitbox, &g->animals[i].ent.hitbox)){
+                    g->player.ent.items[g->player.ent.n_items] = g->animals[i].ent.items[0];
+                    g->animals[i].Priority = 0;
                 }
             }
         }
@@ -289,7 +308,7 @@ void HandleEvents(Game *g)
 void CalculateGoodTiles(Game *g)
 {
     //int tilesOutsideScreen_x = 5;
-    int tilesOutsideScreen_y = 5;
+    int tilesOutsideScreen_y = 12;
     g->nGoodTiles = 0;
     for (int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++)
     {

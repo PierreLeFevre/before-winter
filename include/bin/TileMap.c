@@ -597,7 +597,7 @@ TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
             break;
         case PIER:
             tp.type = DT_Pier;
-            tp.z_index_offset = -300;
+            tp.z_index_offset -= 300;
             tp.srcrect.x = 176;
             tp.srcrect.y = 1040;
             tp.srcrect.w = 80;
@@ -607,7 +607,7 @@ TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
             break;
         case PIER_EXTENSION:
             tp.type = DT_Pier;
-            tp.z_index_offset = -300;
+            tp.z_index_offset -= 300;
             tp.srcrect.x = 176;
             tp.srcrect.y = 1072;
             tp.srcrect.w = 80;
@@ -617,14 +617,66 @@ TileProperties GetTilePropertiesData(TileMap* tm, const MapDataConverter mdc){
             break;
         case PLANK_BRIDGE:
             tp.type = DT_Pier;
-            tp.z_index_offset = 2;
+            tp.z_index_offset += 2;
             tp.srcrect.x = 64;
             tp.srcrect.y = 496;
             tp.srcrect.w = 64;
             tp.srcrect.h = 16;
             tp.destrect_offset.w += TILE_WIDTH * 3;
             tp.hitbox_offset.w -= TILE_WIDTH * 4;
-            tp.hitbox_offset.h -= TILE_WIDTH;
+            tp.hitbox_offset.h -= TILE_HEIGHT;
+            break;
+        case LIGHTHOUSE:
+            tp.type = DT_Lighthouse;
+            tp.z_index_offset += 20;
+            tp.srcrect.x = 0;
+            tp.srcrect.y = 400;
+            tp.srcrect.w = 64;
+            tp.srcrect.h = 192;
+            tp.destrect_offset.w += TILE_WIDTH * 3;
+            tp.destrect_offset.h += TILE_HEIGHT * 11;
+            tp.hitbox_offset.h -= TILE_HEIGHT * 11;
+            break;
+        case FENCE_HORIZONTAL:
+            tp.type = DT_Fence_Horizontal;
+            tp.z_index_offset += 20;
+            tp.srcrect.x = 128;
+            tp.srcrect.y = 224;
+            tp.srcrect.w = 48;
+            tp.srcrect.h = 32;
+            tp.destrect_offset.w += TILE_WIDTH * 2;
+            tp.destrect_offset.h += TILE_HEIGHT;
+            tp.hitbox_offset.h -= TILE_HEIGHT;
+            break;
+        case FENCE_HORIZONTAL_EXTENSION:
+            tp.type = DT_Fence_Horizontal;
+            tp.z_index_offset += 20;
+            tp.srcrect.x = 160;
+            tp.srcrect.y = 224;
+            tp.srcrect.w = 16;
+            tp.srcrect.h = 32;
+            tp.destrect_offset.h += TILE_HEIGHT;
+            tp.hitbox_offset.h -= TILE_HEIGHT;
+            break;
+        case FENCE_VERTICAL:
+            tp.type = DT_Fence_Vertical;
+            tp.z_index_offset += 20;
+            tp.srcrect.x = 176;
+            tp.srcrect.y = 224;
+            tp.srcrect.w = 16;
+            tp.srcrect.h = 64;
+            tp.destrect_offset.h += TILE_HEIGHT * 3;
+            tp.hitbox_offset.h -= TILE_HEIGHT;
+            break;
+        case FENCE_VERTICAL_EXTENSION:
+            tp.type = DT_Fence_Vertical;
+            tp.z_index_offset += 20;
+            tp.srcrect.x = 176;
+            tp.srcrect.y = 224;
+            tp.srcrect.w = 16;
+            tp.srcrect.h = 32;
+            tp.destrect_offset.h += TILE_HEIGHT;
+            tp.hitbox_offset.h -= TILE_HEIGHT;
             break;
         case TRANSPARENT:
             tp.type = DT_Transparent;
