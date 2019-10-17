@@ -669,6 +669,9 @@ void GuiShop(Gui *g)
                 RenderText(g, 20, 140, 0, White, Bold, "Go to sleep");
                 RenderText(g, 20, 158, 0, White, Bold, "Go to the store");
                 RenderText(g, 20, g->d.gfx->wHeight - 58, 0, White, Bold, "Press [F] to exit");
+                if (g->dT->hour == 23 && g->dT->min == 55){
+                    g->dT->timeScale = 2;
+                }
 
                 //
                 if (EventHandler("Select=") && g->shopSelectToggler > 20)
@@ -676,8 +679,7 @@ void GuiShop(Gui *g)
                     switch (g->shopSelectedIndex)
                     {
                     case 0:
-                        g->dT->hour = 23;
-                        g->dT->min = 59;
+                        g->dT->timeScale = 2000;
                         break;
                     case 1:
                         g->shopPage = 1;
@@ -767,6 +769,7 @@ void GuiShop(Gui *g)
 
             case 3:
                 g->shopMaxIndex = g->p->ent.n_items - 1;
+                SortInventory(g);
                 RenderText(g, 20, 100, 0, White, Bold, "Sell plants");
 
                 int rows = 0;
@@ -791,16 +794,13 @@ void GuiShop(Gui *g)
                     rows++;
                 }
 
-
                 if (EventHandler("Select=") && g->shopSelectToggler > 20)
                 {
                     if (g->p->ent.items[g->shopSelectedIndex].amount > 1)
                     {
                         g->p->ent.items[g->shopSelectedIndex].amount -= 1;
                         g->p->ent.Gold += g->p->ent.items[g->shopSelectedIndex].SellValue;
-                    }
-                    else
-                    {
+                    }else{
                         g->p->ent.items[g->shopSelectedIndex].exists = 0;
                         g->p->ent.Gold += g->p->ent.items[g->shopSelectedIndex].SellValue;
                     }
@@ -808,10 +808,7 @@ void GuiShop(Gui *g)
                 }
 
                 g->shopSelectToggler++;
-
                 break;
-            
-            
             
             }
 
