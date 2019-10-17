@@ -10,10 +10,10 @@ void ConstructTime(DateTime *date, TileMap* tilemap){
     date->tilemap = tilemap;
 }
 void UpdateTime(Uint32 base, DateTime *date){
-    date->BaseTick = base;
+    date->BaseTick = base * date->timeScale;
     date->sec += date->BaseTick % date->timeScale;
 
-    if (date->sec >= 60){
+    if (date->sec >= 60 * 5){
         date->sec = 0;
         date->min += 5;
     }

@@ -403,23 +403,29 @@ void CreatePlantsToPlayer(Game *g)
     g->player.ent.items[5].exists = 1;
     strcpy(g->player.ent.items[5].Name, "Wheat Seed");
 
-    CreatePlant(&p, &g->gfx, CornType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    CreatePlant(&p, &g->gfx, PumpkinType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[6] = p.SeedItems;
     g->player.ent.items[6].amount = 2;
     g->player.ent.items[6].exists = 1;
-    strcpy(g->player.ent.items[6].Name, "Corn Seed");
+    strcpy(g->player.ent.items[6].Name, "Pumpkin Seed");
 
-    CreatePlant(&p, &g->gfx, CoffeeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    CreatePlant(&p, &g->gfx, CornType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[7] = p.SeedItems;
     g->player.ent.items[7].amount = 2;
     g->player.ent.items[7].exists = 1;
-    strcpy(g->player.ent.items[7].Name, "Coffee Bean");
+    strcpy(g->player.ent.items[7].Name, "Corn Seed");
 
-    CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    CreatePlant(&p, &g->gfx, CoffeeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[8] = p.SeedItems;
     g->player.ent.items[8].amount = 2;
     g->player.ent.items[8].exists = 1;
-    strcpy(g->player.ent.items[8].Name, "Strawberry Seed");
+    strcpy(g->player.ent.items[8].Name, "Coffee Bean");
+
+    CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[9] = p.SeedItems;
+    g->player.ent.items[9].amount = 2;
+    g->player.ent.items[9].exists = 1;
+    strcpy(g->player.ent.items[9].Name, "Strawberry Seed");
 
     g->player.ent.n_items = 9;
 }
@@ -448,6 +454,10 @@ PlantEnum ItemToPlant(Item *i)
     if (strstr(i->Name, "Wheat") != NULL)
     {
         return WheatType;
+    }
+    if (strstr(i->Name, "Pumpkin") != NULL)
+    {
+        return PumpkinType;
     }
     if (strstr(i->Name, "Corn") != NULL)
     {
