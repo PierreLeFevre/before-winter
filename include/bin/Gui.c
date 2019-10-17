@@ -89,6 +89,8 @@ void UpdateGui(Gui *g)
     //Draw shaders on game to represent lighting at different times of day
     GuiShaders(g);
 
+    
+
     //FPS Counter
     g->last = g->now;
 
@@ -770,8 +772,9 @@ void GuiShop(Gui *g)
         }
         else
         {
-            if (EventHandler("shop="))
-            {
+            //Opens Home-menu if player is next to home
+            SDL_Rect home = {20*TILE_WIDTH, 9*TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT};
+            if(SDL_HasIntersection(&g->p->ent.interaction_hitbox, &home)){
                 g->shopActive = 1;
                 g->shopPage = 0;
                 g->shoptoggler = 0;

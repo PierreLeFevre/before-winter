@@ -187,7 +187,7 @@ void HandleEvents(Game *g)
 void CalculateGoodTiles(Game *g)
 {
     //int tilesOutsideScreen_x = 5;
-    int tilesOutsideScreen_y = 5;
+    int tilesOutsideScreen_y = 12;
     g->nGoodTiles = 0;
     for (int i = 0; i < g->tileMap.nTiles_x * g->tileMap.nTiles_y; i++)
     {

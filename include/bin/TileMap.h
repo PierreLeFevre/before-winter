@@ -48,7 +48,12 @@ typedef enum MapDataConverter{
     PLAYER_HOME_ROOF=52,
     PIER=55,
     PIER_EXTENSION=56,
-    PLANK_BRIDGE=58
+    PLANK_BRIDGE=58,
+    LIGHTHOUSE=60,
+    FENCE_HORIZONTAL=65,
+    FENCE_HORIZONTAL_EXTENSION=66,
+    FENCE_VERTICAL=67,
+    FENCE_VERTICAL_EXTENSION=68
 }MapDataConverter;
 
 void ConstructTileMap(TileMap* tm, Graphics* gfx, const int nTiles_x, const int nTiles_y, const int topleft_x, const int topleft_y, char* map_file);
