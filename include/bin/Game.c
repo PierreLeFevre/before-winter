@@ -192,7 +192,7 @@ void UpdateLogic(Game *g)
         {
             if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].TextureMap.destrect))
             {
-                TryHarvestPlant(g, &g->plants[i]);
+                TryHarvestPlant(g, &g->player.ent, &g->plants[i]);
                 break;
             }
         }
@@ -499,11 +499,11 @@ int TryPlacePlant(Game *g, PlantEnum plant)
     }
     return 0;
 }
-void TryHarvestPlant(Game *g, Plant *plant)
+int TryHarvestPlant(Game *g, Entity *ent, Plant *plant)
 {
     if (g->player.ent.n_items == INVENTORY_SIZE)
     {
-        return;
+        return 0;
     }
     if (plant->HasHarvestableBerries && plant->nPlantStages - 1 == plant->nToUpdate)
     { //to make index easier
@@ -515,8 +515,9 @@ void TryHarvestPlant(Game *g, Plant *plant)
                 plant->GrownItems.amount = 1;
                 plant->TickAtHarvestation = g->dateTime.BaseTick;
                 plant->nToUpdate++;
-                g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
-                g->player.ent.n_items++;
+                ent->items[g->player.ent.n_items] = plant->GrownItems;
+                ent->n_items++;
+                return 1;
             }
         }
     }
@@ -524,16 +525,18 @@ void TryHarvestPlant(Game *g, Plant *plant)
     {
         if (plant->nToUpdate == plant->nPlantStages)
         {
-            if (g->player.ent.n_items < INVENTORY_SIZE)
+            if (ent->n_items < INVENTORY_SIZE)
             {
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
-                g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
-                g->player.ent.n_items++;
+                ent->items[ent->n_items] = plant->GrownItems;
+                ent->n_items++;
                 DeletePlant(g, plant);
+                return 1;
             }
         }
     }
+    return 0;
 }
 void DeletePlant(Game *g, Plant *plant)
 {

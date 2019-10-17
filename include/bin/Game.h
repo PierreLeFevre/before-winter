@@ -72,7 +72,7 @@ void SortRenderList(Game *g);
 void CreatePlantsToPlayer(Game *g);
 // TMP
 int TryPlacePlant(Game *g, PlantEnum plant);
-void TryHarvestPlant(Game *g, Plant *plant);
+int TryHarvestPlant(Game *g, Entity *ent, Plant *plant);
 void DeletePlant(Game *g, Plant *plant);
 
 void DrawableMerge(Drawable *DrawablesCurrentSort[], int l, int m, int r);
