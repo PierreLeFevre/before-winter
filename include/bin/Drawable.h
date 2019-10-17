@@ -19,6 +19,7 @@ typedef enum DrawableType{
     DT_Fence_Horizontal,
     DT_Fence_Vertical,
     DT_Transparent,
+    DT_Animal,
     DT_Other,
 }DrawableType;
 

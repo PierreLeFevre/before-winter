@@ -18,6 +18,13 @@ void ConstructGame(Game *g, int *noExit)
 
     CreatePlantsToPlayer(g);
 
+    //animal temp
+    //ConstructAnimal(&g->animals[0], &g->gfx, DOGE, 15, 12);
+
+    g->n_animals = 0;
+    //for testing
+    g->circel = 1;
+    //---
     g->nDroppedItems = 0;
     g->droppedItems = (DroppedItem **)malloc(sizeof(DroppedItem *) * 5000);
     g->RenderList = (Drawable **)malloc(sizeof(Drawable *) * 5000);
@@ -39,7 +46,7 @@ void DestroyGame(Game *g)
 }
 
 void Go(Game *g)
-{   
+{
     BeginFrame(&g->gfx);
     UpdateLogic(g);
     Render(g);
@@ -53,15 +60,118 @@ void UpdateLogic(Game *g)
     CalculateGoodTiles(g);
     HandleEvents(g);
     UpdatePlayer(&g->player);
+
+    for (int i = 0; i < g->n_animals; i++)
+    {
+        if (g->animals[i].animaltype == DOGE)
+        {
+            if(g->animals[i].Priority == 0){
+            for (int j = 0; j <= g->nPlants; j++)
+            {
+                if (!g->plants[j].HasHarvestableBerries)
+                {
+                    if (g->plants[j].nPlantStages == g->plants[j].nToUpdate)
+                    {
+                        if (Dist(g->animals[i].ent.x_pos, g->animals[i].ent.y_pos, g->plants[j].TextureMap.destrect.x, g->plants[j].TextureMap.destrect.y) < 5 * 32)
+                        {
+                            g->animals[i].animalmood = Follow;
+                            g->animals[i].Follow_x = g->plants[j].TextureMap.destrect.x;
+                            g->animals[i].Follow_y = g->plants[j].TextureMap.destrect.y;
+                            if (SDL_HasIntersection(&g->animals[i].ent.hitbox, &g->plants[j].TextureMap.destrect))
+                            {
+                                g->animals[i].ent.n_items = 0;
+                                TryHarvestPlant(g, &g->animals[i].ent, &g->plants[j]);
+                                g->animals[i].Priority = 1;
+                            }
+                        }
+                    }else{
+                            g->animals[i].animalmood = Follow;
+                            g->animals[i].Follow_x = g->player.ent.hitbox.x;
+                            g->animals[i].Follow_y = g->player.ent.hitbox.y;
+                    }
+                }
+                else
+                {
+                    if (g->plants[j].nPlantStages - 1 == g->plants[j].nToUpdate && (Dist(g->animals[i].ent.x_pos, g->animals[i].ent.y_pos, g->plants[j].TextureMap.destrect.x, g->plants[j].TextureMap.destrect.y) < 5 * 32))
+                    {
+                            g->animals[i].animalmood = Follow;
+                            g->animals[i].Follow_x = g->plants[j].TextureMap.destrect.x;
+                            g->animals[i].Follow_y = g->plants[j].TextureMap.destrect.y;
+                            if (SDL_HasIntersection(&g->animals[i].ent.hitbox, &g->plants[j].TextureMap.destrect))
+                            {
+                                g->animals[i].ent.n_items = 0;
+                                TryHarvestPlant(g, &g->animals[i].ent, &g->plants[j]);
+                                g->animals[i].Priority = 1;
+                            }
+                    }else{
+                            g->animals[i].animalmood = Follow;
+                            g->animals[i].Follow_x = g->player.ent.hitbox.x;
+                            g->animals[i].Follow_y = g->player.ent.hitbox.y;
+                    }
+                }
+            }
+            }else{
+                g->animals[i].animalmood = Follow;
+                g->animals[i].Follow_x = g->player.ent.hitbox.x;
+                g->animals[i].Follow_y = g->player.ent.hitbox.y;
+                if(SDL_HasIntersection(&g->player.ent.hitbox, &g->animals[i].ent.hitbox)){
+                    g->player.ent.items[g->player.ent.n_items] = g->animals[i].ent.items[0];
+                    g->animals[i].Priority = 0;
+                }
+            }
+        }
+        UpdateAnimal(&g->animals[i]);
+    }
     if (!(g->gui.menuActive || (g->gui.shopActive || g->gui.invActive)))
     {
         CheckEntityCollision(&g->player.ent, g->GoodTiles, g->nGoodTiles);
+        if (g->n_animals != 0)
+        {
+            for (int i = 0; i < g->n_animals; i++)
+            {
+                CheckEntityCollision(&g->animals[i].ent, g->GoodTiles, g->nGoodTiles);
+            }
+        }
     }
+    //Temp
+    g->animals[0].playerdirX = g->player.ent.x_dir;
+    g->animals[0].playerdirY = g->player.ent.y_dir;
+    g->cooldown++;
+    if (EventHandler("SpawnAnimal="))
+    {
+        if (g->cooldown >= 200)
+        {
+            switch (g->circel)
+            {
+            case 1:
+                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, DOGE, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+                g->circel = 2;
+                break;
+            case 2:
+                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Cow, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+                g->circel = 3;
+                break;
+            case 3:
+                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Pig, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+                g->circel = 4;
+                break;
+            case 4:
+                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Chicken, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+                g->circel = 1;
+                break;
+            }
+            g->n_animals++;
+            g->cooldown = 0;
+        }
+    }
+    //Temp
     if (EventHandler("action="))
     {
         int planterror = 0;
-        if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL || !strcmp(g->player.ent.items[g->player.activeItemIndex].Name, "Coffee Bean")){
-            if (g->player.ent.items[g->player.activeItemIndex].amount > 0){
+        if (strstr(g->player.ent.items[g->player.activeItemIndex].Name, "Seed") != NULL || !strcmp(g->player.ent.items[g->player.activeItemIndex].Name, "Coffee Bean"))
+        {
+            if (g->player.ent.items[g->player.activeItemIndex].amount > 0)
+            {
                 PlantEnum p = ItemToPlant(&g->player.activeItem);
                 if (p == StrawberryType && g->dateTime.season != Summer)
                 { //Strawberries only in summer
@@ -101,7 +211,7 @@ void UpdateLogic(Game *g)
         {
             if (SDL_HasIntersection(&g->player.ent.interaction_hitbox, &g->plants[i].TextureMap.destrect))
             {
-                TryHarvestPlant(g, &g->plants[i]);
+                TryHarvestPlant(g, &g->player.ent, &g->plants[i]);
                 break;
             }
         }
@@ -135,7 +245,13 @@ void Render(Game *g)
 
     AddToRenderList(g, &g->player.activeItem.d);
     AddToRenderList(g, &g->player.ent.droppableItem.d);
-
+    if (g->n_animals != 0)
+    {
+        for (int i = 0; i < g->n_animals; i++)
+        {
+            AddToRenderList(g, &g->animals[i].ent.d);
+        }
+    }
 #ifdef HarvestDebug
     for (int i = 0; i < g->nDroppedItems; i++)
     {
@@ -169,6 +285,11 @@ void Render(Game *g)
         treeHitbox.y -= g->cam.camRectVirtual.y;
         SDL_RenderDrawRect(g->gfx.rend, &treeHitbox);
     }
+    SDL_Rect animalhitbox = g->animals[0].ent.hitbox;
+    animalhitbox.x -= g->cam.camRectVirtual.x;
+    animalhitbox.y -= g->cam.camRectVirtual.y;
+    SDL_RenderDrawRect(g->gfx.rend, &animalhitbox);
+
 #endif
 }
 
@@ -261,7 +382,8 @@ void SortRenderList(Game *g)
 {
     DrawableMergeSort(g->RenderList, 0, g->nToRender - 1);
 }
-void CreatePlantsToPlayer(Game *g){
+void CreatePlantsToPlayer(Game *g)
+{
     SDL_Rect rect = {0, 0, TILE_WIDTH, TILE_HEIGHT};
     Plant p;
     CreatePlant(&p, &g->gfx, ParsnipType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
@@ -300,23 +422,29 @@ void CreatePlantsToPlayer(Game *g){
     g->player.ent.items[5].exists = 1;
     strcpy(g->player.ent.items[5].Name, "Wheat Seed");
 
-    CreatePlant(&p, &g->gfx, CornType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    CreatePlant(&p, &g->gfx, PumpkinType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[6] = p.SeedItems;
     g->player.ent.items[6].amount = 2;
     g->player.ent.items[6].exists = 1;
-    strcpy(g->player.ent.items[6].Name, "Corn Seed");
+    strcpy(g->player.ent.items[6].Name, "Pumpkin Seed");
 
-    CreatePlant(&p, &g->gfx, CoffeeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    CreatePlant(&p, &g->gfx, CornType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[7] = p.SeedItems;
     g->player.ent.items[7].amount = 2;
     g->player.ent.items[7].exists = 1;
-    strcpy(g->player.ent.items[7].Name, "Coffee Bean");
+    strcpy(g->player.ent.items[7].Name, "Corn Seed");
 
-    CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    CreatePlant(&p, &g->gfx, CoffeeBeanType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
     g->player.ent.items[8] = p.SeedItems;
     g->player.ent.items[8].amount = 2;
     g->player.ent.items[8].exists = 1;
-    strcpy(g->player.ent.items[8].Name, "Strawberry Seed");
+    strcpy(g->player.ent.items[8].Name, "Coffee Bean");
+
+    CreatePlant(&p, &g->gfx, StrawberryType, rect, SDL_GetTicks(), g->player.ent.d.z_index - 1);
+    g->player.ent.items[9] = p.SeedItems;
+    g->player.ent.items[9].amount = 2;
+    g->player.ent.items[9].exists = 1;
+    strcpy(g->player.ent.items[9].Name, "Strawberry Seed");
 
     g->player.ent.n_items = 9;
 }
@@ -345,6 +473,10 @@ PlantEnum ItemToPlant(Item *i)
     if (strstr(i->Name, "Wheat") != NULL)
     {
         return WheatType;
+    }
+    if (strstr(i->Name, "Pumpkin") != NULL)
+    {
+        return PumpkinType;
     }
     if (strstr(i->Name, "Corn") != NULL)
     {
@@ -386,7 +518,7 @@ int TryPlacePlant(Game *g, PlantEnum plant)
             }
             if (found == 0)
             {
-                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, g->dateTime.BaseTick, g->GoodTiles[i]->drawables[0].z_index + 2);
+                CreatePlant(&g->plants[g->nPlants], &g->gfx, plant, g->GoodTiles[i]->drawables[0].destrect, g->dateTime.BaseTick, g->GoodTiles[i]->drawables[0].z_index + 4);
                 g->nPlants++;
                 return 1;
             }
@@ -396,56 +528,44 @@ int TryPlacePlant(Game *g, PlantEnum plant)
     }
     return 0;
 }
-void TryHarvestPlant(Game *g, Plant *plant)
+int TryHarvestPlant(Game *g, Entity *ent, Plant *plant)
 {
     if (g->player.ent.n_items == INVENTORY_SIZE)
     {
-        return;
+        return 0;
     }
-    if (plant->HasHarvestableBerries && plant->nPlantStages - 2 == plant->nToUpdate)
+    if (plant->HasHarvestableBerries && plant->nPlantStages - 1 == plant->nToUpdate)
     { //to make index easier
-        if (plant->plantStages[plant->nPlantStages - 2].GrowTick <= (g->dateTime.BaseTick) - plant->TickPlaced){
+        if (plant->nToUpdate == plant->nPlantStages - 1 && plant->HasHarvestableBerries && plant->TickToRegrow <= plant->TickSinceLastHarvested)
+        {
             if (g->player.ent.n_items < INVENTORY_SIZE)
             {
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
                 plant->TickAtHarvestation = g->dateTime.BaseTick;
                 plant->nToUpdate++;
-                g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
-                g->player.ent.n_items++;
+                ent->items[g->player.ent.n_items] = plant->GrownItems;
+                ent->n_items++;
+                return 1;
             }
         }
     }
     if (!plant->HasHarvestableBerries)
     {
-        
-        if (plant->plantStages[plant->nPlantStages - 1].GrowTick <= (g->dateTime.BaseTick) - plant->TickPlaced)
+        if (plant->nToUpdate == plant->nPlantStages)
         {
-//DELETE PLANT
-//PROCC DROPPED ITEMS ON
-#ifdef HarvestDebug
-            // if (g->nDroppedItems == 0){
-            Entity e;
-            ConstructEntity(&e, &plant->GrownItems.d);
-            ConstructDroppedItem(g->droppedItems[g->nDroppedItems], &plant->GrownItems, &e);
-            g->nDroppedItems++;
-            DeletePlant(g, plant);
-// }
-#endif
-
-#ifndef HarvestDebug
-#define HarvestDebug
-            if (g->player.ent.n_items < INVENTORY_SIZE)
+            if (ent->n_items < INVENTORY_SIZE)
             {
                 plant->GrownItems.exists = 1;
                 plant->GrownItems.amount = 1;
-                g->player.ent.items[g->player.ent.n_items] = plant->GrownItems;
-                g->player.ent.n_items++;
+                ent->items[ent->n_items] = plant->GrownItems;
+                ent->n_items++;
                 DeletePlant(g, plant);
+                return 1;
             }
-#endif
         }
     }
+    return 0;
 }
 void DeletePlant(Game *g, Plant *plant)
 {

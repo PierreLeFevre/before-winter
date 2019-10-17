@@ -12,10 +12,11 @@ typedef enum PlantEnum{ //16x32
     WheatType,
     CoffeeBeanType,
     StrawberryType,
-    CornType
+    CornType,
+    PumpkinType,
 }PlantEnum;
 
-typedef struct PlantStge{
+typedef struct PlantStage{
     SDL_Rect srcrect;
     char Name[100];
     int GrowTick;

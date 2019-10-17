@@ -34,7 +34,7 @@ void ConstructGraphics(Graphics *gfx)
     }
 
     SDL_Surface *surf;
-    
+
     //PLAYER
     surf = IMG_Load("include/assets/unpacked/Characters/Robin.png");
     if (!surf)
@@ -98,8 +98,8 @@ void ConstructGraphics(Graphics *gfx)
     {
         printf("Error creating texture (item.png): %s\n", SDL_GetError());
     }
-    SDL_FreeSurface(surf);   
-    
+    SDL_FreeSurface(surf);
+
     //SHADERS
     surf = IMG_Load("include/assets/shaders.png");
     if (!surf)
@@ -123,6 +123,54 @@ void ConstructGraphics(Graphics *gfx)
     if (!gfx->textures[SS_TRANSPARENT])
     {
         printf("Error creating texture (LIGHTW_TRANSPARENCY.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+    //DOGE
+    surf = IMG_Load("include/assets/unpacked/Animals/dog.png");
+    if (!surf)
+    {
+        printf("Error creating surface (dog.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_Doge] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_Doge])
+    {
+        printf("Error creating texture (dog.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+    //COW
+    surf = IMG_Load("include/assets/unpacked/Animals/Brown Cow.png");
+    if (!surf)
+    {
+        printf("Error creating surface (Brown Cow.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_Cow] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_Cow])
+    {
+        printf("Error creating texture (Brown Cow.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+    //Chicken
+    surf = IMG_Load("include/assets/unpacked/Animals/White Chicken.png");
+    if (!surf)
+    {
+        printf("Error creating surface (White Chicken.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_Chiken] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_Chiken])
+    {
+        printf("Error creating texture (White Chicken.png): %s\n", SDL_GetError());
+    }
+    SDL_FreeSurface(surf);
+    //PIG
+    surf = IMG_Load("include/assets/unpacked/Animals/Pig.png");
+    if (!surf)
+    {
+        printf("Error creating surface (Pig.png): %s\n", SDL_GetError());
+    }
+    gfx->textures[SS_Pig] = SDL_CreateTextureFromSurface(gfx->rend, surf);
+    if (!gfx->textures[SS_Pig])
+    {
+        printf("Error creating texture (Pig.png): %s\n", SDL_GetError());
     }
     SDL_FreeSurface(surf);
 
@@ -177,7 +225,6 @@ void ConstructGraphics(Graphics *gfx)
         printf("Error creating texture (winter_outdoorsTileSheet.png): %s\n", SDL_GetError());
     }
     SDL_FreeSurface(surf);
-
 }
 
 void DrawFilledRectangle(SDL_Renderer *r, const SDL_Rect *rect)

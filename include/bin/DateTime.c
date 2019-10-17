@@ -10,10 +10,10 @@ void ConstructTime(DateTime *date, TileMap* tilemap){
     date->tilemap = tilemap;
 }
 void UpdateTime(Uint32 base, DateTime *date){
-    date->BaseTick = base;
+    date->BaseTick = base * date->timeScale - SDL_GetTicks();
     date->sec += date->BaseTick % date->timeScale;
 
-    if (date->sec >= 60){
+    if (date->sec >= 60 * 5){
         date->sec = 0;
         date->min += 5;
     }
@@ -28,7 +28,7 @@ void UpdateTime(Uint32 base, DateTime *date){
     if (date->day > 10){
         date->day = 1;
         if((SpriteSheet)date->season == (SpriteSheet)Winter){
-            date->season = (SpriteSheet)Spring;
+            date->season = Spring;
         }else{
             date->season++;
         }

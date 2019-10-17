@@ -5,7 +5,7 @@ void QuickSlotHandeling(Player *player)
     if (EventHandler("quickSlot0=")) //Empty hand
     {
 
-        Item i = {0};
+        Item i = {{0}};
         player->activeItem = i;
         player->activeItemIndex = 10000; // något högt
     }
