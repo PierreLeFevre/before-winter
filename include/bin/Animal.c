@@ -12,6 +12,8 @@ void ConstructAnimal(Animal *animal, Graphics *gfx, AnimalType animaltype, int X
     animal->Follow_x = 0;
     animal->Follow_y = 0;
     animal->animationstate = 0;
+    animal->Priority = 0;
+    animal->animalmood = Sheeping;
 
     if (animaltype == DOGE)
     {
@@ -135,13 +137,6 @@ void UpdateAnimal(Animal *animal)
     MoveEntity(&animal->ent);
     AnimalUpdateHitbox(animal);
     UpdateAnimalAnimation(animal);
-}
-void GenerateDesiredPosition(Animal *animal)
-{
-}
-
-void FollowPos(int X, int Y)
-{
 }
 void AnimalUpdateHitbox(Animal *animal)
 {

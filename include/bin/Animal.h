@@ -24,6 +24,7 @@ typedef struct Animal
     int T;
     int Follow_x, Follow_y;
     int animationstate;
+    int Priority;
 
     //Temp
     int playerdirX;
@@ -33,9 +34,6 @@ typedef struct Animal
 void ConstructAnimal(Animal *animal, Graphics *gfx, AnimalType animaltype, int x, int y);
 
 void UpdateAnimal(Animal *animal);
-void Traget();
 
-void GenerateDesiredPosition(Animal *a);
-void FollowPos();
 void UpdateAnimalAnimation(Animal *animal);
 void AnimalUpdateHitbox(Animal *animal);
