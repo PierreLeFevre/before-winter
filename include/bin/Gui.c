@@ -311,7 +311,6 @@ void SortInventory(Gui *g)
 
 void GuiInventory(Gui *g)
 {
-    //Draw debug window
     if (g->invToggler > 20)
     {
         if (g->invActive)
@@ -669,6 +668,10 @@ void GuiShop(Gui *g)
                 //Options
                 RenderText(g, 20, 140, 0, White, Bold, "Go to sleep");
                 RenderText(g, 20, 158, 0, White, Bold, "Go to the store");
+                RenderText(g, 20, g->d.gfx->wHeight - 58, 0, White, Bold, "Press [F] to exit");
+                if (g->dT->hour == 23 && g->dT->min == 55){
+                    g->dT->timeScale = 2;
+                }
 
                 //
                 if (EventHandler("Select=") && g->shopSelectToggler > 20)
@@ -676,8 +679,7 @@ void GuiShop(Gui *g)
                     switch (g->shopSelectedIndex)
                     {
                     case 0:
-                        g->dT->hour = 23;
-                        g->dT->min = 59;
+                        g->dT->timeScale = 2000;
                         break;
                     case 1:
                         g->shopPage = 1;
@@ -764,6 +766,50 @@ void GuiShop(Gui *g)
                 }
 
                 break;
+
+            case 3:
+                g->shopMaxIndex = g->p->ent.n_items - 1;
+                SortInventory(g);
+                RenderText(g, 20, 100, 0, White, Bold, "Sell plants");
+
+                int rows = 0;
+
+                for (int i = 0; i < g->p->ent.n_items; i++)
+                {
+                    if (g->p->ent.items[i].exists != 0)
+                    {
+                        char inventoryText[200];
+                        sprintf(inventoryText, "[%d] $$14(%d)$$11 %s", g->p->ent.items[i].amount, g->p->ent.items[i].SellValue, g->p->ent.items[i].Name);
+                        if(g->invMovingState){
+                            if(i == g->invHighlightedIndex){
+                                RenderText(g, 20, 140 + 18 * rows, 0, Cyan, Bold, inventoryText);
+                            }else{
+                                RenderText(g, 20, 140 + 18 * rows, 0, White, Regular, inventoryText);
+                            }
+                        }else{
+                            RenderText(g, 20, 140 + 18 * rows, 0, White, Bold, inventoryText);
+                        }
+                    }
+
+                    rows++;
+                }
+
+                if (EventHandler("Select=") && g->shopSelectToggler > 20)
+                {
+                    if (g->p->ent.items[g->shopSelectedIndex].amount > 1)
+                    {
+                        g->p->ent.items[g->shopSelectedIndex].amount -= 1;
+                        g->p->ent.Gold += g->p->ent.items[g->shopSelectedIndex].SellValue;
+                    }else{
+                        g->p->ent.items[g->shopSelectedIndex].exists = 0;
+                        g->p->ent.Gold += g->p->ent.items[g->shopSelectedIndex].SellValue;
+                    }
+                    g->shopSelectToggler = 0;
+                }
+
+                g->shopSelectToggler++;
+                break;
+            
             }
 
             g->shopSelectToggler += 1;

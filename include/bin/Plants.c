@@ -116,6 +116,26 @@ void CreatePlant(Plant *plant, Graphics *gfx, PlantEnum plantEnum, SDL_Rect tile
         CreatePlantType(plant, "Wheat", r, 7, 60 * 60);
 
         break;
+    case PumpkinType:
+        r.x = 0 * 16;
+        r.y = 9 * 32;
+        r.w = 16;
+        r.h = 32;
+
+        r.y += 8;
+        r.h -= 8;
+
+        plant->GrownItems.d.srcrect.x = 13*16;
+        plant->GrownItems.d.srcrect.y = 11*16;
+        plant->GrownItems.d.srcrect.w = 16;
+        plant->GrownItems.d.srcrect.h = 16;
+
+        plant->SeedItems.d.srcrect.x = 10*16;
+        plant->SeedItems.d.srcrect.y = 20*16;
+        plant->SeedItems.d.srcrect.w = 16;
+        plant->SeedItems.d.srcrect.h = 16;
+        CreatePlantType(plant, "Pumpkin", r, 7, 60 * 60);
+        break;
 
     case CornType:
         r.x = 8 * 16;
