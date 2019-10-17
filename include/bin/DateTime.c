@@ -10,7 +10,7 @@ void ConstructTime(DateTime *date, TileMap* tilemap){
     date->tilemap = tilemap;
 }
 void UpdateTime(Uint32 base, DateTime *date){
-    date->BaseTick = base * date->timeScale;
+    date->BaseTick = base * date->timeScale - SDL_GetTicks();
     date->sec += date->BaseTick % date->timeScale;
 
     if (date->sec >= 60 * 5){
