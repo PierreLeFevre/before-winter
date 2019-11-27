@@ -8,7 +8,7 @@
 2RIGHT= 7
 2LEFT= 4
 
-SpawnAnimal= 10
+SpawnAnimal= 30000010
 inventory= 8
 shop= 9
 harvestTemp= 14
