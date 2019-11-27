@@ -133,38 +133,37 @@ void UpdateLogic(Game *g)
             }
         }
     }
-    //Temp
-    g->animals[0].playerdirX = g->player.ent.x_dir;
-    g->animals[0].playerdirY = g->player.ent.y_dir;
-    g->cooldown++;
-    if (EventHandler("SpawnAnimal="))
-    {
-        if (g->cooldown >= 200)
-        {
-            switch (g->circel)
-            {
-            case 1:
-                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, DOGE, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
-                g->circel = 2;
-                break;
-            case 2:
-                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Cow, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
-                g->circel = 3;
-                break;
-            case 3:
-                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Pig, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
-                g->circel = 4;
-                break;
-            case 4:
-                ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Chicken, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
-                g->circel = 1;
-                break;
-            }
-            g->n_animals++;
-            g->cooldown = 0;
-        }
-    }
-    //Temp
+
+    // g->animals[0].playerdirX = g->player.ent.x_dir;
+    // g->animals[0].playerdirY = g->player.ent.y_dir;
+    // g->cooldown++;
+    // if (EventHandler("SpawnAnimal="))
+    // {
+    //     if (g->cooldown >= 200)
+    //     {
+    //         switch (g->circel)
+    //         {
+    //         case 1:
+    //             ConstructAnimal(&g->animals[g->n_animals], &g->gfx, DOGE, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+    //             g->circel = 2;
+    //             break;
+    //         case 2:
+    //             ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Cow, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+    //             g->circel = 3;
+    //             break;
+    //         case 3:
+    //             ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Pig, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+    //             g->circel = 4;
+    //             break;
+    //         case 4:
+    //             ConstructAnimal(&g->animals[g->n_animals], &g->gfx, Chicken, g->player.ent.hitbox.x / TILE_WIDTH, g->player.ent.hitbox.y / TILE_HEIGHT);
+    //             g->circel = 1;
+    //             break;
+    //         }
+    //         g->n_animals++;
+    //         g->cooldown = 0;
+    //     }
+    // }
     if (EventHandler("action="))
     {
         int planterror = 0;
